@@ -24,5 +24,12 @@ namespace PillPalTest
             var user2 = new User("brownie", "Delulu!0");
             Assert.IsTrue(user1.Matches(user2.Password));
         }
+        [TestMethod]
+        public void HashedPasswordIsNotHashedAgain()
+        {
+            var user1 = new User("brownie", "Delulu!0");
+            var user2 = new User(1, "brownie", user1.Password);
+            Assert.IsTrue(user1.Matches(user2.Password));
+        }
     }
 }
