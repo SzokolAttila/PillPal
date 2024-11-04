@@ -1,0 +1,6 @@
+@PillPalAPI_HostAddress = http://localhost:5236
+
+GET {{PillPalAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
