@@ -1,14 +1,21 @@
-﻿using System.Security.Cryptography;
+﻿using PillPalLib.Interfaces;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace PillPalLib
 {
-    public class User 
+    public class User : IIdentified
     {
         public User(string userName, string password)
         {
             UserName = userName;
             PasswordText = password;
+        }
+        public User(int id, string userName, byte[] password)
+        {
+            Id = id;
+            UserName = userName;
+            Password = password;
         }
         private const int HASH_SIZE = 512;
         private byte[] Salt()
@@ -28,6 +35,8 @@ namespace PillPalLib
                 Password = new Rfc2898DeriveBytes(value, Salt(), Iteration).GetBytes(HASH_SIZE);
             }
         }
+
+        public int Id { get; init; }
 
         public bool Matches(byte[] hashedPassword)
         {
