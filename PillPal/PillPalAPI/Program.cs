@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSingleton<IDataStore, DataStore>();
 builder.Services.AddScoped<IItemStore<Medicine>, MedicineRepository>();
+builder.Services.AddScoped<IItemStore<Reminder>, ReminderRepository>();
 builder.Services.AddScoped<IItemStore<User>, UserRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
