@@ -9,9 +9,9 @@ namespace PillPalAPI.Model
     public interface IItemStore<T>
     {
         IEnumerable<T> GetAll();
-        T Get(int id);
-        T Add(T item);
-        T Update(T item);
-        void Delete(int id);
+        bool Add(T item);
+        T? Get(int id);
+        bool Update(T item);
+        bool Delete(int id);
     }
 }

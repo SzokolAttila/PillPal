@@ -9,20 +9,39 @@ namespace PillPalLib
 {
     public class IDCollection<T> where T : IIdentified
     {
-        private readonly IEnumerable<T> values;
-        public List<T> Values => values.ToList();
+        private IEnumerable<T> values;
+        public IEnumerable<T> Values => values.Select(x => x);
 
         public IDCollection(IEnumerable<T> values)
         {
             this.values = values;
         }
-
-        public T this[int id]
+        public int Size => values.Count();
+        public bool Remove(int id)
         {
-            get
-            {
-                return Values.FirstOrDefault(x => x.Id == id) ?? throw new ArgumentException("Could not find element with this ID");
-            }
+            if (!values.Any(x => x.Id == id))
+                return false;
+            values = values.Where(x => x.Id != id);
+            return true;
+        }
+        public bool Add(T item)
+        {
+            if (values.Any(x => x.Id == item.Id))
+                return false;
+            values = values.Append(item);
+            return true;
+        }
+        public bool Replace(T item)
+        {
+            if (!values.Any(x => x.Id == item.Id))
+                return false;
+            values = values.Where(x => x.Id != item.Id);
+            values = values.Append(item);
+            return true;
+        }
+        public T? this[int id]
+        {
+            get => Values.FirstOrDefault(x => x.Id == id);
         }
     }
 }
