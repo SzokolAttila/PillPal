@@ -2,10 +2,6 @@
 
 namespace PillPalAPI.Model
 {
-    public interface IDataStore : IItemStore<Medicine>, IItemStore<User>, IItemStore<Reminder>
-    {
-
-    }
     public interface IItemStore<T>
     {
         IEnumerable<T> GetAll();
