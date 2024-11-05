@@ -17,7 +17,7 @@ namespace PillPalAPI.Controllers
         }
         // GET: api/<MedicineController>
         [HttpGet]
-        public IActionResult Get() => Ok(_medicineRepository.GetAll().ToList());
+        public IActionResult Get() => Ok(_medicineRepository.GetAll());
 
         // GET api/<MedicineController>/5
         [HttpGet("{id}")]

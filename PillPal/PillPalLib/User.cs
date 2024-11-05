@@ -1,6 +1,7 @@
 ﻿using PillPalLib.Interfaces;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace PillPalLib
 {
