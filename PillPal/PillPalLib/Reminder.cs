@@ -9,7 +9,9 @@ namespace PillPalLib
 {
     public class Reminder : IIdentified
     {
-        public int Id {  get; set; }
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public int MedicineId { get; set; }
         public TimeOnly When { get; set; }
         public double DoseCount { get; set; }
         public int DoseMg {  get; set; }
