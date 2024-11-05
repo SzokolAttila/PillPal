@@ -11,13 +11,13 @@ namespace PillPalAPI.Controllers
     [ApiController]
     public class MedicineController : ControllerBase
     {
-        private readonly MedicineRepository _medicineRepository;
-        public MedicineController(MedicineRepository medicineRepository) {
+        private readonly IItemStore<Medicine> _medicineRepository;
+        public MedicineController(IItemStore<Medicine> medicineRepository) {
             _medicineRepository = medicineRepository;
         }
         // GET: api/<MedicineController>
         [HttpGet]
-        public IEnumerable<Medicine> Get() => _medicineRepository.GetAll();
+        public IActionResult Get() => Ok(_medicineRepository.GetAll().ToList());
 
         // GET api/<MedicineController>/5
         [HttpGet("{id}")]

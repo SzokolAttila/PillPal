@@ -2,15 +2,15 @@
 
 namespace PillPalAPI.Model
 {
-    public class DataStore { 
-        public readonly IDCollection<User> _users;
-        public readonly IDCollection<Medicine> _medicines;
-        public readonly IDCollection<Reminder> _reminders;
+    public class DataStore : IDataStore { 
+        public IDCollection<User> Users { get; }
+        public IDCollection<Medicine> Medicines { get; }
+        public IDCollection<Reminder> Reminders { get; }
         public DataStore(IEnumerable<User> users, IEnumerable<Medicine> medicines, IEnumerable<Reminder> reminders)
         {
-            _users = new IDCollection<User>(users);
-            _medicines = new IDCollection<Medicine> (medicines);
-            _reminders = new IDCollection<Reminder> (reminders);
+            Users = new IDCollection<User>(users);
+            Medicines = new IDCollection<Medicine> (medicines);
+            Reminders = new IDCollection<Reminder> (reminders);
         }
     }
 }

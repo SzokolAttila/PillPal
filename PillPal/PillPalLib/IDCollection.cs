@@ -10,7 +10,7 @@ namespace PillPalLib
     public class IDCollection<T> where T : IIdentified
     {
         private IEnumerable<T> values;
-        public IEnumerable<T> Values => values.Select(x => x);
+        public IEnumerable<T> Values => values.OrderBy(x => x.Id).Select(x => x);
 
         public IDCollection(IEnumerable<T> values)
         {

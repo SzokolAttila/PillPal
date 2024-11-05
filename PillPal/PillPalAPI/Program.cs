@@ -1,8 +1,14 @@
+using PillPalAPI.Model;
+using PillPalAPI.Repositories;
+using PillPalLib;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddSingleton<IDataStore, DataStore>();
+builder.Services.AddScoped<IItemStore<Medicine>, MedicineRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
