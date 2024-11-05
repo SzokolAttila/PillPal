@@ -39,8 +39,9 @@ namespace PillPalLib
 
         public int Id { get; init; }
 
-        public bool Matches(byte[] hashedPassword)
+        public bool Matches(string password)
         {
+            byte[] hashedPassword = new Rfc2898DeriveBytes(password, Salt(), Iteration).GetBytes(HASH_SIZE);
             return hashedPassword.Length == Password.Length
                 && Enumerable.Range(0, hashedPassword.Length).All(i => hashedPassword[i] == Password[i]);
         }
