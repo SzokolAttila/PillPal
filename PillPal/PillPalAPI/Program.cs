@@ -1,5 +1,7 @@
+using FluentValidation;
 using PillPalAPI.Model;
 using PillPalAPI.Repositories;
+using PillPalAPI.Validators;
 using PillPalLib;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +13,7 @@ builder.Services.AddSingleton<IDataStore, DataStore>();
 builder.Services.AddScoped<IItemStore<Medicine>, MedicineRepository>();
 builder.Services.AddScoped<IItemStore<Reminder>, ReminderRepository>();
 builder.Services.AddScoped<IItemStore<User>, UserRepository>();
+builder.Services.AddValidatorsFromAssemblyContaining<UserValidator>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

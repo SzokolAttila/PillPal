@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using PillPalAPI.DTOs.UserDTOs;
 using PillPalAPI.Model;
 using PillPalLib;
@@ -8,13 +9,15 @@ using System.Reflection.Metadata.Ecma335;
 
 namespace PillPalAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("PillPal/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
         private readonly IItemStore<User> _userRepository;
-        public UserController(IItemStore<User> userRepository)
+        private readonly IValidator<CreateUserDto> _validator;  
+        public UserController(IItemStore<User> userRepository, IValidator<CreateUserDto> validator)
         {
+            _validator = validator; 
             _userRepository = userRepository;
         }
         // GET: api/<UserController>
@@ -35,6 +38,9 @@ namespace PillPalAPI.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] CreateUserDto userDto)
         {
+            var result = _validator.Validate(userDto);
+            if (!result.IsValid)
+                return BadRequest(result);
             var user = new User(userDto.UserName, userDto.PasswordText);
             if (_userRepository.Add(user))
                 return Ok(user);
@@ -45,6 +51,9 @@ namespace PillPalAPI.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] CreateUserDto userDto)
         {
+            var result = _validator.Validate(userDto);
+            if (!result.IsValid)
+                return BadRequest(result);
             var user = new User(userDto.UserName, userDto.PasswordText);
             if (_userRepository.Update(user))
                 return Ok(user);

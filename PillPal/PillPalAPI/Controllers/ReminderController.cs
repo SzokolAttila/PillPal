@@ -5,7 +5,7 @@ using PillPalLib;
 
 namespace PillPalAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("PillPal/[controller]")]
     [ApiController]
     public class ReminderController : ControllerBase
     {
