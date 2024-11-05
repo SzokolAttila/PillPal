@@ -15,6 +15,6 @@ namespace PillPalLib
         public TimeOnly When { get; set; }
         public double DoseCount { get; set; }
         public int DoseMg {  get; set; }
-        public int TakingMethod { get; set; }
+        public string TakingMethod { get; set; } = "";
     }
 }
