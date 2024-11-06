@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using PillPalAPI.DTOs.UserDTOs;
 using PillPalAPI.Model;
 using PillPalAPI.Options;
 using PillPalLib;
@@ -25,7 +26,7 @@ namespace PillPalAPI.Controllers
 
         // POST api/<LoginController>
         [HttpPost]
-        public IActionResult Login([FromBody] Login loginUser)
+        public IActionResult Login([FromBody] CreateUserDto loginUser)
         {
             var user = _userRepository.GetAll().FirstOrDefault(x => x.UserName == loginUser.UserName);
             if (user == null)

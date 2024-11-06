@@ -41,7 +41,7 @@ namespace PillPalAPI.Controllers
             var result = _validator.Validate(userDto);
             if (!result.IsValid)
                 return BadRequest(result);
-            var user = new User(userDto.UserName, userDto.PasswordText);
+            var user = new User(userDto.UserName, userDto.Password);
             if (_userRepository.Add(user))
                 return Ok(user);
             return BadRequest("User with this ID already exists.");
@@ -54,7 +54,7 @@ namespace PillPalAPI.Controllers
             var result = _validator.Validate(userDto);
             if (!result.IsValid)
                 return BadRequest(result);
-            var user = new User(userDto.UserName, userDto.PasswordText);
+            var user = new User(userDto.UserName, userDto.Password);
             if (_userRepository.Update(user))
                 return Ok(user);
             return NotFound();
