@@ -8,6 +8,6 @@ namespace PillPalLib.Interfaces
 {
     public interface IIdentified
     {
-        int Id { get; }
+        int Id { get; set; }
     }
 }

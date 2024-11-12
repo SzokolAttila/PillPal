@@ -37,7 +37,7 @@ namespace PillPalLib
             }
         }
 
-        public int Id { get; init; }
+        public int Id { get; set; }
         public bool Matches(byte[] password)
         {
             return password.Length == Password.Length

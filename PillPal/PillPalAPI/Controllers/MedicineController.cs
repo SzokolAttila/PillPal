@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PillPalAPI.Model;
 using PillPalAPI.Repositories;
 using PillPalLib;
@@ -7,6 +8,7 @@ using PillPalLib;
 
 namespace PillPalAPI.Controllers
 {
+    [Authorize]
     [Route("PillPal/[controller]")]
     [ApiController]
     public class MedicineController : ControllerBase
@@ -30,6 +32,7 @@ namespace PillPalAPI.Controllers
         }
 
         // POST api/<MedicineController>
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Post([FromBody] Medicine medicine)
         {
@@ -39,6 +42,7 @@ namespace PillPalAPI.Controllers
         }
 
         // PUT api/<MedicineController>/5
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Medicine medicine)
         {
@@ -48,6 +52,7 @@ namespace PillPalAPI.Controllers
         }
 
         // DELETE api/<MedicineController>/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

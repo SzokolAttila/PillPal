@@ -24,10 +24,19 @@ namespace PillPalLib
             values = values.Where(x => x.Id != id);
             return true;
         }
+        private int getFreeID() {
+            int i = 1;
+            while (this[i] != null)
+            {
+                i++;
+            }
+            return i;
+        }
         public bool Add(T item)
         {
             if (values.Any(x => x.Id == item.Id))
                 return false;
+            item.Id = getFreeID();
             values = values.Append(item);
             return true;
         }
