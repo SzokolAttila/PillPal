@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PillPalAPI.DTOs.MedicineDTOs;
 using PillPalAPI.Model;
 using PillPalAPI.Repositories;
 using PillPalLib;
@@ -14,8 +16,10 @@ namespace PillPalAPI.Controllers
     public class MedicineController : ControllerBase
     {
         private readonly IItemStore<Medicine> _medicineRepository;
-        public MedicineController(IItemStore<Medicine> medicineRepository) {
+        private readonly IValidator<CreateMedicineDto> _validator;
+        public MedicineController(IItemStore<Medicine> medicineRepository, IValidator<CreateMedicineDto> validator) {
             _medicineRepository = medicineRepository;
+            _validator = validator;
         }
         // GET: api/<MedicineController>
         [HttpGet]
@@ -34,8 +38,17 @@ namespace PillPalAPI.Controllers
         // POST api/<MedicineController>
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult Post([FromBody] Medicine medicine)
+        public IActionResult Post([FromBody] CreateMedicineDto medicineDto)
         {
+            var result = _validator.Validate(medicineDto);
+            if (!result.IsValid)
+                return BadRequest(result);
+
+            Medicine medicine = new(medicineDto.Name, medicineDto.Description,
+                medicineDto.PackageSizes, medicineDto.Manufacturer,
+                medicineDto.RemedyFor, medicineDto.ActiveIngredients,
+                medicineDto.SideEffects, medicineDto.PackageUnit);
+            
             if (_medicineRepository.Add(medicine))
                 return Ok(medicine);
             return BadRequest("Medicine with this ID already exists.");
@@ -44,9 +57,18 @@ namespace PillPalAPI.Controllers
         // PUT api/<MedicineController>/5
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Medicine medicine)
+        public IActionResult Put(int id, [FromBody] CreateMedicineDto medicineDto)
         {
-            if(_medicineRepository.Update(medicine))
+            var result = _validator.Validate(medicineDto);
+            if(!result.IsValid)
+                return BadRequest(result);
+
+            Medicine medicine = new(medicineDto.Name, medicineDto.Description,
+                medicineDto.PackageSizes, medicineDto.Manufacturer,
+                medicineDto.RemedyFor, medicineDto.ActiveIngredients,
+                medicineDto.SideEffects, medicineDto.PackageUnit);
+
+            if (_medicineRepository.Update(medicine))
                 return Ok(medicine);
             return NotFound();
         }
