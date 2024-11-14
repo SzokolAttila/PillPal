@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using PillPalAPI.DTOs.ReminderDTOs;
 using PillPalAPI.Model;
 using PillPalLib;
 
@@ -10,9 +12,16 @@ namespace PillPalAPI.Controllers
     public class ReminderController : ControllerBase
     {
         private readonly IItemStore<Reminder> _reminderRepository;
-        public ReminderController(IItemStore<Reminder> reminderRepository)
+        private readonly IItemStore<Medicine> _medicineRepository;
+        private readonly IItemStore<User> _userRepository;
+        public ReminderController(
+            IItemStore<Reminder> reminderRepository, 
+            IItemStore<User> userRepository, 
+            IItemStore<Medicine> medicineRepository)
         {
             _reminderRepository = reminderRepository;
+            _userRepository = userRepository;
+            _medicineRepository = medicineRepository;
         }
 
         // GET: api/<ReminderController>
@@ -33,8 +42,21 @@ namespace PillPalAPI.Controllers
 
         // POST: api/<ReminderController>/Create
         [HttpPost]
-        public IActionResult Post([FromBody] Reminder reminder)
+        public IActionResult Post([FromBody] CreateReminderDto reminderDto)
         {
+            var reminder = new Reminder()
+            {
+                UserId = reminderDto.UserId,
+                MedicineId = reminderDto.MedicineId,
+                DoseCount = reminderDto.DoseCount,
+                DoseMg = reminderDto.DoseMg,
+                TakingMethod = reminderDto.TakingMethod,
+                When = reminderDto.When,
+            };
+            if (_userRepository.Get(reminder.UserId) == null)
+                return BadRequest("User with the given ID doesn't exist.");
+            if (_medicineRepository.Get(reminder.MedicineId) == null)
+                return BadRequest("Medicine with the given ID doesn't exist."); 
             if (_reminderRepository.Add(reminder))
             {
                 return Ok(reminder);
@@ -44,13 +66,27 @@ namespace PillPalAPI.Controllers
 
         // PUT: api/<ReminderController>/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Reminder reminder)
+        public IActionResult Put(int id, [FromBody] CreateReminderDto reminderDto)
         {
+            var reminder = new Reminder()
+            {
+                UserId = reminderDto.UserId,
+                MedicineId = reminderDto.MedicineId,
+                DoseCount = reminderDto.DoseCount,
+                DoseMg = reminderDto.DoseMg,
+                TakingMethod = reminderDto.TakingMethod,
+                When = reminderDto.When,
+                Id = id
+            };
+            if (_userRepository.Get(reminder.UserId) == null)
+                return BadRequest("User with the given ID doesn't exist.");
+            if (_medicineRepository.Get(reminder.MedicineId) == null)
+                return BadRequest("Medicine with the given ID doesn't exist.");
             if (_reminderRepository.Update(reminder))
             {
                 return Ok(reminder);
             }
-            return BadRequest();
+            return NotFound();
         }
 
         // DELETE: api/<ReminderController>/5
@@ -59,9 +95,9 @@ namespace PillPalAPI.Controllers
         {
             if (_reminderRepository.Delete(id))
             {
-                return Ok();
+                return NoContent();
             }
-            return BadRequest();
+            return NotFound();
         }
     }
 }
