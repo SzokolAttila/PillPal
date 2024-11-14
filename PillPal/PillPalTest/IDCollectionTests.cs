@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,8 +43,8 @@ namespace PillPalTest
             Assert.AreEqual(0, collection.Size);
             var medicine = new Medicine("delulu", "hululu", [], "uehtoaeoutn", [], [], [], "uehton");
             Assert.IsTrue(collection.Add(medicine));
-            Assert.IsTrue(collection.Remove(0));
-            Assert.IsFalse(collection.Remove(1));
+            Assert.IsTrue(collection.Remove(1));
+            Assert.IsFalse(collection.Remove(2));
             Assert.AreEqual(0, collection.Size);
         }
         [TestMethod]
