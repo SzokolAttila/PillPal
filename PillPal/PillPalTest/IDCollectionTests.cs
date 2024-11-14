@@ -13,7 +13,7 @@ namespace PillPalTest
         [TestMethod]
         public void IndexerFindsExistingItems()
         {
-            var collection = new IDCollection<Medicine>([new Medicine(0, "uetho", "ueohnant", [], "uteoh", [], [], [])]);
+            var collection = new IDCollection<Medicine>([new Medicine("delulu", "hululu", [], "uehtoaeoutn", [], [], [], "uehton")]);
             Assert.IsNotNull(collection[0]);
             Assert.IsNull(collection[1]);
         }
@@ -22,7 +22,7 @@ namespace PillPalTest
         {
             var collection = new IDCollection<Medicine>([]);
             Assert.AreEqual(0, collection.Size);
-            collection.Add(new Medicine(0, "uetho", "ueohnant", [], "uteoh", [], [], []));
+            collection.Add(new Medicine("delulu", "hululu", [], "uehtoaeoutn", [], [], [], "uehton"));
             Assert.AreEqual(1, collection.Size);
         }
         [TestMethod]
@@ -30,7 +30,7 @@ namespace PillPalTest
         {
             var collection = new IDCollection<Medicine>([]);
             Assert.AreEqual(0, collection.Size);
-            var medicine = new Medicine(0, "uetho", "ueohnant", [], "uteoh", [], [], []);
+            var medicine = new Medicine("delulu", "hululu", [], "uehtoaeoutn", [], [], [], "uehton");
             Assert.IsTrue(collection.Add(medicine));
             Assert.IsFalse(collection.Add(medicine));
             Assert.AreEqual(1, collection.Size);
@@ -40,7 +40,7 @@ namespace PillPalTest
         {
             var collection = new IDCollection<Medicine>([]);
             Assert.AreEqual(0, collection.Size);
-            var medicine = new Medicine(0, "uetho", "ueohnant", [], "uteoh", [], [], []);
+            var medicine = new Medicine("delulu", "hululu", [], "uehtoaeoutn", [], [], [], "uehton");
             Assert.IsTrue(collection.Add(medicine));
             Assert.IsTrue(collection.Remove(0));
             Assert.IsFalse(collection.Remove(1));
@@ -51,7 +51,7 @@ namespace PillPalTest
         {
             var collection = new IDCollection<Medicine>([]);
             Assert.AreEqual(0, collection.Size);
-            var medicine = new Medicine(0, "uetho", "ueohnant", [], "uteoh", [], [], []);
+            var medicine = new Medicine("delulu", "hululu", [], "uehtoaeoutn", [], [], [], "uehton");
             Assert.IsTrue(collection.Add(medicine));
             medicine.Name = "Test";
             Assert.IsTrue(collection.Replace(medicine));
@@ -62,7 +62,7 @@ namespace PillPalTest
         {
             var collection = new IDCollection<Medicine>([]);
             Assert.IsFalse(collection.Remove(0));
-            Assert.IsFalse(collection.Replace(new Medicine(0, "uetho", "ueohnant", [], "uteoh", [], [], [])));
+            Assert.IsFalse(collection.Replace(new Medicine("delulu", "hululu", [], "uehtoaeoutn", [], [], [], "uehton")));
         }
     }
 }
