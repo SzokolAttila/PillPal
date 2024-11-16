@@ -26,8 +26,7 @@ namespace PillPalLib
         }
         private int getFreeID() {
             int i = 1;
-            if (values.Count() > 0)
-                i = values.Max(x => x.Id) + 1;
+            while (this[i] != null) { i++; } // fills the ID gaps this way :D
             return i;
         }
         public bool Add(T item)
