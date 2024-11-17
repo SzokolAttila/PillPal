@@ -23,10 +23,12 @@ namespace PillPalAPI.Controllers
         }
         // GET: api/<MedicineController>
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Get() => Ok(_medicineRepository.GetAll());
 
         // GET api/<MedicineController>/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public IActionResult Get(int id)
         {
             var medicine = _medicineRepository.Get(id);
@@ -63,7 +65,7 @@ namespace PillPalAPI.Controllers
             if(!result.IsValid)
                 return BadRequest(result);
 
-            Medicine medicine = new(medicineDto.Name, medicineDto.Description,
+            Medicine medicine = new(id, medicineDto.Name, medicineDto.Description,
                 medicineDto.PackageSizes, medicineDto.Manufacturer,
                 medicineDto.RemedyFor, medicineDto.ActiveIngredients,
                 medicineDto.SideEffects, medicineDto.PackageUnit);

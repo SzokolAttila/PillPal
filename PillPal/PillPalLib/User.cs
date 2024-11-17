@@ -18,6 +18,12 @@ namespace PillPalLib
             UserName = userName;
             Password = password;
         }
+        public User(int id, string userName, string password)
+        {
+            Id = id;
+            UserName = userName;
+            PasswordText = password;
+        }
         private const int HASH_SIZE = 512;
         private byte[] Salt()
         {
