@@ -37,6 +37,36 @@ namespace PillPalTest.IntegrationTests
         }
 
         [TestMethod]
+        public void CreatingUserNotMeetingTheRequirementsReturnsFalse()
+        {
+            CreateUserDto shortUserName = new CreateUserDto() { UserName = "user", Password = "aA1?aA1?" };
+            Assert.IsFalse(handler.CreateUser(shortUserName));
+
+            CreateUserDto longUserName = new CreateUserDto() { UserName = "thisisareallylongusername", Password = "aA1?aA1?" };
+            Assert.IsFalse(handler.CreateUser(longUserName));
+
+            CreateUserDto user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
+            handler.CreateUser(user);
+            CreateUserDto duplicateUser = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
+            Assert.IsFalse(handler.CreateUser(duplicateUser));
+
+            CreateUserDto shortPassword = new CreateUserDto() { UserName = "username1", Password = "aA1?" };
+            Assert.IsFalse(handler.CreateUser(shortPassword));
+
+            CreateUserDto password_lowercase = new CreateUserDto() { UserName = "username2", Password = "AA1?AA1?" };
+            Assert.IsFalse(handler.CreateUser(password_lowercase));
+
+            CreateUserDto password_uppercase = new CreateUserDto() { UserName = "username3", Password = "aa1?aa1?" };
+            Assert.IsFalse(handler.CreateUser(password_uppercase));
+
+            CreateUserDto password_number = new CreateUserDto() { UserName = "username4", Password = "aAA?aAA?" };
+            Assert.IsFalse(handler.CreateUser(password_number));
+
+            CreateUserDto password_special = new CreateUserDto() { UserName = "username5", Password = "aA1AaA1A" };
+            Assert.IsFalse(handler.CreateUser(password_special));
+        }
+
+        [TestMethod]
         public void LoginExistingUserGivesBackToken()
         {
             CreateUserDto user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };

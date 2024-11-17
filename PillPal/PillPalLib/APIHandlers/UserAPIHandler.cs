@@ -50,7 +50,7 @@ namespace PillPalLib.APIHandlers
             return null;
         }
 
-        public IEnumerable<User> GetUsers(string auth)
+        public IEnumerable<User>? GetUsers(string auth)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", auth);
             var message = _httpClient.GetAsync("PillPal/User").Result;
