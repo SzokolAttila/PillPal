@@ -42,6 +42,9 @@ namespace PillPalTest.IntegrationTests
             CreateUserDto shortUserName = new CreateUserDto() { UserName = "user", Password = "aA1?aA1?" };
             Assert.IsFalse(handler.CreateUser(shortUserName));
 
+            CreateUserDto usernameWithSpecialCharacters = new() { UserName = "(){}+]a", Password = "Delulu!0" };
+            Assert.IsFalse(handler.CreateUser(usernameWithSpecialCharacters));
+
             CreateUserDto longUserName = new CreateUserDto() { UserName = "thisisareallylongusername", Password = "aA1?aA1?" };
             Assert.IsFalse(handler.CreateUser(longUserName));
 

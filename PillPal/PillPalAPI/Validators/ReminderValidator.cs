@@ -1,9 +1,10 @@
 ﻿using FluentValidation;
 using PillPalLib;
+using PillPalLib.DTOs.ReminderDTOs;
 
 namespace PillPalAPI.Validators
 {
-    public class ReminderValidator : AbstractValidator<Reminder>
+    public class ReminderValidator : AbstractValidator<CreateReminderDto>
     {
         public ReminderValidator() {
             RuleFor(x => x.DoseMg).GreaterThan(0).WithMessage("Cannot add medicine with negative dose");

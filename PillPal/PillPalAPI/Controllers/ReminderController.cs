@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using PillPalLib.DTOs.ReminderDTOs;
 using PillPalAPI.Model;
 using PillPalLib;
+using FluentValidation;
 
 namespace PillPalAPI.Controllers
 {
@@ -14,14 +15,17 @@ namespace PillPalAPI.Controllers
         private readonly IItemStore<Reminder> _reminderRepository;
         private readonly IItemStore<Medicine> _medicineRepository;
         private readonly IItemStore<User> _userRepository;
+        private readonly IValidator<CreateReminderDto> _validator;
         public ReminderController(
             IItemStore<Reminder> reminderRepository, 
             IItemStore<User> userRepository, 
-            IItemStore<Medicine> medicineRepository)
+            IItemStore<Medicine> medicineRepository,
+            IValidator<CreateReminderDto> validator)
         {
             _reminderRepository = reminderRepository;
             _userRepository = userRepository;
             _medicineRepository = medicineRepository;
+            _validator = validator;
         }
 
         // GET: api/<ReminderController>
@@ -44,6 +48,10 @@ namespace PillPalAPI.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] CreateReminderDto reminderDto)
         {
+            var result = _validator.Validate(reminderDto);
+            if (!result.IsValid)
+                return BadRequest(result);
+
             var reminder = new Reminder()
             {
                 UserId = reminderDto.UserId,
@@ -68,6 +76,10 @@ namespace PillPalAPI.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] CreateReminderDto reminderDto)
         {
+            var result = _validator.Validate(reminderDto);
+            if (!result.IsValid)
+                return BadRequest(result);
+
             var reminder = new Reminder()
             {
                 UserId = reminderDto.UserId,
