@@ -3,7 +3,7 @@ using PillPalLib;
 
 namespace PillPalAPI.Repositories
 {
-    public class ReminderRepository : IItemStore<Reminder>
+    public class ReminderRepository : IJoinStore<Reminder>
     {
         private readonly IDataStore _dataStore;
         public ReminderRepository(IDataStore dataStore)
@@ -14,8 +14,7 @@ namespace PillPalAPI.Repositories
 
         public bool Delete(int id) => _dataStore.Reminders.Remove(id);
 
-        public Reminder? Get(int id) => _dataStore.Reminders[id];
-
+        public IEnumerable<Reminder> Get(int id) => _dataStore.Reminders.Values.Where(x => x.UserId == id);
         public IEnumerable<Reminder> GetAll() => _dataStore.Reminders.Values;
 
         public bool Update(Reminder item) => _dataStore.Reminders.Replace(item);

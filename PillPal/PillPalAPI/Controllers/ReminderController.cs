@@ -14,12 +14,12 @@ namespace PillPalAPI.Controllers
     [ApiController]
     public class ReminderController : ControllerBase
     {
-        private readonly IItemStore<Reminder> _reminderRepository;
+        private readonly IJoinStore<Reminder> _reminderRepository;
         private readonly IItemStore<Medicine> _medicineRepository;
         private readonly IItemStore<User> _userRepository;
         private readonly IValidator<CreateReminderDto> _validator;
         public ReminderController(
-            IItemStore<Reminder> reminderRepository, 
+            IJoinStore<Reminder> reminderRepository, 
             IItemStore<User> userRepository, 
             IItemStore<Medicine> medicineRepository,
             IValidator<CreateReminderDto> validator)
@@ -49,7 +49,7 @@ namespace PillPalAPI.Controllers
                     return Forbid();
             }
 
-            return Ok(_reminderRepository.GetAll().Where(x => x.UserId == id));
+            return Ok(_reminderRepository.Get(id));
         }
 
         // POST: api/<ReminderController>/Create
