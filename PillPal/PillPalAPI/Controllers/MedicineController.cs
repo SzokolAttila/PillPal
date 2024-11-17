@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PillPalAPI.DTOs.MedicineDTOs;
 using PillPalAPI.Model;
 using PillPalAPI.Repositories;
 using PillPalLib;
+using PillPalLib.DTOs.MedicineDTOs;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

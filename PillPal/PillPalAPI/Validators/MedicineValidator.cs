@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using PillPalAPI.DTOs.MedicineDTOs;
+using PillPalLib.DTOs.MedicineDTOs;
 
 namespace PillPalAPI.Validators
 {

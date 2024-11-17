@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using PillPalAPI.DTOs.ReminderDTOs;
+using PillPalLib.DTOs.ReminderDTOs;
 using PillPalAPI.Model;
 using PillPalLib;
 

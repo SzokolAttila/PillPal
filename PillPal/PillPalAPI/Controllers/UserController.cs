@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using PillPalAPI.DTOs.UserDTOs;
 using PillPalAPI.Model;
 using PillPalLib;
+using PillPalLib.DTOs.UserDTOs;
 using System.Reflection.Metadata.Ecma335;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860

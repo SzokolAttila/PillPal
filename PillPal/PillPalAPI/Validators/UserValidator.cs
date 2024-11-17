@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using PillPalAPI.DTOs.UserDTOs;
+using PillPalLib.DTOs.UserDTOs;
 using PillPalAPI.Model;
 using PillPalLib;
 
