@@ -5,6 +5,8 @@ using PillPalLib.DTOs.ReminderDTOs;
 using PillPalAPI.Model;
 using PillPalLib;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace PillPalAPI.Controllers
 {
@@ -30,24 +32,40 @@ namespace PillPalAPI.Controllers
 
         // GET: api/<ReminderController>
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult GetAll() => Ok(_reminderRepository.GetAll().ToList());
 
         // GET: api/<ReminderController>/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var result = _reminderRepository.Get(id);
-            if(result == null)
+            if (HttpContext.User.Identity is not ClaimsIdentity identity)
+                return BadRequest("Something went wrong.");
+            var identitySid = identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid)?.Value;
+            if (identitySid != id.ToString())
             {
-                return NotFound();
+                var isAdmin = identity.Claims.Where(x => x.Type == ClaimTypes.Role && x.Value != null).Any(x => x.Value! == "Admin");
+                if (!isAdmin)
+                    return Forbid();
             }
-            return Ok(result);
+
+            return Ok(_reminderRepository.GetAll().Where(x => x.UserId == id));
         }
 
         // POST: api/<ReminderController>/Create
         [HttpPost]
         public IActionResult Post([FromBody] CreateReminderDto reminderDto)
         {
+            if (HttpContext.User.Identity is not ClaimsIdentity identity)
+                return BadRequest("Something went wrong.");
+            var identitySid = identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid)?.Value;
+            if (identitySid != reminderDto.UserId.ToString())
+            {
+                var isAdmin = identity.Claims.Where(x => x.Type == ClaimTypes.Role && x.Value != null).Any(x => x.Value! == "Admin");
+                if (!isAdmin)
+                    return Forbid();
+            }
+
             var result = _validator.Validate(reminderDto);
             if (!result.IsValid)
                 return BadRequest(result);
@@ -76,6 +94,20 @@ namespace PillPalAPI.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] CreateReminderDto reminderDto)
         {
+            var pastReminder = _reminderRepository.GetAll().FirstOrDefault(x => x.Id == id);
+            if (pastReminder == null)
+                return NotFound();
+
+            if (HttpContext.User.Identity is not ClaimsIdentity identity)
+                return BadRequest("Something went wrong.");
+            var identitySid = identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid)?.Value;
+            if (identitySid != reminderDto.UserId.ToString() || identitySid != pastReminder.UserId.ToString())
+            {
+                var isAdmin = identity.Claims.Where(x => x.Type == ClaimTypes.Role && x.Value != null).Any(x => x.Value! == "Admin");
+                if (!isAdmin)
+                    return Forbid();
+            }
+
             var result = _validator.Validate(reminderDto);
             if (!result.IsValid)
                 return BadRequest(result);
@@ -95,21 +127,31 @@ namespace PillPalAPI.Controllers
             if (_medicineRepository.Get(reminder.MedicineId) == null)
                 return BadRequest("Medicine with the given ID doesn't exist.");
             if (_reminderRepository.Update(reminder))
-            {
                 return Ok(reminder);
-            }
-            return NotFound();
+            return BadRequest("Something went wrong.");
         }
 
         // DELETE: api/<ReminderController>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (_reminderRepository.Delete(id))
+            var reminder = _reminderRepository.GetAll().FirstOrDefault(x => x.Id == id);
+            if (reminder == null)
+                return NotFound();
+
+            if (HttpContext.User.Identity is not ClaimsIdentity identity)
+                return BadRequest("Something went wrong.");
+            var identitySid = identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid)?.Value;
+            if (identitySid != reminder.UserId.ToString())
             {
-                return NoContent();
+                var isAdmin = identity.Claims.Where(x => x.Type == ClaimTypes.Role && x.Value != null).Any(x => x.Value! == "Admin");
+                if (!isAdmin)
+                    return Forbid();
             }
-            return NotFound();
+
+            if (_reminderRepository.Delete(id))
+                return NoContent();
+            return BadRequest("Something went wrong.");
         }
     }
 }

@@ -68,6 +68,16 @@ namespace PillPalAPI.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Put(int id, [FromBody] CreateUserDto userDto)
         {
+            if (HttpContext.User.Identity is not ClaimsIdentity identity)
+                return BadRequest("Something went wrong.");
+            var identitySid = identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid)?.Value;
+            if (identitySid != id.ToString())
+            {
+                var isAdmin = identity.Claims.Where(x => x.Type == ClaimTypes.Role && x.Value != null).Any(x => x.Value! == "Admin");
+                if (!isAdmin)
+                    return Forbid();
+            }
+
             var pastUser = _userRepository.Get(id);
             if (pastUser == null)
                 return NotFound();
