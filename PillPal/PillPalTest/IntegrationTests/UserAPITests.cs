@@ -23,13 +23,6 @@ namespace PillPalTest.IntegrationTests
         }
 
         [TestMethod]
-        public void LoginGivesBackNothingIfUserDoesntExist()
-        {
-            CreateUserDto user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?"};
-            Assert.AreEqual(handler.Login(user), null);
-        }
-
-        [TestMethod]
         public void CreatingUserWithUniqueUserAndProperPasswordReturnsTrue()
         {
             CreateUserDto user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
@@ -74,7 +67,60 @@ namespace PillPalTest.IntegrationTests
         {
             CreateUserDto user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
             handler.CreateUser(user);
-            Assert.IsTrue(handler.Login(user).Length>0);
+            Assert.IsTrue(handler.Login(user).Length > 0);
+        }
+
+        [TestMethod]
+        public void InvalidUserLoginThrowsException()
+        {
+            Assert.ThrowsException<ArgumentException>(() => handler.Login(new CreateUserDto()
+            {
+                UserName = "username",
+                Password = "Hululu!0"
+            }));
+        }
+
+        [TestMethod]
+        public void GetAllUsersNeedsAuthorization()
+        {
+            Assert.ThrowsException<ArgumentException>(() => handler.GetUsers(""));
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
+            handler.CreateUser(admin);
+            var token = handler.Login(admin)!;
+            var result = handler.GetUsers(token);
+            Assert.IsTrue(result.Count() == 1);
+        }
+
+        [TestMethod]
+        public void AdminCanGetAnyUserData()
+        {
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
+            handler.CreateUser(admin);
+            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
+            handler.CreateUser(user);
+            var adminToken = handler.Login(admin);
+            Assert.AreEqual("brownie", handler.GetUser(2, adminToken).UserName);
+            Assert.AreEqual("administrator", handler.GetUser(1, adminToken).UserName);
+        }
+
+        [TestMethod]
+        public void UserCannotGetOtherUsersData()
+        {
+            var user1 = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
+            var user2 = new CreateUserDto() { UserName = "jackie", Password = "Delulu!0" };
+            handler.CreateUser(user1);
+            handler.CreateUser(user2);
+            var user1token = handler.Login(user1)!;
+            Assert.ThrowsException<ArgumentException>(() => handler.GetUser(2, user1token));
+        }
+
+        [TestMethod]
+        public void UserCanGetOwnUserData()
+        {
+            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
+            handler.CreateUser(user);
+            var usertoken = handler.Login(user);
+            Assert.AreEqual("brownie", handler.GetUser(1, usertoken).UserName);
         }
     }
 }

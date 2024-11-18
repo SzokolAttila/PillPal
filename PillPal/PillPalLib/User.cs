@@ -12,6 +12,7 @@ namespace PillPalLib
             UserName = userName;
             PasswordText = password;
         }
+        [JsonConstructor]
         public User(int id, string userName, byte[] password)
         {
             Id = id;

@@ -12,6 +12,10 @@ namespace PillPalLib.APIHandlers
     public class UserAPIHandler
     {
         private readonly HttpClient _httpClient;
+        private readonly JsonSerializerOptions _options = new JsonSerializerOptions()
+        {
+            PropertyNameCaseInsensitive = true
+        };
 
         //able to pass HttpClient in constructor so it can be tested
         public UserAPIHandler(string baseURL = "http://localhost:5236/", HttpClient? client = null)
@@ -27,7 +31,7 @@ namespace PillPalLib.APIHandlers
             }
         }
 
-        public string? Login(CreateUserDto user)
+        public string Login(CreateUserDto user)
         {
             string json = JsonSerializer.Serialize(user);
             var message = _httpClient.PostAsync("api/Login", new StringContent(json, Encoding.UTF8, "application/json")).Result;
@@ -35,31 +39,31 @@ namespace PillPalLib.APIHandlers
             {
                 return message.Content.ReadAsStringAsync().Result;
             }
-            return null;
+            throw new ArgumentException(message.Content.ReadAsStringAsync().Result);
         }
 
-        public User? GetUser(int id, string auth)
+        public User GetUser(int id, string auth)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", auth);
             var message = _httpClient.GetAsync($"PillPal/User/{id}").Result;
             if (message.IsSuccessStatusCode)
             {
                 string json = message.Content.ReadAsStringAsync().Result;
-                return JsonSerializer.Deserialize<User>(json);
+                return JsonSerializer.Deserialize<User>(json, _options)!;
             }
-            return null;
+            throw new ArgumentException(message.Content.ReadAsStringAsync().Result);
         }
 
-        public IEnumerable<User>? GetUsers(string auth)
+        public IEnumerable<User> GetUsers(string auth)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", auth);
             var message = _httpClient.GetAsync("PillPal/User").Result;
             if (message.IsSuccessStatusCode)
             {
                 string json = message.Content.ReadAsStringAsync().Result;
-                return JsonSerializer.Deserialize<IEnumerable<User>>(json);
+                return JsonSerializer.Deserialize<IEnumerable<User>>(json, _options)!;
             }
-            return null;
+            throw new ArgumentException(message.Content.ReadAsStringAsync().Result);
         }
 
         public bool CreateUser(CreateUserDto user)
