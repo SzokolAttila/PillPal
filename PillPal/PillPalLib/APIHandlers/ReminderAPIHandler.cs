@@ -54,5 +54,13 @@ namespace PillPalLib.APIHandlers
             var message = _httpClient.PostAsync("PillPal/Reminder", content).Result;
             ExceptionHandler.CheckHttpResponse(message);
         }
+        public void EditReminder(int id, CreateReminderDto reminderDto, string auth)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", auth);
+            var json = JsonSerializer.Serialize(reminderDto);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var message = _httpClient.PutAsync($"PillPal/Reminder/{id}", content).Result;
+            ExceptionHandler.CheckHttpResponse(message);
+        }
     }
 }

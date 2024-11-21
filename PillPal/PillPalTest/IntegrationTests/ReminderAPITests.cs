@@ -201,5 +201,14 @@ namespace PillPalTest.IntegrationTests
             handler.CreateReminder(reminder, userToken);
             Assert.AreEqual(1, handler.Get(2, userToken).Count());
         }
+        [TestMethod]
+        public void AdminCanEditAnyReminder()
+        {
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
+            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
+            userHandler.CreateUser(admin);
+            userHandler.CreateUser(user);
+            var adminToken = userHandler.Login(admin);
+        }
     }
 }
