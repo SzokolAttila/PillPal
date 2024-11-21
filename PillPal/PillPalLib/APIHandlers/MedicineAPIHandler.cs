@@ -12,7 +12,7 @@ namespace PillPalLib.APIHandlers
     public class MedicineAPIHandler
     {
         private readonly HttpClient _httpClient;
-        private readonly JsonSerializerOptions _options = new JsonSerializerOptions();
+        private readonly JsonSerializerOptions _options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true};
 
         //able to pass HttpClient in constructor so it can be tested
         public MedicineAPIHandler(string baseURL = "http://localhost:5236/", HttpClient? client = null)
