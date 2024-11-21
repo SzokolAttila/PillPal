@@ -26,40 +26,49 @@ namespace PillPalTest.IntegrationTests
         public void CreatingUserWithUniqueUserAndProperPasswordReturnsTrue()
         {
             CreateUserDto user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
-            Assert.IsTrue(handler.CreateUser(user));
+            handler.CreateUser(user);
         }
 
         [TestMethod]
         public void CreatingUserNotMeetingTheRequirementsReturnsFalse()
         {
             CreateUserDto shortUserName = new CreateUserDto() { UserName = "user", Password = "aA1?aA1?" };
-            Assert.IsFalse(handler.CreateUser(shortUserName));
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(shortUserName));
+            Assert.AreEqual("Your username needs to be between 6 and 20 characters.", message.Message);
 
             CreateUserDto usernameWithSpecialCharacters = new() { UserName = "(){}+]a", Password = "Delulu!0" };
-            Assert.IsFalse(handler.CreateUser(usernameWithSpecialCharacters));
+            message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(usernameWithSpecialCharacters));
+            Assert.AreEqual("Username can only contain letters and digits.", message.Message);
 
             CreateUserDto longUserName = new CreateUserDto() { UserName = "thisisareallylongusername", Password = "aA1?aA1?" };
-            Assert.IsFalse(handler.CreateUser(longUserName));
+            message = Assert.ThrowsException<ArgumentException>(()=>handler.CreateUser(longUserName));
+            Assert.AreEqual("Your username needs to be between 6 and 20 characters.", message.Message);
 
             CreateUserDto user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
             handler.CreateUser(user);
             CreateUserDto duplicateUser = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
-            Assert.IsFalse(handler.CreateUser(duplicateUser));
+            message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(duplicateUser));
+            Assert.AreEqual("Username already in use.", message.Message);
 
             CreateUserDto shortPassword = new CreateUserDto() { UserName = "username1", Password = "aA1?" };
-            Assert.IsFalse(handler.CreateUser(shortPassword));
+            message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(shortPassword));
+            Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
 
             CreateUserDto password_lowercase = new CreateUserDto() { UserName = "username2", Password = "AA1?AA1?" };
-            Assert.IsFalse(handler.CreateUser(password_lowercase));
+            message = Assert.ThrowsException<ArgumentException>(()=>handler.CreateUser(password_lowercase));
+            Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
 
             CreateUserDto password_uppercase = new CreateUserDto() { UserName = "username3", Password = "aa1?aa1?" };
-            Assert.IsFalse(handler.CreateUser(password_uppercase));
+            message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(password_uppercase));
+            Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
 
             CreateUserDto password_number = new CreateUserDto() { UserName = "username4", Password = "aAA?aAA?" };
-            Assert.IsFalse(handler.CreateUser(password_number));
+            message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(password_number));
+            Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
 
             CreateUserDto password_special = new CreateUserDto() { UserName = "username5", Password = "aA1AaA1A" };
-            Assert.IsFalse(handler.CreateUser(password_special));
+            message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(password_special));
+            Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
         }
 
         [TestMethod]
@@ -73,17 +82,19 @@ namespace PillPalTest.IntegrationTests
         [TestMethod]
         public void InvalidUserLoginThrowsException()
         {
-            Assert.ThrowsException<ArgumentException>(() => handler.Login(new CreateUserDto()
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.Login(new CreateUserDto()
             {
                 UserName = "username",
                 Password = "Hululu!0"
             }));
+            Assert.AreEqual("Invalid username or password.", message.Message);
         }
 
         [TestMethod]
         public void GetAllUsersNeedsAuthorization()
         {
-            Assert.ThrowsException<ArgumentException>(() => handler.GetUsers(""));
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.GetUsers(""));
+            Assert.AreEqual("Unauthorized", message.Message);
             var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
             handler.CreateUser(admin);
             var token = handler.Login(admin)!;
@@ -111,7 +122,9 @@ namespace PillPalTest.IntegrationTests
             handler.CreateUser(user1);
             handler.CreateUser(user2);
             var user1token = handler.Login(user1)!;
-            Assert.ThrowsException<ArgumentException>(() => handler.GetUser(2, user1token));
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.GetUser(2, user1token));
+            Assert.AreEqual("Forbidden", message.Message);
+
         }
 
         [TestMethod]
