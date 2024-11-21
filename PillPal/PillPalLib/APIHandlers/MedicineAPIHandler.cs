@@ -31,23 +31,17 @@ namespace PillPalLib.APIHandlers
         public Medicine GetMedicine(int id)
         {
             var message = _httpClient.GetAsync($"PillPal/Medicine/{id}").Result;
-            if (message.IsSuccessStatusCode)
-            {
-                string json = message.Content.ReadAsStringAsync().Result;
-                return JsonSerializer.Deserialize<Medicine>(json, _options)!;
-            }
-            throw new ArgumentException(message.Content.ReadAsStringAsync().Result);
+            ExceptionHandler.CheckHttpResponse(message);
+            string json = message.Content.ReadAsStringAsync().Result;
+            return JsonSerializer.Deserialize<Medicine>(json, _options)!;
         }
 
         public IEnumerable<Medicine> GetMedicines()
         {
             var message = _httpClient.GetAsync("PillPal/Medicine").Result;
-            if (message.IsSuccessStatusCode)
-            {
-                string json = message.Content.ReadAsStringAsync().Result;
-                return JsonSerializer.Deserialize<IEnumerable<Medicine>>(json, _options)!;
-            }
-            throw new ArgumentException(message.Content.ReadAsStringAsync().Result);
+            ExceptionHandler.CheckHttpResponse(message);
+            string json = message.Content.ReadAsStringAsync().Result;
+            return JsonSerializer.Deserialize<IEnumerable<Medicine>>(json, _options)!;
         }
 
 
@@ -56,10 +50,7 @@ namespace PillPalLib.APIHandlers
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", auth);
             string json = JsonSerializer.Serialize(medicine);
             var message = _httpClient.PostAsync("PillPal/Medicine", new StringContent(json, Encoding.UTF8, "application/json")).Result;
-            if (!message.IsSuccessStatusCode)
-            {
-                throw new ArgumentException(message.Content.ReadAsStringAsync().Result);
-            }
+            ExceptionHandler.CheckHttpResponse(message);
         }
 
         public void UpdateMedicine(int id, CreateMedicineDto medicine, string auth)
@@ -67,19 +58,13 @@ namespace PillPalLib.APIHandlers
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", auth);
             string json = JsonSerializer.Serialize(medicine);
             var message = _httpClient.PutAsync($"PillPal/Medicine/{id}", new StringContent(json, Encoding.UTF8, "application/json")).Result;
-            if (!message.IsSuccessStatusCode)
-            {
-                throw new ArgumentException(message.Content.ReadAsStringAsync().Result);
-            }
+            ExceptionHandler.CheckHttpResponse(message);
         }
         public void DeleteMedicine(int id, string auth)
         {
            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", auth);
             var message = _httpClient.DeleteAsync($"PillPal/Medicine/{id}").Result;
-            if (!message.IsSuccessStatusCode)
-            {
-                throw new ArgumentException(message.Content.ReadAsStringAsync().Result);
-            }
+            ExceptionHandler.CheckHttpResponse(message);
         }
     }
 }

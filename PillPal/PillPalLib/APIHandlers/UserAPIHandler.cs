@@ -35,56 +35,47 @@ namespace PillPalLib.APIHandlers
         {
             string json = JsonSerializer.Serialize(user);
             var message = _httpClient.PostAsync("PillPal/Login", new StringContent(json, Encoding.UTF8, "application/json")).Result;
-            if (message.IsSuccessStatusCode)
-            {
-                return message.Content.ReadAsStringAsync().Result;
-            }
-            throw new ArgumentException(message.Content.ReadAsStringAsync().Result);
+            ExceptionHandler.CheckHttpResponse(message);
+            return message.Content.ReadAsStringAsync().Result;
         }
 
         public User GetUser(int id, string auth)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", auth);
             var message = _httpClient.GetAsync($"PillPal/User/{id}").Result;
-            if (message.IsSuccessStatusCode)
-            {
-                string json = message.Content.ReadAsStringAsync().Result;
-                return JsonSerializer.Deserialize<User>(json, _options)!;
-            }
-            throw new ArgumentException(message.Content.ReadAsStringAsync().Result);
+            ExceptionHandler.CheckHttpResponse(message);
+            string json = message.Content.ReadAsStringAsync().Result;
+            return JsonSerializer.Deserialize<User>(json, _options)!;
         }
 
         public IEnumerable<User> GetUsers(string auth)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", auth);
             var message = _httpClient.GetAsync("PillPal/User").Result;
-            if (message.IsSuccessStatusCode)
-            {
-                string json = message.Content.ReadAsStringAsync().Result;
-                return JsonSerializer.Deserialize<IEnumerable<User>>(json, _options)!;
-            }
-            throw new ArgumentException(message.Content.ReadAsStringAsync().Result);
+            ExceptionHandler.CheckHttpResponse(message);
+            string json = message.Content.ReadAsStringAsync().Result;
+            return JsonSerializer.Deserialize<IEnumerable<User>>(json, _options)!;
         }
 
-        public bool CreateUser(CreateUserDto user)
+        public void CreateUser(CreateUserDto user)
         {
             string json = JsonSerializer.Serialize(user);
             var message = _httpClient.PostAsync("PillPal/User", new StringContent(json, Encoding.UTF8, "application/json")).Result;
-            return message.IsSuccessStatusCode;
+            ExceptionHandler.CheckHttpResponse(message);
         }
 
-        public bool UpdateUser(int id, CreateUserDto user, string auth)
+        public void UpdateUser(int id, CreateUserDto user, string auth)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", auth);
             string json = JsonSerializer.Serialize(user);
             var message = _httpClient.PutAsync($"PillPal/User/{id}", new StringContent(json, Encoding.UTF8, "application/json")).Result;
-            return message.IsSuccessStatusCode;
+            ExceptionHandler.CheckHttpResponse(message);
         }
 
-        public bool DeleteUser(int id, string auth) {
+        public void DeleteUser(int id, string auth) {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", auth);
             var message = _httpClient.DeleteAsync($"PillPal/User/{id}").Result;
-            return message.IsSuccessStatusCode;
+            ExceptionHandler.CheckHttpResponse(message);
         }
     }
 }

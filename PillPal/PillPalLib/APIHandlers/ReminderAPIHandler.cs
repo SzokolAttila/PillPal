@@ -34,23 +34,17 @@ namespace PillPalLib.APIHandlers
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", auth);
             var message = _httpClient.GetAsync("PillPal/Reminder").Result;
-            if (message.IsSuccessStatusCode)
-            {
-                var json = message.Content.ReadAsStringAsync().Result;
-                return JsonSerializer.Deserialize<IEnumerable<Reminder>>(json, _options)!;
-            }
-            throw new ArgumentException(message.Content.ReadAsStringAsync().Result);
+            ExceptionHandler.CheckHttpResponse(message);
+            var json = message.Content.ReadAsStringAsync().Result;
+            return JsonSerializer.Deserialize<IEnumerable<Reminder>>(json, _options)!;
         }
         public IEnumerable<Reminder> Get(int id, string auth)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", auth);
             var message = _httpClient.GetAsync($"PillPal/Reminder/{id}").Result;
-            if (message.IsSuccessStatusCode)
-            {
-                var json = message.Content.ReadAsStringAsync().Result;
-                return JsonSerializer.Deserialize<IEnumerable<Reminder>>(json, _options)!;
-            }
-            throw new ArgumentException(message.Content.ReadAsStringAsync().Result);
+            ExceptionHandler.CheckHttpResponse(message);
+            var json = message.Content.ReadAsStringAsync().Result;
+            return JsonSerializer.Deserialize<IEnumerable<Reminder>>(json, _options)!;
         }
         public void CreateReminder(CreateReminderDto reminderDto, string auth)
         {
@@ -58,8 +52,7 @@ namespace PillPalLib.APIHandlers
             var json = JsonSerializer.Serialize(reminderDto);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var message = _httpClient.PostAsync("PillPal/Reminder", content).Result;
-            if (!message.IsSuccessStatusCode)
-                throw new ArgumentException(message.Content.ReadAsStringAsync().Result);
+            ExceptionHandler.CheckHttpResponse(message);
         }
     }
 }
