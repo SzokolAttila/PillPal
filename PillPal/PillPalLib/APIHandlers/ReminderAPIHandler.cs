@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
+using PillPalLib.DTOs.ReminderDTOs;
 
 namespace PillPalLib.APIHandlers
 {
@@ -50,6 +51,15 @@ namespace PillPalLib.APIHandlers
                 return JsonSerializer.Deserialize<IEnumerable<Reminder>>(json, _options)!;
             }
             throw new ArgumentException(message.Content.ReadAsStringAsync().Result);
+        }
+        public void CreateReminder(CreateReminderDto reminderDto, string auth)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", auth);
+            var json = JsonSerializer.Serialize(reminderDto);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var message = _httpClient.PostAsync("PillPal/Reminder", content).Result;
+            if (!message.IsSuccessStatusCode)
+                throw new ArgumentException(message.Content.ReadAsStringAsync().Result);
         }
     }
 }

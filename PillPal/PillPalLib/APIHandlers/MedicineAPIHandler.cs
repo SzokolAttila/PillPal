@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PillPalLib.APIHandlers
 {
-    class MedicineAPIHandler
+    public class MedicineAPIHandler
     {
         private readonly HttpClient _httpClient;
         private readonly JsonSerializerOptions _options = new JsonSerializerOptions();

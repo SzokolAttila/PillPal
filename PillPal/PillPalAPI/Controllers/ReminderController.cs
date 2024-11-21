@@ -77,7 +77,7 @@ namespace PillPalAPI.Controllers
                 DoseCount = reminderDto.DoseCount,
                 DoseMg = reminderDto.DoseMg,
                 TakingMethod = reminderDto.TakingMethod,
-                When = reminderDto.When,
+                When = TimeOnly.Parse(reminderDto.When),
             };
             if (_userRepository.Get(reminder.UserId) == null)
                 return BadRequest("User with the given ID doesn't exist.");
@@ -119,7 +119,7 @@ namespace PillPalAPI.Controllers
                 DoseCount = reminderDto.DoseCount,
                 DoseMg = reminderDto.DoseMg,
                 TakingMethod = reminderDto.TakingMethod,
-                When = reminderDto.When,
+                When = TimeOnly.Parse(reminderDto.When),
                 Id = id
             };
             if (_userRepository.Get(reminder.UserId) == null)
