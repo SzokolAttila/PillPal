@@ -40,5 +40,16 @@ namespace PillPalLib.APIHandlers
             }
             throw new ArgumentException(message.Content.ReadAsStringAsync().Result);
         }
+        public IEnumerable<Reminder> Get(int id, string auth)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", auth);
+            var message = _httpClient.GetAsync($"PillPal/Reminder/{id}").Result;
+            if (message.IsSuccessStatusCode)
+            {
+                var json = message.Content.ReadAsStringAsync().Result;
+                return JsonSerializer.Deserialize<IEnumerable<Reminder>>(json, _options)!;
+            }
+            throw new ArgumentException(message.Content.ReadAsStringAsync().Result);
+        }
     }
 }
