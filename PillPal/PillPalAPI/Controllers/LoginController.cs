@@ -14,7 +14,7 @@ using System.Text;
 namespace PillPalAPI.Controllers
 {
     [AllowAnonymous]
-    [Route("api/[controller]")]
+    [Route("PillPal/[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
     {

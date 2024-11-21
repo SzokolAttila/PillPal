@@ -34,7 +34,7 @@ namespace PillPalLib.APIHandlers
         public string Login(CreateUserDto user)
         {
             string json = JsonSerializer.Serialize(user);
-            var message = _httpClient.PostAsync("api/Login", new StringContent(json, Encoding.UTF8, "application/json")).Result;
+            var message = _httpClient.PostAsync("PillPal/Login", new StringContent(json, Encoding.UTF8, "application/json")).Result;
             if (message.IsSuccessStatusCode)
             {
                 return message.Content.ReadAsStringAsync().Result;
