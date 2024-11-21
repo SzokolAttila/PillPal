@@ -21,7 +21,7 @@ namespace PillPalLib
             if (!message.IsSuccessStatusCode)
             {
                 string json = message.Content.ReadAsStringAsync().Result;
-                if (json == "") throw new ArgumentException(message.ReasonPhrase); // built-in IActionResult
+                if (json == "" || json.Contains("https")) throw new ArgumentException(message.ReasonPhrase); // built-in IActionResult
 
                 string errorMessage;
                 try

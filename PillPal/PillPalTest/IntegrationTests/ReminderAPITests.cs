@@ -99,6 +99,44 @@ namespace PillPalTest.IntegrationTests
             Assert.AreEqual("Forbidden", exception.Message);
         }
         [TestMethod]
+        public void DoseMgCannotBeNegativeOrZero()
+        {
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
+            userHandler.CreateUser(admin);
+            var adminToken = userHandler.Login(admin);
+            SeedMedicine(adminToken);
+            var reminder = new CreateReminderDto()
+            {
+                DoseMg = 0,
+                DoseCount = 1,
+                MedicineId = 1,
+                UserId = 1,
+                TakingMethod = "",
+                When = "14:00:50"
+            };
+            var exception = Assert.ThrowsException<ArgumentException>(() => handler.CreateReminder(reminder, adminToken));
+            Assert.AreEqual("Cannot add medicine with negative dose", exception.Message);
+        }
+        [TestMethod]
+        public void DoseCountCannotBeNegativeOrZero()
+        {
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
+            userHandler.CreateUser(admin);
+            var adminToken = userHandler.Login(admin);
+            SeedMedicine(adminToken);
+            var reminder = new CreateReminderDto()
+            {
+                DoseMg = 1,
+                DoseCount = 0,
+                MedicineId = 1,
+                UserId = 1,
+                TakingMethod = "",
+                When = "14:00:50"
+            };
+            var exception = Assert.ThrowsException<ArgumentException>(() => handler.CreateReminder(reminder, adminToken));
+            Assert.AreEqual("Cannot add medicine with negative dose", exception.Message);
+        }
+        [TestMethod]
         public void CannotAddReminderToNonExistantUser()
         {
             var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
@@ -191,6 +229,17 @@ namespace PillPalTest.IntegrationTests
             Assert.AreEqual(0, handler.Get(2, adminToken).Count());
         }
         [TestMethod]
+        public void CannotEditNonExistantReminder()
+        {
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
+            userHandler.CreateUser(admin);
+            var adminToken = userHandler.Login(admin);
+            SeedMedicine(adminToken);
+            var exception = Assert.ThrowsException<ArgumentException>(() => 
+                handler.EditReminder(2, SeedReminder(1, adminToken), adminToken));
+            Assert.AreEqual("Not Found", exception.Message);
+        }
+        [TestMethod]
         public void UserCannotEditOthersReminder()
         {
             var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
@@ -234,6 +283,60 @@ namespace PillPalTest.IntegrationTests
             reminder.UserId = 1;
             var exception = Assert.ThrowsException<ArgumentException>(() => handler.EditReminder(1, reminder, userToken));
             Assert.AreEqual("Forbidden", exception.Message);
+        }
+        [TestMethod]
+        public void AdminCanDeleteAnyReminder()
+        {
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
+            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
+            userHandler.CreateUser(admin);
+            userHandler.CreateUser(user);
+            var adminToken = userHandler.Login(admin);
+            SeedMedicine(adminToken);
+            SeedReminder(2, adminToken);
+            Assert.AreEqual(1, handler.Get(2, adminToken).Count());
+            handler.DeleteReminder(1, adminToken);
+            Assert.AreEqual(0, handler.Get(2, adminToken).Count());
+        }
+        [TestMethod]
+        public void UserCanDeleteOwnReminder()
+        {
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
+            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
+            userHandler.CreateUser(admin);
+            userHandler.CreateUser(user);
+            var adminToken = userHandler.Login(admin);
+            var userToken = userHandler.Login(user);
+            SeedMedicine(adminToken);
+            SeedReminder(2, userToken);
+            Assert.AreEqual(1, handler.Get(2, userToken).Count());
+            handler.DeleteReminder(1, userToken);
+            Assert.AreEqual(0, handler.Get(2, userToken).Count());
+        }
+        [TestMethod]
+        public void UserCannotDeleteOthersReminder()
+        {
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
+            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
+            userHandler.CreateUser(admin);
+            userHandler.CreateUser(user);
+            var adminToken = userHandler.Login(admin);
+            var userToken = userHandler.Login(user);
+            SeedMedicine(adminToken);
+            SeedReminder(1, adminToken);
+            Assert.AreEqual(1, handler.Get(1, adminToken).Count());
+            var exception = Assert.ThrowsException<ArgumentException>(() => handler.DeleteReminder(1, userToken));
+            Assert.AreEqual("Forbidden", exception.Message);
+        }
+        [TestMethod]
+        public void CannotDeleteNonExistantReminder()
+        {
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
+            userHandler.CreateUser(admin);
+            var adminToken = userHandler.Login(admin);
+            SeedMedicine(adminToken);
+            var exception = Assert.ThrowsException<ArgumentException>(() => handler.DeleteReminder(1, adminToken));
+            Assert.AreEqual("Not Found", exception.Message);
         }
     }
 }

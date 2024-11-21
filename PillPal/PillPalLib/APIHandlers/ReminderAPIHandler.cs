@@ -62,5 +62,11 @@ namespace PillPalLib.APIHandlers
             var message = _httpClient.PutAsync($"PillPal/Reminder/{id}", content).Result;
             ExceptionHandler.CheckHttpResponse(message);
         }
+        public void DeleteReminder(int id, string auth) 
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", auth);
+            var message = _httpClient.DeleteAsync($"PillPal/Reminder/{id}").Result;
+            ExceptionHandler.CheckHttpResponse(message);
+        }
     }
 }
