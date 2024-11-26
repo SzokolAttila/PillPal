@@ -9,7 +9,7 @@
 
 ### IDCollection tests
 
-| Scope  | Description | Preparations | Asserts | Expected result |
+| Scope | Description | Preparations | Asserts | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
 | Unit test | Indexer finds existing items | Initialize an IDCollection with a medicine | Index the first and the second item | First exists; second is null |
 | Unit test | Items can be added | Initialize an empty IDCollection with zero items | Check the Count; add an item then check again | get 0; then get 1 |
@@ -17,6 +17,25 @@
 | Unit test | Items can be removed | Initialize an IDCollection with an item | Remove at existing id; remove at non existing id; check count | returns true; returns false; count is 0 |
 | Unit test | Existing item can be updated | Initialize empty IDCollection and add medicine to it; Changing medicine name and replacing it | Get the medicine's name from IDCollection | Medicine's name is the changed name |
 | Unit test | Updating or deleting non existing item returns false | Create an empty IDCollection | Remove from empty collection; updating empty collection | both returns false |
+
+### MedicineAPI tests
+
+| Scope | Description | Preparations | Asserts | Expected result |
+| ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
+| Integration test | Posting as anonymous or user throws argument exception | Create user token; create medicine | Post medicine as user; post medicine as anonyomous | Throws exception with Forbidden message; throws exception with Unauthorized message |
+| Integration test | Putting as anonymous or user throws argument exception | Create user token; create admin token; create and post medicine | Put to posted medicine as user; put to posted medicine as anonyomous | Throws exception with Forbidden message; throws exception with Unauthorized message |
+| Integration test | Deleting as anonymous or user throws argument exception | Create user token; create admin token; post medicine | Delete posted medicine as user; delete posted medicine as anonyomous | Throws exception with Forbidden message; throws exception with Unauthorized message |
+| Integration test | Putting to non existing id throws argument exception | Create admin token; create medicine and post it | Putting medicine to non existing id | Throws exception with Not Found message |
+| Integration test | Deleting non existing id throws argument exception | Create admin token; create medicine and post it | Deleting medicine at non existing id | Throws exception with Not Found message |
+| Integration test | Posting new medicine increments number of medicines | Create admin token; create 5 medicines and post them | GetAll medicines and check Count | Count returns 5 |
+| Integration test | Deleting medicine lowers the number of medicines | Create admin token; create 5 medicines and post them; delete 2 medicines with existing id | GetAll medicines and check Count | Count returns 3 |
+| Integration test | Updating the name changes it | Create admin token; create medicine and post it | Check if medicine's name is the new one; update medicine with changed name; check if medicines name is the new one | returns false; returns true |
+| Integration test | Posting or putting medicine with short or long name throws exception | Create admin token; create medicine and post it | Post and put medicine with short name; post and put medicine with long name | All of them throws exception with the validator's message |
+| Integration test | Posting or putting medicine with short or long manufacturer name throws exception | Create admin token; create medicine and post it | Post and put medicine with short manufacturer name; post and put medicine with long manufacturer name | All of them throws exception with the validator's message |
+| Integration test | Posting or putting medicine with no active ingredients throws exception | Create admin token; create medicine and post it | Post and put medicine with no active ingredients | All of them throws exception with the validator's message |
+| Integration test | Posting or putting medicine with no package size throws exception | Create admin token; create medicine and post it | Post and put medicine with no package size | All of them throws exception with the validator's message |
+| Integration test | Posting or putting medicine with no remedy throws exception | Create admin token; create medicine and post it | Post and put medicine with no remedy | All of them throws exception with the validator's message |
+| Integration test | Posting or putting medicine with not mg or ml package unit throws exception | Create admin token; create medicine and post it | Post and put medicine with a different unit | All of them throws exception with the validator's message |
 
 ### ReminderAPI tests (validator and authorization)
 
