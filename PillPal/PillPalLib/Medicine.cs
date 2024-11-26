@@ -1,9 +1,11 @@
 ﻿using PillPalLib.Interfaces;
+using System.Text.Json.Serialization;
 
 namespace PillPalLib
 {
     public class Medicine : IIdentified
     {
+        [JsonConstructor]
         public Medicine(int id, string name, string description, int[] packageSizes, string manufacturer, string[] remedyFor, string[] activeIngredients, string[] sideEffects, string packageUnit)
         {
             Id = id;
