@@ -27,9 +27,8 @@ namespace PillPalTest.IntegrationTests
         [TestMethod]
         public void PostingAsAnonyomousOrUserThrowsArgumentException()
         {
-            string adminToken = GetAdminToken();
             string userToken = GetUserToken();
-            CreateMedicineDto medicine = MockMedicine(adminToken, true);
+            CreateMedicineDto medicine = MockMedicine();
 
             var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateMedicine(medicine, ""));
             Assert.AreEqual("Unauthorized", message.Message);

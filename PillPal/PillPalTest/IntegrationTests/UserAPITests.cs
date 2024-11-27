@@ -30,44 +30,75 @@ namespace PillPalTest.IntegrationTests
         }
 
         [TestMethod]
-        public void CreatingUserNotMeetingTheRequirementsReturnsFalse()
+        public void CreatingUserWithShortUsernameThrowsArgumentException()
         {
             CreateUserDto shortUserName = new CreateUserDto() { UserName = "user", Password = "aA1?aA1?" };
             var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(shortUserName));
             Assert.AreEqual("Your username needs to be between 6 and 20 characters.", message.Message);
+        }
 
+        [TestMethod]
+        public void CreatingUserWithSpecialCharacterUsernameThrowsArgumentException()
+        {
             CreateUserDto usernameWithSpecialCharacters = new() { UserName = "(){}+]a", Password = "Delulu!0" };
-            message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(usernameWithSpecialCharacters));
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(usernameWithSpecialCharacters));
             Assert.AreEqual("Username can only contain letters and digits.", message.Message);
+        }
 
+        [TestMethod]
+        public void CreatingUserWithLongUsernameThrowsArgumentException()
+        {
             CreateUserDto longUserName = new CreateUserDto() { UserName = "thisisareallylongusername", Password = "aA1?aA1?" };
-            message = Assert.ThrowsException<ArgumentException>(()=>handler.CreateUser(longUserName));
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(longUserName));
             Assert.AreEqual("Your username needs to be between 6 and 20 characters.", message.Message);
+        }
 
+        [TestMethod]
+        public void CreatingDuplicatedUserThrowsArgumentException()
+        {
             CreateUserDto user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
             handler.CreateUser(user);
-            CreateUserDto duplicateUser = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
-            message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(duplicateUser));
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(user));
             Assert.AreEqual("Username already in use.", message.Message);
+        }
 
+        [TestMethod]
+        public void CreatingUserWithShortPasswordThrowsException()
+        {
             CreateUserDto shortPassword = new CreateUserDto() { UserName = "username1", Password = "aA1?" };
-            message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(shortPassword));
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(shortPassword));
             Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
+        }
 
+        [TestMethod]
+        public void CreatingUserWithNoLowercaseInPasswordThrowsArgumentException()
+        {
             CreateUserDto password_lowercase = new CreateUserDto() { UserName = "username2", Password = "AA1?AA1?" };
-            message = Assert.ThrowsException<ArgumentException>(()=>handler.CreateUser(password_lowercase));
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(password_lowercase));
             Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
+        }
 
+        [TestMethod]
+        public void CreatingUserWithNoUppercaseInPasswordThrowsArgumentException()
+        {
             CreateUserDto password_uppercase = new CreateUserDto() { UserName = "username3", Password = "aa1?aa1?" };
-            message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(password_uppercase));
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(password_uppercase));
             Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
+        }
 
+        [TestMethod]
+        public void CreatingUserWithNoNumberInPasswordThrowsArgumentException()
+        {
             CreateUserDto password_number = new CreateUserDto() { UserName = "username4", Password = "aAA?aAA?" };
-            message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(password_number));
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(password_number));
             Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
+        }
 
+        [TestMethod]
+        public void CreatingUserWithNoSpecialInPasswordThrowsArgumentException()
+        {
             CreateUserDto password_special = new CreateUserDto() { UserName = "username5", Password = "aA1AaA1A" };
-            message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(password_special));
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(password_special));
             Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
         }
 
