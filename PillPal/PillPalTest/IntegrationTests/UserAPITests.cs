@@ -126,6 +126,10 @@ namespace PillPalTest.IntegrationTests
         {
             var message = Assert.ThrowsException<ArgumentException>(() => handler.GetUsers(""));
             Assert.AreEqual("Unauthorized", message.Message);
+        }
+
+        [TestMethod]
+        public void AdminCanGetAllUsers() { 
             var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
             handler.CreateUser(admin);
             var token = handler.Login(admin)!;
@@ -165,6 +169,59 @@ namespace PillPalTest.IntegrationTests
             handler.CreateUser(user);
             var usertoken = handler.Login(user);
             Assert.AreEqual("brownie", handler.GetUser(1, usertoken).UserName);
+        }
+
+        [TestMethod]
+        public void UserCannotDeleteOtherUserData()
+        {
+            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
+            handler.CreateUser(user);
+            var user2 = new CreateUserDto() { UserName = "username2", Password = "aA1?aA1?" };
+            handler.CreateUser(user2);
+            var usertoken = handler.Login(user);
+
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.DeleteUser(2, usertoken));
+            Assert.AreEqual("Forbidden", message.Message);
+        }
+
+        [TestMethod]
+        public void UserCanDeleteOwnData()
+        {
+            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
+            handler.CreateUser(user);
+            var usertoken = handler.Login(user);
+
+            Assert.AreEqual("username", handler.GetUser(1, usertoken).UserName);
+            handler.DeleteUser(1, usertoken);
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.GetUser(1, usertoken));
+            Assert.AreEqual("Not Found", message.Message);
+        }
+
+        [TestMethod]
+        public void AdminCanDeleteAnyUser()
+        {
+            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
+            handler.CreateUser(user);
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
+            handler.CreateUser(admin);
+            var adminToken = handler.Login(admin);
+
+            handler.DeleteUser(1, adminToken);
+            Assert.AreEqual(1, handler.GetUsers(adminToken).Count());
+            handler.DeleteUser(2, adminToken);
+            Assert.AreEqual(0, handler.GetUsers(adminToken).Count());
+        }
+
+        [TestMethod]
+        public void DeletingNonExistingIdThrowsException()
+        {
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
+            handler.CreateUser(admin);
+            var adminToken = handler.Login(admin);
+
+            Assert.AreEqual("administrator", handler.GetUser(1, adminToken).UserName);
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.DeleteUser(2, adminToken));
+            Assert.AreEqual("Not Found", message.Message);
         }
     }
 }
