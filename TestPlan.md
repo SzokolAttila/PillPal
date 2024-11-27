@@ -2,14 +2,14 @@
 
 ### User tests (password hashing)
 
-| Scope  | Description | Preparations | Asserts | Expected result |
+| Scope  | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
 | Unit test | User's hash is unique | Create two users with the same password but different usernames | Their hashed passwords don't match | True |
 | Unit test | Password hashing is consistent | Create two users with the same password and same usernames | Their hashed passwords match | True |
 
-### IDCollection tests
+### IDCollection tests (CRUD methods)
 
-| Scope | Description | Preparations | Asserts | Expected result |
+| Scope | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
 | Unit test | Indexer finds existing items | Initialize an IDCollection with a medicine | Index the first and the second item | First exists; second is null |
 | Unit test | Items can be added | Initialize an empty IDCollection with zero items | Check the Count; add an item then check again | get 0; then get 1 |
@@ -18,15 +18,15 @@
 | Unit test | Existing item can be updated | Initialize empty IDCollection and add medicine to it; Changing medicine name and replacing it | Get the medicine's name from IDCollection | Medicine's name is the changed name |
 | Unit test | Updating or deleting non existing item returns false | Create an empty IDCollection | Remove from empty collection; updating empty collection | both returns false |
 
-### MedicineAPI tests
+### MedicineAPI tests (Authorization and validation)
 
-| Scope | Description | Preparations | Asserts | Expected result |
+| Scope | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
-| Integration test | Posting as anonymous or user throws argument exception | Create user token; create medicine | Post medicine as user; post medicine as anonyomous | Throws exception with Forbidden message; throws exception with Unauthorized message |
-| Integration test | Putting as anonymous or user throws argument exception | Create user token; create admin token; create and post medicine | Put to posted medicine as user; put to posted medicine as anonyomous | Throws exception with Forbidden message; throws exception with Unauthorized message |
-| Integration test | Deleting as anonymous or user throws argument exception | Create user token; create admin token; post medicine | Delete posted medicine as user; delete posted medicine as anonyomous | Throws exception with Forbidden message; throws exception with Unauthorized message |
-| Integration test | Putting to non existing id throws argument exception | Create admin token; create medicine and post it | Putting medicine to non existing id | Throws exception with Not Found message |
-| Integration test | Deleting non existing id throws argument exception | Create admin token; create medicine and post it | Deleting medicine at non existing id | Throws exception with Not Found message |
+| Integration test | Posting as anonymous or user throws argument exception | Create user token; create medicine | Post medicine as user; post medicine as anonyomous | Throws exception with 'Forbidden' message; throws exception with 'Unauthorized' message |
+| Integration test | Putting as anonymous or user throws argument exception | Create user token; create admin token; create and post medicine | Put to posted medicine as user; put to posted medicine as anonyomous | Throws exception with 'Forbidden' message; throws exception with 'Unauthorized' message |
+| Integration test | Deleting as anonymous or user throws argument exception | Create user token; create admin token; post medicine | Delete posted medicine as user; delete posted medicine as anonyomous | Throws exception with 'Forbidden' message; throws exception with 'Unauthorized' message |
+| Integration test | Putting to non existing id throws argument exception | Create admin token; create medicine and post it | Putting medicine to non existing id | Throws exception with 'Not Found' message |
+| Integration test | Deleting non existing id throws argument exception | Create admin token; create medicine and post it | Deleting medicine at non existing id | Throws exception with 'Not Found' message |
 | Integration test | Posting new medicine increments number of medicines | Create admin token; create 5 medicines and post them | GetAll medicines and check Count | Count returns 5 |
 | Integration test | Deleting medicine lowers the number of medicines | Create admin token; create 5 medicines and post them; delete 2 medicines with existing id | GetAll medicines and check Count | Count returns 3 |
 | Integration test | Updating the name changes it | Create admin token; create medicine and post it | Check if medicine's name is the new one; update medicine with changed name; check if medicines name is the new one | returns false; returns true |
@@ -39,7 +39,7 @@
 
 ### ReminderAPI tests (validator and authorization)
 
-| Scope  | Description | Preparations | Asserts | Expected result |
+| Scope  | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
 | Integration test | Admin can get all reminders | Create admin user | Getting all the reminders returns them in a list | True |
 | Integration test | User cannot get all reminders | Create user | Getting all the reminders throws an argument exception | Forbidden |
@@ -63,6 +63,27 @@
 | Integration test | User can delete own reminder | Create a user with a reminder | User can delete their own reminder with their own token | True |
 | Integration test | User cannot delet other user's reminder | Create two users, one with a reminder | Trying to delete the user's reminder with other user's token will throw an argument exception | Forbidden |
 | Integration test | Cannot delete non-existant reminder | Create admin user | Trying to delete a reminder that doesn't exist will throw an argument exception | Not Found |
+
+### UserAPI tests (Authorization and validation)
+| Scope  | Description | Preparations | Actions | Expected result |
+| ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
+| Integration test | Creating user with unique user and proper password returns true | Create a user | Post proper user to the API | Runs without throwing exception |
+| Integration test | Creating user with short username throws argument exception | Create user with short username | Post the user to the API | Throws argument exception with validator's message |
+| Integration test | Creating user with special characters in username throws argument exception | Create user with special character username | Post the user to the API | Throws argument exception with validator's message |
+| Integration test | Creating user with long username throws argument exception | Create user with long username | Post the user to the API | Throws argument exception with validator's message |
+| Integration test | Creating duplicated user throws argument exception | Create proper user | Post the user to the API twice | The second post throws argument exception with validator's message |
+| Integration test | Creating user with short password throws argument exception | Create user with short password | Post the user to the API | Throws argument exception with validator's message |
+| Integration test | Creating user with no lowercase in password throws argument exception | Create user with no lowercase character in password | Post the user to the API | Throws argument exception with validator's message |
+| Integration test | Creating user with no uppercase in password throws argument exception | Create user with no uppercase character in password | Post the user to the API | Throws argument exception with validator's message |
+| Integration test | Creating user with no number in password throws argument exception | Create user with no number in password | Post the user to the API | Throws argument exception with validator's message |
+| Integration test | Creating user with no special in password throws argument exception | Create user with no special character in password | Post the user to the API | Throws argument exception with validator's message |
+| Integration test | Login existing user gives back token | Create a proper user and post it to API | Check how long string does Login function give back | returned string's length is more than 0 |
+| Intagration test | Invalid user login throws exception | Create non existing user | Call Login function with that new user | Throws argument exception with 'Invalid username or password.' message |
+| Integration test | Get all users needs authorization | No prerequisites | Call GetUsers function without jwt token string | Throws argument exception with 'Unauthorized' message |
+| Integration test | Admin can get all users | Create admin user, post it and login with it | Call GetUsers and check item count | Item count should be 1 (only the admin) |
+| Integration test | Admin can get any user's data | Create admin and a user and post them; login with admin | Get the user's and own data by id with GetUser and check their usernames | User's given username; 'administrator' |
+| Integration test | User cannot get other user's data | Create two users, post them and login with the first | Get second user's data by id | Throws argument exception with 'Forbidden' message |
+| Integration test | User can get own user data | Create user, post it and login with it | Get own user data by id and check on username | Returned username is the created user's username |
 
 Unit tests:
 - Password hashing for user
