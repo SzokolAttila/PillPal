@@ -84,6 +84,10 @@
 | Integration test | Admin can get any user's data | Create admin and a user and post them; login with admin | Get the user's and own data by id with GetUser and check their usernames | User's given username; 'administrator' |
 | Integration test | User cannot get other user's data | Create two users, post them and login with the first | Get second user's data by id | Throws argument exception with 'Forbidden' message |
 | Integration test | User can get own user data | Create user, post it and login with it | Get own user data by id and check on username | Returned username is the created user's username |
+| Integration test | User cannot delete other user | Create two users, post them and login with the first | Delete second user by id | Throws argument exception with message 'Forbidden' |
+| Integration test | User can delete own data | Create a user, post it and login with it | GetUser By id; Delete created user by id; GetUser by id again | returns created user; runs without any issues; Throws Argument exception with 'Not Found' message |
+| Integration test | Admin can delete any user | Create user and admin, post them and login with admin | Delete user; Check GetUsers count; Delete admin; Check GetUsers count again | Runs without any issues; returns 1; runs without any issues; returns 0 |
+| Integration test | Deleting non existing id throws exception | Create a admin, post it and login with it | GetUser By id; Delete at id 2 | returns created admin; Throws Argument exception with 'Not Found' message |
 
 Unit tests:
 - Password hashing for user
