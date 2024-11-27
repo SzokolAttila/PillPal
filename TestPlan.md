@@ -104,6 +104,24 @@
 | Integration test | Putting user with proper changed password and improper changed username throws exception | Create admin and user, post them and login with admin | Modify user's password to proper one and username to an improper one, then put it | Throws argument exception with validator's message |
 | Integration test | Putting user with improper changed password and proper changed username throws exception | Create admin and user, post them and login with admin | Modify user's password to improper one and username to an proper one, then put it | Throws argument exception with validator's message |
 
+### GUI tests (manual testing)
+| Scope  | Description | Preparations | Actions | Expected result |
+| ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
+| System test | Register result will show pop-up window | Open register tab | Register user with invalid data | Pop-up will be shown with the details of the error |
+| System test | Register result will show pop-up window | Open register tab | Register user with valid data | Pop-up will be shown with a "Successful registration" text |
+| System test | Invalid login makes a pop-up window appear | Open login tab | Try to log in with invalid data | Pop-up will say "Invalid username or password" |
+| System test | Valid login will lead user to reminders tab | Open login tab | Log in to existing user with valid data | No pop-up, list of reminders will be displayed |
+| System test | Reminder can be added via UI | Register a user and log in | Create a reminder with valid data | Reminder will be added to reminders and shown in the reminders tab |
+| System test | Invalid reminder results in pop-up | Register a user and log in | Create a reminder with invalid data | A window will pop up, explaining the problem |
+| System test | User can check the description of a medicine | Register a user, log in and add a reminder | Click on the information button of the reminder | A page with the detailed description of the medicine will be displayed |
+| System test | User can delete a reminder | Register a user, log in and add a reminder | Click on the delete button of the reminder | Reminder will disappear from the list |
+| System test | Edit button of a reminder leads to edit tab | Register a user, log in and add a reminder | Click on the edit button of the reminder | Edit page will be displayed, with the current data of the reminder |
+| System test | User can edit a reminder | Register a user, log in, add a reminder and click on edit | Input the new data and click save | Reminder will be listed with the updated data |
+| System test | Invalid updated data will result in pop-up | Register a user, log in, add a reminder and click on edit | Input the new invalid data and click save | Pop-up will appear |
+| System test | User is notified about a reminder | Register a user, log in and add a reminder | Wait until the time of the reminder | Notification will pop up on the phone's screen |  
+| System test | User is can dismiss a reminder | Register a user, log in and add a reminder and wait for it to notify you | Click on "dismiss" | Notification will disappear and won't pop up again until the next day |  
+| System test | User is can "snooze" a reminder | Register a user, log in and add a reminder and wait for it to notify you | Click on "snooze" | Notification will disappear and will pop up again a few minutes later |  
+
 Unit tests:
 - Password hashing for user
 - Add, remove, replace, index for IDCollection
