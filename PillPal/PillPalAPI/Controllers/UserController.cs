@@ -65,7 +65,6 @@ namespace PillPalAPI.Controllers
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
         public IActionResult Put(int id, [FromBody] CreateUserDto userDto)
         {
             if (HttpContext.User.Identity is not ClaimsIdentity identity)

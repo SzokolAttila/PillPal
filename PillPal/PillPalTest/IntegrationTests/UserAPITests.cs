@@ -223,5 +223,214 @@ namespace PillPalTest.IntegrationTests
             var message = Assert.ThrowsException<ArgumentException>(() => handler.DeleteUser(2, adminToken));
             Assert.AreEqual("Not Found", message.Message);
         }
+
+        [TestMethod]
+        public void UserCannotUpdateOtherUserData()
+        {
+            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
+            handler.CreateUser(user);
+            var user2 = new CreateUserDto() { UserName = "username2", Password = "aA1?aA1?" };
+            handler.CreateUser(user2);
+            var usertoken = handler.Login(user);
+
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(2, user, usertoken));
+            Assert.AreEqual("Forbidden", message.Message);
+        }
+
+        [TestMethod]
+        public void UserCanUpdateOwnData()
+        {
+            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
+            handler.CreateUser(user);
+            var usertoken = handler.Login(user);
+
+            Assert.AreEqual("username", handler.GetUser(1, usertoken).UserName);
+            user.UserName = "felhasznalo";
+            handler.UpdateUser(1, user, usertoken);
+            Assert.AreEqual("felhasznalo", handler.GetUser(1, usertoken).UserName);
+        }
+
+        [TestMethod]
+        public void AdminCanUpdateAnyUser()
+        {
+            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
+            handler.CreateUser(user);
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
+            handler.CreateUser(admin);
+            var adminToken = handler.Login(admin);
+
+            Assert.AreEqual("username", handler.GetUser(1, adminToken).UserName);
+            user.UserName = "felhasznalo";
+            handler.UpdateUser(1, user, adminToken);
+            Assert.AreEqual("felhasznalo", handler.GetUser(1, adminToken).UserName);
+        }
+
+        [TestMethod]
+        public void UpdatingNonExistingIdThrowsException()
+        {
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
+            handler.CreateUser(admin);
+            var adminToken = handler.Login(admin);
+
+            Assert.AreEqual("administrator", handler.GetUser(1, adminToken).UserName);
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(2, admin, adminToken));
+            Assert.AreEqual("Not Found", message.Message);
+        }
+
+        [TestMethod]
+        public void PuttingUserWithChangedShortUsernameThrowsException()
+        {
+            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
+            handler.CreateUser(user);
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
+            handler.CreateUser(admin);
+            var adminToken = handler.Login(admin);
+
+            user.UserName = "user";
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
+            Assert.AreEqual("Your username needs to be between 6 and 20 characters.", message.Message);
+        }
+
+        [TestMethod]
+        public void PuttingUserWithChangedUsernameWithSpecialCharacterThrowsException()
+        {
+            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
+            handler.CreateUser(user);
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
+            handler.CreateUser(admin);
+            var adminToken = handler.Login(admin);
+
+            user.UserName = "[username??!?![";
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken)); 
+            Assert.AreEqual("Username can only contain letters and digits.", message.Message);
+        }
+
+        [TestMethod]
+        public void PuttingUserWithChangedLongUsernameThrowsException()
+        {
+            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
+            handler.CreateUser(user);
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
+            handler.CreateUser(admin);
+            var adminToken = handler.Login(admin);
+
+            user.UserName = "thisisawaaaaaylongnameforauser";
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
+            Assert.AreEqual("Your username needs to be between 6 and 20 characters.", message.Message);
+        }
+
+        [TestMethod]
+        public void PuttingUserWithDuplicatedUsernameThrowsAException()
+        {
+            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
+            handler.CreateUser(user);
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
+            handler.CreateUser(admin);
+            var adminToken = handler.Login(admin);
+
+            user.UserName = "administrator";
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
+            Assert.AreEqual("Username already in use.", message.Message);
+        }
+
+        [TestMethod]
+        public void PuttingUserWithChangedShortPasswordThrowsException()
+        {
+            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
+            handler.CreateUser(user);
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
+            handler.CreateUser(admin);
+            var adminToken = handler.Login(admin);
+
+            user.Password = "aA1?";
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
+            Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
+        }
+
+        [TestMethod]
+        public void PuttingUserWithChangedPasswordWithoutUppercaseThrowsException()
+        {
+            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
+            handler.CreateUser(user);
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
+            handler.CreateUser(admin);
+            var adminToken = handler.Login(admin);
+
+            user.Password = "aa1?aa1?";
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
+            Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
+        }
+
+        [TestMethod]
+        public void PuttingUserWithChangedPasswordWithoutLowercaseThrowsArgumentException()
+        {
+            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
+            handler.CreateUser(user);
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
+            handler.CreateUser(admin);
+            var adminToken = handler.Login(admin);
+
+            user.Password = "AA1?AA1?";
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
+            Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
+        }
+
+        [TestMethod]
+        public void PuttingUserWithChangedPasswordWithoutNumbersThrowsException()
+        {
+            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
+            handler.CreateUser(user);
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
+            handler.CreateUser(admin);
+            var adminToken = handler.Login(admin);
+
+            user.Password = "aAa?aAa?";
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
+            Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
+        }
+
+        [TestMethod]
+        public void PuttingUserWithChangedPasswordWithoutSpecialThrowsArgumentException()
+        {
+            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
+            handler.CreateUser(user);
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
+            handler.CreateUser(admin);
+            var adminToken = handler.Login(admin);
+
+            user.Password = "aA11aA11";
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
+            Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
+        }
+
+        [TestMethod]
+        public void PuttingUserWithProperChangedPasswordAndImproperChangedUsernameThrowsException()
+        {
+            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
+            handler.CreateUser(user);
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
+            handler.CreateUser(admin);
+            var adminToken = handler.Login(admin);
+
+            user.Password = "aA1?aA1?";
+            user.UserName = "user";
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
+            Assert.AreEqual("Your username needs to be between 6 and 20 characters.", message.Message);
+        }
+
+        [TestMethod]
+        public void PuttingUserWithImproperChangedPasswordAndProperChangedUsernameThrowsException()
+        {
+            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
+            handler.CreateUser(user);
+            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
+            handler.CreateUser(admin);
+            var adminToken = handler.Login(admin);
+
+            user.Password = "aA1?";
+            user.UserName = "username4";
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
+            Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
+        }
     }
 }
