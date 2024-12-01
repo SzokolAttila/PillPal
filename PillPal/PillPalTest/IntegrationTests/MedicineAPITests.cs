@@ -19,7 +19,10 @@ namespace PillPalTest.IntegrationTests
         [TestInitialize]
         public void Init()
         {
-            var api = new WebApplicationFactory<PillPalAPI.Program>();
+            var api = new WebApplicationFactory<PillPalAPI.Program>().WithWebHostBuilder(builder =>
+            {
+                builder.UseSetting("param01", "TestConnection");
+            });
             handler = new (client: api.CreateClient());
            userHandler = new (client: api.CreateClient());
         }

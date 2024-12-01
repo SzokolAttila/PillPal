@@ -1,4 +1,5 @@
-﻿using PillPalLib;
+﻿using Microsoft.EntityFrameworkCore;
+using PillPalLib;
 
 namespace PillPalAPI.Model
 {
@@ -6,11 +7,11 @@ namespace PillPalAPI.Model
         public IDCollection<User> Users { get; }
         public IDCollection<Medicine> Medicines { get; }
         public IDCollection<Reminder> Reminders { get; }
-        public DataStore(IEnumerable<User> users, IEnumerable<Medicine> medicines, IEnumerable<Reminder> reminders)
+        public DataStore(DatabaseContext context)
         {
-            Users = new IDCollection<User>(users);
-            Medicines = new IDCollection<Medicine> (medicines);
-            Reminders = new IDCollection<Reminder> (reminders);
+            Users = new IDCollection<User>(context.Users);
+            Medicines = new IDCollection<Medicine> (context.Medicines);
+            Reminders = new IDCollection<Reminder> (context.Reminders);
         }
     }
 }
