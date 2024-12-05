@@ -64,7 +64,7 @@ namespace PillPalAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Medicines");
+                    b.ToTable("Medicines", (string)null);
                 });
 
             modelBuilder.Entity("PillPalLib.Reminder", b =>
@@ -96,7 +96,7 @@ namespace PillPalAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Reminders");
+                    b.ToTable("Reminders", (string)null);
                 });
 
             modelBuilder.Entity("PillPalLib.User", b =>
@@ -117,7 +117,7 @@ namespace PillPalAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 #pragma warning restore 612, 618
         }

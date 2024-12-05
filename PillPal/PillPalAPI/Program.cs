@@ -36,10 +36,13 @@ public class Program
             }
         );
         builder.Services.AddControllers();
-        builder.Services.AddDbContext<DatabaseContext>(options =>
+        if (!args.Any(x=>x.Contains("testing")))
         {
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));//args.Length > 0 ? "DefaultConnection" : args[0]
-        });
+            builder.Services.AddDbContext<DatabaseContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));//args.Length > 0 ? "DefaultConnection" : args[0]
+            });
+        }
         builder.Services.AddScoped<IDataStore, DataStore>();
         builder.Services.AddScoped<IItemStore<Medicine>, MedicineRepository>();
         builder.Services.AddScoped<IJoinStore<Reminder>, ReminderRepository>();

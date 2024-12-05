@@ -15,14 +15,13 @@ namespace PillPalTest.IntegrationTests
     [TestClass]
     public class ReminderAPITests
     {
-        private WebApplicationFactory<PillPalAPI.Program> app;
         private ReminderAPIHandler handler;
         private UserAPIHandler userHandler;
         private MedicineAPIHandler medicineHandler;
         [TestInitialize]
         public void Init()
         {
-            app = new WebApplicationFactory<PillPalAPI.Program>();
+            var app = new TestWebAppFactory<PillPalAPI.Program>();
             handler = new ReminderAPIHandler(client: app.CreateClient());
             userHandler = new UserAPIHandler(client: app.CreateClient());
             medicineHandler = new MedicineAPIHandler(client: app.CreateClient());
@@ -204,7 +203,7 @@ namespace PillPalTest.IntegrationTests
             userHandler.CreateUser(user);
             var adminToken = userHandler.Login(admin);
             SeedMedicine(adminToken);
-            var reminder = SeedReminder(2, adminToken);
+            CreateReminderDto reminder = SeedReminder(2, adminToken);
             reminder.TakingMethod = "take with water";
             reminder.DoseMg = 500;
             handler.EditReminder(1, reminder, adminToken);

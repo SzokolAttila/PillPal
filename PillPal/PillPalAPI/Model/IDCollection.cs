@@ -12,7 +12,7 @@ namespace PillPalLib
     public class IDCollection<T> where T : class, IIdentified
     {
         private DbSet<T> values;
-        public IEnumerable<T> Values => values.OrderBy(x => x.Id).Select(x => x);
+        public IEnumerable<T> Values => values.AsNoTracking().OrderBy(x => x.Id).Select(x => x);
 
         public IDCollection(DbSet<T> values)
         {
@@ -33,6 +33,7 @@ namespace PillPalLib
             if (values.Any(x => x.Id == item.Id))
                 return false;
             var context = values.Add(item);
+            var state = context.Context.Entry(item).State;
             context.Context.SaveChanges();
             return true;
         }
