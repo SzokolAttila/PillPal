@@ -40,5 +40,7 @@ namespace PillPalLib
         public string[] ActiveIngredients { get; set; }
         public string[] SideEffects { get; set; }
         public string PackageUnit { get; set; }
+        [JsonIgnore]
+        public List<Reminder> Reminders { get; set; } = [];
     }
 }

@@ -56,5 +56,8 @@ namespace PillPalLib
             return hashedPassword.Length == Password.Length
                 && Enumerable.Range(0, hashedPassword.Length).All(i => hashedPassword[i] == Password[i]);
         }
+
+        [JsonIgnore]
+        public List<Reminder> Reminders { get; set; } = [];
     }
 }

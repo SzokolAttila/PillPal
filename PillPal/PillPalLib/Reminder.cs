@@ -12,7 +12,9 @@ namespace PillPalLib
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+        public User? User { get; set; }
         public int MedicineId { get; set; }
+        public Medicine? Medicine { get; set; } 
         public TimeOnly When { get; set; }
         public double DoseCount { get; set; }
         public int DoseMg {  get; set; }
