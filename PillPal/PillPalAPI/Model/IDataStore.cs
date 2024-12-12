@@ -10,5 +10,6 @@ namespace PillPalAPI.Model
         public IDCollection<SideEffect> SideEffects { get; }
         public IDCollection<MedicineSideEffect> MedicineSideEffects { get; }
         public IDCollection<ActiveIngredient> ActiveIngredients { get; }
+        public IDCollection<MedicineActiveIngredient> MedicineActiveIngredients { get; }
     }
 }

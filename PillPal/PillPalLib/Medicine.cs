@@ -38,5 +38,7 @@ namespace PillPalLib
         public List<Reminder> Reminders { get; set; } = [];
         [JsonIgnore]
         public List<MedicineSideEffect> SideEffects { get; set; } = [];
+        [JsonIgnore]
+        public List<MedicineActiveIngredient> ActiveIngredients { get; set; } = [];
     }
 }

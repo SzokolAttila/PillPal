@@ -64,6 +64,8 @@ namespace PillPalAPI.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Put(int id, [FromBody] CreateMedicineSideEffectDto createDto)
         {
+            if (_joinRepository.Get(id).FirstOrDefault(x => x.SideEffectId == createDto.SideEffectId) == null)
+                return NotFound();
             if (_medicineRepository.Get(createDto.MedicineId) == null)
                 return BadRequest("Medicine with the given ID doesn't exist.");
             if (_sideEffectRepository.Get(createDto.SideEffectId) == null)

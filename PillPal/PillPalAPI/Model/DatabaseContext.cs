@@ -35,12 +35,26 @@ namespace PillPalAPI.Model
                 .HasOne(x => x.SideEffect)
                 .WithMany(x => x.MedicineSideEffects)
                 .HasForeignKey(x => x.SideEffectId);
+
+
+            builder.Entity<MedicineActiveIngredient>().Navigation(x => x.Medicine).AutoInclude();
+            builder.Entity<MedicineActiveIngredient>().Navigation(x => x.ActiveIngredient).AutoInclude();
+            builder.Entity<MedicineActiveIngredient>().HasKey(x => x.Id);
+            builder.Entity<MedicineActiveIngredient>()
+                .HasOne(x => x.Medicine)
+                .WithMany(x => x.ActiveIngredients)
+                .HasForeignKey(x => x.MedicineId);
+            builder.Entity<MedicineActiveIngredient>()
+                .HasOne(x => x.ActiveIngredient)
+                .WithMany(x => x.ActiveIngredients)
+                .HasForeignKey(x => x.ActiveIngredientId);
         }
         public DbSet<SideEffect> SideEffects { get; set; }
         public DbSet<MedicineSideEffect> MedicineSideEffects { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Reminder> Reminders { get; set; }
         public DbSet<ActiveIngredient> ActiveIngredients { get; set; }
+        public DbSet<MedicineActiveIngredient> MedicineActiveIngredients { get; set; }
         public DbSet<Medicine> Medicines { get; set; }
     }
 }

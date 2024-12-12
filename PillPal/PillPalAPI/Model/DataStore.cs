@@ -12,6 +12,7 @@ namespace PillPalAPI.Model
         public IDCollection<MedicineSideEffect> MedicineSideEffects { get; }
         public IDCollection<ActiveIngredient> ActiveIngredients { get; }
 
+        public IDCollection<MedicineActiveIngredient> MedicineActiveIngredients { get; }
         public DataStore(DatabaseContext context)
         {
             Users = new IDCollection<User>(context.Users);
@@ -20,6 +21,7 @@ namespace PillPalAPI.Model
             SideEffects = new IDCollection<SideEffect> (context.SideEffects);
             MedicineSideEffects = new IDCollection<MedicineSideEffect> (context.MedicineSideEffects);
             ActiveIngredients = new IDCollection<ActiveIngredient> (context.ActiveIngredients);
+            MedicineActiveIngredients = new IDCollection<MedicineActiveIngredient>(context.MedicineActiveIngredients);
         }
     }
 }
