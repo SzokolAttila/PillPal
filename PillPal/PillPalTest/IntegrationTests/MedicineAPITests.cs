@@ -227,7 +227,6 @@ namespace PillPalTest.IntegrationTests
                 PackageSizes = new int[] { 50, 100 },
                 PackageUnit = "mg",
                 ActiveIngredients = new string[] { "hatóanyag1", "hatóanyag2" },
-                SideEffects = new string[] { "fejfájás", "szédülés" },
                 RemedyFor = new string[] { "megfázás" }
             };
             if(withPosting) handler.CreateMedicine(medicine, adminToken);

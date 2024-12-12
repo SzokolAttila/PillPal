@@ -9,6 +9,5 @@
         public string Manufacturer { get; set; } = "";
         public string[] RemedyFor { get; set; } = new string[0];
         public string[] ActiveIngredients { get; set; } = new string[0];
-        public string[] SideEffects { get; set; } = new string[0];
     }
 }

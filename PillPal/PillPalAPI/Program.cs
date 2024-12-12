@@ -45,6 +45,7 @@ public class Program
         }
         builder.Services.AddScoped<IDataStore, DataStore>();
         builder.Services.AddScoped<IItemStore<Medicine>, MedicineRepository>();
+        builder.Services.AddScoped<IItemStore<SideEffect>, SideEffectRepository>();
         builder.Services.AddScoped<IJoinStore<Reminder>, ReminderRepository>();
         builder.Services.AddScoped<IItemStore<User>, UserRepository>();
         builder.Services.AddValidatorsFromAssemblyContaining<UserValidator>();

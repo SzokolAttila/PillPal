@@ -7,5 +7,7 @@ namespace PillPalAPI.Model
         public IDCollection<User> Users { get; }
         public IDCollection<Medicine> Medicines { get; }
         public IDCollection<Reminder> Reminders { get; }
+        public IDCollection<SideEffect> SideEffects { get; }
+        public IDCollection<MedicineSideEffect> MedicineSideEffects { get; }
     }
 }

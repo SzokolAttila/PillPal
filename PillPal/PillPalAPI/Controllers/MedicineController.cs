@@ -48,8 +48,7 @@ namespace PillPalAPI.Controllers
 
             Medicine medicine = new(medicineDto.Name, medicineDto.Description,
                 medicineDto.PackageSizes, medicineDto.Manufacturer,
-                medicineDto.RemedyFor, medicineDto.ActiveIngredients,
-                medicineDto.SideEffects, medicineDto.PackageUnit);
+                medicineDto.RemedyFor, medicineDto.ActiveIngredients, medicineDto.PackageUnit);
             
             if (_medicineRepository.Add(medicine))
                 return Ok(medicine);
@@ -67,8 +66,7 @@ namespace PillPalAPI.Controllers
 
             Medicine medicine = new(id, medicineDto.Name, medicineDto.Description,
                 medicineDto.PackageSizes, medicineDto.Manufacturer,
-                medicineDto.RemedyFor, medicineDto.ActiveIngredients,
-                medicineDto.SideEffects, medicineDto.PackageUnit);
+                medicineDto.RemedyFor, medicineDto.ActiveIngredients, medicineDto.PackageUnit);
 
             if (_medicineRepository.Update(medicine))
                 return Ok(medicine);
