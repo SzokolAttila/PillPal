@@ -6,7 +6,7 @@ namespace PillPalLib
     public class Medicine : IIdentified
     {
         [JsonConstructor]
-        public Medicine(int id, string name, string description, int[] packageSizes, string manufacturer, string[] remedyFor, string[] activeIngredients, string packageUnit)
+        public Medicine(int id, string name, string description, int[] packageSizes, string manufacturer, string[] remedyFor, string packageUnit)
         {
             Id = id;
             Name = name;
@@ -14,18 +14,16 @@ namespace PillPalLib
             PackageSizes = packageSizes;
             Manufacturer = manufacturer;
             RemedyFor = remedyFor;
-            ActiveIngredients = activeIngredients;
             PackageUnit = packageUnit;
         }
 
-        public Medicine(string name, string description, int[] packageSizes, string manufacturer, string[] remedyFor, string[] activeIngredients, string packageUnit)
+        public Medicine(string name, string description, int[] packageSizes, string manufacturer, string[] remedyFor, string packageUnit)
         {
             Name = name;
             Description = description;
             PackageSizes = packageSizes;
             Manufacturer = manufacturer;
             RemedyFor = remedyFor;
-            ActiveIngredients = activeIngredients;
             PackageUnit = packageUnit;
         }
 
@@ -35,7 +33,6 @@ namespace PillPalLib
         public int[] PackageSizes { get; set; }
         public string Manufacturer { get; set; }
         public string[] RemedyFor {  get; set; }
-        public string[] ActiveIngredients { get; set; }
         public string PackageUnit { get; set; }
         [JsonIgnore]
         public List<Reminder> Reminders { get; set; } = [];

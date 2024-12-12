@@ -152,18 +152,17 @@ namespace PillPalTest.IntegrationTests
             Assert.AreEqual("Manufacturer name must be between 5 and 30 characters.", message.Message);
         }
 
-        [TestMethod]
-        public void PostingOrPuttingMedicineWithNoActiveIngredientsThrowsException()
-        {
-            string adminToken = GetAdminToken();
-            CreateMedicineDto medicine = MockMedicine(adminToken, true);
+        //[TestMethod]
+        //public void PostingOrPuttingMedicineWithNoActiveIngredientsThrowsException()
+        //{
+        //    string adminToken = GetAdminToken();
+        //    CreateMedicineDto medicine = MockMedicine(adminToken, true);
 
-            medicine.ActiveIngredients = new string[] {};
-            var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateMedicine(medicine, adminToken));
-            Assert.AreEqual("A medicine without active ingredients is just a placebo.", message.Message);
-            message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateMedicine(1, medicine, adminToken));
-            Assert.AreEqual("A medicine without active ingredients is just a placebo.", message.Message);
-        }
+        //    var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateMedicine(medicine, adminToken));
+        //    Assert.AreEqual("A medicine without active ingredients is just a placebo.", message.Message);
+        //    message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateMedicine(1, medicine, adminToken));
+        //    Assert.AreEqual("A medicine without active ingredients is just a placebo.", message.Message);
+        //}
 
         [TestMethod]
         public void PostingOrPuttingMedicineWithNoPackageSizeThrowsException()
@@ -226,7 +225,6 @@ namespace PillPalTest.IntegrationTests
                 Manufacturer = "a gyógyszergyártója",
                 PackageSizes = new int[] { 50, 100 },
                 PackageUnit = "mg",
-                ActiveIngredients = new string[] { "hatóanyag1", "hatóanyag2" },
                 RemedyFor = new string[] { "megfázás" }
             };
             if(withPosting) handler.CreateMedicine(medicine, adminToken);

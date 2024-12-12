@@ -11,6 +11,7 @@ namespace PillPalAPI.Model
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
             builder.Entity<Reminder>().Navigation(x => x.User).AutoInclude();
             builder.Entity<Reminder>().Navigation(x => x.Medicine).AutoInclude();
             builder.Entity<Reminder>(x => x.HasKey(y => y.Id)); 
@@ -25,6 +26,7 @@ namespace PillPalAPI.Model
 
             builder.Entity<MedicineSideEffect>().Navigation(x => x.Medicine).AutoInclude();
             builder.Entity<MedicineSideEffect>().Navigation(x => x.SideEffect).AutoInclude();
+            builder.Entity<MedicineSideEffect>().HasKey(x => x.Id);
             builder.Entity<MedicineSideEffect>()
                 .HasOne(x => x.Medicine)
                 .WithMany(x => x.SideEffects)
@@ -38,6 +40,7 @@ namespace PillPalAPI.Model
         public DbSet<MedicineSideEffect> MedicineSideEffects { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Reminder> Reminders { get; set; }
+        public DbSet<ActiveIngredient> ActiveIngredients { get; set; }
         public DbSet<Medicine> Medicines { get; set; }
     }
 }

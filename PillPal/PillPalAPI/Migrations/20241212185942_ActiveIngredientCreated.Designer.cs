@@ -12,8 +12,8 @@ using PillPalAPI.Model;
 namespace PillPalAPI.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241212181501_MedicineSideEffectCreated")]
-    partial class MedicineSideEffectCreated
+    [Migration("20241212185942_ActiveIngredientCreated")]
+    partial class ActiveIngredientCreated
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace PillPalAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("PillPalLib.Medicine", b =>
+            modelBuilder.Entity("PillPalLib.ActiveIngredient", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,9 +33,22 @@ namespace PillPalAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ActiveIngredients")
+                    b.Property<string>("Ingredient")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ActiveIngredients");
+                });
+
+            modelBuilder.Entity("PillPalLib.Medicine", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()

@@ -67,6 +67,7 @@ namespace PillPalAPI.Controllers
 
             var sideEffect = new SideEffect()
             {
+                Id = id,
                 Effect = sideEffectDto.Effect
             };
 

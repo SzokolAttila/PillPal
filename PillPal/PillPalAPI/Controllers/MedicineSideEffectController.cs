@@ -74,8 +74,9 @@ namespace PillPalAPI.Controllers
                 return BadRequest("This SideEffect has already been added to this Medicine.");
 
 
-            var sideEffect = new MedicineSideEffect() 
-            { 
+            var sideEffect = new MedicineSideEffect()
+            {
+                Id = id,
                 SideEffectId = createDto.SideEffectId,
                 MedicineId = createDto.MedicineId,
             };

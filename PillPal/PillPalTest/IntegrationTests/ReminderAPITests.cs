@@ -30,7 +30,6 @@ namespace PillPalTest.IntegrationTests
         {
             var medicine = new CreateMedicineDto()
             {
-                ActiveIngredients = ["eota"],
                 Description = "uehotuoe",
                 Manufacturer = "euohtnuhoe",
                 Name = "ueohtnuheont",
