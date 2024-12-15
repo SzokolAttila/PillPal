@@ -33,7 +33,6 @@ namespace PillPalTest.IntegrationTests
                 Description = "uehotuoe",
                 Manufacturer = "euohtnuhoe",
                 Name = "ueohtnuheont",
-                PackageSizes = [10],
                 PackageUnit = "mg",
             };
             medicineHandler.CreateMedicine(medicine, adminToken);

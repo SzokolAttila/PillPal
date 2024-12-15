@@ -29,7 +29,7 @@ namespace PillPalAPI.Model
             builder.Entity<MedicineSideEffect>().HasKey(x => x.Id);
             builder.Entity<MedicineSideEffect>()
                 .HasOne(x => x.Medicine)
-                .WithMany(x => x.SideEffects)
+                .WithMany(x => x.MedicineSideEffects)
                 .HasForeignKey(x => x.MedicineId);
             builder.Entity<MedicineSideEffect>()
                 .HasOne(x => x.SideEffect)
@@ -42,7 +42,7 @@ namespace PillPalAPI.Model
             builder.Entity<MedicineActiveIngredient>().HasKey(x => x.Id);
             builder.Entity<MedicineActiveIngredient>()
                 .HasOne(x => x.Medicine)
-                .WithMany(x => x.ActiveIngredients)
+                .WithMany(x => x.MedicineActiveIngredients)
                 .HasForeignKey(x => x.MedicineId);
             builder.Entity<MedicineActiveIngredient>()
                 .HasOne(x => x.ActiveIngredient)
@@ -60,8 +60,28 @@ namespace PillPalAPI.Model
                 .HasOne(x => x.RemedyFor)
                 .WithMany(x => x.MedicineRemedyForAilments)
                 .HasForeignKey(x => x.RemedyForId);
+
+            builder.Entity<Medicine>().Navigation(x => x.PackageSizes).AutoInclude();
+            builder.Entity<Medicine>()
+                .HasMany(x => x.ActiveIngredients)
+                .WithMany(x => x.Medicines)
+                .UsingEntity<MedicineActiveIngredient>();
+            builder.Entity<Medicine>().Navigation(x => x.ActiveIngredients).AutoInclude();
+            builder.Entity<Medicine>()
+                .HasMany(x => x.SideEffects)
+                .WithMany(x => x.Medicines)
+                .UsingEntity<MedicineSideEffect>();
+            builder.Entity<Medicine>().Navigation(x => x.SideEffects).AutoInclude();
+            builder.Entity<Medicine>()
+                .HasMany(x => x.RemedyForAilments)
+                .WithMany(x => x.Medicines)
+                .UsingEntity<MedicineRemedyFor>();
+            builder.Entity<Medicine>().Navigation(x => x.RemedyForAilments).AutoInclude();
+
+            builder.Entity<PackageSize>().HasKey(x => x.Id);
         }
         public DbSet<SideEffect> SideEffects { get; set; }
+        public DbSet<PackageSize> PackageSizes { get; set; }
         public DbSet<RemedyFor> RemedyForAilments { get; set; }
         public DbSet<MedicineSideEffect> MedicineSideEffects { get; set; }
         public DbSet<User> Users { get; set; }

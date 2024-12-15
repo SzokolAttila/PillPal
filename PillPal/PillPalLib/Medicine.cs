@@ -6,21 +6,19 @@ namespace PillPalLib
     public class Medicine : IIdentified
     {
         [JsonConstructor]
-        public Medicine(int id, string name, string description, int[] packageSizes, string manufacturer, string packageUnit)
+        public Medicine(int id, string name, string description, string manufacturer, string packageUnit)
         {
             Id = id;
             Name = name;
             Description = description;
-            PackageSizes = packageSizes;
             Manufacturer = manufacturer;
             PackageUnit = packageUnit;
         }
 
-        public Medicine(string name, string description, int[] packageSizes, string manufacturer, string packageUnit)
+        public Medicine(string name, string description, string manufacturer, string packageUnit)
         {
             Name = name;
             Description = description;
-            PackageSizes = packageSizes;
             Manufacturer = manufacturer;
             PackageUnit = packageUnit;
         }
@@ -28,15 +26,18 @@ namespace PillPalLib
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int[] PackageSizes { get; set; }
         public string Manufacturer { get; set; }
         public string PackageUnit { get; set; }
+        public List<PackageSize> PackageSizes { get; set; } = [];
+        public List<SideEffect> SideEffects { get; set; } = [];
+        public List<ActiveIngredient> ActiveIngredients { get; set; } = [];
+        public List<RemedyFor> RemedyForAilments { get; set; } = [];
         [JsonIgnore]
         public List<Reminder> Reminders { get; set; } = [];
         [JsonIgnore]
-        public List<MedicineSideEffect> SideEffects { get; set; } = [];
+        public List<MedicineSideEffect> MedicineSideEffects { get; set; } = [];
         [JsonIgnore]
-        public List<MedicineActiveIngredient> ActiveIngredients { get; set; } = [];
+        public List<MedicineActiveIngredient> MedicineActiveIngredients { get; set; } = [];
         [JsonIgnore]
         public List<MedicineRemedyFor> MedicineRemedyForAilments { get; set; } = [];
     }

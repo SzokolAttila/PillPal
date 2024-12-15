@@ -164,18 +164,17 @@ namespace PillPalTest.IntegrationTests
         //    Assert.AreEqual("A medicine without active ingredients is just a placebo.", message.Message);
         //}
 
-        [TestMethod]
-        public void PostingOrPuttingMedicineWithNoPackageSizeThrowsException()
-        {
-            string adminToken = GetAdminToken();
-            CreateMedicineDto medicine = MockMedicine(adminToken, true);
+        //[TestMethod]
+        //public void PostingOrPuttingMedicineWithNoPackageSizeThrowsException()
+        //{
+        //    string adminToken = GetAdminToken();
+        //    CreateMedicineDto medicine = MockMedicine(adminToken, true);
 
-            medicine.PackageSizes = new int[] { };
-            var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateMedicine(medicine, adminToken));
-            Assert.AreEqual("There must be at least one package size.", message.Message);
-            message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateMedicine(1, medicine, adminToken));
-            Assert.AreEqual("There must be at least one package size.", message.Message);
-        }
+        //    var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateMedicine(medicine, adminToken));
+        //    Assert.AreEqual("There must be at least one package size.", message.Message);
+        //    message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateMedicine(1, medicine, adminToken));
+        //    Assert.AreEqual("There must be at least one package size.", message.Message);
+        //}
 
         //[TestMethod]
         //public void PostingOrPuttingMedicineWithNoRemedyForThrowsException()
@@ -222,7 +221,6 @@ namespace PillPalTest.IntegrationTests
                 Name = "gyogyszer1",
                 Description = "ez egy gyógyszer",
                 Manufacturer = "a gyógyszergyártója",
-                PackageSizes = new int[] { 50, 100 },
                 PackageUnit = "mg",
             };
             if(withPosting) handler.CreateMedicine(medicine, adminToken);

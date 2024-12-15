@@ -52,6 +52,7 @@ public class Program
         builder.Services.AddScoped<IJoinStore<MedicineActiveIngredient>, MedicineActiveIngredientRepository>();
         builder.Services.AddScoped<IJoinStore<MedicineSideEffect>, MedicineSideEffectRepository>();
         builder.Services.AddScoped<IJoinStore<MedicineRemedyFor>, MedicineRemedyForRepository>();
+        builder.Services.AddScoped<IJoinStore<PackageSize>, PackageSizeRepository>();
         builder.Services.AddScoped<IItemStore<User>, UserRepository>();
         builder.Services.AddValidatorsFromAssemblyContaining<UserValidator>();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

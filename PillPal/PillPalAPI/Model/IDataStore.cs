@@ -13,5 +13,6 @@ namespace PillPalAPI.Model
         public IDCollection<MedicineActiveIngredient> MedicineActiveIngredients { get; }
         public IDCollection<MedicineRemedyFor> MedicineRemedyForAilments { get; }
         public IDCollection<RemedyFor> RemedyForAilments { get; }
+        public IDCollection<PackageSize> PackageSizes { get; }
     }
 }

@@ -14,5 +14,7 @@ namespace PillPalLib
         public string Effect {  get; set; } = string.Empty;
         [JsonIgnore]
         public List<MedicineSideEffect> MedicineSideEffects { get; set; } = [];
+        [JsonIgnore]
+        public List<Medicine> Medicines { get; set; } = [];
     }
 }
