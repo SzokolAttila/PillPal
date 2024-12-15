@@ -47,6 +47,7 @@ public class Program
         builder.Services.AddScoped<IItemStore<Medicine>, MedicineRepository>();
         builder.Services.AddScoped<IItemStore<SideEffect>, SideEffectRepository>();
         builder.Services.AddScoped<IItemStore<ActiveIngredient>, ActiveIngredientRepository>();
+        builder.Services.AddScoped<IItemStore<RemedyFor>, RemedyForRepository>();
         builder.Services.AddScoped<IJoinStore<Reminder>, ReminderRepository>();
         builder.Services.AddScoped<IJoinStore<MedicineActiveIngredient>, MedicineActiveIngredientRepository>();
         builder.Services.AddScoped<IJoinStore<MedicineSideEffect>, MedicineSideEffectRepository>();

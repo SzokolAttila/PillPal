@@ -47,8 +47,7 @@ namespace PillPalAPI.Controllers
                 return BadRequest(result);
 
             Medicine medicine = new(medicineDto.Name, medicineDto.Description,
-                medicineDto.PackageSizes, medicineDto.Manufacturer,
-                medicineDto.RemedyFor, medicineDto.PackageUnit);
+                medicineDto.PackageSizes, medicineDto.Manufacturer, medicineDto.PackageUnit);
             
             if (_medicineRepository.Add(medicine))
                 return Ok(medicine);
@@ -60,17 +59,18 @@ namespace PillPalAPI.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] CreateMedicineDto medicineDto)
         {
+            if (_medicineRepository.Get(id) == null)
+                return NotFound();
             var result = _validator.Validate(medicineDto);
             if(!result.IsValid)
                 return BadRequest(result);
             
             Medicine medicine = new(id, medicineDto.Name, medicineDto.Description,
-                medicineDto.PackageSizes, medicineDto.Manufacturer,
-                medicineDto.RemedyFor, medicineDto.PackageUnit);
+                medicineDto.PackageSizes, medicineDto.Manufacturer, medicineDto.PackageUnit);
 
             if (_medicineRepository.Update(medicine))
                 return Ok(medicine);
-            return NotFound();
+            return BadRequest("Something went wrong.");
         }
 
         // DELETE api/<MedicineController>/5

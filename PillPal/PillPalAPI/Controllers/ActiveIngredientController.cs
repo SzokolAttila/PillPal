@@ -62,6 +62,8 @@ namespace PillPalAPI.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Put(int id, [FromBody] CreateActiveIngredientDto createDto)
         {
+            if (_activeIngredientRepository.Get(id) == null)
+                return NotFound();
             var result = _validator.Validate(createDto);
             if (!result.IsValid)
                 return BadRequest(result);
@@ -74,7 +76,7 @@ namespace PillPalAPI.Controllers
 
             if (_activeIngredientRepository.Update(activeIngredient))
                 return Ok(activeIngredient);
-            return NotFound();
+            return BadRequest("Something went wrong.");
         }
 
         // DELETE api/<ActiveIngredientController>/5

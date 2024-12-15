@@ -7,6 +7,5 @@
         public int[] PackageSizes { get; set; } = [];
         public string PackageUnit { get; set; } = "";
         public string Manufacturer { get; set; } = "";
-        public string[] RemedyFor { get; set; } = [];
     }
 }

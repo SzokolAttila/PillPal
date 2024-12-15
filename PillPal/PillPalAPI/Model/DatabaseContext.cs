@@ -50,6 +50,7 @@ namespace PillPalAPI.Model
                 .HasForeignKey(x => x.ActiveIngredientId);
         }
         public DbSet<SideEffect> SideEffects { get; set; }
+        public DbSet<RemedyFor> RemedyForAilments { get; set; }
         public DbSet<MedicineSideEffect> MedicineSideEffects { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Reminder> Reminders { get; set; }

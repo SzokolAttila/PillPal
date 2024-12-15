@@ -61,6 +61,8 @@ namespace PillPalAPI.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Put(int id, [FromBody] CreateSideEffectDto sideEffectDto)
         {
+            if (_sideEffectRepository.Get(id) == null)
+                return NotFound();
             var result = _validator.Validate(sideEffectDto);
             if (!result.IsValid)
                 return BadRequest(result);
@@ -73,7 +75,7 @@ namespace PillPalAPI.Controllers
 
             if (_sideEffectRepository.Update(sideEffect))
                 return Ok(sideEffect);
-            return NotFound();
+            return BadRequest("Something went wrong.");
         }
 
         // DELETE api/<SideEffectController>/5
