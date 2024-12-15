@@ -15,6 +15,7 @@ namespace PillPalAPI.Model
         public IDCollection<MedicineActiveIngredient> MedicineActiveIngredients { get; }
 
         public IDCollection<RemedyFor> RemedyForAilments { get; }
+        public IDCollection<MedicineRemedyFor> MedicineRemedyForAilments { get; }   
 
         public DataStore(DatabaseContext context)
         {
@@ -26,6 +27,7 @@ namespace PillPalAPI.Model
             ActiveIngredients = new IDCollection<ActiveIngredient> (context.ActiveIngredients);
             MedicineActiveIngredients = new IDCollection<MedicineActiveIngredient>(context.MedicineActiveIngredients);
             RemedyForAilments = new IDCollection<RemedyFor> (context.RemedyForAilments);
+            MedicineRemedyForAilments = new IDCollection<MedicineRemedyFor>(context.MedicineRemedyForAilments);
         }
     }
 }

@@ -66,7 +66,7 @@ namespace PillPalAPI.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Put(int id, [FromBody] CreateMedicineActiveIngredientDto createDto)
         {
-            if (_joinRepository.Get(id).FirstOrDefault(x => x.ActiveIngredientId == createDto.ActiveIngredientId) == null)
+            if (_joinRepository.GetAll().FirstOrDefault(x => x.Id == id) == null)
                 return NotFound();
             if (_medicineRepository.Get(createDto.MedicineId) == null)
                 return BadRequest("Medicine with the given ID doesn't exist.");
@@ -87,7 +87,7 @@ namespace PillPalAPI.Controllers
 
             if (_joinRepository.Update(activeIngredient))
                 return Ok(activeIngredient);
-            return BadRequest("MedicineActiveIngredient with the given ID already exists.");
+            return BadRequest("Something went wrong.");
         }
 
         // DELETE api/<MedicineActiveIngredientController>/5

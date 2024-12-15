@@ -37,5 +37,7 @@ namespace PillPalLib
         public List<MedicineSideEffect> SideEffects { get; set; } = [];
         [JsonIgnore]
         public List<MedicineActiveIngredient> ActiveIngredients { get; set; } = [];
+        [JsonIgnore]
+        public List<MedicineRemedyFor> MedicineRemedyForAilments { get; set; } = [];
     }
 }

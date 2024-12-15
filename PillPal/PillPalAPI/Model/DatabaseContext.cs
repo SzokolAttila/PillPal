@@ -14,7 +14,7 @@ namespace PillPalAPI.Model
 
             builder.Entity<Reminder>().Navigation(x => x.User).AutoInclude();
             builder.Entity<Reminder>().Navigation(x => x.Medicine).AutoInclude();
-            builder.Entity<Reminder>(x => x.HasKey(y => y.Id)); 
+            builder.Entity<Reminder>(x => x.HasKey(y => y.Id));
             builder.Entity<Reminder>()
                 .HasOne(x => x.Medicine)
                 .WithMany(x => x.Reminders)
@@ -48,6 +48,18 @@ namespace PillPalAPI.Model
                 .HasOne(x => x.ActiveIngredient)
                 .WithMany(x => x.ActiveIngredients)
                 .HasForeignKey(x => x.ActiveIngredientId);
+
+            builder.Entity<MedicineRemedyFor>().Navigation(x => x.Medicine).AutoInclude();
+            builder.Entity<MedicineRemedyFor>().Navigation(x => x.RemedyFor).AutoInclude();
+            builder.Entity<MedicineRemedyFor>().HasKey(x => x.Id);
+            builder.Entity<MedicineRemedyFor>()
+                .HasOne(x => x.Medicine)
+                .WithMany(x => x.MedicineRemedyForAilments)
+                .HasForeignKey(x => x.MedicineId);
+            builder.Entity<MedicineRemedyFor>()
+                .HasOne(x => x.RemedyFor)
+                .WithMany(x => x.MedicineRemedyForAilments)
+                .HasForeignKey(x => x.RemedyForId);
         }
         public DbSet<SideEffect> SideEffects { get; set; }
         public DbSet<RemedyFor> RemedyForAilments { get; set; }
@@ -57,5 +69,6 @@ namespace PillPalAPI.Model
         public DbSet<ActiveIngredient> ActiveIngredients { get; set; }
         public DbSet<MedicineActiveIngredient> MedicineActiveIngredients { get; set; }
         public DbSet<Medicine> Medicines { get; set; }
+        public DbSet<MedicineRemedyFor> MedicineRemedyForAilments { get; set; }
     }
 }
