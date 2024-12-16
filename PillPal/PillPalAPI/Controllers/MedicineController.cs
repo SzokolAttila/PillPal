@@ -5,7 +5,6 @@ using PillPalAPI.Model;
 using PillPalAPI.Repositories;
 using PillPalLib;
 using PillPalLib.DTOs.MedicineDTOs;
-using PillPalLib.Mappers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,7 +24,7 @@ namespace PillPalAPI.Controllers
         // GET: api/<MedicineController>
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Get() => Ok(_medicineRepository.GetAll().Select(x => x.ToMedicineDto()));
+        public IActionResult Get() => Ok(_medicineRepository.GetAll());
 
         // GET api/<MedicineController>/5
         [HttpGet("{id}")]
@@ -35,7 +34,7 @@ namespace PillPalAPI.Controllers
             var medicine = _medicineRepository.Get(id);
             if (medicine == null) 
                 return NotFound();
-            return Ok(medicine.ToMedicineDto());
+            return Ok(medicine);
         }
 
         // POST api/<MedicineController>
@@ -50,7 +49,7 @@ namespace PillPalAPI.Controllers
             Medicine medicine = new(medicineDto.Name, medicineDto.Description, medicineDto.Manufacturer, medicineDto.PackageUnit);
             
             if (_medicineRepository.Add(medicine))
-                return Ok(medicine.ToMedicineDto());
+                return Ok(medicine);
             return BadRequest("Medicine with this ID already exists.");
         }
 
@@ -68,7 +67,7 @@ namespace PillPalAPI.Controllers
             Medicine medicine = new(id, medicineDto.Name, medicineDto.Description, medicineDto.Manufacturer, medicineDto.PackageUnit);
 
             if (_medicineRepository.Update(medicine))
-                return Ok(medicine.ToMedicineDto());
+                return Ok(medicine);
             return BadRequest("Something went wrong.");
         }
 

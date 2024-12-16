@@ -1,4 +1,5 @@
 ﻿using PillPalLib.Interfaces;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json.Serialization;
 
 namespace PillPalLib
@@ -28,10 +29,19 @@ namespace PillPalLib
         public string Description { get; set; }
         public string Manufacturer { get; set; }
         public string PackageUnit { get; set; }
-        public List<PackageSize> PackageSizes { get; set; } = [];
-        public List<SideEffect> SideEffects { get; set; } = [];
-        public List<ActiveIngredient> ActiveIngredients { get; set; } = [];
-        public List<RemedyFor> RemedyForAilments { get; set; } = [];
+        public IEnumerable<string> SideEffects => SideEffectObjects.Select(x => x.Effect);
+        public IEnumerable<int> PackageSizes => PackageSizeObjects.Select(x => x.Size);
+        public IEnumerable<string> ActiveIngredients => ActiveIngredientObjects.Select(x => x.Ingredient);
+        public IEnumerable<string> RemedyForAilments => RemedyForObjects.Select(x => x.Ailment);
+
+        [JsonIgnore]
+        public List<PackageSize> PackageSizeObjects { get; set; } = [];
+        [JsonIgnore]
+        public List<SideEffect> SideEffectObjects { get; set; } = [];
+        [JsonIgnore]
+        public List<ActiveIngredient> ActiveIngredientObjects { get; set; } = [];
+        [JsonIgnore]
+        public List<RemedyFor> RemedyForObjects { get; set; } = [];
         [JsonIgnore]
         public List<Reminder> Reminders { get; set; } = [];
         [JsonIgnore]

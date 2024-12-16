@@ -61,22 +61,27 @@ namespace PillPalAPI.Model
                 .WithMany(x => x.MedicineRemedyForAilments)
                 .HasForeignKey(x => x.RemedyForId);
 
-            builder.Entity<Medicine>().Navigation(x => x.PackageSizes).AutoInclude();
+            builder.Entity<Medicine>().Navigation(x => x.PackageSizeObjects).AutoInclude();
             builder.Entity<Medicine>()
-                .HasMany(x => x.ActiveIngredients)
+                .HasMany(x => x.ActiveIngredientObjects)
                 .WithMany(x => x.Medicines)
                 .UsingEntity<MedicineActiveIngredient>();
-            builder.Entity<Medicine>().Navigation(x => x.ActiveIngredients).AutoInclude();
+            builder.Entity<Medicine>().Navigation(x => x.ActiveIngredientObjects).AutoInclude();
             builder.Entity<Medicine>()
-                .HasMany(x => x.SideEffects)
+                .HasMany(x => x.SideEffectObjects)
                 .WithMany(x => x.Medicines)
                 .UsingEntity<MedicineSideEffect>();
-            builder.Entity<Medicine>().Navigation(x => x.SideEffects).AutoInclude();
+            builder.Entity<Medicine>().Navigation(x => x.SideEffectObjects).AutoInclude();
             builder.Entity<Medicine>()
-                .HasMany(x => x.RemedyForAilments)
+                .HasMany(x => x.RemedyForObjects)
                 .WithMany(x => x.Medicines)
                 .UsingEntity<MedicineRemedyFor>();
-            builder.Entity<Medicine>().Navigation(x => x.RemedyForAilments).AutoInclude();
+            builder.Entity<Medicine>().Navigation(x => x.RemedyForObjects).AutoInclude();
+
+            builder.Entity<SideEffect>().Navigation(x => x.Medicines).EnableLazyLoading();
+            builder.Entity<RemedyFor>().Navigation(x => x.Medicines).EnableLazyLoading();
+            builder.Entity<ActiveIngredient>().Navigation(x => x.Medicines).EnableLazyLoading();
+            builder.Entity<SideEffect>().Navigation(x => x.Medicines).EnableLazyLoading();
 
             builder.Entity<PackageSize>().HasKey(x => x.Id);
         }
