@@ -11,3 +11,17 @@ User class consists of Id, Username and Password properties. Our password is a b
 Medicine class consists of Id, Name, Description, Manufacturer, PackageUnit, PackageSizes, SideEffects, ActiveIngredients and RemedyForAilments properties. PackageUnit stores the unit of the medicine's PackageSizes which is either "ml" or "mg". PackageSizes, SideEffects, ActiveIngredients and RemedyForAilments are multi-valued fields so they have a separate table and joined together with medicine. Medicine class has 2 constructors: one JsonConstructor with id and one constructor without id. Multi-valued fields are set from outside and not from constructor.
 ### Reminder
 Reminder table is a join-table itself so its class behaves the same way. It has the following properties: Id, UserId, User, MedicineId, Medicine, When, DoseCount, DoseMg, TakingMethod. User and Medicine properties are nullable as they're set from outside based on UserId and MedicineId. DoseCount stores the quantity to take in and TakingMethod stores how to take it in. 
+### ExceptionHandler
+
+### API handlers
+For handling different request towards the API from the backend we created API handlers to make it easier and avoid code repeating. They also handle different occuring issues and throws exception with the proper error message.
+#### MedicineAPIHandler
+Through constructor base url and HttpClient can be passed to make testing easier for us. If HttpClient is not given then it is created with the base url.
+Methods: 
+- **GetMedicine(int id)** method which gives back the medicine with the given id. And throws exception if something goes wrong.
+- **GetMedicines()** method returns all the medicines. Throws exception in case of any issue.
+- **CreateMedicine(Medicine medicine, string auth)** void method sets the authorization in the header to the given bearer token as you need to be admin to access posting; Then posts the serialized Medicine object. In case of any issues function throws exception (usually it somehow connects to authorization).
+- **UpdateMedicine(int id, Medicine medicine, string auth)** void method sets the authorization in the header to the given bearer token as you need to be admin to access putting; Then puts the serialized Medicine object to the given id. In case of any issues function throws exception (usually it somehow connects to authorization).
+- **DeleteMedicine(int id, string auth)** void method sets the authorization in the header to the given bearer token as you need to be admin to access deleting; Then deletes the medicine with the given id. In case of any issues function throws exception (usually it somehow connects to authorization).
+
+## WebAPI
