@@ -12,7 +12,7 @@ Medicine class consists of Id, Name, Description, Manufacturer, PackageUnit, Pac
 ### Reminder
 Reminder table is a join-table itself so its class behaves the same way. It has the following properties: Id, UserId, User, MedicineId, Medicine, When, DoseCount, DoseMg, TakingMethod. User and Medicine properties are nullable as they're set from outside based on UserId and MedicineId. DoseCount stores the quantity to take in and TakingMethod stores how to take it in. 
 ### ExceptionHandler
-
+Our main issue with HttpResponseMessage is that we have a wide range of different structures for different error messages. We created a CheckHttpResponse static method which handles each HttpResponseMessage properly and throws an ArgumentException with the proper error message if the request failed for any reasons. With this static method we can easily handle any error message generally.
 ### API handlers
 For handling different request towards the API from the backend we created API handlers to make it easier and avoid code repeating. They also handle different occuring issues and throws exception with the proper error message.
 #### MedicineAPIHandler
@@ -20,8 +20,25 @@ Through constructor base url and HttpClient can be passed to make testing easier
 Methods: 
 - **GetMedicine(int id)** method which gives back the medicine with the given id. And throws exception if something goes wrong.
 - **GetMedicines()** method returns all the medicines. Throws exception in case of any issue.
-- **CreateMedicine(Medicine medicine, string auth)** void method sets the authorization in the header to the given bearer token as you need to be admin to access posting; Then posts the serialized Medicine object. In case of any issues function throws exception (usually it somehow connects to authorization).
-- **UpdateMedicine(int id, Medicine medicine, string auth)** void method sets the authorization in the header to the given bearer token as you need to be admin to access putting; Then puts the serialized Medicine object to the given id. In case of any issues function throws exception (usually it somehow connects to authorization).
+- **CreateMedicine(MedicineDto medicine, string auth)** void method sets the authorization in the header to the given bearer token as you need to be admin to access posting; Then posts the serialized Medicine object. In case of any issues function throws exception (usually it somehow connects to authorization or validation).
+- **UpdateMedicine(int id, MedicineDto medicine, string auth)** void method sets the authorization in the header to the given bearer token as you need to be admin to access putting; Then puts the serialized Medicine object to the given id. In case of any issues function throws exception (usually it somehow connects to authorization or validation).
 - **DeleteMedicine(int id, string auth)** void method sets the authorization in the header to the given bearer token as you need to be admin to access deleting; Then deletes the medicine with the given id. In case of any issues function throws exception (usually it somehow connects to authorization).
+#### ReminderAPIHandler
+Through constructor base url and HttpClient can be passed to make testing easier for us. If HttpClient is not given then it is created with the base url.
+Methods: 
+- **Get(int id, string auth)** method sets authorization in header, then gives back all reminders for the user with the given id. Needs authentication as a user can only access their own reminders. And throws exception if something goes wrong (usually connected to authorization).
+- **GetAll(string auth)** method sets authorization in header, then returns all reminders. Needs admin authentication as users' reminders are sensitive data. Throws exception in case of any issue (usually connected to authorization).
+- **CreateReminder(ReminderDto reminder, string auth)** void method sets the authorization in the header to the given bearer token as you need to be admin or the user who the reminder belongs to for access of posting; Then posts the serialized Reminder object. In case of any issues function throws exception (usually it somehow connects to authorization or validation).
+- **EditReminder(int id, RemiderDto reminder, string auth)** void method sets the authorization in the header to the given bearer token as you need to be admin or the user who the reminder belongs to for access of putting; Then puts the serialized Reminder object to the user with given id. In case of any issues function throws exception (usually it somehow connects to authorization or validation).
+- **DeleteMedicine(int id, string auth)** void method sets the authorization in the header to the given bearer token as you need to be admin or the user who the reminder belongs to for access of deleting; Then deletes the reminder with the given id. In case of any issues function throws exception (usually it somehow connects to authorization).
+#### UserAPIHandler
+Through constructor base url and HttpClient can be passed to make testing easier for us. If HttpClient is not given then it is created with the base url.
+Methods: 
+- **Login(CreateUserDto user)** method which posts a login with the given username and password, then returns the bearer token on success.
+- **GetUser(int id, string auth)** method sets given authentication in header as you need to be admin or the user themself who's data is accessed. Returns the user with the given id. Throws error if something goes wrong with the request. 
+- **GetUsers(string auth)** method sets given authentication in header as you need to be admin to access all users. Returns all users' data. Throws exception in case of any issue.
+- **CreateUser(CreateUserDto user)** void method posts the serialized User object, this way user can registrate a new account. In case of any issues function throws exception (usually it somehow connects to validation).
+- **UpdateUser(int id, CreateUserDto user, string auth)** void method sets the authorization in the header to the given bearer token as you need to be admin or the user themself to access putting; Then puts the serialized User object to the given id. In case of any issues function throws exception (usually it somehow connects to authorization or validation).
+- **DeleteUser(int id, string auth)** void method sets the authorization in the header to the given bearer token as you need to be admin or the user themself to access deleting; Then deletes the user with the given id. In case of any issues function throws exception (usually it somehow connects to authorization).
 
 ## WebAPI
