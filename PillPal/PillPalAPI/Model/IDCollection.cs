@@ -33,7 +33,6 @@ namespace PillPalLib
             if (values.Any(x => x.Id == item.Id))
                 return false;
             var context = values.Add(item);
-            var state = context.Context.Entry(item).State;
             context.Context.SaveChanges();
             return true;
         }

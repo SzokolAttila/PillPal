@@ -30,12 +30,12 @@ namespace PillPalAPI.Controllers
             _validator = validator;
         }
 
-        // GET: api/<ReminderController>
+        // GET: PillPal/Reminder
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public IActionResult GetAll() => Ok(_reminderRepository.GetAll().ToList());
 
-        // GET: api/<ReminderController>/5
+        // GET: PillPal/Reminder/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -52,7 +52,7 @@ namespace PillPalAPI.Controllers
             return Ok(_reminderRepository.Get(id));
         }
 
-        // POST: api/<ReminderController>/Create
+        // POST: PillPal/Reminder
         [HttpPost]
         public IActionResult Post([FromBody] CreateReminderDto reminderDto)
         {
@@ -90,7 +90,7 @@ namespace PillPalAPI.Controllers
             return BadRequest("Reminder with this ID already exists.");
         }
 
-        // PUT: api/<ReminderController>/5
+        // PUT: PillPal/<Reminder/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] CreateReminderDto reminderDto)
         {
@@ -131,7 +131,7 @@ namespace PillPalAPI.Controllers
             return BadRequest("Something went wrong.");
         }
 
-        // DELETE: api/<ReminderController>/5
+        // DELETE: PillPal/Reminder/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

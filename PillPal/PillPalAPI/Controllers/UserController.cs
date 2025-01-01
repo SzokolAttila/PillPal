@@ -25,12 +25,12 @@ namespace PillPalAPI.Controllers
             _userRepository = userRepository;
             _passwordValidator = passwordValidator;
         }
-        // GET: api/<UserController>
+        // GET: PillPal/User
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public IActionResult Get() => Ok(_userRepository.GetAll());
 
-        // GET api/<UserController>/5
+        // GET PillPal/User/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -50,7 +50,7 @@ namespace PillPalAPI.Controllers
             return Ok(user);
         }
 
-        // POST api/<UserController>
+        // POST PillPal/User
         [HttpPost]
         public IActionResult Post([FromBody] CreateUserDto userDto)
         {
@@ -63,7 +63,7 @@ namespace PillPalAPI.Controllers
             return BadRequest("User with this ID already exists.");
         }
 
-        // PUT api/<UserController>/5
+        // PUT PillPal/User/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] CreateUserDto userDto)
         {
@@ -99,7 +99,7 @@ namespace PillPalAPI.Controllers
             return BadRequest("Something went wrong.");
         }
 
-        // DELETE api/<UserController>/5
+        // DELETE PillPal/User/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

@@ -21,12 +21,12 @@ namespace PillPalAPI.Controllers
             _medicineRepository = medicineRepository;
             _validator = validator;
         }
-        // GET: api/<MedicineController>
+        // GET: PillPal/Medicine
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Get() => Ok(_medicineRepository.GetAll());
 
-        // GET api/<MedicineController>/5
+        // GET PillPal/Medicine/5
         [HttpGet("{id}")]
         [AllowAnonymous]
         public IActionResult Get(int id)
@@ -37,7 +37,7 @@ namespace PillPalAPI.Controllers
             return Ok(medicine);
         }
 
-        // POST api/<MedicineController>
+        // POST PillPal/Medicine
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Post([FromBody] CreateMedicineDto medicineDto)
@@ -53,7 +53,7 @@ namespace PillPalAPI.Controllers
             return BadRequest("Medicine with this ID already exists.");
         }
 
-        // PUT api/<MedicineController>/5
+        // PUT PillPal/Medicine/5
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] CreateMedicineDto medicineDto)
@@ -71,7 +71,7 @@ namespace PillPalAPI.Controllers
             return BadRequest("Something went wrong.");
         }
 
-        // DELETE api/<MedicineController>/5
+        // DELETE PillPal/Medicine/5
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)

@@ -26,7 +26,7 @@ namespace PillPalAPI.Controllers
             jwtOptions = options.Value;
         }
 
-        // POST api/<LoginController>
+        // POST PillPal/Login
         [HttpPost]
         public IActionResult Login([FromBody] CreateUserDto loginUser)
         {
