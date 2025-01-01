@@ -95,6 +95,27 @@ For ReminderController we pass the following objects with dependency injection:
 
 ### Repositories
 Repositories are only responsible for the accessible methods of a model. They all manipulate a single DataStore passed by dependency injection. All repositories are implementing one of the following interfaces: IJoinStore<T>, IItemStore<T>.
+#### UserRepository
+Implements IItemStore<User> with the following methods:
+- **Add(User item)** add user to the DataStore Users IDCollection. Returns true on success and false on fail.
+- **Delete(int id)** remove user with id from DataStore Users IDCollection. Returns true on success and false on fail.
+- **Get(int id)** returns user by id if exists in DataStore Users IDCollection using indexer.
+- **GetAll()** returns all users of DataStore Users IDCollection.
+- **Update(User item)** modify existing user with the same id in DataStore Users IDCollection. Returns true on success and false on fail.
+#### MedicineRepository
+Implements IItemStore<Medicine> with the following methods:
+- **Add(Medicine item)** add medicine to the DataStore Medicines IDCollection. Returns true on success and false on fail.
+- **Delete(int id)** remove medicine with id from DataStore Medicines IDCollection. Returns true on success and false on fail.
+- **Update(Medicine item)** modify existing medicine with the same id in DataStore Medicines IDCollection. Returns true on success and false on fail.
+- **GetAll()** returns all medicine of DataStore Medicines IDCollection.
+- **Get(int id)** returns medicine by id if exists in DataStore Medicines IDCollection using indexer.
+#### ReminderRepository
+Implements IJoinStore<Reminder> with the following methods:
+- **Add(Reminder item)** add reminder to the DataStore Reminders IDCollection. Returns true on success and false on fail.
+- **Delete(int id)** remove reminder with id from DataStore Reminders IDCollection. Returns true on success and false on fail.
+- **Get(int id)** returns reminders where UserId is the given id in DataStore Reminders IDCollection.
+- **GetAll()** returns all reminders of DataStore Reminders IDCollection.
+- **Update(Reminder item)** modify existing reminder with the same id in DataStore Reminders IDCollection. Returns true on success and false on fail.
 
 ### Interface hierarchy
 #### IBaseStore<T>
