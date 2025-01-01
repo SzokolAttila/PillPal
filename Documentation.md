@@ -45,6 +45,53 @@ Methods:
 ## WebAPI
 ### Controllers
 We use controllers for each model to generate endpoints for the API. Controllers handle the proper validation of the data, so they get the matching validator from dependency injection in constructor. As we are aware of different access levels and we have a log in system we assess the required authorization in controllers. Controllers manipulate only their own repository via dependency injection to fulfill single-responsibility.
+#### UserController
+For UserController we pass the following objects with dependency injection:
+- An IItemStore<User> as repository
+- A validator for CreateUserDto
+- A validator for passwords
+
+| Request | URL | Authorization | Body | Description |
+| ------- | ------- | ------- | ------- | ------- |
+| GET | /PillPal/User | Admin | Empty | Get all users |
+| GET | /PillPal/User/{id} | Admin or the requested user | Empty | Get user by id |
+| POST | /PillPal/User | None | CreateUserDto which is validated and throws BadRequest if invalid | Registrate new user |
+| PUT | /PillPal/User/{id} | Admin or the requested user | CreateUserDto which is validated and throws BadRequest if invalid | Update a user's username or password. If username didn't change, then only validate the password, otherwise validate the new username as well. |
+| DELETE | /PillPal/User/{id} | Admin or the requested user | Empty | Remove user by id |
+#### LoginController
+For LoginController we pass the following objects with dependency injection:
+- An IItemStore<User> as repository
+- IOptions<JwtOptions> for JwtToken
+
+| Request | URL | Authorization | Body | Description |
+| ------- | ------- | ------- | ------- | ------- |
+| POST | /PillPal/Login | None | CreateUserDto for user login | If username exists and password matches with it, returns a proper JwtToken |
+#### MedicineController
+For MedicineController we pass the following objects with dependency injection:
+- An IItemStore<Medicine> as repository
+- A validator for CreateMedicineDto
+
+| Request | URL | Authorization | Body | Description |
+| ------- | ------- | ------- | ------- | ------- |
+| GET | /PillPal/Medicine | None | Empty | Get all medicines |
+| GET | /PillPal/Medicine/{id} | None | Empty | Get medicine by id |
+| POST | /PillPal/Medicine | Admin | CreateMedicineDto which is validated and throws BadRequest if invalid | Add new medicine |
+| PUT | /PillPal/Medicine/{id} | Admin | CreateMedicineDto which is validated and throws BadRequest if invalid | Update an existing medicine by id |
+| DELETE | /PillPal/Medicine/{id} | Admin | Empty | Remove medicine by id |
+#### ReminderController
+For ReminderController we pass the following objects with dependency injection:
+- An IJoinStore<Reminder> as repository
+- An IItemStore<User> as repository
+- An IItemStore<Medicine> as repository
+- A validator for CreateReminderDto
+
+| Request | URL | Authorization | Body | Description |
+| ------- | ------- | ------- | ------- | ------- |
+| GET | /PillPal/Reminder | Admin | Empty | Get all reminders |
+| GET | /PillPal/Reminder/{userid} | Admin or the user with this id | Empty | Get all reminders of the user with this id |
+| POST | /PillPal/Reminder | Admin or the user who we post the reminder to | CreateReminderDto which is validated and throws BadRequest if invalid | Check if new reminder is valid and user and medicine both exists, then add the new reminder |
+| PUT | /PillPal/Reminder/5 | Admin or the user who the reminder belongs to | CreateReminderDto which is validated and throws BadRequest if invalid | Check if reminder exists and user and medicine also exists, then update the existing reminder |
+| DELETE | /PillPal/User/5 | Admin or the user who the reminder belongs to | Empty | Remove reminder by id |
 
 ### Repositories
 Repositories are only responsible for the accessible methods of a model. They all manipulate a single DataStore passed by dependency injection. All repositories are implementing one of the following interfaces: IJoinStore<T>, IItemStore<T>.
