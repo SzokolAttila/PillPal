@@ -62,3 +62,15 @@ This interface inherits from the IBaseStore<T>. IItemStore<T> is implemented by 
 #### IJoinStore<T>
 This interface inherits from the IBaseStore<T>. IJoinStore<T> is implemented by repositories which deal with join tables, so its Get method acts a bit differently.
 - **Get(int id)** returns all the items with the given id as it is a many-to-many connection.
+
+### DataStore
+This class stores all the data. It has an IDCollection for each table of the database. Using the DatabaseContext object passed in the constructor it initializes the IDCollections with the DbSet<T> objects of the DatabaseContext.
+
+### IDCollection
+A generic collection which manipulates the data using the DbSet<T> object passed in its constructor. This is the closest class to the database as it directly handles DbSet<T> objects. Its generic type must be a class, which implements IIdentified, so it has an Id property. It has the folllowing methods and properties:
+- **Values** is a property which gives back all items from the database table of the generic type as an IEnumerable<T>. We forbid tracking as this auto-tracking can easily cause many "invisible" issues. Returned items are ordered by id.
+- **Size** property which gives back the number of items in a table as an integer.
+- **Remove(int id)** at first, the method checks if the item (with the given id) exists and returns false instantly if not; then it removes the item from the DbSet<T> and save the changes to its context. If the process was successful, it returns true.
+- **Add(T item)** first of all, it checks if the item with this id already exists and returns false if the given item's id is already used; if it's unique, the method adds the given item to the DbSet<T> and saves the changes of its context. If the method was successful, it returns true.
+- **Replace(T item)** firstly, it checks if the item with this id exists and returns false if no item found; if item exists, the method updates it with the data of the given item via the DbSet<T> and saves the changes of its context. If the method was successful, it returns true.
+- **Indexer** returns the item with the given id or null if it's not found.
