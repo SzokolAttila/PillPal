@@ -43,6 +43,27 @@ Methods:
 - **DeleteUser(int id, string auth)** void method sets the authorization in the header to the given bearer token as you need to be admin or the user themself to access deleting; Then deletes the user with the given id. In case of any issues function throws exception (usually it somehow connects to authorization).
 
 ## WebAPI
+### Validators
+We use different validators for each model, so we can check if user adds a new item or modifies an existing one in the proper way. Controllers get the validators via dependency injection and validates data passed in body for POST and PUT requests.
+#### UserValidator
+User validator can be used to validate CreateUserDto object and has the following rules:
+- Username needs to be between 6 and 20 characters;
+- Username must be unique;
+- Username must only consist of digits and letters;
+- Password must contain at least one digit, one lowercase letter, one uppercase letter, one special character be at least 8 characters long to make sure its secure enough.
+#### PasswordValidator
+Password validator can be used to validate a string value and has the following rules:
+- Password must contain at least one digit, one lowercase letter, one uppercase letter, one special character be at least 8 characters long to make sure its secure enough.
+#### MedicineValidator
+Medicine validator can be used to validate CreateMedicineDto and has the following rules:
+- Medicine name must be between 5 and 30 characters;
+- Medicine's manufacturer name must be between 5 and 30 characters;
+- Medicine's package unit must be either mg or ml as we only measure medicine in these two units.
+#### ReminderValidator
+Reminder validator can be used to validate CreateReminderDto and has the following rules:
+- Reminder's DoseMg must be greater than 0 as it would make no sense otherwise;
+- Reminder's DoseCount must be greater than 0 as it would make no sense otherwise.
+
 ### Controllers
 We use controllers for each model to generate endpoints for the API. Controllers handle the proper validation of the data, so they get the matching validator from dependency injection in constructor. As we are aware of different access levels and we have a log in system we assess the required authorization in controllers. Controllers manipulate only their own repository via dependency injection to fulfill single-responsibility.
 #### UserController
