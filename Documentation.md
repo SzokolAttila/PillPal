@@ -12,7 +12,8 @@ Medicine class consists of Id, Name, Description, Manufacturer, PackageUnit, Pac
 ### Reminder
 Reminder table is a join-table itself so its class behaves the same way. It has the following properties: Id, UserId, User, MedicineId, Medicine, When, DoseCount, DoseMg, TakingMethod. User and Medicine properties are nullable as they're set from outside based on UserId and MedicineId. DoseCount stores the quantity to take in and TakingMethod stores how to take it in. 
 ### ExceptionHandler
-Our main issue with HttpResponseMessage is that we have a wide range of different structures for different error messages. We created a CheckHttpResponse static method which handles each HttpResponseMessage properly and throws an ArgumentException with the proper error message if the request failed for any reasons. With this static method we can easily handle any error message generally.
+Our main issue with HttpResponseMessage is that we have a wide range of different structures for different error messages. We created a CheckHttpResponse(HttpResponseMessage message) static method which handles each HttpResponseMessage properly and throws an ArgumentException with the proper error message if the request failed for any reasons. With this static method we can easily handle any error message generally.
+
 ### API handlers
 For handling different request towards the API from the backend we created API handlers to make it easier and avoid code repeating. They also handle different occuring issues and throws exception with the proper error message.
 #### MedicineAPIHandler
@@ -42,3 +43,22 @@ Methods:
 - **DeleteUser(int id, string auth)** void method sets the authorization in the header to the given bearer token as you need to be admin or the user themself to access deleting; Then deletes the user with the given id. In case of any issues function throws exception (usually it somehow connects to authorization).
 
 ## WebAPI
+### Controllers
+We use controllers for each model to generate endpoints for the API. Controllers handle the proper validation of the data, so they get the matching validator from dependency injection in constructor. As we are aware of different access levels and we have a log in system we assess the required authorization in controllers. Controllers manipulate only their own repository via dependency injection to fulfill single-responsibility.
+
+### Repositories
+Repositories are only responsible for the accessible methods of a model. They all manipulate a single DataStore passed by dependency injection. All repositories are implementing one of the following interfaces: IJoinStore<T>, IItemStore<T>.
+
+### Interface hierarchy
+#### IBaseStore<T>
+First of all, we have an IBaseStore<T> generic interface which has four methods. These methods are implemented by all the repositories. The generic type is IIdentified, which means it has an Id property.
+- **GetAll()** returns all items of the generic type.
+- **Add(T item)** tries to add an item to the repository of the generic type; returns true if it was successful and false if not.
+- **Update(T item)** tries to modify the item (with the same id) in the repository of the generic type; returns true if it was successful and false if not.
+- **Delete(int id)** tries to remove the item (with the given id) in the repository of the generic type; return true if it was successful and false if not.
+#### IItemStore<T>
+This interface inherits from the IBaseStore<T>. IItemStore<T> is implemented by repositories which only deal with a single model and doesn't need to join tables together.
+- **Get(int id)** returns the item of with the same id; if item doesn't exist, returns null.
+#### IJoinStore<T>
+This interface inherits from the IBaseStore<T>. IJoinStore<T> is implemented by repositories which deal with join tables, so its Get method acts a bit differently.
+- **Get(int id)** returns all the items with the given id as it is a many-to-many connection.
