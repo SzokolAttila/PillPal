@@ -18,7 +18,7 @@ namespace PillPalLib
         {
             this.values = values;
         }
-        public int Size => values.Count();
+        public int Size => Values.Count();
         public bool Remove(int id)
         {
             T? toRemove = Values.FirstOrDefault(x => x.Id == id);
