@@ -11,12 +11,12 @@
 
 | Scope | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
-| Unit test | Indexer finds existing items | Initialize an IDCollection with a medicine | Index the first and the second item | First exists; second is null |
-| Unit test | Items can be added | Initialize an empty IDCollection with zero items | Check the Count; add an item then check again | get 0; then get 1 |
-| Unit test | Items cannot be added twice | Initialize an empty IDCollection and generate a medicine to add | Adding that medicine and check return; add it again and check return | first returns true; second returns false |
-| Unit test | Items can be removed | Initialize an IDCollection with an item | Remove at existing id; remove at non existing id; check count | returns true; returns false; count is 0 |
-| Unit test | Existing item can be updated | Initialize empty IDCollection and add medicine to it; Changing medicine name and replacing it | Get the medicine's name from IDCollection | Medicine's name is the changed name |
-| Unit test | Updating or deleting non existing item returns false | Create an empty IDCollection | Remove from empty collection; updating empty collection | both returns false |
+| Component test | Indexer finds existing items | Initialize an IDCollection with a medicine | Index the first and the second item | First exists; second is null |
+| Component test | Items can be added | Initialize an empty IDCollection with zero items | Check the Count; add an item then check again | get 0; then get 1 |
+| Component test | Items cannot be added twice | Initialize an empty IDCollection and generate a medicine to add | Adding that medicine and check return; add it again and check return | first returns true; second returns false |
+| Component test | Items can be removed | Initialize an IDCollection with an item | Remove at existing id; remove at non existing id; check count | returns true; returns false; count is 0 |
+| Component test | Existing item can be updated | Initialize empty IDCollection and add medicine to it; Changing medicine name and replacing it | Get the medicine's name from IDCollection | Medicine's name is the changed name |
+| Component test | Updating or deleting non existing item returns false | Create an empty IDCollection | Remove from empty collection; updating empty collection | both returns false |
 
 ### MedicineAPI tests (Authorization and validation)
 
