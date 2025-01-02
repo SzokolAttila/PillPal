@@ -105,9 +105,7 @@ namespace PillPalTest.IntegrationTests
         [TestMethod]
         public void LoginExistingUserGivesBackToken()
         {
-            CreateUserDto user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
-            handler.CreateUser(user);
-            Assert.IsTrue(handler.Login(user).Length > 0);
+            Assert.IsTrue(GetUserToken("brownie").Length > 0);
         }
 
         [TestMethod]
@@ -129,22 +127,17 @@ namespace PillPalTest.IntegrationTests
         }
 
         [TestMethod]
-        public void AdminCanGetAllUsers() { 
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
-            handler.CreateUser(admin);
-            var token = handler.Login(admin)!;
-            var result = handler.GetUsers(token);
+        public void AdminCanGetAllUsers() {
+            var adminToken = GetAdminToken();
+            var result = handler.GetUsers(adminToken);
             Assert.IsTrue(result.Count() == 1);
         }
 
         [TestMethod]
         public void AdminCanGetAnyUserData()
         {
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
-            handler.CreateUser(admin);
-            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
-            handler.CreateUser(user);
-            var adminToken = handler.Login(admin);
+            var adminToken = GetAdminToken();
+            GetUserToken("brownie");
             Assert.AreEqual("brownie", handler.GetUser(2, adminToken).UserName);
             Assert.AreEqual("administrator", handler.GetUser(1, adminToken).UserName);
         }
@@ -152,12 +145,9 @@ namespace PillPalTest.IntegrationTests
         [TestMethod]
         public void UserCannotGetOtherUsersData()
         {
-            var user1 = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
-            var user2 = new CreateUserDto() { UserName = "jackie", Password = "Delulu!0" };
-            handler.CreateUser(user1);
-            handler.CreateUser(user2);
-            var user1token = handler.Login(user1)!;
-            var message = Assert.ThrowsException<ArgumentException>(() => handler.GetUser(2, user1token));
+            var userToken = GetUserToken("brownie");
+            GetUserToken("jackie");
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.GetUser(2, userToken));
             Assert.AreEqual("Forbidden", message.Message);
 
         }
@@ -165,47 +155,35 @@ namespace PillPalTest.IntegrationTests
         [TestMethod]
         public void UserCanGetOwnUserData()
         {
-            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
-            handler.CreateUser(user);
-            var usertoken = handler.Login(user);
+            var usertoken = GetUserToken("brownie");
             Assert.AreEqual("brownie", handler.GetUser(1, usertoken).UserName);
         }
 
         [TestMethod]
         public void UserCannotDeleteOtherUserData()
         {
-            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
-            handler.CreateUser(user);
-            var user2 = new CreateUserDto() { UserName = "username2", Password = "aA1?aA1?" };
-            handler.CreateUser(user2);
-            var usertoken = handler.Login(user);
-
-            var message = Assert.ThrowsException<ArgumentException>(() => handler.DeleteUser(2, usertoken));
+            var userToken = GetUserToken("brownie");
+            GetUserToken("jackie");
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.DeleteUser(2, userToken));
             Assert.AreEqual("Forbidden", message.Message);
         }
 
         [TestMethod]
         public void UserCanDeleteOwnData()
         {
-            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
-            handler.CreateUser(user);
-            var usertoken = handler.Login(user);
+            var userToken = GetUserToken("username");
 
-            Assert.AreEqual("username", handler.GetUser(1, usertoken).UserName);
-            handler.DeleteUser(1, usertoken);
-            var message = Assert.ThrowsException<ArgumentException>(() => handler.GetUser(1, usertoken));
+            Assert.AreEqual("username", handler.GetUser(1, userToken).UserName);
+            handler.DeleteUser(1, userToken);
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.GetUser(1, userToken));
             Assert.AreEqual("Not Found", message.Message);
         }
 
         [TestMethod]
         public void AdminCanDeleteAnyUser()
         {
-            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
-            handler.CreateUser(user);
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
-            handler.CreateUser(admin);
-            var adminToken = handler.Login(admin);
-
+            GetUserToken("brownie");
+            var adminToken = GetAdminToken();
             handler.DeleteUser(1, adminToken);
             Assert.AreEqual(1, handler.GetUsers(adminToken).Count());
             handler.DeleteUser(2, adminToken);
@@ -215,10 +193,7 @@ namespace PillPalTest.IntegrationTests
         [TestMethod]
         public void DeletingNonExistingIdThrowsException()
         {
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
-            handler.CreateUser(admin);
-            var adminToken = handler.Login(admin);
-
+            var adminToken = GetAdminToken();
             Assert.AreEqual("administrator", handler.GetUser(1, adminToken).UserName);
             var message = Assert.ThrowsException<ArgumentException>(() => handler.DeleteUser(2, adminToken));
             Assert.AreEqual("Not Found", message.Message);
@@ -227,38 +202,30 @@ namespace PillPalTest.IntegrationTests
         [TestMethod]
         public void UserCannotUpdateOtherUserData()
         {
-            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
-            handler.CreateUser(user);
-            var user2 = new CreateUserDto() { UserName = "username2", Password = "aA1?aA1?" };
-            handler.CreateUser(user2);
-            var usertoken = handler.Login(user);
-
-            var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(2, user, usertoken));
+            var userToken = GetUserToken("brownie");
+            GetUserToken("jackie");
+            var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(2, 
+                new CreateUserDto() { UserName = "uetona", Password = "Delulu!0"}, userToken));
             Assert.AreEqual("Forbidden", message.Message);
         }
 
         [TestMethod]
         public void UserCanUpdateOwnData()
         {
-            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
-            handler.CreateUser(user);
-            var usertoken = handler.Login(user);
-
-            Assert.AreEqual("username", handler.GetUser(1, usertoken).UserName);
+            var user = new CreateUserDto() { UserName = "username", Password = "Delulu!0" };
+            var userToken = GetUserToken("username");
+            Assert.AreEqual("username", handler.GetUser(1, userToken).UserName);
             user.UserName = "felhasznalo";
-            handler.UpdateUser(1, user, usertoken);
-            Assert.AreEqual("felhasznalo", handler.GetUser(1, usertoken).UserName);
+            handler.UpdateUser(1, user, userToken);
+            Assert.AreEqual("felhasznalo", handler.GetUser(1, userToken).UserName);
         }
 
         [TestMethod]
         public void AdminCanUpdateAnyUser()
         {
-            var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
-            handler.CreateUser(user);
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
-            handler.CreateUser(admin);
-            var adminToken = handler.Login(admin);
-
+            GetUserToken("username");
+            var adminToken = GetAdminToken();
+            var user = new CreateUserDto() { UserName = "username", Password = "Delulu!0" };
             Assert.AreEqual("username", handler.GetUser(1, adminToken).UserName);
             user.UserName = "felhasznalo";
             handler.UpdateUser(1, user, adminToken);
@@ -268,10 +235,8 @@ namespace PillPalTest.IntegrationTests
         [TestMethod]
         public void UpdatingNonExistingIdThrowsException()
         {
+            var adminToken = GetAdminToken();
             var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
-            handler.CreateUser(admin);
-            var adminToken = handler.Login(admin);
-
             Assert.AreEqual("administrator", handler.GetUser(1, adminToken).UserName);
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(2, admin, adminToken));
             Assert.AreEqual("Not Found", message.Message);
@@ -280,11 +245,9 @@ namespace PillPalTest.IntegrationTests
         [TestMethod]
         public void PuttingUserWithChangedShortUsernameThrowsException()
         {
+            var adminToken = GetAdminToken();
             var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
             handler.CreateUser(user);
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
-            handler.CreateUser(admin);
-            var adminToken = handler.Login(admin);
 
             user.UserName = "user";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
@@ -294,11 +257,9 @@ namespace PillPalTest.IntegrationTests
         [TestMethod]
         public void PuttingUserWithChangedUsernameWithSpecialCharacterThrowsException()
         {
+            var adminToken = GetAdminToken();
             var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
             handler.CreateUser(user);
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
-            handler.CreateUser(admin);
-            var adminToken = handler.Login(admin);
 
             user.UserName = "[username??!?![";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken)); 
@@ -308,12 +269,9 @@ namespace PillPalTest.IntegrationTests
         [TestMethod]
         public void PuttingUserWithChangedLongUsernameThrowsException()
         {
+            var adminToken = GetAdminToken();
             var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
             handler.CreateUser(user);
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
-            handler.CreateUser(admin);
-            var adminToken = handler.Login(admin);
-
             user.UserName = "thisisawaaaaaylongnameforauser";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
             Assert.AreEqual("Your username needs to be between 6 and 20 characters.", message.Message);
@@ -324,10 +282,7 @@ namespace PillPalTest.IntegrationTests
         {
             var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
             handler.CreateUser(user);
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
-            handler.CreateUser(admin);
-            var adminToken = handler.Login(admin);
-
+            var adminToken = GetAdminToken();
             user.UserName = "administrator";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
             Assert.AreEqual("Username already in use.", message.Message);
@@ -338,10 +293,7 @@ namespace PillPalTest.IntegrationTests
         {
             var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
             handler.CreateUser(user);
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
-            handler.CreateUser(admin);
-            var adminToken = handler.Login(admin);
-
+            var adminToken = GetAdminToken();
             user.Password = "aA1?";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
             Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
@@ -352,10 +304,7 @@ namespace PillPalTest.IntegrationTests
         {
             var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
             handler.CreateUser(user);
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
-            handler.CreateUser(admin);
-            var adminToken = handler.Login(admin);
-
+            var adminToken = GetAdminToken();
             user.Password = "aa1?aa1?";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
             Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
@@ -366,10 +315,7 @@ namespace PillPalTest.IntegrationTests
         {
             var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
             handler.CreateUser(user);
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
-            handler.CreateUser(admin);
-            var adminToken = handler.Login(admin);
-
+            var adminToken = GetAdminToken();
             user.Password = "AA1?AA1?";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
             Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
@@ -380,10 +326,7 @@ namespace PillPalTest.IntegrationTests
         {
             var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
             handler.CreateUser(user);
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
-            handler.CreateUser(admin);
-            var adminToken = handler.Login(admin);
-
+            var adminToken = GetAdminToken();
             user.Password = "aAa?aAa?";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
             Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
@@ -394,10 +337,7 @@ namespace PillPalTest.IntegrationTests
         {
             var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
             handler.CreateUser(user);
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
-            handler.CreateUser(admin);
-            var adminToken = handler.Login(admin);
-
+            var adminToken = GetAdminToken();
             user.Password = "aA11aA11";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
             Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
@@ -406,12 +346,9 @@ namespace PillPalTest.IntegrationTests
         [TestMethod]
         public void PuttingUserWithProperChangedPasswordAndImproperChangedUsernameThrowsException()
         {
+            var adminToken = GetAdminToken();
             var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
             handler.CreateUser(user);
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
-            handler.CreateUser(admin);
-            var adminToken = handler.Login(admin);
-
             user.Password = "aA1?aA1?";
             user.UserName = "user";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
@@ -421,16 +358,25 @@ namespace PillPalTest.IntegrationTests
         [TestMethod]
         public void PuttingUserWithImproperChangedPasswordAndProperChangedUsernameThrowsException()
         {
+            var adminToken = GetAdminToken();
             var user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
             handler.CreateUser(user);
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
-            handler.CreateUser(admin);
-            var adminToken = handler.Login(admin);
-
             user.Password = "aA1?";
             user.UserName = "username4";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
             Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
+        }
+        private string GetAdminToken()
+        {
+            var admin = new CreateUserDto() { Password = "Delulu!0", UserName = "administrator" };
+            handler.CreateUser(admin);
+            return handler.Login(admin);
+        }
+        private string GetUserToken(string username)
+        {
+            var user = new CreateUserDto() { UserName = username, Password = "Delulu!0" };
+            handler.CreateUser(user);
+            return handler.Login(user);
         }
     }
 }

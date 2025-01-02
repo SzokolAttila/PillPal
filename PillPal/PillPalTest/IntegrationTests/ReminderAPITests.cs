@@ -26,6 +26,224 @@ namespace PillPalTest.IntegrationTests
             userHandler = new UserAPIHandler(client: app.CreateClient());
             medicineHandler = new MedicineAPIHandler(client: app.CreateClient());
         }
+        [TestMethod]
+        public void AdminRoleNeededToGetAllReminders()
+        {
+            var userToken = GetUserToken("brownie");
+            var exception = Assert.ThrowsException<ArgumentException>(() => handler.GetAll(userToken));
+            Assert.AreEqual("Forbidden", exception.Message);
+            Assert.AreEqual(0, handler.GetAll(GetAdminToken()).Count());
+        }
+        [TestMethod]
+        public void AdminCanGetUserReminders()
+        {
+            var adminToken = GetAdminToken();
+            GetUserToken("brownie");
+            Assert.AreEqual(0, handler.Get(1, adminToken).Count());
+            Assert.AreEqual(0, handler.Get(2, adminToken).Count());
+        }
+        [TestMethod]
+        public void UserCanGetOwnReminders()
+        {
+            var userToken = GetUserToken("brownie");
+            Assert.AreEqual(0, handler.Get(1, userToken).Count());
+        }
+        [TestMethod]
+        public void UserCannotGetOtherReminders()
+        {
+            var userToken = GetUserToken("bronwie");
+            GetUserToken("jackie");
+            var exception = Assert.ThrowsException<ArgumentException>(() => handler.Get(2, userToken));
+            Assert.AreEqual("Forbidden", exception.Message);
+        }
+        [TestMethod]
+        public void DoseMgCannotBeNegativeOrZero()
+        {
+            var adminToken = GetAdminToken();
+            SeedMedicine(adminToken);
+            var reminder = new CreateReminderDto()
+            {
+                DoseMg = 0,
+                DoseCount = 1,
+                MedicineId = 1,
+                UserId = 1,
+                TakingMethod = "",
+                When = "14:00:50"
+            };
+            var exception = Assert.ThrowsException<ArgumentException>(() => handler.CreateReminder(reminder, adminToken));
+            Assert.AreEqual("Cannot add medicine with negative dose", exception.Message);
+        }
+        [TestMethod]
+        public void DoseCountCannotBeNegativeOrZero()
+        {
+            var adminToken = GetAdminToken();
+            SeedMedicine(adminToken);
+            var reminder = new CreateReminderDto()
+            {
+                DoseMg = 1,
+                DoseCount = 0,
+                MedicineId = 1,
+                UserId = 1,
+                TakingMethod = "",
+                When = "14:00:50"
+            };
+            var exception = Assert.ThrowsException<ArgumentException>(() => handler.CreateReminder(reminder, adminToken));
+            Assert.AreEqual("Cannot add medicine with negative dose", exception.Message);
+        }
+        [TestMethod]
+        public void CannotAddReminderToNonExistantUser()
+        {
+            var adminToken = GetAdminToken();
+            var exception = Assert.ThrowsException<ArgumentException>(() => SeedReminder(2, adminToken));
+            Assert.AreEqual("User with the given ID doesn't exist.", exception.Message);
+        }
+        [TestMethod]
+        public void CannotAddReminderWithNonExistantMedicine()
+        {
+            var adminToken = GetAdminToken();
+            var exception = Assert.ThrowsException<ArgumentException>(() => SeedReminder(1, adminToken));
+            Assert.AreEqual("Medicine with the given ID doesn't exist.", exception.Message);
+        }
+        [TestMethod]
+        public void AdminCanCreateReminderForAnyone()
+        {
+            var adminToken = GetAdminToken();
+            GetUserToken("browine");
+            SeedMedicine(adminToken);
+            var reminder = SeedReminder(1, adminToken);
+            reminder.UserId = 2;
+            handler.CreateReminder(reminder, adminToken);
+            Assert.AreEqual(1, handler.Get(1, adminToken).Count());
+            Assert.AreEqual(1, handler.Get(2, adminToken).Count());
+        }
+        [TestMethod]
+        public void UserCannotAddReminderToOtherUsers()
+        {
+            var userToken = GetUserToken("brownie");
+            var adminToken = GetAdminToken();
+            SeedMedicine(adminToken);
+            var exception = Assert.ThrowsException<ArgumentException>(() => SeedReminder(2, userToken));
+            Assert.AreEqual("Forbidden", exception.Message);
+        }
+        [TestMethod]
+        public void UserCanAddOwnReminder()
+        {
+            var adminToken = GetAdminToken();
+            var userToken = GetUserToken("brownie");
+            SeedMedicine(adminToken);
+            SeedReminder(2, userToken);
+            Assert.AreEqual(1, handler.Get(2, userToken).Count());
+        }
+        [TestMethod]
+        public void AdminCanEditAnyReminder()
+        {
+            var adminToken = GetAdminToken();
+            GetUserToken("brownie");
+            SeedMedicine(adminToken);
+            CreateReminderDto reminder = SeedReminder(2, adminToken);
+            reminder.TakingMethod = "take with water";
+            reminder.DoseMg = 500;
+            handler.EditReminder(1, reminder, adminToken);
+            Assert.AreEqual(500, handler.Get(2, adminToken).First().DoseMg);
+            Assert.AreEqual("take with water", handler.Get(2, adminToken).First().TakingMethod);
+        }
+        [TestMethod]
+        public void AdminCanMoveReminders()
+        {
+            var adminToken = GetAdminToken();
+            GetUserToken("brownie");
+            SeedMedicine(adminToken);
+            var reminder = SeedReminder(2, adminToken);
+            Assert.AreEqual(0, handler.Get(1, adminToken).Count());
+            Assert.AreEqual(1, handler.Get(2, adminToken).Count());
+            reminder.UserId = 1;
+            handler.EditReminder(1, reminder, adminToken);
+            Assert.AreEqual(1, handler.Get(1, adminToken).Count());
+            Assert.AreEqual(0, handler.Get(2, adminToken).Count());
+        }
+        [TestMethod]
+        public void CannotEditNonExistantReminder()
+        {
+            var adminToken = GetAdminToken();
+            SeedMedicine(adminToken);
+            var exception = Assert.ThrowsException<ArgumentException>(() => 
+                handler.EditReminder(2, SeedReminder(1, adminToken), adminToken));
+            Assert.AreEqual("Not Found", exception.Message);
+        }
+        [TestMethod]
+        public void UserCannotEditOthersReminder()
+        {
+            var adminToken = GetAdminToken();
+            var userToken = GetUserToken("brownie");
+            SeedMedicine(adminToken);
+            var reminder = SeedReminder(1, adminToken);
+            reminder.DoseMg = 500;
+            var exception = Assert.ThrowsException<ArgumentException>(() => handler.EditReminder(1, reminder, userToken));
+            Assert.AreEqual("Forbidden", exception.Message);
+        }
+        [TestMethod]
+        public void UserCanEditOwnReminder()
+        {
+            var adminToken = GetAdminToken();
+            var userToken = GetUserToken("brownie");
+            SeedMedicine(adminToken);
+            var reminder = SeedReminder(2, adminToken);
+            reminder.DoseMg = 500;
+            handler.EditReminder(1, reminder, userToken);
+            Assert.AreEqual(500, handler.Get(2, userToken).First().DoseMg);
+        }
+        [TestMethod]
+        public void UserCannotMoveReminder()
+        {
+            var adminToken = GetAdminToken();
+            var userToken = GetUserToken("brownie");
+            SeedMedicine(adminToken);
+            var reminder = SeedReminder(2, adminToken);
+            reminder.UserId = 1;
+            var exception = Assert.ThrowsException<ArgumentException>(() => handler.EditReminder(1, reminder, userToken));
+            Assert.AreEqual("Forbidden", exception.Message);
+        }
+        [TestMethod]
+        public void AdminCanDeleteAnyReminder()
+        {
+            var adminToken = GetAdminToken();
+            GetUserToken("brownie");
+            SeedMedicine(adminToken);
+            SeedReminder(2, adminToken);
+            Assert.AreEqual(1, handler.Get(2, adminToken).Count());
+            handler.DeleteReminder(1, adminToken);
+            Assert.AreEqual(0, handler.Get(2, adminToken).Count());
+        }
+        [TestMethod]
+        public void UserCanDeleteOwnReminder()
+        {
+            var adminToken = GetAdminToken();
+            var userToken = GetUserToken("brownie");
+            SeedMedicine(adminToken);
+            SeedReminder(2, userToken);
+            Assert.AreEqual(1, handler.Get(2, userToken).Count());
+            handler.DeleteReminder(1, userToken);
+            Assert.AreEqual(0, handler.Get(2, userToken).Count());
+        }
+        [TestMethod]
+        public void UserCannotDeleteOthersReminder()
+        {
+            var adminToken = GetAdminToken();
+            var userToken = GetUserToken("brownie");
+            SeedMedicine(adminToken);
+            SeedReminder(1, adminToken);
+            Assert.AreEqual(1, handler.Get(1, adminToken).Count());
+            var exception = Assert.ThrowsException<ArgumentException>(() => handler.DeleteReminder(1, userToken));
+            Assert.AreEqual("Forbidden", exception.Message);
+        }
+        [TestMethod]
+        public void CannotDeleteNonExistantReminder()
+        {
+            var adminToken = GetAdminToken();
+            SeedMedicine(adminToken);
+            var exception = Assert.ThrowsException<ArgumentException>(() => handler.DeleteReminder(1, adminToken));
+            Assert.AreEqual("Not Found", exception.Message);
+        }
         private void SeedMedicine(string adminToken)
         {
             var medicine = new CreateMedicineDto()
@@ -51,287 +269,17 @@ namespace PillPalTest.IntegrationTests
             handler.CreateReminder(reminder, token);
             return reminder;
         }
-        [TestMethod]
-        public void AdminRoleNeededToGetAllReminders()
+        private string GetUserToken(string username)
         {
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
-            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
+            var user = new CreateUserDto() { UserName = username, Password = "Delulu!0" };
             userHandler.CreateUser(user);
+            return userHandler.Login(user);
+        }
+        private string GetAdminToken()
+        {
+            var admin = new CreateUserDto() { Password = "Delulu!0", UserName = "administrator" };
             userHandler.CreateUser(admin);
-            var userToken = userHandler.Login(user);
-            var adminToken = userHandler.Login(admin);
-            var exception = Assert.ThrowsException<ArgumentException>(() => handler.GetAll(userToken));
-            Assert.AreEqual("Forbidden", exception.Message);
-            Assert.AreEqual(0, handler.GetAll(adminToken).Count());
-        }
-        [TestMethod]
-        public void AdminCanGetUserReminders()
-        {
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
-            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
-            userHandler.CreateUser(user);
-            userHandler.CreateUser(admin);
-            var adminToken = userHandler.Login(admin);
-            Assert.AreEqual(0, handler.Get(1, adminToken).Count());
-            Assert.AreEqual(0, handler.Get(2, adminToken).Count());
-        }
-        [TestMethod]
-        public void UserCanGetOwnReminders()
-        {
-            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
-            userHandler.CreateUser(user);
-            var userToken = userHandler.Login(user);
-            Assert.AreEqual(0, handler.Get(1, userToken).Count());
-        }
-        [TestMethod]
-        public void UserCannotGetOtherReminders()
-        {
-            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
-            var user1 = new CreateUserDto() { UserName = "jackie", Password = "Delulu!0" };
-            userHandler.CreateUser(user);
-            var userToken = userHandler.Login(user);
-            var exception = Assert.ThrowsException<ArgumentException>(() => handler.Get(2, userToken));
-            Assert.AreEqual("Forbidden", exception.Message);
-        }
-        [TestMethod]
-        public void DoseMgCannotBeNegativeOrZero()
-        {
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
-            userHandler.CreateUser(admin);
-            var adminToken = userHandler.Login(admin);
-            SeedMedicine(adminToken);
-            var reminder = new CreateReminderDto()
-            {
-                DoseMg = 0,
-                DoseCount = 1,
-                MedicineId = 1,
-                UserId = 1,
-                TakingMethod = "",
-                When = "14:00:50"
-            };
-            var exception = Assert.ThrowsException<ArgumentException>(() => handler.CreateReminder(reminder, adminToken));
-            Assert.AreEqual("Cannot add medicine with negative dose", exception.Message);
-        }
-        [TestMethod]
-        public void DoseCountCannotBeNegativeOrZero()
-        {
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
-            userHandler.CreateUser(admin);
-            var adminToken = userHandler.Login(admin);
-            SeedMedicine(adminToken);
-            var reminder = new CreateReminderDto()
-            {
-                DoseMg = 1,
-                DoseCount = 0,
-                MedicineId = 1,
-                UserId = 1,
-                TakingMethod = "",
-                When = "14:00:50"
-            };
-            var exception = Assert.ThrowsException<ArgumentException>(() => handler.CreateReminder(reminder, adminToken));
-            Assert.AreEqual("Cannot add medicine with negative dose", exception.Message);
-        }
-        [TestMethod]
-        public void CannotAddReminderToNonExistantUser()
-        {
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
-            userHandler.CreateUser(admin);
-            var adminToken = userHandler.Login(admin);
-            var exception = Assert.ThrowsException<ArgumentException>(() => SeedReminder(2, adminToken));
-            Assert.AreEqual("User with the given ID doesn't exist.", exception.Message);
-        }
-        [TestMethod]
-        public void CannotAddReminderWithNonExistantMedicine()
-        {
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
-            userHandler.CreateUser(admin);
-            var adminToken = userHandler.Login(admin);
-            var exception = Assert.ThrowsException<ArgumentException>(() => SeedReminder(1, adminToken));
-            Assert.AreEqual("Medicine with the given ID doesn't exist.", exception.Message);
-        }
-        [TestMethod]
-        public void AdminCanCreateReminderForAnyone()
-        {
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
-            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
-            userHandler.CreateUser(admin);
-            userHandler.CreateUser(user);
-            var adminToken = userHandler.Login(admin);
-            SeedMedicine(adminToken);
-            var reminder = SeedReminder(1, adminToken);
-            reminder.UserId = 2;
-            handler.CreateReminder(reminder, adminToken);
-            Assert.AreEqual(1, handler.Get(1, adminToken).Count());
-            Assert.AreEqual(1, handler.Get(2, adminToken).Count());
-        }
-        [TestMethod]
-        public void UserCannotAddReminderToOtherUsers()
-        {
-            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
-            userHandler.CreateUser(user);
-            userHandler.CreateUser(admin); 
-            var adminToken = userHandler.Login(admin);
-            SeedMedicine(adminToken);
-            var userToken = userHandler.Login(user);
-            var exception = Assert.ThrowsException<ArgumentException>(() => SeedReminder(2, userToken));
-            Assert.AreEqual("Forbidden", exception.Message);
-        }
-        [TestMethod]
-        public void UserCanAddOwnReminder()
-        {
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
-            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
-            userHandler.CreateUser(admin);
-            userHandler.CreateUser(user);
-            var adminToken = userHandler.Login(admin);
-            var userToken = userHandler.Login(user);
-            SeedMedicine(adminToken);
-            SeedReminder(2, userToken);
-            Assert.AreEqual(1, handler.Get(2, userToken).Count());
-        }
-        [TestMethod]
-        public void AdminCanEditAnyReminder()
-        {
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
-            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
-            userHandler.CreateUser(admin);
-            userHandler.CreateUser(user);
-            var adminToken = userHandler.Login(admin);
-            SeedMedicine(adminToken);
-            CreateReminderDto reminder = SeedReminder(2, adminToken);
-            reminder.TakingMethod = "take with water";
-            reminder.DoseMg = 500;
-            handler.EditReminder(1, reminder, adminToken);
-            Assert.AreEqual(500, handler.Get(2, adminToken).First().DoseMg);
-            Assert.AreEqual("take with water", handler.Get(2, adminToken).First().TakingMethod);
-        }
-        [TestMethod]
-        public void AdminCanMoveReminders()
-        {
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
-            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
-            userHandler.CreateUser(admin);
-            userHandler.CreateUser(user);
-            var adminToken = userHandler.Login(admin);
-            SeedMedicine(adminToken);
-            var reminder = SeedReminder(2, adminToken);
-            Assert.AreEqual(0, handler.Get(1, adminToken).Count());
-            Assert.AreEqual(1, handler.Get(2, adminToken).Count());
-            reminder.UserId = 1;
-            handler.EditReminder(1, reminder, adminToken);
-            Assert.AreEqual(1, handler.Get(1, adminToken).Count());
-            Assert.AreEqual(0, handler.Get(2, adminToken).Count());
-        }
-        [TestMethod]
-        public void CannotEditNonExistantReminder()
-        {
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
-            userHandler.CreateUser(admin);
-            var adminToken = userHandler.Login(admin);
-            SeedMedicine(adminToken);
-            var exception = Assert.ThrowsException<ArgumentException>(() => 
-                handler.EditReminder(2, SeedReminder(1, adminToken), adminToken));
-            Assert.AreEqual("Not Found", exception.Message);
-        }
-        [TestMethod]
-        public void UserCannotEditOthersReminder()
-        {
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
-            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
-            userHandler.CreateUser(admin);
-            userHandler.CreateUser(user);
-            var adminToken = userHandler.Login(admin);
-            SeedMedicine(adminToken);
-            var reminder = SeedReminder(1, adminToken);
-            var userToken = userHandler.Login(user);
-            reminder.DoseMg = 500;
-            var exception = Assert.ThrowsException<ArgumentException>(() => handler.EditReminder(1, reminder, userToken));
-            Assert.AreEqual("Forbidden", exception.Message);
-        }
-        [TestMethod]
-        public void UserCanEditOwnReminder()
-        {
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
-            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
-            userHandler.CreateUser(admin);
-            userHandler.CreateUser(user);
-            var adminToken = userHandler.Login(admin);
-            SeedMedicine(adminToken);
-            var reminder = SeedReminder(2, adminToken);
-            var userToken = userHandler.Login(user);
-            reminder.DoseMg = 500;
-            handler.EditReminder(1, reminder, userToken);
-            Assert.AreEqual(500, handler.Get(2, userToken).First().DoseMg);
-        }
-        [TestMethod]
-        public void UserCannotMoveReminder()
-        {
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
-            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
-            userHandler.CreateUser(admin);
-            userHandler.CreateUser(user);
-            var adminToken = userHandler.Login(admin);
-            SeedMedicine(adminToken);
-            var reminder = SeedReminder(2, adminToken);
-            var userToken = userHandler.Login(user);
-            reminder.UserId = 1;
-            var exception = Assert.ThrowsException<ArgumentException>(() => handler.EditReminder(1, reminder, userToken));
-            Assert.AreEqual("Forbidden", exception.Message);
-        }
-        [TestMethod]
-        public void AdminCanDeleteAnyReminder()
-        {
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
-            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
-            userHandler.CreateUser(admin);
-            userHandler.CreateUser(user);
-            var adminToken = userHandler.Login(admin);
-            SeedMedicine(adminToken);
-            SeedReminder(2, adminToken);
-            Assert.AreEqual(1, handler.Get(2, adminToken).Count());
-            handler.DeleteReminder(1, adminToken);
-            Assert.AreEqual(0, handler.Get(2, adminToken).Count());
-        }
-        [TestMethod]
-        public void UserCanDeleteOwnReminder()
-        {
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
-            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
-            userHandler.CreateUser(admin);
-            userHandler.CreateUser(user);
-            var adminToken = userHandler.Login(admin);
-            var userToken = userHandler.Login(user);
-            SeedMedicine(adminToken);
-            SeedReminder(2, userToken);
-            Assert.AreEqual(1, handler.Get(2, userToken).Count());
-            handler.DeleteReminder(1, userToken);
-            Assert.AreEqual(0, handler.Get(2, userToken).Count());
-        }
-        [TestMethod]
-        public void UserCannotDeleteOthersReminder()
-        {
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
-            var user = new CreateUserDto() { UserName = "brownie", Password = "Delulu!0" };
-            userHandler.CreateUser(admin);
-            userHandler.CreateUser(user);
-            var adminToken = userHandler.Login(admin);
-            var userToken = userHandler.Login(user);
-            SeedMedicine(adminToken);
-            SeedReminder(1, adminToken);
-            Assert.AreEqual(1, handler.Get(1, adminToken).Count());
-            var exception = Assert.ThrowsException<ArgumentException>(() => handler.DeleteReminder(1, userToken));
-            Assert.AreEqual("Forbidden", exception.Message);
-        }
-        [TestMethod]
-        public void CannotDeleteNonExistantReminder()
-        {
-            var admin = new CreateUserDto() { UserName = "administrator", Password = "Delulu!0" };
-            userHandler.CreateUser(admin);
-            var adminToken = userHandler.Login(admin);
-            SeedMedicine(adminToken);
-            var exception = Assert.ThrowsException<ArgumentException>(() => handler.DeleteReminder(1, adminToken));
-            Assert.AreEqual("Not Found", exception.Message);
+            return userHandler.Login(admin);
         }
     }
 }
