@@ -1,0 +1,74 @@
+﻿using PillPalLib.DTOs.MedicineSideEffectDTOs;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+
+namespace PillPalLib.APIHandlers
+{
+    public class MedicineSideEffectAPIHandler
+    {
+        private readonly HttpClient _httpClient;
+        private readonly JsonSerializerOptions _options = new()
+        {
+            PropertyNameCaseInsensitive = true
+        };
+        public MedicineSideEffectAPIHandler(string baseURL = "http://localhost:5236/", HttpClient? client = null)
+        {
+            if (client == null)
+            {
+                _httpClient = new()
+                {
+                    BaseAddress = new Uri(baseURL)
+                };
+            }
+            else
+            {
+                _httpClient = client;
+            }
+        }
+        public IEnumerable<MedicineSideEffect> GetAll()
+        {
+            var message = _httpClient.GetAsync("PillPal/MedicineSideEffect").Result;
+            ExceptionHandler.CheckHttpResponse(message);
+            var json = message.Content.ReadAsStringAsync().Result;
+            return JsonSerializer.Deserialize<IEnumerable<MedicineSideEffect>>(json, _options)!;
+        }
+
+        public IEnumerable<MedicineSideEffect> Get(int id)
+        {
+            var message = _httpClient.GetAsync($"PillPal/MedicineSideEffect/{id}").Result;
+            ExceptionHandler.CheckHttpResponse(message);
+            var json = message.Content.ReadAsStringAsync().Result;
+            return JsonSerializer.Deserialize<IEnumerable<MedicineSideEffect>>(json, _options)!;
+        }
+        public void CreateMedicineSideEffect(CreateMedicineSideEffectDto createDto, string token)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var json = JsonSerializer.Serialize(createDto);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var message = _httpClient.PostAsync("PillPal/MedicineSideEffect", content).Result;
+            ExceptionHandler.CheckHttpResponse(message);
+
+        }
+
+        public void EditMedicineSideEffect(int id, CreateMedicineSideEffectDto createDto, string token)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var json = JsonSerializer.Serialize(createDto);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var message = _httpClient.PutAsync($"PillPal/MedicineSideEffect/{id}", content).Result;
+            ExceptionHandler.CheckHttpResponse(message);
+        }
+
+        public void DeleteMedicineSideEffect(int id, string token)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var message = _httpClient.DeleteAsync($"PillPal/MedicineSideEffect/{id}").Result;
+            ExceptionHandler.CheckHttpResponse(message);
+        }
+    }
+}

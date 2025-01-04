@@ -80,6 +80,7 @@ namespace PillPalAPI.Controllers
 
         // DELETE api/<SideEffectController>/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             if (_sideEffectRepository.Delete(id))
