@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace PillPalLib.APIHandlers
@@ -12,7 +13,11 @@ namespace PillPalLib.APIHandlers
     public class MedicineAPIHandler
     {
         private readonly HttpClient _httpClient;
-        private readonly JsonSerializerOptions _options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true};
+        private readonly JsonSerializerOptions _options = new JsonSerializerOptions() 
+        { 
+            PropertyNameCaseInsensitive = true, 
+            ReferenceHandler = ReferenceHandler.Preserve
+        };
 
         //able to pass HttpClient in constructor so it can be tested
         public MedicineAPIHandler(string baseURL = "http://localhost:5236/", HttpClient? client = null)

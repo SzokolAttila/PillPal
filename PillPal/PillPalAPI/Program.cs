@@ -9,6 +9,7 @@ using PillPalAPI.Repositories;
 using PillPalAPI.Validators;
 using PillPalLib;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace PillPalAPI;
 public class Program

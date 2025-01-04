@@ -30,17 +30,15 @@ namespace PillPalLib.APIHandlers
                 _httpClient = client;
             }
         }
-        public IEnumerable<PackageSize> GetAll(string token)
+        public IEnumerable<PackageSize> GetAll()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var message = _httpClient.GetAsync("PillPal/PackageSize").Result;
             ExceptionHandler.CheckHttpResponse(message);
             var json = message.Content.ReadAsStringAsync().Result;
             return JsonSerializer.Deserialize<IEnumerable<PackageSize>>(json, _options)!;    
         }
-        public IEnumerable<PackageSize> Get(int id, string token) 
+        public IEnumerable<PackageSize> Get(int id) 
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var message = _httpClient.GetAsync($"PillPal/PackageSize/{id}").Result;
             ExceptionHandler.CheckHttpResponse(message);
             var json = message.Content.ReadAsStringAsync().Result;
