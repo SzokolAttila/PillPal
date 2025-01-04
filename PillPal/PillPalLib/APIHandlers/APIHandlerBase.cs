@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PillPalLib.APIHandlers
 {
-    public class APIHandlerBase
+    public abstract class APIHandlerBase
     {
         protected readonly HttpClient _httpClient;
         protected readonly JsonSerializerOptions _options = new()

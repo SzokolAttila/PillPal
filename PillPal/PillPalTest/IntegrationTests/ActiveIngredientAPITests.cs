@@ -111,12 +111,11 @@ namespace PillPalTest.IntegrationTests
         //    var adminToken = GetAdminToken();
         //    CreateMedicine(adminToken);
         //    var userToken = GetUserToken();
-        //    var activeIngredient = new CreateActiveIngredientDto() { Ingredient = "Caffeine" };
+        //    var activeIngredient = new CreateActiveIngredientDto() { Ingredient = "caffeine" };
         //    activeIngredientHandler.CreateActiveIngredient(activeIngredient, adminToken);
         //    var medicineActiveIngredient = new CreateMedicineActiveIngredientDto() { MedicineId = 1, ActiveIngredientId = 1 };
         //    medicineActiveIngredientHandler.CreateMedicineActiveIngredient(medicineActiveIngredient, adminToken);
-        //    var exception = Assert.ThrowsException<ArgumentException>(
-        //        () => medicineActiveIngredientHandler.DeleteMedicineActiveIngredient(1, userToken));
+        //    var exception = Assert.ThrowsException<ArgumentException>(() => medicineActiveIngredientHandler.DeleteMedicineActiveIngredient(1, userToken));
         //    Assert.AreEqual("Forbidden", exception.Message);
         //    medicineActiveIngredientHandler.DeleteMedicineActiveIngredient(1, adminToken);
         //    Assert.AreEqual(0, medicineHandler.GetMedicine(1).ActiveIngredients.Count());
