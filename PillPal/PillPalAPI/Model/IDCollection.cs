@@ -30,15 +30,16 @@ namespace PillPalLib
         }
         public bool Add(T item)
         {
-            if (values.Any(x => x.Id == item.Id))
+            if (Values.Any(x => x.Id == item.Id))
                 return false;
             var context = values.Add(item);
             context.Context.SaveChanges();
+            context.State = EntityState.Added;
             return true;
         }
         public bool Replace(T item)
         {
-            if (!values.Any(x => x.Id == item.Id))
+            if (!Values.Any(x => x.Id == item.Id))
                 return false;
             var context = values.Update(item);
             context.Context.SaveChanges();

@@ -9,26 +9,11 @@ using PillPalLib.DTOs.ReminderDTOs;
 
 namespace PillPalLib.APIHandlers
 {
-    public class ReminderAPIHandler
+    public class ReminderAPIHandler : APIHandlerBase
     {
-        private readonly HttpClient _httpClient;
-        private readonly JsonSerializerOptions _options = new()
+        public ReminderAPIHandler(string baseURL = "http://localhost:5236/", HttpClient? client = null) : base(baseURL, client)
         {
-            PropertyNameCaseInsensitive = true
-        };
-        public ReminderAPIHandler(string baseURL = "http://localhost:5236/", HttpClient? client = null)
-        {
-            if (client == null)
-            {
-                _httpClient = new()
-                {
-                    BaseAddress = new Uri(baseURL)
-                };
-            }
-            else
-            {
-                _httpClient = client;
-            }
+
         }
         public IEnumerable<Reminder> GetAll(string auth)
         {

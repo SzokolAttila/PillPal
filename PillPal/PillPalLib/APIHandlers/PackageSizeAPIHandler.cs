@@ -9,26 +9,11 @@ using PillPalLib.DTOs.PackageSizeDTOs;
 
 namespace PillPalLib.APIHandlers
 {
-    public class PackageSizeAPIHandler
+    public class PackageSizeAPIHandler : APIHandlerBase
     {
-        private readonly HttpClient _httpClient;
-        private readonly JsonSerializerOptions _options = new()
+        public PackageSizeAPIHandler(string baseURL = "http://localhost:5236/", HttpClient? client = null) : base(baseURL, client)
         {
-            PropertyNameCaseInsensitive = true
-        };
-        public PackageSizeAPIHandler(string baseURL = "http://localhost:5236/", HttpClient? client = null)
-        {
-            if (client == null)
-            {
-                _httpClient = new()
-                {
-                    BaseAddress = new Uri(baseURL)
-                };
-            }
-            else
-            {
-                _httpClient = client;
-            }
+
         }
         public IEnumerable<PackageSize> GetAll()
         {

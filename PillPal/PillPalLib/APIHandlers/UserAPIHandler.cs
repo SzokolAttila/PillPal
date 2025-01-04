@@ -9,26 +9,11 @@ using System.Threading.Tasks;
 
 namespace PillPalLib.APIHandlers
 {
-    public class UserAPIHandler
+    public class UserAPIHandler : APIHandlerBase
     {
-        private readonly HttpClient _httpClient;
-        private readonly JsonSerializerOptions _options = new JsonSerializerOptions()
+        public UserAPIHandler(string baseURL = "http://localhost:5236/", HttpClient? client = null) : base(baseURL, client)
         {
-            PropertyNameCaseInsensitive = true
-        };
 
-        //able to pass HttpClient in constructor so it can be tested
-        public UserAPIHandler(string baseURL = "http://localhost:5236/", HttpClient? client = null)
-        {
-            if (client == null)
-            {
-                _httpClient = new();
-                _httpClient.BaseAddress = new Uri(baseURL);
-            }
-            else
-            {
-                _httpClient = client;
-            }
         }
 
         public string Login(CreateUserDto user)

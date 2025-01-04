@@ -62,16 +62,19 @@ namespace PillPalAPI.Model
                 .HasForeignKey(x => x.RemedyForId);
 
             builder.Entity<Medicine>().Navigation(x => x.PackageSizeObjects).AutoInclude();
+
             builder.Entity<Medicine>()
                 .HasMany(x => x.ActiveIngredientObjects)
                 .WithMany(x => x.Medicines)
                 .UsingEntity<MedicineActiveIngredient>();
             builder.Entity<Medicine>().Navigation(x => x.ActiveIngredientObjects).AutoInclude();
+
             builder.Entity<Medicine>()
                 .HasMany(x => x.SideEffectObjects)
                 .WithMany(x => x.Medicines)
                 .UsingEntity<MedicineSideEffect>();
             builder.Entity<Medicine>().Navigation(x => x.SideEffectObjects).AutoInclude();
+
             builder.Entity<Medicine>()
                 .HasMany(x => x.RemedyForObjects)
                 .WithMany(x => x.Medicines)

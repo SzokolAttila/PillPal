@@ -10,27 +10,11 @@ using System.Threading.Tasks;
 
 namespace PillPalLib.APIHandlers
 {
-    public class MedicineAPIHandler
+    public class MedicineAPIHandler : APIHandlerBase
     {
-        private readonly HttpClient _httpClient;
-        private readonly JsonSerializerOptions _options = new JsonSerializerOptions() 
-        { 
-            PropertyNameCaseInsensitive = true, 
-            ReferenceHandler = ReferenceHandler.Preserve
-        };
-
-        //able to pass HttpClient in constructor so it can be tested
-        public MedicineAPIHandler(string baseURL = "http://localhost:5236/", HttpClient? client = null)
+        public MedicineAPIHandler(string baseURL = "http://localhost:5236/", HttpClient? client = null) : base(baseURL, client)
         {
-            if (client == null)
-            {
-                _httpClient = new();
-                _httpClient.BaseAddress = new Uri(baseURL);
-            }
-            else
-            {
-                _httpClient = client;
-            }
+
         }
 
         public Medicine GetMedicine(int id)
