@@ -123,6 +123,17 @@
 | Integration test | Admin role needed to edit / delete remedyFor | Create an admin user, a simple user, a medicine, a remedyFor and a medicineRemedyFor | Try editing / deleting the remedyFor (and the medicineRemedyFor) first with user token, then with admin token | First attempt will throw Forbidden error, the second one will succeed | 
 | Integration test | Cannot edit / delete non-existant remedyFor / medicineRemedyFor | Create an admin user | Try to edit / delete a remedyFor / medicineRemedyFor without adding it first | Not Found error | 
 
+### SideEffectAPI tests (authorization, validation and join table configuration (medicineSideEffect also included))
+| Scope  | Description | Preparations | Actions | Expected result |
+| ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
+| Integration test | Admin role needed to create sideEffect (and medicineSideEffect) | Create an admin user, a simple user and a medicine | Try adding a sideEffect (and then a medicineSideEffect) first with user token, then with admin token | Throws a Forbidden error when attempting with user token |
+| Integration test | Cannot add remedy if the effect's length is less than 3 | Create an admin user and a medicine | Try posting a sideEffect with the effect's length less than 3 | Validation exception will be thrown | 
+| Integration test | Cannot add the same effect twice | Create an admin user and a sideEffect | Try posting the sideEffect twice | The second attempt will throw a validation exception | 
+| Integration test | Cannot add remedy to non-existant medicine | Creat an admin user, a sideEffect and a medicineSideEffect | Try posting the medicineSideEffect without adding a medicine | Throws exception saying the medicine doesn't exist | 
+| Integration test | Cannot add non-existant sideEffect to medicine | Create an admin user, a medicine and a medicineSideEffect | Try posting the medicineSideEffect without adding the sideEffect | Exception saying that the sideEffect doesn't exist. |
+| Integration test | Admin role needed to edit / delete sideEffect | Create an admin user, a simple user, a medicine, a sideEffect and a medicineSideEffect | Try editing / deleting the sideEffect (and the medicineSideEffect) first with user token, then with admin token | First attempt will throw Forbidden error, the second one will succeed | 
+| Integration test | Cannot edit / delete non-existant sideEffect / medicineSideEffect | Create an admin user | Try to edit / delete a sideEffect / medicineSideEffect without adding it first | Not Found error | 
+
 ### GUI tests (manual testing)
 | Scope  | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
