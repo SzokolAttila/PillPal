@@ -146,6 +146,21 @@ Medicine validator can be used to validate CreateMedicineDto and has the followi
 Reminder validator can be used to validate CreateReminderDto and has the following rules:
 - Reminder's DoseMg must be greater than 0 as it would make no sense otherwise;
 - Reminder's DoseCount must be greater than 0 as it would make no sense otherwise.
+#### ActiveIngredientValidator
+ActiveIngredient validator can be used to validate CreateActiveIngredientDto and has the following rules:
+- ActiveIngredient's Ingredient length must be at least 3;
+- ActiveIngredient's Ingredient has to be unique in the database.
+#### SideEffectValidator
+SideEffect validator can be used to validate CreateSideEffectDto and has the following rules:
+- SideEffect's Effect length must be at least 3;
+- SideEffect's Effect has to be unique in the database.
+#### RemedyForValidator
+RemedyFor validator can be used to validate CreateRemedyForDto and has the following rules:
+- RemedyFor's Ailment length must be at least 3;
+- RemedyFor's Ailment has to be unique in the database.
+#### PackageSizeValidator
+PackageSize validator can be used to validate CreatePackageSizeDto and has the following rules:
+- PackageSize's Size must be greater than zero.
 
 ### Controllers
 We use controllers for each model to generate endpoints for the API. Controllers handle the proper validation of the data, so they get the matching validator from dependency injection in constructor. As we are aware of different access levels and we have a log in system we assess the required authorization in controllers. Controllers manipulate only their own repository via dependency injection to fulfill single-responsibility.
@@ -220,6 +235,55 @@ Implements IJoinStore<Reminder> with the following methods:
 - **Get(int id)** returns reminders where UserId is the given id in DataStore Reminders IDCollection.
 - **GetAll()** returns all reminders of DataStore Reminders IDCollection.
 - **Update(Reminder item)** modify existing reminder with the same id in DataStore Reminders IDCollection. Returns true on success and false on fail.
+#### PackageSizeRepository
+Implements IJoinStore<PackageSize> with the following methods:
+- **Add(PackageSize item)** add packageSize to the DataStore's PackageSizes IDCollection. Returns true on success and false on fail.
+- **Delete(int id)** remove packageSize with id from DataStore's PackageSizes IDCollection. Returns true on success and false on fail.
+- **Get(int id)** returns packageSizes where MedicineId is the given id in DataStore's PackageSizes IDCollection.
+- **GetAll()** returns all packageSizes of DataStore's PackageSizes IDCollection.
+- **Update(PackageSize item)** modify existing PackageSize with the same id in DataStore's PackageSizes IDCollection. Returns true on success and false on fail.
+#### MedicineSideEffectRepository
+Implements IJoinStore<MedicineSideEffect> with the following methods:
+- **Add(MedicineSideEffect item)** add MedicineSideEffect to the DataStore's MedicineSideEffects IDCollection. Returns true on success and false on fail.
+- **Delete(int id)** remove MedicineSideEffect with id from DataStore's MedicineSideEffects IDCollection. Returns true on success and false on fail.
+- **Get(int id)** returns MedicineSideEffects where MedicineId is the given id in DataStore's MedicineSideEffects IDCollection.
+- **GetAll()** returns all MedicineSideEffects of DataStore's MedicineSideEffects IDCollection.
+- **Update(MedicineSideEffect item)** modify existing MedicineSideEffect with the same id in DataStore's MedicineSideEffects IDCollection. Returns true on success and false on fail.
+#### MedicineActiveIngredientRepository
+Implements IJoinStore<MedicineActiveIngredient> with the following methods:
+- **Add(MedicineActiveIngredient item)** add MedicineActiveIngredient to the DataStore's MedicineActiveIngredients IDCollection. Returns true on success and false on fail.
+- **Delete(int id)** remove MedicineActiveIngredient with id from DataStore's MedicineActiveIngredients IDCollection. Returns true on success and false on fail.
+- **Get(int id)** returns MedicineActiveIngredients where MedicineId is the given id in DataStore's MedicineActiveIngredients IDCollection.
+- **GetAll()** returns all MedicineActiveIngredients of DataStore's MedicineActiveIngredients IDCollection.
+- **Update(MedicineActiveIngredient item)** modify existing MedicineActiveIngredient with the same id in DataStore's MedicineActiveIngredients IDCollection. Returns true on success and false on fail.
+#### MedicineRemedyForRepository
+Implements IJoinStore<MedicineRemedyFor> with the following methods:
+- **Add(MedicineRemedyFor item)** add MedicineRemedyFor to the DataStore's MedicineRemedyForAilments IDCollection. Returns true on success and false on fail.
+- **Delete(int id)** remove MedicineRemedyFor with id from DataStore's MedicineRemedyForAilments IDCollection. Returns true on success and false on fail.
+- **Get(int id)** returns MedicineRemedyFor objects where MedicineId is the given id in DataStore's MedicineRemedyForAilments IDCollection.
+- **GetAll()** returns all MedicineRemedyFor objects of DataStore's MedicineRemedyForAilments IDCollection.
+- **Update(MedicineRemedyFor item)** modify existing MedicineRemedyFor with the same id in DataStore's MedicineRemedyForAilments IDCollection. Returns true on success and false on fail.
+#### SideEffectRepository
+Implements IItemStore<SideEffect> with the following methods:
+- **Add(SideEffect item)** add SideEffect to the DataStore's SideEffects IDCollection. Returns true on success and false on fail.
+- **Delete(int id)** remove SideEffect with id from DataStore's SideEffects IDCollection. Returns true on success and false on fail.
+- **Get(int id)** returns SideEffect where Id is the given id in DataStore's SideEffects IDCollection.
+- **GetAll()** returns all SideEffects of DataStore's SideEffects IDCollection.
+- **Update(SideEffect item)** modify existing SideEffect with the same id in DataStore's SideEffects IDCollection. Returns true on success and false on fail.
+#### ActiveIngredientRepository
+Implements IItemStore<ActiveIngredient> with the following methods:
+- **Add(ActiveIngredient item)** add ActiveIngredient to the DataStore's ActiveIngredients IDCollection. Returns true on success and false on fail.
+- **Delete(int id)** remove ActiveIngredient with id from DataStore's ActiveIngredients IDCollection. Returns true on success and false on fail.
+- **Get(int id)** returns ActiveIngredient where Id is the given id in DataStore's ActiveIngredients IDCollection.
+- **GetAll()** returns all ActiveIngredients of DataStore's ActiveIngredients IDCollection.
+- **Update(ActiveIngredient item)** modify existing ActiveIngredient with the same id in DataStore's ActiveIngredients IDCollection. Returns true on success and false on fail.
+#### RemedyForRepository
+Implements IItemStore<RemedyFor> with the following methods:
+- **Add(RemedyFor item)** add RemedyFor to the DataStore's RemedyForAilments IDCollection. Returns true on success and false on fail.
+- **Delete(int id)** remove RemedyFor with id from DataStore's RemedyForAilments IDCollection. Returns true on success and false on fail.
+- **Get(int id)** returns RemedyFor where Id is the given id in DataStore's RemedyForAilments IDCollection.
+- **GetAll()** returns all RemedyFor objects of DataStore's RemedyForAilments IDCollection.
+- **Update(RemedyFor item)** modify existing RemedyFor with the same id in DataStore's RemedyForAilments IDCollection. Returns true on success and false on fail.
 
 ### Interface hierarchy
 #### IBaseStore<T>
