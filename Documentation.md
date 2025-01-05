@@ -210,7 +210,95 @@ For ReminderController we pass the following objects with dependency injection:
 | GET | /PillPal/Reminder/{userid} | Admin or the user with this id | Empty | Get all reminders of the user with this id |
 | POST | /PillPal/Reminder | Admin or the user who we post the reminder to | CreateReminderDto which is validated and throws BadRequest if invalid | Check if new reminder is valid and user and medicine both exists, then add the new reminder |
 | PUT | /PillPal/Reminder/5 | Admin or the user who the reminder belongs to | CreateReminderDto which is validated and throws BadRequest if invalid | Check if reminder exists and user and medicine also exists, then update the existing reminder |
-| DELETE | /PillPal/User/5 | Admin or the user who the reminder belongs to | Empty | Remove reminder by id |
+| DELETE | /PillPal/Reminder/5 | Admin or the user who the reminder belongs to | Empty | Remove reminder by id |
+#### SideEffectController
+For SideEffectController we pass the following objects with dependency injection:
+- An IItemStore<SideEffect> as repository
+- A validator for CreateSideEffectDto
+
+| Request | URL | Authorization | Body | Description |
+| ------- | ------- | ------- | ------- | ------- |
+| GET | /PillPal/SideEffect | None | Empty | Get all SideEffects |
+| GET | /PillPal/SideEffect/{id} | None | Empty | Get the SideEffect with the given id |
+| POST | /PillPal/SideEffect | Admin | CreateSideEffectDto which is validated and throws BadRequest if invalid | Check if new SideEffect is valid, then add the new SideEffect |
+| PUT | /PillPal/SideEffect/{id} | Admin | CreateSideEffectDto which is validated and throws BadRequest if invalid | Check if SideEffect exists and the Dto is valid, then update the existing SideEffect |
+| DELETE | /PillPal/SideEffect/{id} | Admin | Empty | Remove SideEffect by id |
+#### RemedyForController
+For RemedyForController we pass the following objects with dependency injection:
+- An IItemStore<RemedyFor> as repository
+- A validator for CreateRemedyForDto
+
+| Request | URL | Authorization | Body | Description |
+| ------- | ------- | ------- | ------- | ------- |
+| GET | /PillPal/RemedyFor | None | Empty | Get all RemedyFor objects |
+| GET | /PillPal/RemedyFor/{id} | None | Empty | Get the RemedyFor with the given id |
+| POST | /PillPal/RemedyFor | Admin | CreateRemedyForDto which is validated and throws BadRequest if invalid | Check if new RemedyFor is valid, then add the new RemedyFor |
+| PUT | /PillPal/RemedyFor/{id} | Admin | CreateRemedyForDto which is validated and throws BadRequest if invalid | Check if RemedyFor exists and the Dto is valid, then update the existing RemedyFor |
+| DELETE | /PillPal/RemedyFor/{id} | Admin | Empty | Remove RemedyFor by id |
+#### ActiveIngredientController
+For ActiveIngredientController we pass the following objects with dependency injection:
+- An IItemStore<ActiveIngredient> as repository
+- A validator for CreateActiveIngredientDto
+
+| Request | URL | Authorization | Body | Description |
+| ------- | ------- | ------- | ------- | ------- |
+| GET | /PillPal/ActiveIngredient | None | Empty | Get all ActiveIngredients |
+| GET | /PillPal/ActiveIngredient/{id} | None | Empty | Get the ActiveIngredient with the given id |
+| POST | /PillPal/ActiveIngredient | Admin | CreateActiveIngredientDto which is validated and throws BadRequest if invalid | Check if new ActiveIngredient is valid, then add the new ActiveIngredient |
+| PUT | /PillPal/ActiveIngredient/{id} | Admin | CreateActiveIngredientDto which is validated and throws BadRequest if invalid | Check if ActiveIngredient exists and the Dto is valid, then update the existing ActiveIngredient |
+| DELETE | /PillPal/ActiveIngredient/{id} | Admin | Empty | Remove ActiveIngredient by id |
+#### PackageSizeController
+For PackageSizeController we pass the following objects with dependency injection:
+- An IJoinStore<PackageSize> as repository
+- An IItemStore<Medicine> as repository
+- A validator for CreatePackageSizeDto
+
+| Request | URL | Authorization | Body | Description |
+| ------- | ------- | ------- | ------- | ------- |
+| GET | /PillPal/PackageSize | None | Empty | Get all PackageSizes |
+| GET | /PillPal/PackageSize/{id} | None | Empty | Get the PackageSizes that belong to the medicine with the given id |
+| POST | /PillPal/PackageSize | Admin | CreatePackageSizeDto which is validated and throws BadRequest if invalid | Check if new PackageSize is valid and whether medicine exists, then add the new PackageSize |
+| PUT | /PillPal/PackageSize/{id} | Admin | CreatePackageSizeDto which is validated and throws BadRequest if invalid | Check if both PackageSize and medicine exist and the Dto is valid, then update the existing PackageSize |
+| DELETE | /PillPal/PackageSize/{id} | Admin | Empty | Remove PackageSize by id |
+#### MedicineActiveIngredientController
+For MedicineActiveIngredientController we pass the following objects with dependency injection:
+- An IJoinStore<MedicineActiveIngredient> as repository
+- An IItemStore<Medicine> as repository
+- An IItemStore<ActiveIngredient> as repository
+
+| Request | URL | Authorization | Body | Description |
+| ------- | ------- | ------- | ------- | ------- |
+| GET | /PillPal/MedicineActiveIngredient | None | Empty | Get all MedicineActiveIngredients |
+| GET | /PillPal/MedicineActiveIngredient/{id} | None | Empty | Get the MedicineActiveIngredients that belong to the medicine with the given id |
+| POST | /PillPal/MedicineActiveIngredient | Admin | CreateMedicineActiveIngredientDto | Check if both ActiveIngredient and Medicine exist, then add the new MedicineActiveIngredient |
+| PUT | /PillPal/MedicineActiveIngredient/{id} | Admin | CreateMedicineActiveIngredientDto | Check if MedicineActiveIngredient, ActiveIngredient and Medicine all exist, then update the existing MedicineActiveIngredient |
+| DELETE | /PillPal/MedicineActiveIngredient/{id} | Admin | Empty | Remove MedicineActiveIngredient by id |
+#### MedicineSideEffectController
+For MedicineSideEffectController we pass the following objects with dependency injection:
+- An IJoinStore<MedicineSideEffect> as repository
+- An IItemStore<Medicine> as repository
+- An IItemStore<SideEffect> as repository
+
+| Request | URL | Authorization | Body | Description |
+| ------- | ------- | ------- | ------- | ------- |
+| GET | /PillPal/MedicineSideEffect | None | Empty | Get all MedicineSideEffects |
+| GET | /PillPal/MedicineSideEffect/{id} | None | Empty | Get the MedicineSideEffects that belong to the medicine with the given id |
+| POST | /PillPal/MedicineSideEffect | Admin | CreateMedicineSideEffectDto | Check if both SideEffect and Medicine exist, then add the new MedicineSideEffect |
+| PUT | /PillPal/MedicineSideEffect/{id} | Admin | CreateMedicineSideEffectDto | Check if MedicineSideEffect, SideEffect and Medicine all exist, then update the existing MedicineSideEffect |
+| DELETE | /PillPal/MedicineSideEffect/{id} | Admin | Empty | Remove MedicineSideEffect by id |
+#### MedicineRemedyForController
+For MedicineRemedyForController we pass the following objects with dependency injection:
+- An IJoinStore<MedicineRemedyFor> as repository
+- An IItemStore<Medicine> as repository
+- An IItemStore<RemedyFor> as repository
+
+| Request | URL | Authorization | Body | Description |
+| ------- | ------- | ------- | ------- | ------- |
+| GET | /PillPal/MedicineRemedyFor | None | Empty | Get all MedicineRemedyFor objects |
+| GET | /PillPal/MedicineRemedyFor/{id} | None | Empty | Get the MedicineRemedyFor objects that belong to the medicine with the given id |
+| POST | /PillPal/MedicineRemedyFor | Admin | CreateMedicineRemedyForDto | Check if both RemedyFor and Medicine exist, then add the new MedicineRemedyFor |
+| PUT | /PillPal/MedicineRemedyFor/{id} | Admin | CreateMedicineRemedyForDto | Check if MedicineRemedyFor, RemedyFor and Medicine all exist, then update the existing MedicineRemedyFor |
+| DELETE | /PillPal/MedicineRemedyFor/{id} | Admin | Empty | Remove MedicineRemedyFor by id |
 
 ### Repositories
 Repositories are only responsible for the accessible methods of a model. They all manipulate a single DataStore passed by dependency injection. All repositories are implementing one of the following interfaces: IJoinStore<T>, IItemStore<T>.
