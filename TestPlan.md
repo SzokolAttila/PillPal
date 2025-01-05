@@ -116,9 +116,9 @@
 | Scope  | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
 | Integration test | Admin role needed to create remedyFor (and medicineRemedyFor) | Create an admin user, a simple user and a medicine | Try adding a remedyFor (and then a medicineRemedyFor) first with user token, then with admin token | Throws a Forbidden error when attempting with user token |
-| Integration test | Cannot add remedy if the ailment's length is less than 3 | Create an admin user and a medicine | Try posting a remedyFor with the ailment's length less than 3 | Validation exception will be thrown | 
+| Integration test | Cannot add remedyFor if the ailment's length is less than 3 | Create an admin user and a medicine | Try posting a remedyFor with the ailment's length less than 3 | Validation exception will be thrown | 
 | Integration test | Cannot add the same ailment twice | Create an admin user and a remedyFor | Try posting the remedyFor twice | The second attempt will throw a validation exception | 
-| Integration test | Cannot add remedy to non-existant medicine | Creat an admin user, a remedyFor and a medicineRemedyFor | Try posting the medicineRemedyFor without adding a medicine | Throws exception saying the medicine doesn't exist | 
+| Integration test | Cannot add remedyFor to non-existant medicine | Creat an admin user, a remedyFor and a medicineRemedyFor | Try posting the medicineRemedyFor without adding a medicine | Throws exception saying the medicine doesn't exist | 
 | Integration test | Cannot add non-existant remedyFor to medicine | Create an admin user, a medicine and a medicineRemedyFor | Try posting the medicineRemedyFor without adding the remedyFor | Exception saying that the RemedyFor doesn't exist. |
 | Integration test | Admin role needed to edit / delete remedyFor | Create an admin user, a simple user, a medicine, a remedyFor and a medicineRemedyFor | Try editing / deleting the remedyFor (and the medicineRemedyFor) first with user token, then with admin token | First attempt will throw Forbidden error, the second one will succeed | 
 | Integration test | Cannot edit / delete non-existant remedyFor / medicineRemedyFor | Create an admin user | Try to edit / delete a remedyFor / medicineRemedyFor without adding it first | Not Found error | 
@@ -127,12 +127,23 @@
 | Scope  | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
 | Integration test | Admin role needed to create sideEffect (and medicineSideEffect) | Create an admin user, a simple user and a medicine | Try adding a sideEffect (and then a medicineSideEffect) first with user token, then with admin token | Throws a Forbidden error when attempting with user token |
-| Integration test | Cannot add remedy if the effect's length is less than 3 | Create an admin user and a medicine | Try posting a sideEffect with the effect's length less than 3 | Validation exception will be thrown | 
+| Integration test | Cannot add sideEffect if the effect's length is less than 3 | Create an admin user and a medicine | Try posting a sideEffect with the effect's length less than 3 | Validation exception will be thrown | 
 | Integration test | Cannot add the same effect twice | Create an admin user and a sideEffect | Try posting the sideEffect twice | The second attempt will throw a validation exception | 
-| Integration test | Cannot add remedy to non-existant medicine | Creat an admin user, a sideEffect and a medicineSideEffect | Try posting the medicineSideEffect without adding a medicine | Throws exception saying the medicine doesn't exist | 
+| Integration test | Cannot add sideEffect to non-existant medicine | Creat an admin user, a sideEffect and a medicineSideEffect | Try posting the medicineSideEffect without adding a medicine | Throws exception saying the medicine doesn't exist | 
 | Integration test | Cannot add non-existant sideEffect to medicine | Create an admin user, a medicine and a medicineSideEffect | Try posting the medicineSideEffect without adding the sideEffect | Exception saying that the sideEffect doesn't exist. |
 | Integration test | Admin role needed to edit / delete sideEffect | Create an admin user, a simple user, a medicine, a sideEffect and a medicineSideEffect | Try editing / deleting the sideEffect (and the medicineSideEffect) first with user token, then with admin token | First attempt will throw Forbidden error, the second one will succeed | 
 | Integration test | Cannot edit / delete non-existant sideEffect / medicineSideEffect | Create an admin user | Try to edit / delete a sideEffect / medicineSideEffect without adding it first | Not Found error | 
+
+### ActiveIngredientAPI tests (authorization, validation and join table configuration (medicineActiveIngredient also included))
+| Scope  | Description | Preparations | Actions | Expected result |
+| ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
+| Integration test | Admin role needed to create activeIngredient (and medicineActiveIngredient) | Create an admin user, a simple user and a medicine | Try adding an activeIngredient (and then a medicineActiveIngredient) first with user token, then with admin token | Throws a Forbidden error when attempting with user token |
+| Integration test | Cannot add activeIngredient if the ingredient's length is less than 3 | Create an admin user and a medicine | Try posting an activeIngredient with the ingredient's length less than 3 | Validation exception will be thrown | 
+| Integration test | Cannot add the same ingredient twice | Create an admin user and an activeIngredient | Try posting the activeIngredient twice | The second attempt will throw a validation exception | 
+| Integration test | Cannot add activeIngredient to non-existant medicine | Creat an admin user, an activeIngredient and a medicineActiveIngredient | Try posting the medicineActiveIngredient without adding a medicine | Throws exception saying the medicine doesn't exist | 
+| Integration test | Cannot add non-existant activeIngredient to medicine | Create an admin user, a medicine and a medicineActiveIngredient | Try posting the medicineActiveIngredient without adding the activeIngredient | Exception saying that the activeIngredient doesn't exist. |
+| Integration test | Admin role needed to edit / delete activeIngredient | Create an admin user, a simple user, a medicine, an activeIngredient and a medicineActiveIngredient | Try editing / deleting the activeIngredient (and the medicineActiveIngredient) first with user token, then with admin token | First attempt will throw Forbidden error, the second one will succeed | 
+| Integration test | Cannot edit / delete non-existant activeIngredient / medicineActiveIngredient | Create an admin user | Try to edit / delete an activeIngredient / medicineActiveIngredient without adding it first | Not Found error | 
 
 ### GUI tests (manual testing)
 | Scope  | Description | Preparations | Actions | Expected result |
