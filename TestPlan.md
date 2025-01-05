@@ -32,9 +32,6 @@
 | Integration test | Updating the name changes it | Create admin token; create medicine and post it | Check if medicine's name is the new one; update medicine with changed name; check if medicines name is the new one | returns false; returns true |
 | Integration test | Posting or putting medicine with short or long name throws exception | Create admin token; create medicine and post it | Post and put medicine with short name; post and put medicine with long name | All of them throws exception with the validator's message |
 | Integration test | Posting or putting medicine with short or long manufacturer name throws exception | Create admin token; create medicine and post it | Post and put medicine with short manufacturer name; post and put medicine with long manufacturer name | All of them throws exception with the validator's message |
-| Integration test | Posting or putting medicine with no active ingredients throws exception | Create admin token; create medicine and post it | Post and put medicine with no active ingredients | All of them throws exception with the validator's message |
-| Integration test | Posting or putting medicine with no package size throws exception | Create admin token; create medicine and post it | Post and put medicine with no package size | All of them throws exception with the validator's message |
-| Integration test | Posting or putting medicine with no remedy throws exception | Create admin token; create medicine and post it | Post and put medicine with no remedy | All of them throws exception with the validator's message |
 | Integration test | Posting or putting medicine with not mg or ml package unit throws exception | Create admin token; create medicine and post it | Post and put medicine with a different unit | All of them throws exception with the validator's message |
 
 ### ReminderAPI tests (validator and authorization)
@@ -103,6 +100,17 @@
 | Integration test | Putting user with changed password without special throws exception | Create admin and user, post them and login with admin | Modify user's password to one without special characters, then put it | Throws argument exception with validator's message |
 | Integration test | Putting user with proper changed password and improper changed username throws exception | Create admin and user, post them and login with admin | Modify user's password to proper one and username to an improper one, then put it | Throws argument exception with validator's message |
 | Integration test | Putting user with improper changed password and proper changed username throws exception | Create admin and user, post them and login with admin | Modify user's password to improper one and username to an proper one, then put it | Throws argument exception with validator's message |
+
+### PackageSizeAPI tests (authorization, validation and join table configuration)
+| Scope | Description | Preparations | Actions | Expected result |
+| ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
+| Integration test | Admin Role needed to create PackageSize for medicine | Create an admin user, a simple user and a medicine | Try to post a packageSize first with the user's token, then with the admin token | first attempt will fail with "Forbidden" message, the second one will succeed |
+| Integration test | Added package size can be viewed via the medicine | Create an admin user, a medicine and post a packageSize | Get the medicine the package size was added to | Count of packageSizes will be one | 
+| Integration test | Cannot create package size if the size is not greater than 0 | Create an admin user and a medicine | Try posting a package size with 0 as size | Throws argument exception saying "Package size has to be greater than 0." |\
+| Integration test | Cannot add packageSize to a non-existant medicine | Creat an admin user | Try posting a package size without adding a medicine | Throws argument exception saying that the medicine doesn't exist | 
+| Integration test | Admin role needed to edit package size | Create an admin user, a simple user, a medicine and a package size | Try putting the edited package size with the user token and then the admin token | First attempt will fail with "Forbidden" message, second attempt will succeed | 
+| Integration test | Admin Role needed to delete package size | Create an admin user, a simple user, a medicine and a package size | Try deleting the package size first with the user token and then the admin token | First attempt: Forbidden; second attempt: NoContent |
+| Integration test | Cannot edit / delete non-existant package size | Create an admin user | Try to edit / delete the package size without adding it first | Not Found exception | 
 
 ### GUI tests (manual testing)
 | Scope  | Description | Preparations | Actions | Expected result |

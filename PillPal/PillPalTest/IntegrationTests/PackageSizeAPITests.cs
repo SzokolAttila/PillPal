@@ -54,6 +54,14 @@ namespace PillPalTest.IntegrationTests
             Assert.AreEqual("Medicine with the given ID doesn't exist.", exception.Message);
         }
         [TestMethod]
+        public void CannotEditNonExistantPackageSize()
+        {
+            var adminToken = GetAdminToken();
+            var packageSize = new CreatePackageSizeDto() { MedicineId= 1, Size = 1 };
+            var exception = Assert.ThrowsException<ArgumentException>(() => packageSizeHandler.EditPackageSize(1, packageSize, adminToken));
+            Assert.AreEqual("Not Found", exception.Message);
+        }
+        [TestMethod]
         public void AdminRoleNeededToEditPackageSize()
         {
             var adminToken = GetAdminToken();
@@ -66,6 +74,13 @@ namespace PillPalTest.IntegrationTests
             Assert.AreEqual("Forbidden", exception.Message);
             packageSizeHandler.EditPackageSize(1, packageSize, adminToken);
             Assert.AreEqual(30, medicineHandler.GetMedicine(1).PackageSizes.ElementAt(0));
+        }
+        [TestMethod]
+        public void CannotDeleteNonExistantPackageSize()
+        {
+            var adminToken = GetAdminToken();
+            var exception = Assert.ThrowsException<ArgumentException>(() => packageSizeHandler.DeletePackageSize(1, adminToken));
+            Assert.AreEqual("Not Found", exception.Message);
         }
         [TestMethod]
         public void AdminRoleNeededToDeletePackageSize()
