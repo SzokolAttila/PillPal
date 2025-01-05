@@ -16,6 +16,10 @@ Our main issue with HttpResponseMessage is that we have a wide range of differen
 
 ### API handlers
 For handling different request towards the API from the backend we created API handlers to make it easier and avoid code repeating. They also handle different occuring issues and throws exception with the proper error message.
+
+#### APIHandlerBase
+This class serves as a base class for APIHandlers, and thus they are all derived from this class. It includes the HttpClient and JsonSerializerOptions as protected fields, and the constructor (that is the same for every APIHandler class). This reduces code repetition and makes it easier to work with these classes.
+
 #### MedicineAPIHandler
 Through constructor base url and HttpClient can be passed to make testing easier for us. If HttpClient is not given then it is created with the base url.
 Methods: 
@@ -41,6 +45,69 @@ Methods:
 - **CreateUser(CreateUserDto user)** void method posts the serialized User object, this way user can registrate a new account. In case of any issues function throws exception (usually it somehow connects to validation).
 - **UpdateUser(int id, CreateUserDto user, string auth)** void method sets the authorization in the header to the given bearer token as you need to be admin or the user themself to access putting; Then puts the serialized User object to the given id. In case of any issues function throws exception (usually it somehow connects to authorization or validation).
 - **DeleteUser(int id, string auth)** void method sets the authorization in the header to the given bearer token as you need to be admin or the user themself to access deleting; Then deletes the user with the given id. In case of any issues function throws exception (usually it somehow connects to authorization).
+
+#### PackageSizeAPIHandler
+Derived from APIHandlerBase class and uses its constructor to initialize fields.
+Methods:
+- **GetAll()** requires no authorization and returns an IEnumerable of every PackageSize added to the database, regardless of which medicine it was added to. 
+- **Get(int id)** requires no authorization and returns an IEnumerable of PackageSizes based on the id passed (it filters based on medicineId)
+- **CreatePackageSize(CreatePackageSizeDto createDto, string token)** requires admin token to post a PackageSize to the database. Throws an argument exception in case any data given is not appropriate (if the Dto didn't pass the validation test, the user is not authorized or the medicine doesn't exist).
+- **EditPackageSize(int id, CreatePackageSizeDto createDto, string token)** requires admin token to update an existing PackageSize in the database. Throws an exception if the PackageSize doesn't exist, the user is not authorized or if any other issue comes up. 
+- **DeletePackageSize(int id, string token)** requires admin token to delete an existing PackageSize from the database. Throws an argument exception if anything goes wrong.
+
+#### SideEffectAPIHandler
+Derived from APIHandlerBase class and uses its constructor to initialize fields.
+Methods:
+- **GetAll()** requires no authorization and returns an IEnumerable of every SideEffect added to the database.
+- **Get(int id)** requires no authorization and returns a single SideEffect from the database that has the given id. If it doesn't exist, it throws an argument exception with the "Not Found" message.
+- **CreateSideEffect(CreateSideEffectDto createDto, string token)** requires admin role to post a SideEffect to the database. If any issues come up (such as validation problems) the function throws an argument exception.
+- **EditSideEffect(int id, CreateSideEffectDto createDto, string token)** requires admin role to update an existing SideEffect in the database. Throws an excetpion if the SideEffect doesn't exist, the user is not authorized or if any other issue comes up.
+- **DeleteSideEffect(int id, string token)** requires admin role to delete an existing SideEffect from the database. Throws an argument exception if anything goes amiss.
+
+#### MedicineSideEffectAPIHandler
+Derived from APIHandlerBase class and uses its constructor.
+Methods: 
+- **GetAll()** requires no authorization and returns an IEnumerable of every MedicineSideEffect added to the database, regardless of which medicine it belongs to.
+- **Get(int id)** requires no authorization and returns an IEnumerable of every MedicineSideEffect that belongs to the medicine with the given id.
+- **CreateMedicineSideEffect(CreateMedicineSideEffect createDto, string token)** requires admin role to post a MedicineSideEffect to the database. Throws an argument exception if passed data is not valid.
+- **EditMedicineSideEffect(int id, CreateMedicineSideEffect createDto, string token)** requires admin role to update an existing MedicineSideEffect in the database. Throws an argument exception if any issue comes up.
+- **DeleteMedicineSideEffect(int id, string token)** requires admin role to delete an existing MedicineSideEffect from the database. Throws an exception if anything goes amiss, such as the item not being found.
+
+#### ActiveIngredientAPIHandler
+Derived from APIHandlerBase class and uses its constructor to initialize fields.
+Methods:
+- **GetAll()** requires no authorization and returns an IEnumerable of every ActiveIngredient added to the database.
+- **Get(int id)** requires no authorization and returns a single ActiveIngredient from the database that has the given id. If it doesn't exist, it throws an argument exception with the "Not Found" message.
+- **CreateActiveIngredient(CreateActiveIngredientDto createDto, string token)** requires admin role to post a ActiveIngredient to the database. If any issues come up (such as validation problems) the function throws an argument exception.
+- **EditActiveIngredient(int id, CreateActiveIngredientDto createDto, string token)** requires admin role to update an existing ActiveIngredient in the database. Throws an excetpion if the ActiveIngredient doesn't exist, the user is not authorized or if any other issue comes up.
+- **DeleteActiveIngredient(int id, string token)** requires admin role to delete an existing ActiveIngredient from the database. Throws an argument exception if anything goes amiss.
+
+#### MedicineActiveIngredientAPIHandler
+Derived from APIHandlerBase class and uses its constructor.
+Methods: 
+- **GetAll()** requires no authorization and returns an IEnumerable of every MedicineActiveIngredient added to the database, regardless of which medicine it belongs to.
+- **Get(int id)** requires no authorization and returns an IEnumerable of every MedicineActiveIngredient that belongs to the medicine with the given id.
+- **CreateMedicineActiveIngredient(CreateMedicineActiveIngredient createDto, string token)** requires admin role to post a MedicineActiveIngredient to the database. Throws an argument exception if passed data is not valid.
+- **EditMedicineActiveIngredient(int id, CreateMedicineActiveIngredient createDto, string token)** requires admin role to update an existing MedicineActiveIngredient in the database. Throws an argument exception if any issue comes up.
+- **DeleteMedicineActiveIngredient(int id, string token)** requires admin role to delete an existing MedicineActiveIngredient from the database. Throws an exception if anything goes amiss, such as the item not being found.
+
+#### RemedyForAPIHandler
+Derived from APIHandlerBase class and uses its constructor to initialize fields.
+Methods:
+- **GetAll()** requires no authorization and returns an IEnumerable of every RemedyFor added to the database.
+- **Get(int id)** requires no authorization and returns a single RemedyFor from the database that has the given id. If it doesn't exist, it throws an argument exception with the "Not Found" message.
+- **CreateRemedyFor(CreateRemedyForDto createDto, string token)** requires admin role to post a RemedyFor to the database. If any issues come up (such as validation problems) the function throws an argument exception.
+- **EditRemedyFor(int id, CreateRemedyForDto createDto, string token)** requires admin role to update an existing RemedyFor in the database. Throws an excetpion if the RemedyFor doesn't exist, the user is not authorized or if any other issue comes up.
+- **DeleteRemedyFor(int id, string token)** requires admin role to delete an existing RemedyFor from the database. Throws an argument exception if anything goes amiss.
+
+#### MedicineRemedyForAPIHandler
+Derived from APIHandlerBase class and uses its constructor.
+Methods: 
+- **GetAll()** requires no authorization and returns an IEnumerable of every MedicineRemedyFor added to the database, regardless of which medicine it belongs to.
+- **Get(int id)** requires no authorization and returns an IEnumerable of every MedicineRemedyFor that belongs to the medicine with the given id.
+- **CreateMedicineRemedyFor(CreateMedicineRemedyFor createDto, string token)** requires admin role to post a MedicineRemedyFor to the database. Throws an argument exception if passed data is not valid.
+- **EditMedicineRemedyFor(int id, CreateMedicineRemedyFor createDto, string token)** requires admin role to update an existing MedicineRemedyFor in the database. Throws an argument exception if any issue comes up.
+- **DeleteMedicineRemedyFor(int id, string token)** requires admin role to delete an existing MedicineRemedyFor from the database. Throws an exception if anything goes amiss, such as the item not being found.
 
 ## WebAPI
 ### Validators
