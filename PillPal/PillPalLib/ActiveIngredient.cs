@@ -13,7 +13,7 @@ namespace PillPalLib
         public int Id { get; set; }
         public string Ingredient { get; set; } = string.Empty;
         [JsonIgnore]
-        public List<MedicineActiveIngredient> ActiveIngredients { get; set; } = [];
+        public List<MedicineActiveIngredient> MedicineActiveIngredients { get; set; } = [];
         [JsonIgnore]
         public List<Medicine> Medicines { get; set; } = [];
     }

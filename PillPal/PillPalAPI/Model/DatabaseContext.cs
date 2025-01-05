@@ -46,7 +46,7 @@ namespace PillPalAPI.Model
                 .HasForeignKey(x => x.MedicineId);
             builder.Entity<MedicineActiveIngredient>()
                 .HasOne(x => x.ActiveIngredient)
-                .WithMany(x => x.ActiveIngredients)
+                .WithMany(x => x.MedicineActiveIngredients)
                 .HasForeignKey(x => x.ActiveIngredientId);
 
             builder.Entity<MedicineRemedyFor>().Navigation(x => x.Medicine).AutoInclude();
