@@ -115,6 +115,7 @@ namespace PillPalTest.IntegrationTests
             Assert.AreEqual("Forbidden", exception.Message);
             sideEffectHandler.EditSideEffect(1, sideEffect, adminToken);
             Assert.AreEqual("headache", medicineHandler.GetMedicine(1).SideEffects.ElementAt(0));
+            Assert.AreEqual("headache", sideEffectHandler.Get(1).Effect);
             sideEffect.Effect = "tummyache";
             sideEffectHandler.CreateSideEffect(sideEffect, adminToken);
             medicineSideEffect.SideEffectId = 2;
@@ -155,6 +156,7 @@ namespace PillPalTest.IntegrationTests
             Assert.AreEqual("Forbidden", exception.Message);
             sideEffectHandler.DeleteSideEffect(1, adminToken);
             Assert.AreEqual(0, sideEffectHandler.GetAll().Count());
+            Assert.AreEqual(0, medicineSideEffectHandler.GetAll().Count());
         }
         [TestMethod]
         public void CannotDeleteNonExistantSideEffect()

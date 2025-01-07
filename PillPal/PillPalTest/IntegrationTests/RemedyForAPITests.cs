@@ -141,6 +141,7 @@ namespace PillPalTest.IntegrationTests
             Assert.AreEqual("Forbidden", exception.Message);
             remedyForHandler.DeleteRemedyFor(1, adminToken);
             Assert.AreEqual(0, remedyForHandler.GetAll().Count());
+            Assert.AreEqual(0, medicineRemedyForHandler.GetAll().Count());
         }
         [TestMethod]
         public void CannotDeleteNonExistantRemedyFor()

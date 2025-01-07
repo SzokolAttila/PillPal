@@ -97,6 +97,7 @@ namespace PillPalTest.IntegrationTests
             Assert.AreEqual("Forbidden", exception.Message);
             packageSizeHandler.EditPackageSize(1, packageSize, adminToken);
             Assert.AreEqual(30, medicineHandler.GetMedicine(1).PackageSizes.ElementAt(0));
+            Assert.AreEqual(30, packageSizeHandler.Get(1).First().Size);
         }
         [TestMethod]
         public void CannotDeleteNonExistantPackageSize()

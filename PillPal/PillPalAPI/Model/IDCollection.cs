@@ -34,7 +34,6 @@ namespace PillPalLib
                 return false;
             var context = values.Add(item);
             context.Context.SaveChanges();
-            context.State = EntityState.Added;
             return true;
         }
         public bool Replace(T item)

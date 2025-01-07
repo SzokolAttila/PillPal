@@ -96,6 +96,16 @@ namespace PillPalTest.IntegrationTests
             Assert.AreEqual("Forbidden", exception.Message);
             activeIngredientHandler.EditActiveIngredient(1, activeIngredient, adminToken);
             Assert.AreEqual("diclofenac", medicineHandler.GetMedicine(1).ActiveIngredients.ElementAt(0));
+            Assert.AreEqual("diclofenac", activeIngredientHandler.Get(1).Ingredient);
+            activeIngredient.Ingredient = "caffeine";
+            activeIngredientHandler.CreateActiveIngredient(activeIngredient, adminToken);
+            medicineActiveIngredient.ActiveIngredientId = 2;
+            exception = Assert.ThrowsException<ArgumentException>(
+                () => medicineActiveIngredientHandler.EditMedicineActiveIngredient(1, medicineActiveIngredient, userToken));
+            Assert.AreEqual("Forbidden", exception.Message);
+            medicineActiveIngredientHandler.EditMedicineActiveIngredient(1, medicineActiveIngredient, adminToken);
+            Assert.AreEqual(2, medicineActiveIngredientHandler.Get(1).First().ActiveIngredientId);
+            Assert.AreEqual("caffeine", medicineHandler.GetMedicine(1).ActiveIngredients.First());
         }
         [TestMethod]
         public void CannotEditNonExistantActiveIngredient()
@@ -105,25 +115,26 @@ namespace PillPalTest.IntegrationTests
             var exception = Assert.ThrowsException<ArgumentException>(() => activeIngredientHandler.EditActiveIngredient(1, activeIngredient, adminToken));
             Assert.AreEqual("Not Found", exception.Message);
         }
-        //[TestMethod]
-        //public void AdminRoleNeededToDeleteActiveIngredient()
-        //{
-        //    var adminToken = GetAdminToken();
-        //    CreateMedicine(adminToken);
-        //    var userToken = GetUserToken();
-        //    var activeIngredient = new CreateActiveIngredientDto() { Ingredient = "caffeine" };
-        //    activeIngredientHandler.CreateActiveIngredient(activeIngredient, adminToken);
-        //    var medicineActiveIngredient = new CreateMedicineActiveIngredientDto() { MedicineId = 1, ActiveIngredientId = 1 };
-        //    medicineActiveIngredientHandler.CreateMedicineActiveIngredient(medicineActiveIngredient, adminToken);
-        //    var exception = Assert.ThrowsException<ArgumentException>(() => medicineActiveIngredientHandler.DeleteMedicineActiveIngredient(1, userToken));
-        //    Assert.AreEqual("Forbidden", exception.Message);
-        //    medicineActiveIngredientHandler.DeleteMedicineActiveIngredient(1, adminToken);
-        //    Assert.AreEqual(0, medicineHandler.GetMedicine(1).ActiveIngredients.Count());
-        //    exception = Assert.ThrowsException<ArgumentException>(() => activeIngredientHandler.DeleteActiveIngredient(1, userToken));
-        //    Assert.AreEqual("Forbidden", exception.Message);
-        //    activeIngredientHandler.DeleteActiveIngredient(1, adminToken);
-        //    Assert.AreEqual(0, activeIngredientHandler.GetAll().Count());
-        //}
+        [TestMethod]
+        public void AdminRoleNeededToDeleteActiveIngredient()
+        {
+            var adminToken = GetAdminToken();
+            CreateMedicine(adminToken);
+            var userToken = GetUserToken();
+            var activeIngredient = new CreateActiveIngredientDto() { Ingredient = "caffeine" };
+            activeIngredientHandler.CreateActiveIngredient(activeIngredient, adminToken);
+            var medicineActiveIngredient = new CreateMedicineActiveIngredientDto() { MedicineId = 1, ActiveIngredientId = 1 };
+            medicineActiveIngredientHandler.CreateMedicineActiveIngredient(medicineActiveIngredient, adminToken);
+            var exception = Assert.ThrowsException<ArgumentException>(() => medicineActiveIngredientHandler.DeleteMedicineActiveIngredient(1, userToken));
+            Assert.AreEqual("Forbidden", exception.Message);
+            exception = Assert.ThrowsException<ArgumentException>(() => activeIngredientHandler.DeleteActiveIngredient(1, userToken));
+            Assert.AreEqual("Forbidden", exception.Message);
+            //medicineActiveIngredientHandler.DeleteMedicineActiveIngredient(1, adminToken);
+            //Assert.AreEqual(0, medicineHandler.GetMedicine(1).ActiveIngredients.Count());
+            activeIngredientHandler.DeleteActiveIngredient(1, adminToken);
+            Assert.AreEqual(0, activeIngredientHandler.GetAll().Count());
+            Assert.AreEqual(0, medicineActiveIngredientHandler.GetAll().Count());
+        }
         [TestMethod]
         public void CannotDeleteNonExistantActiveIngredient()
         {
