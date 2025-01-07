@@ -87,6 +87,20 @@ namespace PillPalTest.IntegrationTests
             Assert.AreEqual("SideEffect with the given ID doesn't exist.", exception.Message);
         }
         [TestMethod]
+        public void CannotEditToNonExistantMedicine()
+        {
+            var adminToken = GetAdminToken();
+            CreateMedicine(adminToken);
+            var sideEffect = new CreateSideEffectDto() { Effect = "tummyache" };
+            var medicineSideEffect = new CreateMedicineSideEffectDto() { MedicineId = 1, SideEffectId = 1 };
+            sideEffectHandler.CreateSideEffect(sideEffect, adminToken);
+            medicineSideEffectHandler.CreateMedicineSideEffect(medicineSideEffect, adminToken);
+            medicineSideEffect.MedicineId = 2;
+            var exception = Assert.ThrowsException<ArgumentException>(
+                () => medicineSideEffectHandler.EditMedicineSideEffect(1, medicineSideEffect, adminToken));
+            Assert.AreEqual("Medicine with the given ID doesn't exist.", exception.Message);
+        }
+        [TestMethod]
         public void AdminRoleNeededToEditSideEffect()
         {
             var adminToken = GetAdminToken();
@@ -101,6 +115,15 @@ namespace PillPalTest.IntegrationTests
             Assert.AreEqual("Forbidden", exception.Message);
             sideEffectHandler.EditSideEffect(1, sideEffect, adminToken);
             Assert.AreEqual("headache", medicineHandler.GetMedicine(1).SideEffects.ElementAt(0));
+            sideEffect.Effect = "tummyache";
+            sideEffectHandler.CreateSideEffect(sideEffect, adminToken);
+            medicineSideEffect.SideEffectId = 2;
+            exception = Assert.ThrowsException<ArgumentException>(
+                () => medicineSideEffectHandler.EditMedicineSideEffect(1, medicineSideEffect, userToken));
+            Assert.AreEqual("Forbidden", exception.Message);
+            medicineSideEffectHandler.EditMedicineSideEffect(1, medicineSideEffect, adminToken);
+            Assert.AreEqual("tummyache", medicineHandler.GetMedicine(1).SideEffects.ElementAt(0));
+            Assert.AreEqual(2, medicineSideEffectHandler.Get(1).First().SideEffectId);
         }
         [TestMethod]
         public void CannotEditNonExistantSideEffect()
@@ -108,6 +131,10 @@ namespace PillPalTest.IntegrationTests
             var adminToken = GetAdminToken();
             var sideEffect = new CreateSideEffectDto() { Effect = "tummyache " };
             var exception = Assert.ThrowsException<ArgumentException>(() => sideEffectHandler.EditSideEffect(1, sideEffect, adminToken));
+            Assert.AreEqual("Not Found", exception.Message);
+            var medicineSideEffect = new CreateMedicineSideEffectDto() { MedicineId = 1, SideEffectId= 1 };
+            exception = Assert.ThrowsException<ArgumentException>(
+                () => medicineSideEffectHandler.EditMedicineSideEffect(1, medicineSideEffect, adminToken));
             Assert.AreEqual("Not Found", exception.Message);
         }
         [TestMethod]

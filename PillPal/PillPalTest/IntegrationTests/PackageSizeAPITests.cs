@@ -82,7 +82,7 @@ namespace PillPalTest.IntegrationTests
             packageSize.Size = 2;
             packageSizeHandler.CreatePackageSize(packageSize, adminToken);
             var exception = Assert.ThrowsException<ArgumentException>(() => packageSizeHandler.EditPackageSize(1, packageSize, adminToken));
-            Assert.AreEqual("This PackageSize has already been added to this Medicine.", exception.Message);
+            Assert.AreEqual("This PackageSize has already been added to this Medicine.", exception.Message);    
         }
         [TestMethod]
         public void AdminRoleNeededToEditPackageSize()
