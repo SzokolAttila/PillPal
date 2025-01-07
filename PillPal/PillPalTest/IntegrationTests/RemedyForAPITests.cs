@@ -100,6 +100,16 @@ namespace PillPalTest.IntegrationTests
             Assert.AreEqual("Forbidden", exception.Message);
             remedyForHandler.EditRemedyFor(1, remedyFor, adminToken);
             Assert.AreEqual("headache", medicineHandler.GetMedicine(1).RemedyForAilments.ElementAt(0));
+            Assert.AreEqual("headache", remedyForHandler.Get(1).Ailment);
+            remedyFor.Ailment = "tummyache";
+            remedyForHandler.CreateRemedyFor(remedyFor, adminToken);
+            medicineRemedyFor.RemedyForId = 2;
+            exception = Assert.ThrowsException<ArgumentException>(
+                () => medicineRemedyForHandler.EditMedicineRemedyFor(1, medicineRemedyFor, userToken));
+            Assert.AreEqual("Forbidden", exception.Message);
+            medicineRemedyForHandler.EditMedicineRemedyFor(1, medicineRemedyFor, adminToken);
+            Assert.AreEqual("tummyache", medicineHandler.GetMedicine(1).RemedyForAilments.First());
+            Assert.AreEqual(2, medicineRemedyForHandler.Get(1).First().RemedyForId);
         }
         [TestMethod]
         public void CannotEditNonExistantRemedyFor()
@@ -108,6 +118,10 @@ namespace PillPalTest.IntegrationTests
             var remedyFor = new CreateRemedyForDto() { Ailment = "tummyache " };
             var exception = Assert.ThrowsException<ArgumentException>(() => remedyForHandler.EditRemedyFor(1, remedyFor, adminToken));
             Assert.AreEqual("Not Found", exception.Message);
+            var medicineRemedyFor = new CreateMedicineRemedyForDto() { RemedyForId = 1, MedicineId = 1 };
+            exception = Assert.ThrowsException<ArgumentException>(
+                () => medicineRemedyForHandler.EditMedicineRemedyFor(1, medicineRemedyFor, adminToken));
+            Assert.AreEqual(exception.Message, "Not Found");
         }
         [TestMethod]
         public void AdminRoleNeededToDeleteRemedyFor()
