@@ -45,9 +45,6 @@ namespace PillPalAPI.Controllers
             if (_sideEffectRepository.Get(createDto.SideEffectId) == null)
                 return BadRequest("SideEffect with the given ID doesn't exist.");
 
-            if (_joinRepository.Get(createDto.MedicineId).FirstOrDefault(x => x.SideEffectId == createDto.SideEffectId) != null)
-                return BadRequest("This SideEffect has already been added to this Medicine.");
-
             var sideEffect = new MedicineSideEffect()
             {
                 MedicineId = createDto.MedicineId,
@@ -70,11 +67,6 @@ namespace PillPalAPI.Controllers
                 return BadRequest("Medicine with the given ID doesn't exist.");
             if (_sideEffectRepository.Get(createDto.SideEffectId) == null)
                 return BadRequest("SideEffect with the given ID doesn't exist.");
-
-
-            if (_joinRepository.Get(createDto.MedicineId).FirstOrDefault(x => x.SideEffectId == createDto.SideEffectId) != null)
-                return BadRequest("This SideEffect has already been added to this Medicine.");
-
 
             var sideEffect = new MedicineSideEffect()
             {

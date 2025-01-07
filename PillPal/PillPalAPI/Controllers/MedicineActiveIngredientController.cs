@@ -47,9 +47,6 @@ namespace PillPalAPI.Controllers
             if (_activeIngredientRepository.Get(createDto.ActiveIngredientId) == null)
                 return BadRequest("ActiveIngredient with the given ID doesn't exist.");
 
-            if (_joinRepository.Get(createDto.MedicineId).FirstOrDefault(x => x.ActiveIngredientId == createDto.ActiveIngredientId) != null)
-                return BadRequest("This ActiveIngredient has already been added to this Medicine.");
-
             var activeIngredient = new MedicineActiveIngredient()
             {
                 MedicineId = createDto.MedicineId,
@@ -72,11 +69,6 @@ namespace PillPalAPI.Controllers
                 return BadRequest("Medicine with the given ID doesn't exist.");
             if (_activeIngredientRepository.Get(createDto.ActiveIngredientId) == null)
                 return BadRequest("ActiveIngredient with the given ID doesn't exist.");
-
-
-            if (_joinRepository.Get(createDto.MedicineId).FirstOrDefault(x => x.ActiveIngredientId == createDto.ActiveIngredientId) != null)
-                return BadRequest("This ActiveIngredient has already been added to this Medicine.");
-
 
             var activeIngredient = new MedicineActiveIngredient()
             {

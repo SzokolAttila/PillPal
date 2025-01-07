@@ -47,9 +47,6 @@ namespace PillPalAPI.Controllers
             if (_remedyForRepository.Get(createDto.RemedyForId) == null)
                 return BadRequest("RemedyFor with the given ID doesn't exist.");
 
-            if (_joinRepository.Get(createDto.MedicineId).FirstOrDefault(x => x.RemedyForId == createDto.RemedyForId) != null)
-                return BadRequest("This RemedyFor has already been added to this Medicine.");
-
             var remedyFor = new MedicineRemedyFor()
             {
                 MedicineId = createDto.MedicineId,
@@ -72,11 +69,6 @@ namespace PillPalAPI.Controllers
                 return BadRequest("Medicine with the given ID doesn't exist.");
             if (_remedyForRepository.Get(createDto.RemedyForId) == null)
                 return BadRequest("RemedyFor with the given ID doesn't exist.");
-
-
-            if (_joinRepository.Get(createDto.MedicineId).FirstOrDefault(x => x.RemedyForId == createDto.RemedyForId) != null)
-                return BadRequest("This RemedyFor has already been added to this Medicine.");
-
 
             var remedyFor = new MedicineRemedyFor()
             {

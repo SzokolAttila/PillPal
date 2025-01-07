@@ -62,6 +62,29 @@ namespace PillPalTest.IntegrationTests
             Assert.AreEqual("Not Found", exception.Message);
         }
         [TestMethod]
+        public void CannotEditToInvalidPackageSize()
+        {
+            var adminToken = GetAdminToken();
+            CreateMedicine(adminToken);
+            var packageSize = new CreatePackageSizeDto() { MedicineId = 1, Size = 1 };
+            packageSizeHandler.CreatePackageSize(packageSize, adminToken);
+            packageSize.Size = 0;
+            var exception = Assert.ThrowsException<ArgumentException>(() => packageSizeHandler.EditPackageSize(1, packageSize, adminToken));
+            Assert.AreEqual("Package size has to be greater than 0.", exception.Message);
+        }
+        [TestMethod]
+        public void CannotEditToDuplicatePackageSize()
+        {
+            var adminToken = GetAdminToken();
+            CreateMedicine(adminToken);
+            var packageSize = new CreatePackageSizeDto() { MedicineId = 1, Size = 1 };
+            packageSizeHandler.CreatePackageSize(packageSize, adminToken);
+            packageSize.Size = 2;
+            packageSizeHandler.CreatePackageSize(packageSize, adminToken);
+            var exception = Assert.ThrowsException<ArgumentException>(() => packageSizeHandler.EditPackageSize(1, packageSize, adminToken));
+            Assert.AreEqual("This PackageSize has already been added to this Medicine.", exception.Message);
+        }
+        [TestMethod]
         public void AdminRoleNeededToEditPackageSize()
         {
             var adminToken = GetAdminToken();
@@ -94,6 +117,16 @@ namespace PillPalTest.IntegrationTests
             Assert.AreEqual("Forbidden", exception.Message);
             packageSizeHandler.DeletePackageSize(1, adminToken);
             Assert.AreEqual(0, packageSizeHandler.GetAll().Count());
+        }
+        [TestMethod]
+        public void CannotAddDuplicatePackageSize()
+        {
+            var adminToken = GetAdminToken();
+            CreateMedicine(adminToken);
+            var packageSize = new CreatePackageSizeDto() { MedicineId = 1, Size = 1 };
+            packageSizeHandler.CreatePackageSize(packageSize, adminToken);
+            var exception = Assert.ThrowsException<ArgumentException>(() => packageSizeHandler.CreatePackageSize(packageSize, adminToken));
+            Assert.AreEqual("This PackageSize has already been added to this Medicine.", exception.Message);
         }
         private string GetAdminToken()
         {

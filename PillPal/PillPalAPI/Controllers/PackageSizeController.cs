@@ -51,9 +51,6 @@ namespace PillPalAPI.Controllers
             if (_medicineRepository.Get(createDto.MedicineId) == null)
                 return BadRequest("Medicine with the given ID doesn't exist.");
 
-            if (_joinRepository.Get(createDto.MedicineId).FirstOrDefault(x => x.Size == createDto.Size) != null)
-                return BadRequest("This PackageSize has already been added to this Medicine.");
-
             var result = _validator.Validate(createDto);
             if (!result.IsValid)
                 return BadRequest(result);
@@ -78,9 +75,6 @@ namespace PillPalAPI.Controllers
                 return NotFound();
             if (_medicineRepository.Get(createDto.MedicineId) == null)
                 return BadRequest("Medicine with the given ID doesn't exist.");
-
-            if (_joinRepository.Get(createDto.MedicineId).FirstOrDefault(x => x.Size == createDto.Size) != null)
-                return BadRequest("This PackageSize has already been added to this Medicine.");
 
             var result = _validator.Validate(createDto);
             if (!result.IsValid)
