@@ -125,6 +125,39 @@ Methods:
 - **EditMedicineRemedyFor(int id, CreateMedicineRemedyFor createDto, string token)** requires admin role to update an existing MedicineRemedyFor in the database. Throws an argument exception if any issue comes up.
 - **DeleteMedicineRemedyFor(int id, string token)** requires admin role to delete an existing MedicineRemedyFor from the database. Throws an exception if anything goes amiss, such as the item not being found.
 
+### DTOs
+In this project we use DTOs solely for the purpose of regulating data that gets posted to the database. To each class that functions as a table in the database belongs a CreateDto. These are in most cases similar to the original class, but the ID property is excluded from all of them (because the ID is assigned by the database). 
+
+#### CreateUserDto
+Has only two properties: Username and Password. After posting this to the database, the password gets hashed and is stored in that format for obvious security reasons.
+
+#### CreateReminderDto
+This DTO is a bit more complex than the previous one. It consists of two foreign keys (UserId and MedicineId) and four other properties (When, DoseCount, DoseMg, TakingMethod).
+
+#### CreateMedicineDto 
+As its name suggests, it is used for creating Medicines. Consists of four properties (Name, Description, PackageUnit, Manufacturer).
+
+#### CreateSideEffectDto
+Since SideEffect objects are quite simple, this class is only made up of a single property, Effect.
+
+#### CreateMedicineSideEffectDto
+This class is used to create a join table entry that joins a SideEffect and a Medicine together. For that exact reason, it has two properties: MedicineId and SideEffectId.
+
+#### CreateActiveIngredientDto
+Has a single property: Ingredient.
+
+#### CreateMedicineActiveIngredientDto
+Used to join an ActiveIngredient and a Medicine together, as a join table entry. Consists of two properties: MedicineId and ActiveIngredientId
+
+#### CreateRemedyForDto
+Used to create an entry for the RemedyFor table. Has a single property (Ailment).
+
+#### CreateMedicineRemedyForDto
+Used to create a join table entry for the MedicineRemedyFor table, which joins together a Medicine and a RemedyFor. Properties: MedicineId, RemedyForId.
+
+#### CreatePackageSizeDto
+This class is different from the rest of the join table classes, because it doesn't join two tables together, only complements data to the Medicine table. Properties: MedicineId, Size.
+
 ## WebAPI
 ### Validators
 We use different validators for each model, so we can check if user adds a new item or modifies an existing one in the proper way. Controllers get the validators via dependency injection and validates data passed in body for POST and PUT requests.
