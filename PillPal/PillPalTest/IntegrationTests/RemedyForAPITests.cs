@@ -129,6 +129,7 @@ namespace PillPalTest.IntegrationTests
             var adminToken = GetAdminToken();
             CreateMedicine(adminToken);
             var userToken = GetUserToken();
+
             var remedyFor = new CreateRemedyForDto() { Ailment = "tummyache" };
             remedyForHandler.CreateRemedyFor(remedyFor, adminToken);
             var medicineRemedyFor = new CreateMedicineRemedyForDto() { MedicineId = 1, RemedyForId = 1 };

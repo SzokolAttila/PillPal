@@ -22,7 +22,7 @@ namespace PillPalTest.IntegrationTests
             medicineActiveIngredientHandler = new(client: api.CreateClient());
             activeIngredientHandler = new(client: api.CreateClient());
         }
-        [TestMethod ]
+        [TestMethod]
         public void AdminRoleNeededToCreateActiveIngredient()
         {
             var userToken = GetUserToken();
@@ -121,16 +121,17 @@ namespace PillPalTest.IntegrationTests
             var adminToken = GetAdminToken();
             CreateMedicine(adminToken);
             var userToken = GetUserToken();
+
             var activeIngredient = new CreateActiveIngredientDto() { Ingredient = "caffeine" };
             activeIngredientHandler.CreateActiveIngredient(activeIngredient, adminToken);
             var medicineActiveIngredient = new CreateMedicineActiveIngredientDto() { MedicineId = 1, ActiveIngredientId = 1 };
             medicineActiveIngredientHandler.CreateMedicineActiveIngredient(medicineActiveIngredient, adminToken);
             var exception = Assert.ThrowsException<ArgumentException>(() => medicineActiveIngredientHandler.DeleteMedicineActiveIngredient(1, userToken));
             Assert.AreEqual("Forbidden", exception.Message);
+            medicineActiveIngredientHandler.DeleteMedicineActiveIngredient(1, adminToken);
+            Assert.AreEqual(0, medicineHandler.GetMedicine(1).ActiveIngredients.Count());
             exception = Assert.ThrowsException<ArgumentException>(() => activeIngredientHandler.DeleteActiveIngredient(1, userToken));
             Assert.AreEqual("Forbidden", exception.Message);
-            //medicineActiveIngredientHandler.DeleteMedicineActiveIngredient(1, adminToken);
-            //Assert.AreEqual(0, medicineHandler.GetMedicine(1).ActiveIngredients.Count());
             activeIngredientHandler.DeleteActiveIngredient(1, adminToken);
             Assert.AreEqual(0, activeIngredientHandler.GetAll().Count());
             Assert.AreEqual(0, medicineActiveIngredientHandler.GetAll().Count());

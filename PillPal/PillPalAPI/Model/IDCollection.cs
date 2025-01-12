@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using PillPalAPI.Model;
 using PillPalLib.Interfaces;
 using System;
@@ -12,7 +13,7 @@ namespace PillPalLib
     public class IDCollection<T> where T : class, IIdentified
     {
         private DbSet<T> values;
-        public IEnumerable<T> Values => values.AsNoTracking().OrderBy(x => x.Id).Select(x => x);
+        public IEnumerable<T> Values => values.AsNoTracking().OrderBy(x => x.Id);
 
         public IDCollection(DbSet<T> values)
         {
@@ -24,8 +25,9 @@ namespace PillPalLib
             T? toRemove = Values.FirstOrDefault(x => x.Id == id);
             if (toRemove == null)
                 return false;
-            var context = values.Remove(toRemove!);
-            context.Context.SaveChanges();
+            var entity = values.Entry(toRemove);
+            entity.State = EntityState.Deleted;
+            entity.Context.SaveChanges();
             return true;
         }
         public bool Add(T item)
