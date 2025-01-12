@@ -40,3 +40,39 @@
 | I/30 | Automated | Integration | ReminderAPITests | UserCannotEditOthersReminder | User can't put a reminder with other userID | 2025-01-11 | 664 ms | Passed |
 | I/31 | Automated | Integration | ReminderAPITests | UserCannotGetOtherReminders | User can't access a reminder from other user | 2025-01-11 | 620 ms | Passed |
 | I/32 | Automated | Integration | ReminderAPITests | UserCannotMoveReminder | User can't change userID of a reminder to move it to another user | 2025-01-11 | 696 ms | Passed |
+| I/33 | Automated | Integration | UserAPITests | AdminCanDeleteAnyUser | Able to delete any user as admin | 2025-01-11 | 1900 ms | Passed |
+| I/34 | Automated | Integration | UserAPITests | AdminCanGetAllUsers | Able to access all user as admin | 2025-01-11 | 342 ms | Passed |
+| I/35 | Automated | Integration | UserAPITests | AdminCanGetAnyUserData | Able to access any user as admin | 2025-01-11 | 492 ms | Passed |
+| I/36 | Automated | Integration | UserAPITests | AdminCanUpdateAnyUser | Able to update any user as admin | 2025-01-11 | 963 ms | Passed |
+| I/37 | Automated | Integration | UserAPITests | CreatingDuplicatedUserThrowsArgumentException | Creating a user twice throws exception | 2025-01-11 | 148 ms | Passed |
+| I/38 | Automated | Integration | UserAPITests | CreatingUserWithLongUsernameThrowsArgumentException | Posting a user with long username throws exception | 2025-01-11 | 57 ms | Passed |
+| I/39 | Automated | Integration | UserAPITests | CreatingUserWithNoLowercaseInPasswordThrowsArgumentException | Posting a user with no lowercase character in password throws exception | 2025-01-11 | 45 ms | Passed |
+| I/40 | Automated | Integration | UserAPITests | CreatingUserWithNoNumberInPasswordThrowsArgumentException | Posting a user with no number in password throws exception | 2025-01-11 | 48 ms | Passed |
+| I/41 | Automated | Integration | UserAPITests | CreatingUserWithNoSpecialInPasswordThrowsArgumentException | Posting a user with no special character in password throws exception | 2025-01-11 | 566 ms | Passed |
+| I/42 | Automated | Integration | UserAPITests | CreatingUserWithNoUppercaseInPasswordThrowsArgumentException | Posting a user with no uppercase character in password throws exception | 2025-01-11 | 94 ms | Passed |
+| I/43 | Automated | Integration | UserAPITests | CreatingUserWithShortPasswordThrowsException | Posting a user with short password throws exception | 2025-01-11 | 140 ms | Passed |
+| I/44 | Automated | Integration | UserAPITests | CreatingUserWithShortUsernameThrowsArgumentException | Posting a user with short username throws exception | 2025-01-11 | 57 ms | Passed |
+| I/45 | Automated | Integration | UserAPITests | CreatingUserWithSpecialCharacterUsernameThrowsArgumentException | Posting a user with special character in username throws exception | 2025-01-11 | 124 ms | Passed |
+| I/46 | Automated | Integration | UserAPITests | CreatingUserWithUniqueUserAndProperPasswordReturnsTrue | Posting a user with unique username and proper password is functioning well | 2025-01-11 | 111 ms | Passed |
+| I/47 | Automated | Integration | UserAPITests | DeletingNonExistingIdThrowsException | Deleting a non existing user throws exception | 2025-01-11 | 409 ms | Passed |
+| I/48 | Automated | Integration | UserAPITests | GetAllUsersNeedsAuthorization | Accessing all users needs authorization as admin | 2025-01-11 | 48 ms | Passed |
+| I/49 | Automated | Integration | UserAPITests | InvalidUserLoginThrowsException | Failed login throws exception | 2025-01-11 | 51 ms | Passed |
+| I/50 | Automated | Integration | UserAPITests | LoginExistingUserGivesBackToken | Successful login returns the bearer token | 2025-01-11 | 338 ms | Passed |
+| I/51 | Automated | Integration | UserAPITests | PuttingUserWithChangedLongUsernameThrowsException | Modifying username to too long username throws exception | 2025-01-11 | 407 ms | Passed |
+| I/52 | Automated | Integration | UserAPITests | PuttingUserWithChangedPasswordWithoutLowercaseThrowsArgumentException | Modifying password to password without lowercase character throws exception | 2025-01-11 | 491 ms | Passed |
+| I/53 | Automated | Integration | UserAPITests | PuttingUserWithChangedPasswordWithoutNumbersThrowsException | Modifying password to password without number throws exception | 2025-01-11 | 544 ms | Passed |
+| I/54 | Automated | Integration | UserAPITests | PuttingUserWithChangedPasswordWithoutSpecialThrowsArgumentException | Modifying password to password without special character throws exception | 2025-01-11 | 391 ms | Passed |
+| I/55 | Automated | Integration | UserAPITests | PuttingUserWithChangedPasswordWithoutUppercaseThrowsException | Modifying password to password without uppercase character throws exception | 2025-01-11 | 561 ms | Passed |
+| I/56 | Automated | Integration | UserAPITests | PuttingUserWithChangedShortPasswordThrowsException | Modifying password to short password throws exception | 2025-01-11 | 564 ms | Passed |
+| I/57 | Automated | Integration | UserAPITests | PuttingUserWithChangedShortUsernameThrowsException | Modifying username to short username throws exception | 2025-01-11 | 466 ms | Passed |
+| I/58 | Automated | Integration | UserAPITests | PuttingUserWithChangedUsernameWithSpecialCharacterThrowsException | Modifying username to username with special character throws exception | 2025-01-11 | 590 ms | Passed |
+| I/59 | Automated | Integration | UserAPITests | PuttingUserWithDuplicatedUsernameThrowsAException | Modifying username to duplicated username throws exception | 2025-01-11 | 466 ms | Passed |
+| I/60 | Automated | Integration | UserAPITests | PuttingUserWithImproperChangedPasswordAndProperChangedUsernameThrowsException | Modifying username and password to proper username but improper password throws exception | 2025-01-11 | 600 ms | Passed |
+| I/61 | Automated | Integration | UserAPITests | PuttingUserWithProperChangedPasswordAndImproperChangedUsernameThrowsException | Modifying username and password to proper password but improper username throws exception | 2025-01-11 | 1100 ms | Passed |
+| I/62 | Automated | Integration | UserAPITests | UpdatingNonExistingIdThrowsException | Modifying non existing user throws exception | 2025-01-11 | 295 ms | Passed |
+| I/63 | Automated | Integration | UserAPITests | UserCanDeleteOwnData | Deleting own data as logged in user runs without any issue | 2025-01-11 | 240 ms | Passed |
+| I/64 | Automated | Integration | UserAPITests | UserCanGetOwnUserData | Accessing own data as logged in user runs without any issue | 2025-01-11 | 1100 ms | Passed |
+| I/65 | Automated | Integration | UserAPITests | UserCannotDeleteOtherUserData | Deleting other user's data as logged in user throws exception | 2025-01-11 | 582 ms | Passed |
+| I/66 | Automated | Integration | UserAPITests | UserCannotGetOtherUsersData | Accessing other user's data as logged in user throws exception | 2025-01-11 | 815 ms | Passed |
+| I/67 | Automated | Integration | UserAPITests | UserCannotUpdateOtherUserData | Updating other user's data as logged in user throws exception | 2025-01-11 | 445 ms | Passed |
+| I/68 | Automated | Integration | UserAPITests | UserCanUpdateOwnData | Updating own user's data as logged in user runs without any issue | 2025-01-11 | 468 ms | Passed |
