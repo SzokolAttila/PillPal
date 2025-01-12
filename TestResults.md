@@ -8,6 +8,9 @@
 | C/4 | Automated | Component | IDCollectionTests | ItemsCanBeAdded | Adding an item to IDCollection increases its size | 2025-01-11 | < 1 ms | Passed |
 | C/5 | Automated | Component | IDCollectionTests | ItemsCanBeRemoved | Removing an item from IDCollection decreases its size | 2025-01-11 | 4900 ms | Passed |
 | C/6 | Automated | Component | IDCollectionTests | UpdatingOrDeletingNotExistingItemReturnsFalse | Cannot remove or update not added item in IDCollection | 2025-01-11 | 93 ms | Passed |
+| C/7 | Automated | Component | UserTests | DoHashesMatch | Hashing the same user's password twice returns the same hash (hashing is consistent) | 2025-01-11 | 111 ms | Passed |
+| C/8 | Automated | Component | UserTests | HashedPasswordIsNotHashedAgain | When creating a user with a password that is already hashed, the password isn't hashed again | 2025-01-11 | 27 ms | Passed |
+| C/9 | Automated | Component | UserTests | IsHashUnique | The same password in two different accounts result in hashes that don't match | 2025-01-11 | 128 ms | Passed |
 | I/1 | Automated | Integration | MedicineAPITests | DeletingAsAnonyomousOrUserThrowsArgumentException | Trying to delete medicine as anyone but admin throws exception | 2025-01-11 | 897 ms | Passed |
 | I/2 | Automated | Integration | MedicineAPITests | DeletingMedicineLowersTheNumberOfMedicines | Deleting medicine as admin decreases number of medicines | 2025-01-11 | 798 ms | Passed |
 | I/3 | Automated | Integration | MedicineAPITests | DeletingNonExistentIdThrowsArgumentException | Deleting non existent medicine throws exception | 2025-01-11 | 383 ms | Passed |
@@ -76,3 +79,13 @@
 | I/66 | Automated | Integration | UserAPITests | UserCannotGetOtherUsersData | Accessing other user's data as logged in user throws exception | 2025-01-11 | 815 ms | Passed |
 | I/67 | Automated | Integration | UserAPITests | UserCannotUpdateOtherUserData | Updating other user's data as logged in user throws exception | 2025-01-11 | 445 ms | Passed |
 | I/68 | Automated | Integration | UserAPITests | UserCanUpdateOwnData | Updating own user's data as logged in user runs without any issue | 2025-01-11 | 468 ms | Passed |
+| I/69 | Automated | Integration | PackageSizeAPITests | AdminRoleNeededToCreatePackageSize | Trying to post a package size without admin role throws Forbidden error | 2025-01-11 | 206 ms | Passed |
+| I/70 | Automated | Integration | PackageSizeAPITests | AdminRoleNeededToDeletePackageSize | Trying to delete a package size without admin role throws Forbidden error | 2025-01-11 | 219 ms | Passed |
+| I/71 | Automated | Integration | PackageSizeAPITests | AdminRoleNeededToEditPackageSize | Trying to update a package size without admin role throws Forbidden error | 2025-01-11 | 269 ms | Passed |
+| I/72 | Automated | Integration | PackageSizeAPITests | CannotAddDuplicatePackageSize | Trying to post two package sizes with the same size will result in an exception | 2025-01-11 | 165 ms | Passed |
+| I/73 | Automated | Integration | PackageSizeAPITests | CannotAddPackageSizeToNonExistantMedicine | Trying to add a package size with a medicine id that cannot be found throws an exception | 2025-01-11 | 132 ms | Passed |
+| I/74 | Automated | Integration | PackageSizeAPITests | CannotCreatePackageSizeWithSizeLessThanOne | Trying to add a package size a size not greater than zero will result in a validation error | 2025-01-11 | 135 ms | Passed |
+| I/75 | Automated | Integration | PackageSizeAPITests | CannotDeleteNonExistantPackageSize | Trying to delete a package size that cannot be found in the database throws a Not Found exception | 2025-01-11 | 133 ms | Passed |
+| I/76 | Automated | Integration | PackageSizeAPITests | CannotEditNonExistantPackageSize | Trying to update a package size that cannot be found in the database throws a Not Found exception | 2025-01-11 | 154 ms | Passed |
+| I/77 | Automated | Integration | PackageSizeAPITests | CannotEditToDuplicatePackageSize | Trying to update a package size to a size that has already been added to the given medicine throws a validation error | 2025-01-11 | 159 ms | Passed |
+| I/78 | Automated | Integration | PackageSizeAPITests | CannotEditToInvalidPackageSize | Trying to update a package size to a size that is not greater than zero will result in a validation error | 2025-01-11 | 149 ms | Passed |
