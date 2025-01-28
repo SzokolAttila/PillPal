@@ -7,15 +7,15 @@
         <Frame BackgroundColor="{DynamicResource ComponentBackground}"
                VerticalOptions="Center"
                HorizontalOptions="Center"
-               HeightRequest="80"
-               WidthRequest="80"
-               CornerRadius="40"
+               HeightRequest="120"
+               WidthRequest="120"
+               CornerRadius="60"
                Padding="0"
-               Margin="40">
+               Margin="65">
             <Label TextColor="{DynamicResource TextColor}" Text="PP"
                    VerticalOptions="Center"
                    HorizontalOptions="Center"
-                   FontSize="36"
+                   FontSize="44"
                    FontFamily="PlayfairDisplay"
                    FontAttributes="Bold"/>
         </Frame>

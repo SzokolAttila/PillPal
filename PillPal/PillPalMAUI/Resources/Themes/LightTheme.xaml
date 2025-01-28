@@ -5,6 +5,8 @@
 
     <Color x:Key="PageBackground">#FFFBFE</Color>
     <Color x:Key="ComponentBackground">#38AD49</Color>
+    <Color x:Key="ActiveBackground">#123616</Color>
+    <Color x:Key="ActiveText">#FFFBFE</Color>
     <Color x:Key="LinkColor">#38AD49</Color>
     <Color x:Key="TextColor">#3F3F3F</Color>
     <Color x:Key="FormTextColor">#3F3F3F</Color>

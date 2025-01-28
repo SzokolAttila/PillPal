@@ -3,26 +3,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:contentviews="clr-namespace:PillPalMAUI.Resources.ContentViews"
              x:Class="PillPalMAUI.Pages.LoginPage"
-             BackgroundColor="{DynamicResource PageBackground}">
-    <VerticalStackLayout>
-        <contentviews:LogoContentView/>
-        <VerticalStackLayout Style="{StaticResource Formgroup}">
-            <Label Text="Felhasználónév" Style="{StaticResource InputLabel}"/>
-            <Frame Style="{StaticResource InputBorder}">
-                <Entry Style="{StaticResource InputField}"/>
-            </Frame>
-        </VerticalStackLayout>
-        <VerticalStackLayout Style="{StaticResource Formgroup}">
-            <Label Text="Jelszó" Style="{StaticResource InputLabel}"/>
-            <Frame Style="{StaticResource InputBorder}">
-                <Entry IsPassword="True" Style="{StaticResource InputField}"/>
-            </Frame>
-        </VerticalStackLayout>
-        <VerticalStackLayout Style="{StaticResource Formgroup}">
-            <Label Text="Jelszó ismét" Style="{StaticResource InputLabel}"/>
-            <Frame Style="{StaticResource InputBorder}">
-                <Entry IsPassword="True" Style="{StaticResource InputField}"/>
-            </Frame>
-        </VerticalStackLayout>
-    </VerticalStackLayout>
+             BackgroundColor="{DynamicResource PageBackground}" MinimumWidthRequest="300">
+    <ScrollView >
+        <FlexLayout Direction="Column" JustifyContent="SpaceBetween" AlignContent="Center">
+            <contentviews:LogoContentView />
+            <VerticalStackLayout Style="{StaticResource Formgroup}">
+                <Label Text="Felhasználónév" Style="{StaticResource InputLabel}"/>
+                <Frame Style="{StaticResource InputBorder}">
+                    <Entry Style="{StaticResource InputField}"/>
+                </Frame>
+            </VerticalStackLayout>
+            <VerticalStackLayout Style="{StaticResource Formgroup}">
+                <Label Text="Jelszó" Style="{StaticResource InputLabel}"/>
+                <Frame Style="{StaticResource InputBorder}">
+                    <Entry IsPassword="True" Style="{StaticResource InputField}"/>
+                </Frame>
+            </VerticalStackLayout>
+            <VerticalStackLayout>
+                <Button Style="{StaticResource SubmitButton}" Text="Bejelentkezés"/>
+            </VerticalStackLayout>
+            <HorizontalStackLayout Margin="10">
+                <Label Text="Még nincs fiókja?" VerticalOptions="End" Style="{StaticResource Text}" />
+                <Label Text="Regisztrálás" VerticalOptions="End" Style="{StaticResource Link}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer />
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+        </FlexLayout>
+    </ScrollView>
 </ContentPage>
