@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:PillPalMAUI.ViewModels"
              x:Class="PillPalMAUI.ReminderCard">
-    <Border StrokeShape="RoundRectangle 10,10,10,10">
-        <Grid BackgroundColor="#D9D9D9">
+    <ContentView.BindingContext>
+        <viewmodel:ReminderCardViewModel/>
+    </ContentView.BindingContext>
+    <Border StrokeShape="RoundRectangle 10,10,10,10" Margin="20,10">
+        <Grid BackgroundColor="{DynamicResource FormBackground}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
@@ -14,20 +18,58 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            
+
             <Label 
-                Text="Az emlékeztető"
+                Text="{Binding Reminder.When}"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" 
-                Grid.Column="1" Grid.Row="0"/>
-            <Label 
-                Text="Minden érdekes infó"
-                VerticalOptions="Center" 
-                HorizontalOptions="Start" 
-                Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1"/>
-            <Button Text="Töröl" Grid.Column="0" Grid.Row="2"/>
-            <Button Text="Infó" Grid.Column="1" Grid.Row="2"/>
-            <Button Text="Szerkeszt" Grid.Column="2" Grid.Row="2"/>
+                Grid.Column="1" Grid.Row="0" FontSize="Title" FontAttributes="Bold" TextColor="{DynamicResource TextColor}"/>
+            
+            <VerticalStackLayout Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1">
+                <HorizontalStackLayout Margin="0,5" HorizontalOptions="CenterAndExpand">
+                    <Label 
+                        Text="Gyógyszer: "
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" FontAttributes="Bold" Margin="10,0" TextColor="{DynamicResource TextColor}"/>
+                    <Label 
+                        Text="{Binding Reminder.Medicine.Name}"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" TextColor="{DynamicResource TextColor}"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Margin="0,5" HorizontalOptions="CenterAndExpand">
+                    <Label 
+                        Text="Mennyiség (mg): "
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" FontAttributes="Bold" Margin="10,0" TextColor="{DynamicResource TextColor}"/>
+                    <Label 
+                        Text="{Binding Reminder.DoseMg}"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" TextColor="{DynamicResource TextColor}"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Margin="0,5" HorizontalOptions="CenterAndExpand">
+                    <Label 
+                        Text="Darab: "
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" FontAttributes="Bold" Margin="10,0" TextColor="{DynamicResource TextColor}"/>
+                    <Label 
+                        Text="{Binding Reminder.DoseCount}"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" TextColor="{DynamicResource TextColor}"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Margin="0,5" HorizontalOptions="CenterAndExpand">
+                    <Label 
+                        Text="Bevitel módja: "
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" FontAttributes="Bold" Margin="10,0" TextColor="{DynamicResource TextColor}"/>
+                    <Label 
+                        Text="{Binding Reminder.TakingMethod}"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" TextColor="{DynamicResource TextColor}"/>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+            <Button Margin="10" Text="Töröl" Grid.Column="0" Grid.Row="2" Command="{Binding Remove}" BackgroundColor="{DynamicResource ComponentBackground}" TextColor="{DynamicResource TextColor}"/>
+            <Button Margin="10" Text="Infó" Grid.Column="1" Grid.Row="2" Command="{Binding Info}" BackgroundColor="{DynamicResource ComponentBackground}" TextColor="{DynamicResource TextColor}"/>
+            <Button Margin="10" Text="Szerkeszt" Grid.Column="2" Grid.Row="2" Command="{Binding Edit}" BackgroundColor="{DynamicResource ComponentBackground}" TextColor="{DynamicResource TextColor}"/>
         </Grid>
     </Border>
 </ContentView>
