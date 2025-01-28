@@ -6,7 +6,30 @@
     <Style TargetType="Label" x:Key="InputLabel">
         <Setter Property="FontFamily" Value="PlayfairDisplay"/>
         <Setter Property="FontSize" Value="12"/>
-        <Setter Property="Margin" Value="10,5"/>
+        <Setter Property="Margin" Value="25,0"/>
         <Setter Property="TextColor" Value="{DynamicResource TextColor}"/>
+    </Style>
+
+    <Style TargetType="Entry" x:Key="InputField">
+        <Setter Property="FontFamily" Value="PlayfairDisplay"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="WidthRequest" Value="210"/>
+        <Setter Property="TextColor" Value="{DynamicResource FormTextColor}"/>
+        <Setter Property="BackgroundColor" Value="{DynamicResource FormBackground}"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+    </Style>
+
+    <Style TargetType="VerticalStackLayout" x:Key="Formgroup">
+        <Setter Property="HorizontalOptions" Value="Center"/>
+    </Style>
+
+    <Style TargetType="Frame" x:Key="InputBorder">
+        <Setter Property="BackgroundColor" Value="{DynamicResource FormBackground}"/>
+        <Setter Property="Margin" Value="10,3,10,20"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="CornerRadius" Value="15"/>
+        <Setter Property="HeightRequest" Value="30"/>
+        <Setter Property="WidthRequest" Value="220"/>
     </Style>
 </ResourceDictionary>

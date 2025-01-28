@@ -7,5 +7,6 @@
     <Color x:Key="ComponentBackground">#38AD49</Color>
     <Color x:Key="LinkColor">#38AD49</Color>
     <Color x:Key="TextColor">#3F3F3F</Color>
+    <Color x:Key="FormTextColor">#3F3F3F</Color>
     <Color x:Key="FormBackground">#D9D9D9</Color>
 </ResourceDictionary>
