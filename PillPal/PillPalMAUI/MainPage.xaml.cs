@@ -1,4 +1,5 @@
 ﻿
+using PillPalMAUI.Pages;
 using PillPalMAUI.Resources.ContentViews;
 
 namespace PillPalMAUI
@@ -8,6 +9,7 @@ namespace PillPalMAUI
         public MainPage()
         {
             InitializeComponent();
+            Navigation.PushAsync(new LoginPage()).Wait();
         }
     }
 

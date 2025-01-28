@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:contentviews="clr-namespace:PillPalMAUI.Resources.ContentViews"
+             x:Class="PillPalMAUI.Pages.LoginPage"
+             BackgroundColor="{DynamicResource PageBackground}">
+    <VerticalStackLayout>
+        <contentviews:LogoContentView/>
+        <VerticalStackLayout Style="{StaticResource Formgroup}">
+            <Label Text="Felhasználónév" Style="{StaticResource InputLabel}"/>
+            <Frame Style="{StaticResource InputBorder}">
+                <Entry Style="{StaticResource InputField}"/>
+            </Frame>
+        </VerticalStackLayout>
+        <VerticalStackLayout Style="{StaticResource Formgroup}">
+            <Label Text="Jelszó" Style="{StaticResource InputLabel}"/>
+            <Frame Style="{StaticResource InputBorder}">
+                <Entry IsPassword="True" Style="{StaticResource InputField}"/>
+            </Frame>
+        </VerticalStackLayout>
+        <VerticalStackLayout Style="{StaticResource Formgroup}">
+            <Label Text="Jelszó ismét" Style="{StaticResource InputLabel}"/>
+            <Frame Style="{StaticResource InputBorder}">
+                <Entry IsPassword="True" Style="{StaticResource InputField}"/>
+            </Frame>
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>
