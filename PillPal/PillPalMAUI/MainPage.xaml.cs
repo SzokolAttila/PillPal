@@ -8,6 +8,9 @@ namespace PillPalMAUI
         public MainPage()
         {
             InitializeComponent();
+            var view = new VerticalStackLayout();
+            view.Children.Add(new ReminderCard());
+            Content = view;
         }
     }
 
