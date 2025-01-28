@@ -3,6 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PillPalMAUI.Resources.ContentViews.LogoContentView">
     <VerticalStackLayout>
-        
+        <Frame BackgroundColor="{DynamicResource ComponentBackground}"
+               VerticalOptions="Center"
+               HorizontalOptions="Center"
+               HeightRequest="80"
+               WidthRequest="80"
+               CornerRadius="40"
+               Padding="0">
+            <Label TextColor="{DynamicResource TextColor}" Text="PP"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center"
+                   FontSize="36"
+                   FontFamily="PlayfairDisplay"
+                   FontAttributes="Bold"/>
+        </Frame>
     </VerticalStackLayout>
 </ContentView>
