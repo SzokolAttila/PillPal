@@ -8,7 +8,6 @@ namespace PillPalMAUI
         public MainPage()
         {
             InitializeComponent();
-            Stack.Add(new LogoContentView());
         }
     }
 
