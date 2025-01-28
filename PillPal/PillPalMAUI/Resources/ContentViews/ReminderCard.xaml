@@ -2,11 +2,11 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodel="clr-namespace:PillPalMAUI.ViewModels"
-             x:Class="PillPalMAUI.ReminderCard">
+             x:Class="PillPalMAUI.Resources.ContentViews.ReminderCard">
     <ContentView.BindingContext>
         <viewmodel:ReminderCardViewModel/>
     </ContentView.BindingContext>
-    <Border StrokeShape="RoundRectangle 10,10,10,10" Margin="20,10">
+    <Border StrokeShape="RoundRectangle 10,10,10,10" Margin="20,10" IsVisible="{Binding IsVisible}">
         <Grid BackgroundColor="{DynamicResource FormBackground}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />

@@ -20,13 +20,22 @@ namespace PillPalMAUI.ViewModels
             set { _reminder = value; Changed(); }
         }
 
+        private bool isVisible;
+
+        public bool IsVisible
+        {
+            get { return isVisible; }
+            set { isVisible = value; Changed(); }
+        }
+
+
         public ICommand Remove { get; set; }
         public ICommand Info { get; set; }
         public ICommand Edit { get; set; }
 
         public ReminderCardViewModel()
         {
-
+            IsVisible = true;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
