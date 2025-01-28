@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:contentviews="clr-namespace:PillPalMAUI.Resources.ContentViews"
-             xmlns:viewmodels="clr-namespace:PillPalMAUI.ViewModels"
-             x:Class="PillPalMAUI.Pages.LoginPage"
-             BackgroundColor="{DynamicResource PageBackground}" MinimumWidthRequest="300">
-    <ContentPage.BindingContext>
-        <viewmodels:LoginViewModel/>
-    </ContentPage.BindingContext>
-    <ScrollView >
-        <FlexLayout Direction="Column" JustifyContent="SpaceBetween" AlignContent="Center">
-            <contentviews:LogoContentView />
+             x:Class="PillPalMAUI.Pages.RegisterPage"
+             BackgroundColor="{DynamicResource PageBackground}" MinimumWidthRequest="300"
+             xmlns:contentviews="clr-namespace:PillPalMAUI.Resources.ContentViews">
+    <ScrollView>
+        <FlexLayout Direction="Column" AlignContent="Center" JustifyContent="SpaceBetween">
+            <contentviews:LogoContentView/>
             <VerticalStackLayout Style="{StaticResource Formgroup}">
                 <Label Text="Felhasználónév" Style="{StaticResource InputLabel}"/>
                 <Frame Style="{StaticResource InputBorder}">
@@ -23,14 +19,20 @@
                     <Entry IsPassword="True" Style="{StaticResource InputField}"/>
                 </Frame>
             </VerticalStackLayout>
+            <VerticalStackLayout Style="{StaticResource Formgroup}">
+                <Label Text="Jelszó újra" Style="{StaticResource InputLabel}"/>
+                <Frame Style="{StaticResource InputBorder}">
+                    <Entry IsPassword="True" Style="{StaticResource InputField}"/>
+                </Frame>
+            </VerticalStackLayout>
             <VerticalStackLayout>
-                <Button Style="{StaticResource SubmitButton}" Text="Bejelentkezés"/>
+                <Button Style="{StaticResource SubmitButton}" Text="Regisztrálás"/>
             </VerticalStackLayout>
             <HorizontalStackLayout Margin="10">
-                <Label Text="Még nincs fiókja?" VerticalOptions="End" Style="{StaticResource Text}" />
-                <Label Text="Regisztrálás" VerticalOptions="End" Style="{StaticResource Link}">
+                <Label Text="Már van fiókja?" VerticalOptions="End" Style="{StaticResource Text}" />
+                <Label Text="Bejelentkezés" VerticalOptions="End" Style="{StaticResource Link}">
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="ToRegistrationPage"/>
+                        <TapGestureRecognizer Tapped="ToLoginPage"/>
                     </Label.GestureRecognizers>
                 </Label>
             </HorizontalStackLayout>
