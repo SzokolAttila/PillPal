@@ -73,7 +73,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="ReminderCard.xaml">
+	  <MauiXaml Update="Resources\ContentViews\ReminderCard.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Resources\ContentViews\LogoContentView.xaml">

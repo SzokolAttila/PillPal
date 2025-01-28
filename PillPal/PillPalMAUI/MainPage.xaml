@@ -4,10 +4,16 @@
              xmlns:contentviews="clr-namespace:PillPalMAUI.Resources.ContentViews"
              x:Class="PillPalMAUI.MainPage"
              BackgroundColor="{DynamicResource PageBackground}">
-
     <ScrollView>
         <VerticalStackLayout>
             <contentviews:LogoContentView/>
+            <CollectionView ItemsSource="{Binding Path=ReminderCards}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <contentviews:ReminderCard BindingContext="{Binding}"/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </VerticalStackLayout>
     </ScrollView>
 
