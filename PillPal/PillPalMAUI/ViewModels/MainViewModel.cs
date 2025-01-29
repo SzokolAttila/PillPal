@@ -29,7 +29,7 @@ namespace PillPalMAUI.ViewModels
             ReminderCards = new ObservableCollection<ReminderCardViewModel>();
             foreach (var reminder in handler.Get(userId, auth))
             {
-                ReminderCardViewModel cardModel = new() { Reminder = reminder };
+                ReminderCardViewModel cardModel = new() { Reminder = reminder, Auth = auth };
                 ReminderCards.Add(cardModel);
             }
         }
