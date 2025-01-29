@@ -10,6 +10,7 @@
     </ContentPage.BindingContext>
     <ScrollView >
         <FlexLayout Direction="Column" JustifyContent="SpaceBetween" AlignContent="Center">
+            <contentviews:ThemeSwitch/>
             <contentviews:LogoContentView />
             <VerticalStackLayout Style="{StaticResource Formgroup}">
                 <Label Text="Felhasználónév" Style="{StaticResource InputLabel}"/>

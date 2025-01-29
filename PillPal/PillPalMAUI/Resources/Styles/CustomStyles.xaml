@@ -22,7 +22,7 @@
     </Style>
 
     <Style TargetType="Label" x:Key="Text">
-        <Setter Property="Margin" Value="5,10" />
+        <Setter Property="Margin" Value="5" />
         <Setter Property="FontFamily" Value="PlayfairDisplay" />
         <Setter Property="TextColor" Value="{DynamicResource TextColor}" />
         <Setter Property="FontSize" Value="14" />
@@ -33,7 +33,7 @@
         <Setter Property="TextColor" Value="{DynamicResource LinkColor}"/>
         <Setter Property="FontFamily" Value="PlayfairDisplay"/>
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="Margin" Value="5,10"/>
+        <Setter Property="Margin" Value="5"/>
         <Setter Property="TextDecorations" Value="Underline"/>
     </Style>
     
@@ -54,6 +54,13 @@
         <Setter Property="Margin" Value="100,20,100,75"/>
     </Style>
 
+    <Style TargetType="Switch" x:Key="ToggleTheme">
+        <Setter Property="Margin" Value="5,8,20,0"/>
+        <Setter Property="Scale" Value="1.3"/>
+        <Setter Property="OnColor" Value="{DynamicResource SwitchOn}"/>
+        <Setter Property="ThumbColor" Value="{DynamicResource ComponentBackground}"/>
+    </Style>
+    
     <Style TargetType="VerticalStackLayout" x:Key="Formgroup">
         <Setter Property="HorizontalOptions" Value="Fill"/>
     </Style>

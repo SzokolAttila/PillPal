@@ -11,7 +11,7 @@
                WidthRequest="120"
                CornerRadius="60"
                Padding="0"
-               Margin="65">
+               Margin="65,20,65,65">
             <Label TextColor="{DynamicResource TextColor}" Text="PP"
                    VerticalOptions="Center"
                    HorizontalOptions="Center"
