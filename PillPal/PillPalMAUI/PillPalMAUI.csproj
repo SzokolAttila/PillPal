@@ -67,6 +67,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Resources\ContentViews\ThemeSwitch.xaml.cs">
+	    <DependentUpon>ThemeSwitch.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Resources\Themes\LightTheme.xaml.cs">
 	    <DependentUpon>LightTheme.xaml</DependentUpon>
 	  </Compile>
@@ -77,6 +80,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\RegisterPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Resources\ContentViews\ThemeSwitch.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Resources\ContentViews\ReminderCard.xaml">
