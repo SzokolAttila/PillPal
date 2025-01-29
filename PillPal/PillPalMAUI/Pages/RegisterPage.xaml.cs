@@ -9,6 +9,7 @@ public partial class RegisterPage : ContentPage
 	
     private async void ToLoginPage(object sender, TappedEventArgs e)
     {
+        await Navigation.PopAsync();
 		await Navigation.PushAsync(new LoginPage());
     }
 }
