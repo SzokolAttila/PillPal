@@ -370,13 +370,13 @@ namespace PillPalTest.IntegrationTests
         {
             var admin = new CreateUserDto() { Password = "Delulu!0", UserName = "administrator" };
             handler.CreateUser(admin);
-            return handler.Login(admin);
+            return handler.Login(admin).Token;
         }
         private string GetUserToken(string username)
         {
             var user = new CreateUserDto() { UserName = username, Password = "Delulu!0" };
             handler.CreateUser(user);
-            return handler.Login(user);
+            return handler.Login(user).Token;
         }
     }
 }

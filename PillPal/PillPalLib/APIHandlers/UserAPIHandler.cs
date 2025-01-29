@@ -16,12 +16,12 @@ namespace PillPalLib.APIHandlers
 
         }
 
-        public string Login(CreateUserDto user)
+        public LoginDto Login(CreateUserDto user)
         {
             string json = JsonSerializer.Serialize(user);
             var message = _httpClient.PostAsync("PillPal/Login", new StringContent(json, Encoding.UTF8, "application/json")).Result;
             ExceptionHandler.CheckHttpResponse(message);
-            return message.Content.ReadAsStringAsync().Result;
+            return JsonSerializer.Deserialize<LoginDto>(message.Content.ReadAsStringAsync().Result, _options);
         }
 
         public User GetUser(int id, string auth)

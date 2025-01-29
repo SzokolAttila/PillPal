@@ -169,14 +169,14 @@ namespace PillPalTest.IntegrationTests
         {
             CreateUserDto admin = new() { UserName = "administrator", Password = "aA1?aA1?" };
             userHandler.CreateUser(admin);
-            return userHandler.Login(admin);
+            return userHandler.Login(admin).Token;
         }
 
         private string GetUserToken()
         {
             CreateUserDto user = new() { UserName = "username", Password = "aA1?aA1?" };
             userHandler.CreateUser(user);
-            return userHandler.Login(user);
+            return userHandler.Login(user).Token;
         }
         private CreateMedicineDto MockMedicine(string adminToken = "", bool withPosting = false)
         {

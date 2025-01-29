@@ -56,7 +56,7 @@ namespace PillPalAPI.Controllers
                 signingCredentials: credentials
             );
             var tokenStr = new JwtSecurityTokenHandler().WriteToken(token);
-            return Ok(tokenStr);
+            return Ok(new { Id = user.Id, Token = tokenStr });
         }
     }
 }

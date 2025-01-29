@@ -273,13 +273,13 @@ namespace PillPalTest.IntegrationTests
         {
             var user = new CreateUserDto() { UserName = username, Password = "Delulu!0" };
             userHandler.CreateUser(user);
-            return userHandler.Login(user);
+            return userHandler.Login(user).Token;
         }
         private string GetAdminToken()
         {
             var admin = new CreateUserDto() { Password = "Delulu!0", UserName = "administrator" };
             userHandler.CreateUser(admin);
-            return userHandler.Login(admin);
+            return userHandler.Login(admin).Token;
         }
     }
 }
