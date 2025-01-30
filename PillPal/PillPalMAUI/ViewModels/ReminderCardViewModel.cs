@@ -10,7 +10,7 @@ using PillPalLib;
 
 namespace PillPalMAUI.ViewModels
 {
-    public class ReminderCardViewModel : INotifyPropertyChanged
+    public class ReminderCardViewModel : BaseViewModel
     {
         private Reminder _reminder;
 
@@ -36,12 +36,6 @@ namespace PillPalMAUI.ViewModels
         public ReminderCardViewModel()
         {
             IsVisible = true;
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        void Changed([CallerMemberName]string propName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
     }
 }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace PillPalMAUI.ViewModels
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel : BaseViewModel
     {
         ReminderAPIHandler handler;
 
@@ -32,12 +32,6 @@ namespace PillPalMAUI.ViewModels
                 ReminderCardViewModel cardModel = new() { Reminder = reminder };
                 ReminderCards.Add(cardModel);
             }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        void Changed([CallerMemberName] string propName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
     }
 }
