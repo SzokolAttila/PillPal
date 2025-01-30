@@ -18,6 +18,10 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.WebHost.ConfigureKestrel(options =>
+        {
+            options.ListenAnyIP(5236);
+        });
         // Add services to the container.
         builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
         var jwt = builder.Configuration.GetSection("Jwt").Get<JwtOptions>();

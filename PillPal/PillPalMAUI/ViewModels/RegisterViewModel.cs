@@ -1,4 +1,7 @@
-﻿using System;
+﻿using PillPalLib.APIHandlers;
+using PillPalLib.DTOs.UserDTOs;
+using PillPalMAUI.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
@@ -11,6 +14,7 @@ namespace PillPalMAUI.ViewModels
 {
     class RegisterViewModel : ViewModelBase
     {
+        private readonly UserAPIHandler _handler;
         private const int MIN_USERNAME_LENGTH = 6;
         private const int MAX_USERNAME_LENGTH = 20;
         private const int MIN_PASSWORD_LENGTH = 8;
@@ -22,6 +26,7 @@ namespace PillPalMAUI.ViewModels
         private const int PASSWORD_BOTH_CASES = 1;
         public RegisterViewModel() 
         {
+            _handler = new UserAPIHandler();
             Register = new Command(PostUser, IsValid);
             passwordTooShort = GetErrorColor();
             passwordNumber = GetErrorColor();
@@ -32,9 +37,24 @@ namespace PillPalMAUI.ViewModels
         {
             return !UsernameIncorrectLength && GetSecurityLevel(password) == MAX_SECURITY_LEVEL && password == passwordAgain;
         }
-        private void PostUser()
+        private async void PostUser()
         {
+            var newUser = new CreateUserDto()
+            {
+                UserName = username,
+                Password = password,    
+            };
+            try
+            {
+                _handler.CreateUser(newUser);
+                await Application.Current!.MainPage!.DisplayAlert("Sikeres regisztráció!", "Most átirányítunk a bejelentkezéshez.", "OK");
+                Application.Current.MainPage = new LoginPage();
 
+            }
+            catch (Exception ex) 
+            {
+                UsernameTaken = true;
+            }
         }
         private static Color GetErrorColor()
         {

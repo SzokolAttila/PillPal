@@ -7,8 +7,8 @@ public partial class LoginPage : ContentPage
 		InitializeComponent();
 	}
 
-    private async void ToRegistration (object sender, TappedEventArgs e)
+    private void ToRegistration (object sender, TappedEventArgs e)
     {
-		await Navigation.PushAsync(new RegisterPage());
+		Application.Current!.MainPage = new RegisterPage();
     }
 }

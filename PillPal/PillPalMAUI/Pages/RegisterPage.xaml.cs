@@ -9,8 +9,8 @@ public partial class RegisterPage : ContentPage
 		InitializeComponent();
     }
 	
-    private async void ToLogin(object sender, TappedEventArgs e)
+    private void ToLogin(object sender, TappedEventArgs e)
     {
-		await Navigation.PushAsync(new LoginPage());
+		Application.Current!.MainPage = new LoginPage();
     }
 }

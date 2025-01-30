@@ -7,6 +7,12 @@ namespace PillPalMAUI
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
+            builder.ConfigureMauiHandlers(handlers =>
+            {
+                #if ANDROID
+                AppDomain.CurrentDomain.SetData("android:usesCleartextTraffic", true);
+                #endif
+            });
             builder
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
