@@ -5,6 +5,7 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace PillPalMAUI.ViewModels
 {
@@ -21,13 +22,29 @@ namespace PillPalMAUI.ViewModels
         private const int PASSWORD_BOTH_CASES = 1;
         public RegisterViewModel() 
         {
-            passwordTooShort = errorText;
-            passwordNumber = errorText;
-            passwordBothCases = errorText;
-            passwordSpecial = errorText;
+            Register = new Command(PostUser, IsValid);
+            passwordTooShort = GetErrorColor();
+            passwordNumber = GetErrorColor();
+            passwordBothCases = GetErrorColor();
+            passwordSpecial = GetErrorColor();
         }
-        private readonly Color errorText = (Color)Application.Current!.Resources["ErrorText"];
-        private readonly Color acceptText = (Color)Application.Current!.Resources["AcceptText"];
+        private bool IsValid()
+        {
+            return !UsernameIncorrectLength && GetSecurityLevel(password) == MAX_SECURITY_LEVEL && password == passwordAgain;
+        }
+        private void PostUser()
+        {
+
+        }
+        private static Color GetErrorColor()
+        {
+            return (Color)Application.Current!.Resources["ErrorText"];
+        }
+        private static Color GetAcceptColor()
+        {
+            return (Color)Application.Current!.Resources["AcceptText"];
+        }
+        public ICommand Register { get; private set; }
         // binding the color of password security labels
         private Color passwordTooShort;
         private Color passwordSpecial;
@@ -113,7 +130,7 @@ namespace PillPalMAUI.ViewModels
                 if (username.Length >= MIN_USERNAME_LENGTH && username.Length <= MAX_USERNAME_LENGTH)
                     UsernameIncorrectLength = false;
                 else UsernameIncorrectLength = true;
-                CheckValidity();
+                (Register as Command)!.ChangeCanExecute();
             }
         }
         public string Password
@@ -125,7 +142,7 @@ namespace PillPalMAUI.ViewModels
                 Changed();
                 CheckSecurity();
                 CheckPasswordMatch();
-                CheckValidity();
+                (Register as Command)!.ChangeCanExecute();
             }
         }
         public string PasswordAgain
@@ -136,7 +153,7 @@ namespace PillPalMAUI.ViewModels
                 passwordAgain = value;
                 Changed();
                 CheckPasswordMatch();
-                CheckValidity();
+                (Register as Command)!.ChangeCanExecute();
             }
         }
         private bool isEnabled = false;
@@ -160,28 +177,28 @@ namespace PillPalMAUI.ViewModels
             var securityLevel = GetSecurityLevel(Password);
             if (securityLevel >= PASSWORD_LENGTH)
             {
-                PasswordTooShort = acceptText;
+                PasswordTooShort = GetAcceptColor();
                 securityLevel -= PASSWORD_LENGTH;
             }
-            else PasswordTooShort = errorText;
+            else PasswordTooShort = GetErrorColor();
             if (securityLevel >= PASSWORD_SPECIALS)
             {
-                PasswordSpecial = acceptText;
+                PasswordSpecial = GetAcceptColor();
                 securityLevel -= PASSWORD_SPECIALS;
             }
-            else PasswordSpecial = errorText;
+            else PasswordSpecial = GetErrorColor();
             if (securityLevel >= PASSWORD_NUMBERS)
             {
-                PasswordNumber = acceptText;
+                PasswordNumber = GetAcceptColor();
                 securityLevel -= PASSWORD_NUMBERS;
             }
-            else PasswordNumber = errorText;
+            else PasswordNumber = GetErrorColor();
             if (securityLevel >= PASSWORD_BOTH_CASES)
             {
-                PasswordBothCases = acceptText;
+                PasswordBothCases = GetAcceptColor();
                 securityLevel -= PASSWORD_BOTH_CASES;
             }
-            else PasswordBothCases = errorText;
+            else PasswordBothCases = GetErrorColor();
         }
         private static int GetSecurityLevel(string password)
         {
@@ -195,12 +212,6 @@ namespace PillPalMAUI.ViewModels
             if (password.Length >= MIN_PASSWORD_LENGTH)
                 securityLevel += 8;
             return securityLevel;
-        }
-        private void CheckValidity()
-        {
-            if (!UsernameIncorrectLength && GetSecurityLevel(password) == MAX_SECURITY_LEVEL && password == passwordAgain)
-                IsEnabled = true;
-            else IsEnabled = false;
         }
     }
 }
