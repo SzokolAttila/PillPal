@@ -2,38 +2,49 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PillPalMAUI.Pages.RegisterPage"
+             xmlns:viewmodels="clr-namespace:PillPalMAUI.ViewModels"
              BackgroundColor="{DynamicResource PageBackground}" MinimumWidthRequest="300"
              xmlns:contentviews="clr-namespace:PillPalMAUI.Resources.ContentViews">
+    <ContentPage.BindingContext>
+        <viewmodels:RegisterViewModel/>
+    </ContentPage.BindingContext>
     <ScrollView>
         <FlexLayout Direction="Column" AlignContent="Center" JustifyContent="SpaceBetween">
-            <contentviews:ThemeSwitch/>
+            <contentviews:ThemeSwitch FlexLayout.AlignSelf="End"/>
             <contentviews:LogoContentView/>
             <VerticalStackLayout Style="{StaticResource Formgroup}">
                 <Label Text="Felhasználónév" Style="{StaticResource InputLabel}"/>
                 <Frame Style="{StaticResource InputBorder}">
-                    <Entry Style="{StaticResource InputField}"/>
+                    <Entry Style="{StaticResource InputField}" Text="{Binding Username}"/>
                 </Frame>
+                <Label Text="A felhasználónév hossza 6 és 20 karakter között kell legyen!" IsVisible="{Binding UsernameIncorrectLength}" Style='{StaticResource ErrorMessage}'/>
             </VerticalStackLayout>
             <VerticalStackLayout Style="{StaticResource Formgroup}">
                 <Label Text="Jelszó" Style="{StaticResource InputLabel}"/>
                 <Frame Style="{StaticResource InputBorder}">
-                    <Entry IsPassword="True" Style="{StaticResource InputField}"/>
+                    <Entry IsPassword="True" Style="{StaticResource InputField}" Text="{Binding Password}"/>
                 </Frame>
+                <Label Text="A jelszónak tartalmaznia kell kis- és nagybetűt!" Style='{StaticResource ErrorMessage}' TextColor="{Binding PasswordBothCases}"/>
+                <Label Text="A jelszónak tartalmaznia kell számot!" Style='{StaticResource ErrorMessage}' TextColor="{Binding PasswordNumber}"/>
+                <Label Text="A jelszónak tartalmaznia kell speciális karaktert! (@$!%*?&amp;)" TextColor="{Binding PasswordSpecial}" Style='{StaticResource ErrorMessage}'/>
+                <Label Text="A jelszó legalább 8 karakter hosszú kell legyen!" TextColor="{Binding PasswordTooShort}" Style='{StaticResource ErrorMessage}'/>
             </VerticalStackLayout>
             <VerticalStackLayout Style="{StaticResource Formgroup}">
                 <Label Text="Jelszó újra" Style="{StaticResource InputLabel}"/>
                 <Frame Style="{StaticResource InputBorder}">
-                    <Entry IsPassword="True" Style="{StaticResource InputField}"/>
+                    <Entry IsPassword="True" Style="{StaticResource InputField}" Text="{Binding PasswordAgain}"/>
                 </Frame>
+                <Label Text="A jelszavak nem egyeznek!" IsVisible="{Binding PasswordsDoNotMatch}" Style='{StaticResource ErrorMessage}'/>
             </VerticalStackLayout>
+            <Label Text="A megadott felhasználónév már foglalt!" IsVisible="{Binding UsernameTaken}" Style='{StaticResource ErrorMessage}'/>
             <VerticalStackLayout>
-                <Button Style="{StaticResource SubmitButton}" Text="Regisztrálás"/>
+                <Button Style="{StaticResource SubmitButton}" Text="Regisztrálás" IsEnabled="{Binding IsEnabled}"/>
             </VerticalStackLayout>
             <HorizontalStackLayout Margin="10">
                 <Label Text="Már van fiókja?" VerticalOptions="End" Style="{StaticResource Text}" />
                 <Label Text="Bejelentkezés" VerticalOptions="End" Style="{StaticResource Link}">
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="ToLoginPage"/>
+                        <TapGestureRecognizer Tapped="ToLogin"/>
                     </Label.GestureRecognizers>
                 </Label>
             </HorizontalStackLayout>

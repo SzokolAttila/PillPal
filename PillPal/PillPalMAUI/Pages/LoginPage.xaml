@@ -10,7 +10,7 @@
     </ContentPage.BindingContext>
     <ScrollView >
         <FlexLayout Direction="Column" JustifyContent="SpaceBetween" AlignContent="Center">
-            <contentviews:ThemeSwitch/>
+            <contentviews:ThemeSwitch FlexLayout.AlignSelf="End"/>
             <contentviews:LogoContentView />
             <VerticalStackLayout Style="{StaticResource Formgroup}">
                 <Label Text="Felhasználónév" Style="{StaticResource InputLabel}"/>
@@ -24,6 +24,7 @@
                     <Entry IsPassword="True" Style="{StaticResource InputField}"/>
                 </Frame>
             </VerticalStackLayout>
+            <Label Text="A megadott felhasználónév vagy jelszó helytelen!" Style='{StaticResource ErrorMessage}'/>
             <VerticalStackLayout>
                 <Button Style="{StaticResource SubmitButton}" Text="Bejelentkezés"/>
             </VerticalStackLayout>
@@ -31,7 +32,7 @@
                 <Label Text="Még nincs fiókja?" VerticalOptions="End" Style="{StaticResource Text}" />
                 <Label Text="Regisztrálás" VerticalOptions="End" Style="{StaticResource Link}">
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="ToRegistrationPage"/>
+                        <TapGestureRecognizer Tapped="ToRegistration"/>
                     </Label.GestureRecognizers>
                 </Label>
             </HorizontalStackLayout>

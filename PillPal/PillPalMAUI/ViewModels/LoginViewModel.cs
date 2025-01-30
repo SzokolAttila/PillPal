@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace PillPalMAUI.ViewModels
 {
-    public class LoginViewModel
+    public class LoginViewModel : ViewModelBase
     {
         public LoginViewModel()
         {

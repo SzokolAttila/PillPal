@@ -12,4 +12,6 @@
     <Color x:Key="TextColor">#FFFBFE</Color>
     <Color x:Key="FormTextColor">#1A1A1A</Color>
     <Color x:Key="FormBackground">#999999</Color>
+    <Color x:Key="ErrorText">#FC3535</Color>
+    <Color x:Key="AcceptText">#38AD49</Color>
 </ResourceDictionary>

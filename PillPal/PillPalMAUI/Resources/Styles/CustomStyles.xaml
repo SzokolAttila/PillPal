@@ -36,7 +36,7 @@
         <Setter Property="Margin" Value="5"/>
         <Setter Property="TextDecorations" Value="Underline"/>
     </Style>
-    
+
     <Style TargetType="Button" x:Key="SubmitButton">
         <Style.Triggers>
             <Trigger TargetType="Button" Property="IsPressed" Value="True">
@@ -51,9 +51,15 @@
         <Setter Property="CornerRadius" Value="20"/>
         <Setter Property="HeightRequest" Value="40"/>
         <Setter Property="HorizontalOptions" Value="Fill"/>
-        <Setter Property="Margin" Value="100,20,100,75"/>
+        <Setter Property="Margin" Value="100,10,100,30"/>
     </Style>
-
+    <Style TargetType="Label" x:Key="ErrorMessage">
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="FontFamily" Value="PlayfairDisplay"/>
+        <Setter Property="TextColor" Value="{DynamicResource ErrorText}"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+    </Style>
     <Style TargetType="Switch" x:Key="ToggleTheme">
         <Setter Property="Margin" Value="5,8,20,0"/>
         <Setter Property="Scale" Value="1.3"/>
@@ -62,12 +68,13 @@
     </Style>
     
     <Style TargetType="VerticalStackLayout" x:Key="Formgroup">
+        <Setter Property="Margin" Value="5"/>
         <Setter Property="HorizontalOptions" Value="Fill"/>
     </Style>
 
     <Style TargetType="Frame" x:Key="InputBorder">
         <Setter Property="BackgroundColor" Value="{DynamicResource FormBackground}"/>
-        <Setter Property="Margin" Value="40,3,40,20"/>
+        <Setter Property="Margin" Value="40,3"/>
         <Setter Property="Padding" Value="0"/>
         <Setter Property="CornerRadius" Value="20"/>
         <Setter Property="HorizontalOptions" Value="Fill"/>
