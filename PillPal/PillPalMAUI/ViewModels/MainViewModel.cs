@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace PillPalMAUI.ViewModels
 {
-    public class MainViewModel : BaseViewModel
+    public class MainViewModel : ViewModelBase
     {
         ReminderAPIHandler handler;
 

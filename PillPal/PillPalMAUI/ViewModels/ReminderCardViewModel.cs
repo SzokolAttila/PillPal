@@ -11,7 +11,7 @@ using PillPalLib.APIHandlers;
 
 namespace PillPalMAUI.ViewModels
 {
-    public class ReminderCardViewModel : BaseViewModel
+    public class ReminderCardViewModel : ViewModelBase
     {
         private Reminder _reminder;
 

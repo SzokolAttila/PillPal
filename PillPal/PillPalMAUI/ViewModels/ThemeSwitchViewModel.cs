@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PillPalMAUI.ViewModels
 {
-    class ThemeSwitchViewModel : BaseViewModel
+    class ThemeSwitchViewModel : ViewModelBase
     {
         public ThemeSwitchViewModel()
         {
@@ -26,7 +26,7 @@ namespace PillPalMAUI.ViewModels
                 SwitchTheme();
             }
         }
-        private void SwitchTheme()
+        private static void SwitchTheme()
         {
             var dictionaries = Application.Current!.Resources.MergedDictionaries;
             if (dictionaries != null)

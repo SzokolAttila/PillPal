@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PillPalMAUI.ViewModels
 {
-    public class BaseViewModel : INotifyPropertyChanged
+    public abstract class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void Changed([CallerMemberName] string propName = "")
