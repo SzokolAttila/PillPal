@@ -7,28 +7,29 @@ namespace PillPalLib
     public class Medicine : IIdentified
     {
         [JsonConstructor]
-        public Medicine(int id, string name, string description, string manufacturer, string packageUnit)
+        public Medicine(int id, string name, string description, string manufacturer, int packageUnitId)
         {
             Id = id;
             Name = name;
             Description = description;
             Manufacturer = manufacturer;
-            PackageUnit = packageUnit;
+            PackageUnitId = packageUnitId;
         }
 
-        public Medicine(string name, string description, string manufacturer, string packageUnit)
+        public Medicine(string name, string description, string manufacturer, int packageUnitId)
         {
             Name = name;
             Description = description;
             Manufacturer = manufacturer;
-            PackageUnit = packageUnit;
+            PackageUnitId = packageUnitId;
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Manufacturer { get; set; }
-        public string PackageUnit { get; set; }
+        public int PackageUnitId { get; set; }
+        public PackageUnit? PackageUnit { get; set; }
         [JsonIgnore]
         public IEnumerable<string> SideEffects => SideEffectObjects.Select(x => x.Effect);
         [JsonIgnore]

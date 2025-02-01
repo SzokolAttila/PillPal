@@ -4,7 +4,7 @@
     {
         public string Name { get; set; } = "";
         public string Description { get; set; } = "";
-        public string PackageUnit { get; set; } = "";
+        public int PackageUnitId { get; set; }
         public string Manufacturer { get; set; } = "";
     }
 }

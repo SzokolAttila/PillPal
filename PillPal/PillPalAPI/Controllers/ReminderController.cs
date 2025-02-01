@@ -75,7 +75,6 @@ namespace PillPalAPI.Controllers
                 UserId = reminderDto.UserId,
                 MedicineId = reminderDto.MedicineId,
                 DoseCount = reminderDto.DoseCount,
-                DoseMg = reminderDto.DoseMg,
                 TakingMethod = reminderDto.TakingMethod,
                 When = TimeOnly.Parse(reminderDto.When),
             };
@@ -117,7 +116,6 @@ namespace PillPalAPI.Controllers
                 UserId = reminderDto.UserId,
                 MedicineId = reminderDto.MedicineId,
                 DoseCount = reminderDto.DoseCount,
-                DoseMg = reminderDto.DoseMg,
                 TakingMethod = reminderDto.TakingMethod,
                 When = TimeOnly.Parse(reminderDto.When),
                 Id = id

@@ -19,6 +19,8 @@ namespace PillPalAPI.Model
 
         public IDCollection<PackageSize> PackageSizes { get; }
 
+        public IDCollection<PackageUnit> PackageUnits { get; }
+
         public DataStore(DatabaseContext context)
         {
             Users = new IDCollection<User>(context.Users);
@@ -31,6 +33,7 @@ namespace PillPalAPI.Model
             RemedyForAilments = new IDCollection<RemedyFor> (context.RemedyForAilments);
             MedicineRemedyForAilments = new IDCollection<MedicineRemedyFor>(context.MedicineRemedyForAilments);
             PackageSizes = new IDCollection<PackageSize> (context.PackageSizes);
+            PackageUnits = new IDCollection<PackageUnit>(context.PackageUnits);
         }
     }
 }

@@ -87,6 +87,13 @@ namespace PillPalAPI.Model
             builder.Entity<SideEffect>().Navigation(x => x.Medicines).EnableLazyLoading();
 
             builder.Entity<PackageSize>().HasKey(x => x.Id);
+
+            builder.Entity<PackageUnit>().HasKey(x => x.Id);
+            builder.Entity<Medicine>()
+                .HasOne(x => x.PackageUnit)
+                .WithMany(x => x.Medicines)
+                .HasForeignKey(x => x.PackageUnitId);
+            builder.Entity<Medicine>().Navigation(x => x.PackageUnit).AutoInclude();
         }
         public DbSet<SideEffect> SideEffects { get; set; }
         public DbSet<PackageSize> PackageSizes { get; set; }
@@ -98,5 +105,6 @@ namespace PillPalAPI.Model
         public DbSet<MedicineActiveIngredient> MedicineActiveIngredients { get; set; }
         public DbSet<Medicine> Medicines { get; set; }
         public DbSet<MedicineRemedyFor> MedicineRemedyForAilments { get; set; }
+        public DbSet<PackageUnit> PackageUnits { get; set; }
     }
 }

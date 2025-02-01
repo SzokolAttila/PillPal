@@ -46,7 +46,7 @@ namespace PillPalAPI.Controllers
             if (!result.IsValid)
                 return BadRequest(result);
 
-            Medicine medicine = new(medicineDto.Name, medicineDto.Description, medicineDto.Manufacturer, medicineDto.PackageUnit);
+            Medicine medicine = new(medicineDto.Name, medicineDto.Description, medicineDto.Manufacturer, medicineDto.PackageUnitId);
             
             if (_medicineRepository.Add(medicine))
                 return Ok(medicine);
@@ -64,7 +64,7 @@ namespace PillPalAPI.Controllers
             if(!result.IsValid)
                 return BadRequest(result);
             
-            Medicine medicine = new(id, medicineDto.Name, medicineDto.Description, medicineDto.Manufacturer, medicineDto.PackageUnit);
+            Medicine medicine = new(id, medicineDto.Name, medicineDto.Description, medicineDto.Manufacturer, medicineDto.PackageUnitId);
 
             if (_medicineRepository.Update(medicine))
                 return Ok(medicine);
