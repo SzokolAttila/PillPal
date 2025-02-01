@@ -36,7 +36,7 @@ namespace PillPalLib
             return Encoding.UTF8.GetBytes(salt);
         }
         private int Iteration => (int)(Math.Pow(UserName.Length, 6) / Math.Pow(UserName.Length - 4, 3));
-        public string UserName { get; init; }
+        public string UserName { get; set; }
         public byte[] Password { get; private set; }
         public string PasswordText { 
             set{

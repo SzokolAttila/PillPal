@@ -15,18 +15,17 @@
             <VerticalStackLayout Style="{StaticResource Formgroup}">
                 <Label Text="Felhasználónév" Style="{StaticResource InputLabel}"/>
                 <Frame Style="{StaticResource InputBorder}">
-                    <Entry Style="{StaticResource InputField}"/>
+                    <Entry Style="{StaticResource InputField}" Text="{Binding Username}" ReturnCommand="{Binding Login}"/>
                 </Frame>
             </VerticalStackLayout>
             <VerticalStackLayout Style="{StaticResource Formgroup}">
                 <Label Text="Jelszó" Style="{StaticResource InputLabel}"/>
                 <Frame Style="{StaticResource InputBorder}">
-                    <Entry IsPassword="True" Style="{StaticResource InputField}"/>
+                    <Entry IsPassword="True" Style="{StaticResource InputField}" Text="{Binding Password}" ReturnCommand="{Binding Login}"/>
                 </Frame>
             </VerticalStackLayout>
-            <Label Text="A megadott felhasználónév vagy jelszó helytelen!" Style='{StaticResource ErrorMessage}'/>
             <VerticalStackLayout>
-                <Button Style="{StaticResource SubmitButton}" Text="Bejelentkezés"/>
+                <Button Style="{StaticResource SubmitButton}" Command="{Binding Login}" Text="Bejelentkezés"/>
             </VerticalStackLayout>
             <HorizontalStackLayout Margin="10">
                 <Label Text="Még nincs fiókja?" VerticalOptions="End" Style="{StaticResource Text}" />

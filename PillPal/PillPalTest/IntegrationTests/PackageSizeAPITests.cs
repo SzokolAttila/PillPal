@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PillPalLib.DTOs.PackageSizeDTOs;
+using PillPalLib.DTOs.PackageUnitDTOs;
 
 namespace PillPalTest.IntegrationTests
 {
@@ -16,6 +17,7 @@ namespace PillPalTest.IntegrationTests
         private MedicineAPIHandler medicineHandler;
         private UserAPIHandler userHandler;
         private PackageSizeAPIHandler packageSizeHandler;
+        private PackageUnitAPIHandler packageUnitHandler;
         [TestInitialize]
         public void Init()
         {
@@ -23,6 +25,7 @@ namespace PillPalTest.IntegrationTests
             userHandler  = new (client: api.CreateClient());
             medicineHandler  = new (client: api.CreateClient());
             packageSizeHandler = new (client: api.CreateClient());
+            packageUnitHandler = new (client: api.CreateClient());
         }
         [TestMethod]
         public void AdminRoleNeededToCreatePackageSize()
@@ -141,14 +144,20 @@ namespace PillPalTest.IntegrationTests
             userHandler.CreateUser(user);   
             return userHandler.Login(user).Token;
         }
+        private void CreatePackageUnit(string token)
+        {
+            var packageUnit = new CreatePackageUnitDto() { Name = "packageUnit" };
+            packageUnitHandler.CreatePackageUnit(packageUnit, token);
+        }
         private void CreateMedicine(string token)
         {
+            CreatePackageUnit(token);
             CreateMedicineDto medicine = new()
             {
                 Name = "gyogyszer1",
                 Description = "ez egy gyógyszer",
                 Manufacturer = "a gyógyszergyártója",
-                PackageUnit = "mg",
+                PackageUnitId = 1,
             };
             medicineHandler.CreateMedicine(medicine, token);
         }

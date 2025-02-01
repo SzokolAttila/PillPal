@@ -15,14 +15,14 @@
             <VerticalStackLayout Style="{StaticResource Formgroup}">
                 <Label Text="Felhasználónév" Style="{StaticResource InputLabel}"/>
                 <Frame Style="{StaticResource InputBorder}">
-                    <Entry Style="{StaticResource InputField}" Text="{Binding Username}"/>
+                    <Entry Style="{StaticResource InputField}" Text="{Binding Username}" ReturnCommand="{Binding Register}"/>
                 </Frame>
                 <Label Text="A felhasználónév hossza 6 és 20 karakter között kell legyen!" IsVisible="{Binding UsernameIncorrectLength}" Style='{StaticResource ErrorMessage}'/>
             </VerticalStackLayout>
             <VerticalStackLayout Style="{StaticResource Formgroup}">
                 <Label Text="Jelszó" Style="{StaticResource InputLabel}"/>
                 <Frame Style="{StaticResource InputBorder}">
-                    <Entry IsPassword="True" Style="{StaticResource InputField}" Text="{Binding Password}"/>
+                    <Entry IsPassword="True" Style="{StaticResource InputField}" Text="{Binding Password}" ReturnCommand="{Binding Register}"/>
                 </Frame>
                 <Label Text="A jelszónak tartalmaznia kell kis- és nagybetűt!" Style='{StaticResource ErrorMessage}' TextColor="{Binding PasswordBothCases}"/>
                 <Label Text="A jelszónak tartalmaznia kell számot!" Style='{StaticResource ErrorMessage}' TextColor="{Binding PasswordNumber}"/>
@@ -32,11 +32,10 @@
             <VerticalStackLayout Style="{StaticResource Formgroup}">
                 <Label Text="Jelszó újra" Style="{StaticResource InputLabel}"/>
                 <Frame Style="{StaticResource InputBorder}">
-                    <Entry IsPassword="True" Style="{StaticResource InputField}" Text="{Binding PasswordAgain}"/>
+                    <Entry IsPassword="True" Style="{StaticResource InputField}" Text="{Binding PasswordAgain}" ReturnCommand="{Binding Register}"/>
                 </Frame>
                 <Label Text="A jelszavak nem egyeznek!" IsVisible="{Binding PasswordsDoNotMatch}" Style='{StaticResource ErrorMessage}'/>
             </VerticalStackLayout>
-            <Label Text="A megadott felhasználónév már foglalt!" IsVisible="{Binding UsernameTaken}" Style='{StaticResource ErrorMessage}'/>
             <VerticalStackLayout>
                 <Button Style="{StaticResource SubmitButton}" Text="Regisztrálás" Command="{Binding Register}"/>
             </VerticalStackLayout>

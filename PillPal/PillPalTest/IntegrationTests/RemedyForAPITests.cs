@@ -1,6 +1,7 @@
 ﻿using PillPalLib.APIHandlers;
 using PillPalLib.DTOs.MedicineDTOs;
 using PillPalLib.DTOs.MedicineRemedyForDTOs;
+using PillPalLib.DTOs.PackageUnitDTOs;
 using PillPalLib.DTOs.RemedyForDTOs;
 using PillPalLib.DTOs.UserDTOs;
 using System;
@@ -17,12 +18,14 @@ namespace PillPalTest.IntegrationTests
         private MedicineAPIHandler medicineHandler;
         private UserAPIHandler userHandler;
         private RemedyForAPIHandler remedyForHandler;
+        private PackageUnitAPIHandler packageUnitHandler;
         private MedicineRemedyForAPIHandler medicineRemedyForHandler;
         [TestInitialize]
         public void Init()
         {
             var api = new TestWebAppFactory<PillPalAPI.Program>();
             medicineHandler = new(client: api.CreateClient());
+            packageUnitHandler = new(client: api.CreateClient());
             userHandler = new(client: api.CreateClient());
             medicineRemedyForHandler = new(client: api.CreateClient());
             remedyForHandler = new(client: api.CreateClient());
@@ -163,14 +166,20 @@ namespace PillPalTest.IntegrationTests
             userHandler.CreateUser(user);
             return userHandler.Login(user).Token;
         }
+        private void CreatePackageUnit(string token)
+        {
+            var packageUnit = new CreatePackageUnitDto() { Name = "packageUnit" };
+            packageUnitHandler.CreatePackageUnit(packageUnit, token);
+        }
         private void CreateMedicine(string token)
         {
+            CreatePackageUnit(token);
             CreateMedicineDto medicine = new()
             {
                 Name = "gyogyszer1",
                 Description = "ez egy gyógyszer",
                 Manufacturer = "a gyógyszergyártója",
-                PackageUnit = "mg",
+                PackageUnitId = 1,
             };
             medicineHandler.CreateMedicine(medicine, token);
         }

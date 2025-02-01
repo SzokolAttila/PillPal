@@ -9,6 +9,7 @@ using PillPalLib.DTOs.UserDTOs;
 using PillPalLib.DTOs.ReminderDTOs;
 using PillPalLib.DTOs.MedicineDTOs;
 using System.Runtime.InteropServices;
+using PillPalLib.DTOs.PackageUnitDTOs;
 
 namespace PillPalTest.IntegrationTests
 {
@@ -18,10 +19,12 @@ namespace PillPalTest.IntegrationTests
         private ReminderAPIHandler handler;
         private UserAPIHandler userHandler;
         private MedicineAPIHandler medicineHandler;
+        private PackageUnitAPIHandler packageUnitHandler;
         [TestInitialize]
         public void Init()
         {
             var app = new TestWebAppFactory<PillPalAPI.Program>();
+            packageUnitHandler = new PackageUnitAPIHandler(client: app.CreateClient());
             handler = new ReminderAPIHandler(client: app.CreateClient());
             userHandler = new UserAPIHandler(client: app.CreateClient());
             medicineHandler = new MedicineAPIHandler(client: app.CreateClient());
@@ -63,7 +66,6 @@ namespace PillPalTest.IntegrationTests
             SeedMedicine(adminToken);
             var reminder = new CreateReminderDto()
             {
-                DoseMg = 0,
                 DoseCount = 1,
                 MedicineId = 1,
                 UserId = 1,
@@ -80,7 +82,6 @@ namespace PillPalTest.IntegrationTests
             SeedMedicine(adminToken);
             var reminder = new CreateReminderDto()
             {
-                DoseMg = 1,
                 DoseCount = 0,
                 MedicineId = 1,
                 UserId = 1,
@@ -142,7 +143,6 @@ namespace PillPalTest.IntegrationTests
             SeedMedicine(adminToken);
             CreateReminderDto reminder = SeedReminder(2, adminToken);
             reminder.TakingMethod = "take with water";
-            reminder.DoseMg = 500;
             handler.EditReminder(1, reminder, adminToken);
             Assert.AreEqual(500, handler.Get(2, adminToken).First().DoseMg);
             Assert.AreEqual("take with water", handler.Get(2, adminToken).First().TakingMethod);
@@ -177,7 +177,6 @@ namespace PillPalTest.IntegrationTests
             var userToken = GetUserToken("brownie");
             SeedMedicine(adminToken);
             var reminder = SeedReminder(1, adminToken);
-            reminder.DoseMg = 500;
             var exception = Assert.ThrowsException<ArgumentException>(() => handler.EditReminder(1, reminder, userToken));
             Assert.AreEqual("Forbidden", exception.Message);
         }
@@ -188,7 +187,6 @@ namespace PillPalTest.IntegrationTests
             var userToken = GetUserToken("brownie");
             SeedMedicine(adminToken);
             var reminder = SeedReminder(2, adminToken);
-            reminder.DoseMg = 500;
             handler.EditReminder(1, reminder, userToken);
             Assert.AreEqual(500, handler.Get(2, userToken).First().DoseMg);
         }
@@ -244,14 +242,20 @@ namespace PillPalTest.IntegrationTests
             var exception = Assert.ThrowsException<ArgumentException>(() => handler.DeleteReminder(1, adminToken));
             Assert.AreEqual("Not Found", exception.Message);
         }
+        private void CreatePackageUnit(string token)
+        {
+            var packageUnit = new CreatePackageUnitDto() { Name = "packageUnit" };
+            packageUnitHandler.CreatePackageUnit(packageUnit, token);
+        }
         private void SeedMedicine(string adminToken)
         {
+            CreatePackageUnit(adminToken);
             var medicine = new CreateMedicineDto()
             {
                 Description = "uehotuoe",
                 Manufacturer = "euohtnuhoe",
                 Name = "ueohtnuheont",
-                PackageUnit = "mg",
+                PackageUnitId = 1,
             };
             medicineHandler.CreateMedicine(medicine, adminToken);
         }
@@ -260,7 +264,6 @@ namespace PillPalTest.IntegrationTests
             var reminder = new CreateReminderDto()
             {
                 DoseCount = 1,
-                DoseMg = 1,
                 MedicineId = 1,
                 TakingMethod = "ueo",
                 UserId = userId,

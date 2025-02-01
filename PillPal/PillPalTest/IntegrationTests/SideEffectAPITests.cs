@@ -2,6 +2,7 @@
 using PillPalLib.APIHandlers;
 using PillPalLib.DTOs.MedicineDTOs;
 using PillPalLib.DTOs.MedicineSideEffectDTOs;
+using PillPalLib.DTOs.PackageUnitDTOs;
 using PillPalLib.DTOs.SideEffectDTOs;
 using PillPalLib.DTOs.UserDTOs;
 using System;
@@ -15,6 +16,7 @@ namespace PillPalTest.IntegrationTests
     [TestClass]
     public class SideEffectAPITests
     {
+        private PackageUnitAPIHandler packageUnitHandler;
         private MedicineAPIHandler medicineHandler;
         private UserAPIHandler userHandler;
         private SideEffectAPIHandler sideEffectHandler;
@@ -26,6 +28,7 @@ namespace PillPalTest.IntegrationTests
             medicineHandler = new (client: api.CreateClient());
             userHandler = new (client: api.CreateClient());
             sideEffectHandler = new (client: api.CreateClient());
+            packageUnitHandler = new (client: api.CreateClient());
             medicineSideEffectHandler = new (client: api.CreateClient());
         }
         [TestMethod]
@@ -177,14 +180,20 @@ namespace PillPalTest.IntegrationTests
             userHandler.CreateUser(user);
             return userHandler.Login(user).Token;
         }
+        private void CreatePackageUnit(string token)
+        {
+            var packageUnit = new CreatePackageUnitDto() { Name = "packageUnit" };
+            packageUnitHandler.CreatePackageUnit(packageUnit, token);
+        }
         private void CreateMedicine(string token)
         {
+            CreatePackageUnit(token);
             CreateMedicineDto medicine = new()
             {
                 Name = "gyogyszer1",
                 Description = "ez egy gyógyszer",
                 Manufacturer = "a gyógyszergyártója",
-                PackageUnit = "mg",
+                PackageUnitId = 1,
             };
             medicineHandler.CreateMedicine(medicine, token);
         }

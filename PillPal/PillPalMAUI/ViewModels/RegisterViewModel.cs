@@ -53,7 +53,7 @@ namespace PillPalMAUI.ViewModels
             }
             catch (Exception ex) 
             {
-                UsernameTaken = true;
+                await Application.Current!.MainPage!.DisplayAlert("Sikertelen regisztráció!", $"A megadott felhasználónév már foglalt. ({ex.Message})", "OK");
             }
         }
         private static Color GetErrorColor()
@@ -72,7 +72,6 @@ namespace PillPalMAUI.ViewModels
         private Color passwordBothCases;
         // other error message labels (visibility)
         private bool passwordsDoNotMatch = false;
-        private bool usernameTaken = false;
         private bool usernameIncorrectLength = true;
         private string username = string.Empty;
         private string password = string.Empty;
@@ -128,15 +127,6 @@ namespace PillPalMAUI.ViewModels
             set
             {
                 passwordsDoNotMatch = value;
-                Changed();
-            }
-        }
-        public bool UsernameTaken
-        {
-            get => usernameTaken;
-            set
-            {
-                usernameTaken = value;
                 Changed();
             }
         }

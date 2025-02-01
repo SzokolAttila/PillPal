@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using PillPalLib.APIHandlers;
 using PillPalLib.DTOs.MedicineDTOs;
 using PillPalLib.DTOs.UserDTOs;
+using PillPalLib.DTOs.PackageUnitDTOs;
 
 namespace PillPalTest.IntegrationTests
 {
@@ -15,6 +16,7 @@ namespace PillPalTest.IntegrationTests
     {
         private MedicineAPIHandler handler;
         private UserAPIHandler userHandler;
+        private PackageUnitAPIHandler packageUnitHandler;
 
         [TestInitialize]
         public void Init()
@@ -22,6 +24,7 @@ namespace PillPalTest.IntegrationTests
             var api = new TestWebAppFactory<PillPalAPI.Program>();
             handler = new (client: api.CreateClient());
             userHandler = new (client: api.CreateClient());
+            packageUnitHandler = new (client: api.CreateClient());
         }
 
         [TestMethod]
@@ -151,20 +154,6 @@ namespace PillPalTest.IntegrationTests
             message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateMedicine(1, medicine, adminToken));
             Assert.AreEqual("Manufacturer name must be between 5 and 30 characters.", message.Message);
         }
-
-        [TestMethod]
-        public void PostingOrPuttingMedicineWithNotMgOrMlPackageUnitThrowsException()
-        {
-            string adminToken = GetAdminToken();
-            CreateMedicineDto medicine = MockMedicine(adminToken, true);
-
-            medicine.PackageUnit = "gm";
-            var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateMedicine(medicine, adminToken));
-            Assert.AreEqual("Package unit must be either mg or ml.", message.Message);
-            message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateMedicine(1, medicine, adminToken));
-            Assert.AreEqual("Package unit must be either mg or ml.", message.Message);
-        }
-
         private string GetAdminToken()
         {
             CreateUserDto admin = new() { UserName = "administrator", Password = "aA1?aA1?" };
@@ -178,14 +167,20 @@ namespace PillPalTest.IntegrationTests
             userHandler.CreateUser(user);
             return userHandler.Login(user).Token;
         }
+        private void CreatePackageUnit(string token)
+        {
+            var packageUnit = new CreatePackageUnitDto() { Name = "packageUnit" };
+            packageUnitHandler.CreatePackageUnit(packageUnit, token);
+        }
         private CreateMedicineDto MockMedicine(string adminToken = "", bool withPosting = false)
         {
+            CreatePackageUnit(adminToken);
             CreateMedicineDto medicine = new()
             {
                 Name = "gyogyszer1",
                 Description = "ez egy gyógyszer",
                 Manufacturer = "a gyógyszergyártója",
-                PackageUnit = "mg",
+                PackageUnitId = 1,
             };
             if(withPosting) handler.CreateMedicine(medicine, adminToken);
             return medicine;

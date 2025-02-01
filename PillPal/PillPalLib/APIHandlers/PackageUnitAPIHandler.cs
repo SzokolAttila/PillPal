@@ -30,21 +30,21 @@ namespace PillPalLib.APIHandlers
             var json = message.Content.ReadAsStringAsync().Result;
             return JsonSerializer.Deserialize<PackageUnit>(json, _options)!;
         }
-        public void CreateRemedyFor(CreatePackageUnitDto createDto, string token)
+        public void CreatePackageUnit(CreatePackageUnitDto createDto, string token)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             string json = JsonSerializer.Serialize(createDto);
             var message = _httpClient.PostAsync("PillPal/PackkageUnit", new StringContent(json, Encoding.UTF8, "application/json")).Result;
             ExceptionHandler.CheckHttpResponse(message);
         }
-        public void EditRemedyFor(int id, CreatePackageUnitDto createDto, string token)
+        public void EditPackageUnit(int id, CreatePackageUnitDto createDto, string token)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             string json = JsonSerializer.Serialize(createDto);
             var message = _httpClient.PutAsync($"PillPal/PackageUnit/{id}", new StringContent(json, Encoding.UTF8, "application/json")).Result;
             ExceptionHandler.CheckHttpResponse(message);
         }
-        public void DeleteRemedyFor(int id, string token)
+        public void DeletePackageUnit(int id, string token)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var message = _httpClient.DeleteAsync($"PillPal/PackageUnit/{id}").Result;

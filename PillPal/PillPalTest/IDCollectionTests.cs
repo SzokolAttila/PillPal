@@ -2,6 +2,7 @@
 using Moq;
 using PillPalAPI.Model;
 using PillPalLib;
+using PillPalLib.APIHandlers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,17 +31,17 @@ namespace PillPalTest
         [TestMethod]
         public void ItemsCanBeAdded()
         {
-            var collection = new IDCollection<Medicine>(_context.Medicines);
+            var collection = new IDCollection<User>(_context.Users);
             Assert.AreEqual(0, collection.Size);
-            collection.Add(new Medicine("delulu", "hululu", "uehtoaeoutn", "uehton"));
+            collection.Add(new User("jackie", "Delulu!0"));
             Assert.AreEqual(1, collection.Size);
         }
 
         [TestMethod]
         public void IndexerFindsExistingItems()
         {
-            var collection = new IDCollection<Medicine>(_context.Medicines);
-            collection.Add(new Medicine("Algoflex", "this is a medicine", "random menufacturer", "mg"));
+            var collection = new IDCollection<User>(_context.Users);
+            collection.Add(new User("jackie", "Delulu!0"));
             Assert.IsNotNull(collection[1]);
             Assert.IsNull(collection[10]);
         }
@@ -48,24 +49,24 @@ namespace PillPalTest
         [TestMethod]
         public void ItemCannotBeAddedTwice()
         {
-            var collection = new IDCollection<Medicine>(_context.Medicines);
+            var collection = new IDCollection<User>(_context.Users);
             Assert.AreEqual(0, collection.Size);
-            var medicine = new Medicine("delulu", "hululu", "uehtoaeoutn", "uehton");
-            Assert.IsTrue(collection.Add(medicine));
-            Assert.IsFalse(collection.Add(medicine));
+            var user = new User("jackie", "Delulu!0");
+            Assert.IsTrue(collection.Add(user));
+            Assert.IsFalse(collection.Add(user));
             Assert.AreEqual(1, collection.Size);
         }
 
         [TestMethod]
         public void ItemsCanBeRemoved()
         {
-            var medicine = new Medicine("delulu", "hululu", "uehtoaeoutn", "uehton");
+            var user = new User("jackie", "Delulu!0");
             _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTrackingWithIdentityResolution;
-            var added = _context.Medicines.Add(medicine);
+            var added = _context.Users.Add(user);
             _context.SaveChanges();
             added.State = EntityState.Detached; // need to detach so we dont get tracking issues
 
-            var collection = new IDCollection<Medicine>(_context.Medicines);
+            var collection = new IDCollection<User>(_context.Users);
             Assert.AreEqual(1, collection.Size);
             Assert.IsTrue(collection.Remove(1));
             Assert.IsFalse(collection.Remove(2));
@@ -75,21 +76,21 @@ namespace PillPalTest
         [TestMethod]
         public void ExistingItemCanBeUpdated()
         {
-            var collection = new IDCollection<Medicine>(_context.Medicines);
+            var collection = new IDCollection<User>(_context.Users);
             Assert.AreEqual(0, collection.Size);
-            var medicine = new Medicine("delulu", "hululu", "uehtoaeoutn", "uehton");
-            Assert.IsTrue(collection.Add(medicine));
-            medicine.Name = "Test";
-            Assert.IsTrue(collection.Replace(medicine));
-            Assert.AreEqual("Test", collection.Values.ElementAt(0).Name);
+            var user = new User("jackie", "Delulu!0");
+            Assert.IsTrue(collection.Add(user));
+            user.UserName = "Test";
+            Assert.IsTrue(collection.Replace(user));
+            Assert.AreEqual("Test", collection.Values.ElementAt(0).UserName);
         }
 
         [TestMethod]
         public void UpdatingOrDeletingNotExistingItemReturnsFalse()
         {
-            var collection = new IDCollection<Medicine>(_context.Medicines);
+            var collection = new IDCollection<User>(_context.Users);
             Assert.IsFalse(collection.Remove(0));
-            Assert.IsFalse(collection.Replace(new Medicine("delulu", "hululu", "uehtoaeoutn", "uehton")));
+            Assert.IsFalse(collection.Replace(new User("jackie", "Delulu!0")));
         }
     }
 }
