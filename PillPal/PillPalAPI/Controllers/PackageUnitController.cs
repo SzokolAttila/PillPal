@@ -21,12 +21,12 @@ namespace PillPalAPI.Controllers
             _packageUnitRepository = repository;
             _validator = validator;
         }
-        // GET: api/<RemedyForController>
+        // GET: api/<PackageUnit>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Get() => Ok(_packageUnitRepository.GetAll());
 
-        // GET api/<RemedyForController>/5
+        // GET api/<PackageUnit>/5
         [HttpGet("{id}")]
         [AllowAnonymous]
         public IActionResult Get(int id)
@@ -37,7 +37,7 @@ namespace PillPalAPI.Controllers
             return Ok(result);
         }
 
-        // POST api/<RemedyForController>
+        // POST api/<PackageUnit>
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public IActionResult Post([FromBody] CreatePackageUnitDto createDto)
@@ -56,7 +56,7 @@ namespace PillPalAPI.Controllers
             return BadRequest("PackageUnit with this ID already exists.");
         }
 
-        // PUT api/<RemedyForController>/5
+        // PUT api/<PackageUnit>/5
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
         public IActionResult Put(int id, [FromBody] CreatePackageUnitDto createDto)
@@ -78,7 +78,7 @@ namespace PillPalAPI.Controllers
             return BadRequest("Something went wrong.");
         }
 
-        // DELETE api/<RemedyForController>/5
+        // DELETE api/<PackageUnit>/5
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)

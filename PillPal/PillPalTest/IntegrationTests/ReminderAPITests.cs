@@ -60,22 +60,6 @@ namespace PillPalTest.IntegrationTests
             Assert.AreEqual("Forbidden", exception.Message);
         }
         [TestMethod]
-        public void DoseMgCannotBeNegativeOrZero()
-        {
-            var adminToken = GetAdminToken();
-            SeedMedicine(adminToken);
-            var reminder = new CreateReminderDto()
-            {
-                DoseCount = 1,
-                MedicineId = 1,
-                UserId = 1,
-                TakingMethod = "",
-                When = "14:00:50"
-            };
-            var exception = Assert.ThrowsException<ArgumentException>(() => handler.CreateReminder(reminder, adminToken));
-            Assert.AreEqual("Cannot add medicine with negative dose", exception.Message);
-        }
-        [TestMethod]
         public void DoseCountCannotBeNegativeOrZero()
         {
             var adminToken = GetAdminToken();
@@ -144,7 +128,7 @@ namespace PillPalTest.IntegrationTests
             CreateReminderDto reminder = SeedReminder(2, adminToken);
             reminder.TakingMethod = "take with water";
             handler.EditReminder(1, reminder, adminToken);
-            Assert.AreEqual(500, handler.Get(2, adminToken).First().DoseMg);
+            Assert.AreEqual(1, handler.Get(2, adminToken).First().DoseCount);
             Assert.AreEqual("take with water", handler.Get(2, adminToken).First().TakingMethod);
         }
         [TestMethod]
@@ -187,8 +171,9 @@ namespace PillPalTest.IntegrationTests
             var userToken = GetUserToken("brownie");
             SeedMedicine(adminToken);
             var reminder = SeedReminder(2, adminToken);
+            reminder.DoseCount = 3;
             handler.EditReminder(1, reminder, userToken);
-            Assert.AreEqual(500, handler.Get(2, userToken).First().DoseMg);
+            Assert.AreEqual(3, handler.Get(2, userToken).First().DoseCount);
         }
         [TestMethod]
         public void UserCannotMoveReminder()
