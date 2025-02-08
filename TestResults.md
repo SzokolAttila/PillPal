@@ -33,7 +33,6 @@
 | I/20 | Automated | Integration | ReminderAPITests | CannotDeleteNonExistantReminder | Deleting a non existing reminder throws exception | 2025-01-11 | 603 ms | Passed |
 | I/21 | Automated | Integration | ReminderAPITests | CannotEditNonExistantReminder | Modifying a non existing reminder throws exception | 2025-01-11 | 322 ms | Passed |
 | I/22 | Automated | Integration | ReminderAPITests | DoseCountCannotBeNegativeOrZero | Posting a reminder with negative or zero dose count throws exception as it would make no sense | 2025-01-11 | 514 ms | Passed |
-| I/23 | Automated | Integration | ReminderAPITests | DoseMgCannotBeNegativeOrZero | Posting a reminder with negative or zero dose mg throws exception as it would make no sense | 2025-01-11 | 397 ms | Passed |
 | I/24 | Automated | Integration | ReminderAPITests | UserCanAddOwnReminder | Posting a reminder to a user increases the number of reminders of the user | 2025-01-11 | 803 ms | Passed |
 | I/25 | Automated | Integration | ReminderAPITests | UserCanDeleteOwnReminder | Deleting a reminder from a user decreases the number of reminders of the user | 2025-01-11 | 558 ms | Passed |
 | I/26 | Automated | Integration | ReminderAPITests | UserCanEditOwnReminder | Putting a reminder to a user modifies the user's reminder | 2025-01-11 | 665 ms | Passed |

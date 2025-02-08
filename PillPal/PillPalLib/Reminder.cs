@@ -17,7 +17,6 @@ namespace PillPalLib
         public Medicine? Medicine { get; set; } 
         public TimeOnly When { get; set; }
         public double DoseCount { get; set; }
-        public int DoseMg {  get; set; }
         public string TakingMethod { get; set; } = "";
     }
 }

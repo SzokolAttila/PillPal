@@ -34,7 +34,7 @@ namespace PillPalLib.APIHandlers
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             string json = JsonSerializer.Serialize(createDto);
-            var message = _httpClient.PostAsync("PillPal/PackkageUnit", new StringContent(json, Encoding.UTF8, "application/json")).Result;
+            var message = _httpClient.PostAsync("PillPal/PackageUnit", new StringContent(json, Encoding.UTF8, "application/json")).Result;
             ExceptionHandler.CheckHttpResponse(message);
         }
         public void EditPackageUnit(int id, CreatePackageUnitDto createDto, string token)

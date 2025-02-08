@@ -174,7 +174,6 @@ namespace PillPalTest.IntegrationTests
         }
         private CreateMedicineDto MockMedicine(string adminToken = "", bool withPosting = false)
         {
-            CreatePackageUnit(adminToken);
             CreateMedicineDto medicine = new()
             {
                 Name = "gyogyszer1",
@@ -182,7 +181,13 @@ namespace PillPalTest.IntegrationTests
                 Manufacturer = "a gyógyszergyártója",
                 PackageUnitId = 1,
             };
-            if(withPosting) handler.CreateMedicine(medicine, adminToken);
+
+            if (withPosting)
+            {
+                CreatePackageUnit(adminToken);
+                handler.CreateMedicine(medicine, adminToken);
+            }
+
             return medicine;
         }
     }
