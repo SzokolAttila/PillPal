@@ -14,7 +14,7 @@ namespace PillPalLib.APIHandlers
         {
             PropertyNameCaseInsensitive = true
         };
-        public APIHandlerBase(string baseURL = "http://192.168.0.67:5236/", HttpClient? client = null)
+        public APIHandlerBase(string baseURL = "https://4t1q9ct6-5236.euw.devtunnels.ms/", HttpClient? client = null)
         {
             if (client == null)
             {
