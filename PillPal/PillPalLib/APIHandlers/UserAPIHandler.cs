@@ -11,7 +11,7 @@ namespace PillPalLib.APIHandlers
 {
     public class UserAPIHandler : APIHandlerBase
     {
-        public UserAPIHandler(string baseURL = "http://localhost:5236/", HttpClient? client = null) : base(baseURL, client)
+        public UserAPIHandler(HttpClient? client = null) : base(client: client)
         {
 
         }
@@ -21,7 +21,7 @@ namespace PillPalLib.APIHandlers
             string json = JsonSerializer.Serialize(user);
             var message = _httpClient.PostAsync("PillPal/Login", new StringContent(json, Encoding.UTF8, "application/json")).Result;
             ExceptionHandler.CheckHttpResponse(message);
-            return JsonSerializer.Deserialize<LoginDto>(message.Content.ReadAsStringAsync().Result, _options);
+            return JsonSerializer.Deserialize<LoginDto>(message.Content.ReadAsStringAsync().Result, _options)!;
         }
 
         public User GetUser(int id, string auth)

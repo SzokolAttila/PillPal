@@ -11,7 +11,7 @@ namespace PillPalLib.APIHandlers
 {
     public class SideEffectAPIHandler : APIHandlerBase
     {
-        public SideEffectAPIHandler(string baseURL = "http://localhost:5236/", HttpClient? client = null) : base(baseURL, client)
+        public SideEffectAPIHandler(HttpClient? client = null) : base(client: client)
         {
 
         }

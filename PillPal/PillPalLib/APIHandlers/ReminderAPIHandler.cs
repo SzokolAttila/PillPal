@@ -11,7 +11,7 @@ namespace PillPalLib.APIHandlers
 {
     public class ReminderAPIHandler : APIHandlerBase
     {
-        public ReminderAPIHandler(string baseURL = "http://localhost:5236/", HttpClient? client = null) : base(baseURL, client)
+        public ReminderAPIHandler(HttpClient? client = null) : base(client: client)
         {
 
         }

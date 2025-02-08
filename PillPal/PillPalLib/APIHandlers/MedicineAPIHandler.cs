@@ -12,7 +12,7 @@ namespace PillPalLib.APIHandlers
 {
     public class MedicineAPIHandler : APIHandlerBase
     {
-        public MedicineAPIHandler(string baseURL = "http://localhost:5236/", HttpClient? client = null) : base(baseURL, client)
+        public MedicineAPIHandler(HttpClient? client = null) : base(client: client)
         {
 
         }

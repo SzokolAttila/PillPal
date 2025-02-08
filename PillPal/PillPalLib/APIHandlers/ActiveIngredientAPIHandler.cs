@@ -11,7 +11,7 @@ namespace PillPalLib.APIHandlers
 {
     public class ActiveIngredientAPIHandler : APIHandlerBase
     {
-        public ActiveIngredientAPIHandler(string baseURL = "http://localhost:5236/", HttpClient? client = null) : base(baseURL, client)
+        public ActiveIngredientAPIHandler(HttpClient? client = null) : base(client: client)
         {
             
         }
