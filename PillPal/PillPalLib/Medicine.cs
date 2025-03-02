@@ -24,6 +24,8 @@ namespace PillPalLib
             PackageUnitId = packageUnitId;
         }
 
+        public Medicine() { }
+
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
