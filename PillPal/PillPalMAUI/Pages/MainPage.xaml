@@ -4,17 +4,25 @@
              xmlns:contentviews="clr-namespace:PillPalMAUI.Resources.ContentViews"
              x:Class="PillPalMAUI.Pages.MainPage"
              BackgroundColor="{DynamicResource PageBackground}">
-    <ScrollView>
-        <VerticalStackLayout>
-            <contentviews:LogoContentView/>
-            <CollectionView ItemsSource="{Binding Path=ReminderCards}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <contentviews:ReminderCard BindingContext="{Binding}"/>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </VerticalStackLayout>
-    </ScrollView>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="200"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout>
+                <contentviews:LogoContentView/>
+                <CollectionView ItemsSource="{Binding Path=ReminderCards}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <contentviews:ReminderCard BindingContext="{Binding}"/>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+        <contentviews:HomeButton Grid.Row="1" Margin="30,0,0,20" VerticalOptions="End" HorizontalOptions="Center"></contentviews:HomeButton>
+    </Grid>
 
 </ContentPage>

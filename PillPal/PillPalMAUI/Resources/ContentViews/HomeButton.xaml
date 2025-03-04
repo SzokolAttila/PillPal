@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PillPalMAUI.Resources.ContentViews.HomeButton">
+    <Grid ColumnDefinitions="1" RowDefinitions="1">
+        <ImageButton
+            x:Name="NewReminder"
+            Grid.Column="0"
+            Grid.Row="0"
+            WidthRequest="60"
+            HeightRequest="60"
+            CornerRadius="30"
+            HorizontalOptions="Center"
+            VerticalOptions="End"
+            Source="{AppThemeBinding Dark=new_dark.png, Light=new_light.png}"
+            BackgroundColor="{DynamicResource ComponentBackground}"
+            Clicked="NewReminder_Clicked"
+            Opacity="0">
+        </ImageButton>
+        
+        <ImageButton
+            Grid.Column="0"
+            Grid.Row="0"
+            x:Name="Settings"
+            WidthRequest="60"
+            HeightRequest="60"
+            CornerRadius="30"
+            HorizontalOptions="Center"
+            VerticalOptions="End"
+            Source="{AppThemeBinding Dark=settings_dark.png, Light=settings_light.png}"
+            BackgroundColor="{DynamicResource ComponentBackground}"
+            Clicked="Settings_Clicked"
+            Opacity="0">
+        </ImageButton>
+        
+        <ImageButton
+            Grid.Column="0"
+            Grid.Row="0"
+            x:Name="MenuButton"
+            WidthRequest="60"
+            HeightRequest="60"
+            CornerRadius="30"
+            HorizontalOptions="Center"
+            VerticalOptions="End"
+            Source="pillpal_logo.png"
+            Aspect="AspectFit"
+            BackgroundColor="{DynamicResource ComponentBackground}"
+            Clicked="MenuButton_Clicked"
+            Rotation="0">
+        </ImageButton>
+    </Grid>
+</ContentView>

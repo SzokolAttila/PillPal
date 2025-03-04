@@ -37,6 +37,7 @@ namespace PillPalMAUI.ViewModels
                     dictionaries.Add(new DarkTheme());
                 else dictionaries.Add(new LightTheme());
             }
+            Application.Current!.UserAppTheme = isToggled ? AppTheme.Light : AppTheme.Dark;
         }
     }
 }
