@@ -9,17 +9,5 @@ public partial class ReminderCard : ContentView
 	public ReminderCard()
 	{
 		InitializeComponent();
-        vm.Info = new Command(Info_Clicked);
-        vm.Edit = new Command(Edit_Clicked);
-    }
-
-    private void Info_Clicked()
-    {
-        // Show the information for the reminder
-    }
-
-    private void Edit_Clicked()
-    {
-        // Edit the reminder
     }
 }

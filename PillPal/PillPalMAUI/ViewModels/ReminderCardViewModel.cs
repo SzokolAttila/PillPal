@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using PillPalLib;
 using PillPalLib.APIHandlers;
+using PillPalMAUI.Pages;
 
 namespace PillPalMAUI.ViewModels
 {
@@ -40,17 +41,29 @@ namespace PillPalMAUI.ViewModels
             _reminderAPIHandler = new ReminderAPIHandler();
             IsVisible = true;
             Remove = new Command(Remove_Clicked);
+            Info = new Command(Info_Clicked);
+            Edit = new Command(Edit_Clicked);
         }
 
         private async void Remove_Clicked()
         {
             // Check if user really wants to remove the reminder
-            bool result = await Application.Current.MainPage.DisplayAlert("Emlékeztető törlése", "Biztosan szeretnéd törölni az emlékeztetőt?", "Igen", "Nem");
+            bool result = await Application.Current!.MainPage!.DisplayAlert("Emlékeztető törlése", "Biztosan szeretnéd törölni az emlékeztetőt?", "Igen", "Nem");
             if (result)
             {
                 _reminderAPIHandler.DeleteReminder(Reminder.Id, Auth); // Remove the reminder from the database
                 IsVisible = false; // Remove the reminder from the view
             }
+        }
+
+        private async void Info_Clicked()
+        {
+
+        }
+
+        private async void Edit_Clicked()
+        {
+            Application.Current!.MainPage = new EditPage(Reminder, Auth);
         }
     }
 }
