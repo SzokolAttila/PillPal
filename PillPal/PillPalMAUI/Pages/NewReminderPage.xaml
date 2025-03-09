@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PillPalMAUI.Pages.NewReminderPage"
+             xmlns:viewmodels="clr-namespace:PillPalMAUI.ViewModels"
+             xmlns:contentviews="clr-namespace:PillPalMAUI.Resources.ContentViews"
+             BackgroundColor="{DynamicResource PageBackground}"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+    <ContentPage.BindingContext>
+        <viewmodels:NewReminderViewModel/>
+    </ContentPage.BindingContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ScrollView Padding="10">
+            <FlexLayout Margin="30,0" Direction="Column" AlignContent="Center" JustifyContent="SpaceAround">
+                <Label Text="Új emlékeztető" Style="{StaticResource Title}" />
+                <BoxView BackgroundColor="{DynamicResource ComponentBackground}" HeightRequest="3" HorizontalOptions="Fill" Margin="5,5,5,10"/>
+                <SearchBar Text="{Binding MedicineName}" Style="{StaticResource SearchMedicine}" />
+                <ListView HorizontalOptions="Center"  SelectedItem="{Binding Medicine}"  ItemsSource="{Binding Medicines}" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell  TextColor="{DynamicResource TextColor}" Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Border Style="{StaticResource FormBorder}" HorizontalOptions="Center">
+                    <FlexLayout Margin="20,0" Direction="Column" AlignContent="Center" JustifyContent="SpaceBetween">
+                        <Label Text="{Binding Medicine.Name}" HorizontalTextAlignment="Center" Margin="5" />
+                        <VerticalStackLayout Style="{StaticResource Formgroup}">
+                            <Label Text="Beviteli adag" Style="{StaticResource InputLabel}"/>
+                            <Frame Style="{StaticResource InputBorder}">
+                                <Entry Style="{StaticResource InputField}" Text="{Binding DoseCount}">
+                                    <Entry.Behaviors>
+                                        <toolkit:NumericValidationBehavior
+                                            x:Name="DoseValidator"
+                                            Flags="ValidateOnValueChanged"
+                                            MaximumValue="1000"
+                                            MinimumValue="1"
+                                            MaximumDecimalPlaces="0"/>
+                                    </Entry.Behaviors>
+                                </Entry>
+                            </Frame>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Style="{StaticResource Formgroup}">
+                            <Label Text="Időpont" Style="{StaticResource InputLabel}"/>
+                            <Frame Style="{StaticResource InputBorder}">
+                                <TimePicker Style="{StaticResource InputField}" Time="{Binding When}" />
+                            </Frame>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Style="{StaticResource Formgroup}">
+                            <Label Text="Bevitel módja" Style="{StaticResource InputLabel}"/>
+                            <Frame Style="{StaticResource InputBorder}">
+                                <Entry Style="{StaticResource InputField}" Text="{Binding TakingMethod}" ReturnCommand="{Binding Login}"/>
+                            </Frame>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout>
+                            <Button Style="{StaticResource SubmitButton}" Command="{Binding CreateReminder}" Text="Létrehozás"/>
+                        </VerticalStackLayout>
+                    </FlexLayout>
+                </Border>
+            </FlexLayout>
+        </ScrollView>
+        <contentviews:HomeButton BindingContext="{Binding Context}" Margin="30,0,0,20" HorizontalOptions="Center" VerticalOptions="End" Grid.Row="1" />
+    </Grid>
+</ContentPage>

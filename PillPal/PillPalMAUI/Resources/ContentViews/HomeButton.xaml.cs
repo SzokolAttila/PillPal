@@ -1,17 +1,14 @@
+using PillPalMAUI.Pages;
+
 namespace PillPalMAUI.Resources.ContentViews;
 
 public partial class HomeButton : ContentView
 {
 	private bool _isOpen = false;
-	public HomeButton()
+    public HomeButton()
 	{
 		InitializeComponent();
 	}
-
-    private void NewReminder_Clicked(object sender, EventArgs e)
-    {
-
-    }
 
     private async Task OpenMenu()
     {

@@ -38,16 +38,6 @@
                 </HorizontalStackLayout>
                 <HorizontalStackLayout Margin="0,5" HorizontalOptions="CenterAndExpand">
                     <Label 
-                        Text="Mennyiség (mg): "
-                        VerticalOptions="Center" 
-                        HorizontalOptions="Start" FontAttributes="Bold" Margin="10,0" TextColor="{DynamicResource TextColor}"/>
-                    <Label 
-                        Text="{Binding Reminder.DoseMg}"
-                        VerticalOptions="Center" 
-                        HorizontalOptions="Start" TextColor="{DynamicResource TextColor}"/>
-                </HorizontalStackLayout>
-                <HorizontalStackLayout Margin="0,5" HorizontalOptions="CenterAndExpand">
-                    <Label 
                         Text="Darab: "
                         VerticalOptions="Center" 
                         HorizontalOptions="Start" FontAttributes="Bold" Margin="10,0" TextColor="{DynamicResource TextColor}"/>

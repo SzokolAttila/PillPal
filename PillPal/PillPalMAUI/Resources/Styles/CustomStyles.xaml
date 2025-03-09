@@ -10,6 +10,13 @@
         <Setter Property="TextColor" Value="{DynamicResource TextColor}"/>
     </Style>
 
+    <Style TargetType="SearchBar" x:Key="SearchMedicine">
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource FormBackground}" />
+        <Setter Property="TextColor" Value="{DynamicResource FormTextColor}" />
+        <Setter Property="Placeholder" Value="Keresett gyógyszer..." />
+    </Style>
+
     <Style TargetType="Entry" x:Key="InputField">
         <Setter Property="FontFamily" Value="PlayfairDisplay"/>
         <Setter Property="FontSize" Value="14"/>
@@ -21,6 +28,14 @@
         <Setter Property="Margin" Value="15,0"/>
     </Style>
 
+    <Style TargetType="Border" x:Key="FormBorder">
+        <Setter Property="Margin" Value="30,15" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="StrokeThickness" Value="3" />
+        <Setter Property="Stroke" Value="{DynamicResource ComponentBackground}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 20,20,20,20" />
+    </Style>
+    
     <Style TargetType="Label" x:Key="Text">
         <Setter Property="Margin" Value="5" />
         <Setter Property="FontFamily" Value="PlayfairDisplay" />
@@ -72,6 +87,15 @@
         <Setter Property="HorizontalOptions" Value="Fill"/>
     </Style>
 
+    <Style TargetType="Label" x:Key="Title">
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="FontFamily" Value="PlayFairDisplay" />
+        <Setter Property="FontSize" Value="Title" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="Margin" Value="20,15" />
+        <Setter Property="TextColor" Value="{DynamicResource TextColor}" />
+    </Style>
+    
     <Style TargetType="Frame" x:Key="InputBorder">
         <Setter Property="BackgroundColor" Value="{DynamicResource FormBackground}"/>
         <Setter Property="Margin" Value="40,3"/>

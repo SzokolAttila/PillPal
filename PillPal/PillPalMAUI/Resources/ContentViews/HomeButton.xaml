@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PillPalMAUI.Resources.ContentViews.HomeButton">
+             x:Class="PillPalMAUI.Resources.ContentViews.HomeButton"
+             xmlns:viewmodels="clr-namespace:PillPalMAUI.ViewModels">
+    <ContentView.BindingContext>
+        <viewmodels:HomeButtonViewModel/>
+    </ContentView.BindingContext>
     <Grid ColumnDefinitions="1" RowDefinitions="1">
         <ImageButton
             x:Name="NewReminder"
@@ -14,7 +18,7 @@
             VerticalOptions="End"
             Source="{AppThemeBinding Dark=new_dark.png, Light=new_light.png}"
             BackgroundColor="{DynamicResource ComponentBackground}"
-            Clicked="NewReminder_Clicked"
+            Command="{Binding NewReminderPressed}"
             Opacity="0">
         </ImageButton>
         
