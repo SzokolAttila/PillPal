@@ -8,45 +8,59 @@
     <Grid BackgroundColor="{DynamicResource PageBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         
         <ScrollView Grid.Row="0">
-            <VerticalStackLayout>
+            <FlexLayout Margin="15,10" Direction="Column" AlignContent="Center" JustifyContent="SpaceAround">
                 <Button Text="Vissza" Command="{Binding Cancel}" Margin="5" WidthRequest="200" HorizontalOptions="Start" BackgroundColor="{DynamicResource ComponentBackground}" TextColor="{DynamicResource TextColor}"/>
-                <Label Text="Emlékeztető szerkesztése" TextColor="{DynamicResource TextColor}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Title" Margin="10,10,10,0"/>
+                <Label Text="Emlékeztető szerkesztése" Style="{StaticResource Title}"/>
                 <BoxView BackgroundColor="{DynamicResource ComponentBackground}" HeightRequest="3" HorizontalOptions="Fill" Margin="5,5,5,10"/>
-                <SearchBar Margin="10,10,10,0" BackgroundColor="{DynamicResource FormBackground}" TextColor="{DynamicResource FormTextColor}" Placeholder="Keresett gyógyszer..." SearchCommand="{Binding SearchMeds}" Text="{Binding MedName}"/>
-                <ListView ItemsSource="{Binding Searched}" SelectedItem="{Binding Selected}" Margin="10,0,10,10">
+                <SearchBar Style="{StaticResource SearchMedicine}" SearchCommand="{Binding SearchMeds}" Text="{Binding MedName}"/>
+                <ListView HorizontalOptions="Center" ItemsSource="{Binding Searched}" SelectedItem="{Binding Selected}" Margin="10,0,10,10">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <TextCell Text="{Binding Name}"/>
+                            <TextCell TextColor="{DynamicResource TextColor}" Text="{Binding Name}"/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <Border Margin="10" Padding="5" Stroke="{DynamicResource ComponentBackground}" StrokeThickness="3" StrokeShape="RoundRectangle 20,20,20,20">
-                    <VerticalStackLayout>
-                        <Label Text="{Binding Reminder.Medicine.Name}" TextColor="{DynamicResource TextColor}" HorizontalOptions="Center" FontSize="Subtitle" FontAttributes="Bold" Margin="5"/>
-                        <Label Text="Beviteli adag" TextColor="{DynamicResource TextColor}" Margin="5,5,5,0"/>
-                        <Entry Text="{Binding Reminder.DoseCount}" Placeholder="Adag" TextColor="{DynamicResource FormTextColor}" BackgroundColor="{DynamicResource FormBackground}" Margin="5,0,5,5">
-                            <Entry.Behaviors>
-                                <toolkit:NumericValidationBehavior
-                                    x:Name="DoseValidator"
-                                    Flags="ValidateOnValueChanged"
-                                    MaximumValue="1000"
-                                    MinimumValue="1"
-                                    MaximumDecimalPlaces="0"/>
-                            </Entry.Behaviors>
-                        </Entry>
-                        <Label Text="Időpont" TextColor="{DynamicResource TextColor}" Margin="5,5,5,0"/>
-                        <TimePicker Time="{Binding When}" TextColor="{DynamicResource FormTextColor}" BackgroundColor="{DynamicResource FormBackground}" Margin="5,0,5,5"/>
-                        <Label Text="Bevitel módja" TextColor="{DynamicResource TextColor}" Margin="5,5,5,0"/>
-                        <Entry Text="{Binding Reminder.TakingMethod}" Placeholder="Mód" TextColor="{DynamicResource FormTextColor}" BackgroundColor="{DynamicResource FormBackground}" Margin="5,0,5,5"/>
-                        <Button Text="Mentés" Command="{Binding Modify}" Margin="5" WidthRequest="200" HorizontalOptions="End" BackgroundColor="{DynamicResource ComponentBackground}" TextColor="{DynamicResource TextColor}"/>
-                    </VerticalStackLayout>
+                <Border Style="{StaticResource FormBorder}">
+                    <FlexLayout Margin="10,0" Direction="Column" AlignContent="Center" JustifyContent="SpaceBetween">
+                        <Label Text="{Binding Reminder.Medicine.Name}" Style="{StaticResource Subtitle}"/>
+                        <VerticalStackLayout Style="{StaticResource Formgroup}">
+                            <Label Text="Beviteli adag" Style="{StaticResource InputLabel}"/>
+                            <Frame Style="{StaticResource InputBorder}">
+                                <Entry Text="{Binding Reminder.DoseCount}" Placeholder="Adag" Style="{StaticResource InputField}">
+                                    <Entry.Behaviors>
+                                        <toolkit:NumericValidationBehavior
+                                        x:Name="DoseValidator"
+                                        Flags="ValidateOnValueChanged"
+                                        MaximumValue="1000"
+                                        MinimumValue="1"
+                                        MaximumDecimalPlaces="0"/>
+                                    </Entry.Behaviors>
+                                </Entry>
+                            </Frame>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Style="{StaticResource Formgroup}">
+                            <Label Text="Időpont" Style="{StaticResource InputLabel}"/>
+                            <Frame Style="{StaticResource InputBorder}">
+                                <TimePicker Time="{Binding When}" Style="{StaticResource TimeInput}"/>
+                            </Frame>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Style="{StaticResource Formgroup}">
+                            <Label Text="Bevitel módja" Style="{StaticResource InputLabel}"/>
+                            <Frame Style="{StaticResource InputBorder}">
+                                <Entry Text="{Binding Reminder.TakingMethod}" Placeholder="Mód" Style="{StaticResource InputField}"/>
+                            </Frame>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Style="{StaticResource Formgroup}">
+                            <Button Text="Mentés" Command="{Binding Modify}" Style="{StaticResource SubmitButton}"/>
+                        </VerticalStackLayout>
+                    </FlexLayout>
                 </Border>
-            </VerticalStackLayout>
+            </FlexLayout>
         </ScrollView>
-        <contentviews:HomeButton Grid.Row="1" Margin="0,30,0,20" VerticalOptions="End" HorizontalOptions="Center"></contentviews:HomeButton>
+        <contentviews:HomeButton BindingContext="{Binding HomeButton}" Grid.Row="1" Margin="0,30,0,20" VerticalOptions="End" HorizontalOptions="Center"></contentviews:HomeButton>
     </Grid>
 </ContentPage>

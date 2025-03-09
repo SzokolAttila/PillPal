@@ -14,21 +14,21 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="50"></RowDefinition>
         </Grid.RowDefinitions>
-        <ScrollView Padding="10">
-            <FlexLayout Margin="30,0" Direction="Column" AlignContent="Center" JustifyContent="SpaceAround">
+        <ScrollView>
+            <FlexLayout Margin="15,10" Direction="Column" AlignContent="Center" JustifyContent="SpaceAround">
                 <Label Text="Új emlékeztető" Style="{StaticResource Title}" />
                 <BoxView BackgroundColor="{DynamicResource ComponentBackground}" HeightRequest="3" HorizontalOptions="Fill" Margin="5,5,5,10"/>
                 <SearchBar Text="{Binding MedicineName}" Style="{StaticResource SearchMedicine}" />
-                <ListView HorizontalOptions="Center"  SelectedItem="{Binding Medicine}"  ItemsSource="{Binding Medicines}" >
+                <ListView HorizontalOptions="Center"  SelectedItem="{Binding Medicine}"  ItemsSource="{Binding Medicines}" Margin="10,0,10,10">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <TextCell  TextColor="{DynamicResource TextColor}" Text="{Binding Name}" />
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <Border Style="{StaticResource FormBorder}" HorizontalOptions="Center">
-                    <FlexLayout Margin="20,0" Direction="Column" AlignContent="Center" JustifyContent="SpaceBetween">
-                        <Label Text="{Binding Medicine.Name}" HorizontalTextAlignment="Center" Margin="5" />
+                <Border Style="{StaticResource FormBorder}">
+                    <FlexLayout Margin="10,0" Direction="Column" AlignContent="Center" JustifyContent="SpaceBetween">
+                        <Label Style="{StaticResource Subtitle}" Text="{Binding Medicine.Name}" />
                         <VerticalStackLayout Style="{StaticResource Formgroup}">
                             <Label Text="Beviteli adag" Style="{StaticResource InputLabel}"/>
                             <Frame Style="{StaticResource InputBorder}">
@@ -47,7 +47,7 @@
                         <VerticalStackLayout Style="{StaticResource Formgroup}">
                             <Label Text="Időpont" Style="{StaticResource InputLabel}"/>
                             <Frame Style="{StaticResource InputBorder}">
-                                <TimePicker Style="{StaticResource InputField}" Time="{Binding When}" />
+                                <TimePicker Style="{StaticResource TimeInput}" Time="{Binding When}" />
                             </Frame>
                         </VerticalStackLayout>
                         <VerticalStackLayout Style="{StaticResource Formgroup}">
@@ -63,6 +63,6 @@
                 </Border>
             </FlexLayout>
         </ScrollView>
-        <contentviews:HomeButton BindingContext="{Binding Context}" Margin="30,0,0,20" HorizontalOptions="Center" VerticalOptions="End" Grid.Row="1" />
+        <contentviews:HomeButton BindingContext="{Binding Context}" Margin="0,30,0,20" HorizontalOptions="Center" VerticalOptions="End" Grid.Row="1" />
     </Grid>
 </ContentPage>

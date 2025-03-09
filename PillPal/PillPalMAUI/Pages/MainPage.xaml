@@ -22,7 +22,7 @@
                 </CollectionView>
             </VerticalStackLayout>
         </ScrollView>
-        <contentviews:HomeButton BindingContext="{Binding HomeButton}" Grid.Row="1" Margin="30,0,0,20" VerticalOptions="End" HorizontalOptions="Center"></contentviews:HomeButton>
+        <contentviews:HomeButton BindingContext="{Binding HomeButton}" Grid.Row="1" Margin="0,30,0,20" VerticalOptions="End" HorizontalOptions="Center"></contentviews:HomeButton>
     </Grid>
 
 </ContentPage>

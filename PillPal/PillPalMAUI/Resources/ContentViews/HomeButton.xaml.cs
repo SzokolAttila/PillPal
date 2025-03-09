@@ -34,12 +34,12 @@ public partial class HomeButton : ContentView
     {
         if (_isOpen)
         {
-            CloseMenu();
+            await CloseMenu();
             await MenuButton.RotateTo(0, 250, Easing.CubicInOut);
         }
         else
         {
-            MenuButton.RotateTo(90, 250, Easing.CubicInOut);
+            await MenuButton.RotateTo(90, 250, Easing.CubicInOut);
             await OpenMenu();
         }
         _isOpen = !_isOpen;

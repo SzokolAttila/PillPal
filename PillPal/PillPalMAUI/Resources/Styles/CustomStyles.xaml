@@ -6,7 +6,7 @@
     <Style TargetType="Label" x:Key="InputLabel">
         <Setter Property="FontFamily" Value="PlayfairDisplay"/>
         <Setter Property="FontSize" Value="12"/>
-        <Setter Property="Margin" Value="60,0"/>
+        <Setter Property="Margin" Value="45,0"/>
         <Setter Property="TextColor" Value="{DynamicResource TextColor}"/>
     </Style>
 
@@ -28,12 +28,32 @@
         <Setter Property="Margin" Value="15,0"/>
     </Style>
 
+    <Style TargetType="TimePicker" x:Key="TimeInput">
+        <Setter Property="FontFamily" Value="PlayfairDisplay"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="HorizontalOptions" Value="Fill"/>
+        <Setter Property="HeightRequest" Value="40"/>
+        <Setter Property="TextColor" Value="{DynamicResource FormTextColor}"/>
+        <Setter Property="BackgroundColor" Value="{DynamicResource FormBackground}"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <Setter Property="Margin" Value="15,0"/>
+    </Style>
+    
     <Style TargetType="Border" x:Key="FormBorder">
-        <Setter Property="Margin" Value="30,15" />
-        <Setter Property="Padding" Value="5" />
+        <Setter Property="Margin" Value="0,15,0,5" />
         <Setter Property="StrokeThickness" Value="3" />
+        <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="Stroke" Value="{DynamicResource ComponentBackground}" />
         <Setter Property="StrokeShape" Value="RoundRectangle 20,20,20,20" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="Subtitle">
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="PlayfairDisplay"/>
+        <Setter Property="FontSize" Value="Subtitle" />
+        <Setter Property="TextColor" Value="{DynamicResource TextColor}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="Margin" Value="5" />
     </Style>
     
     <Style TargetType="Label" x:Key="Text">
@@ -66,7 +86,7 @@
         <Setter Property="CornerRadius" Value="20"/>
         <Setter Property="HeightRequest" Value="40"/>
         <Setter Property="HorizontalOptions" Value="Fill"/>
-        <Setter Property="Margin" Value="100,10,100,30"/>
+        <Setter Property="Margin" Value="60,10,60,30"/>
     </Style>
     <Style TargetType="Label" x:Key="ErrorMessage">
         <Setter Property="FontSize" Value="11"/>
@@ -89,7 +109,7 @@
 
     <Style TargetType="Label" x:Key="Title">
         <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="FontFamily" Value="PlayFairDisplay" />
+        <Setter Property="FontFamily" Value="PlayfairDisplay" />
         <Setter Property="FontSize" Value="Title" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
         <Setter Property="Margin" Value="20,15" />
@@ -98,7 +118,7 @@
     
     <Style TargetType="Frame" x:Key="InputBorder">
         <Setter Property="BackgroundColor" Value="{DynamicResource FormBackground}"/>
-        <Setter Property="Margin" Value="40,3"/>
+        <Setter Property="Margin" Value="30,3"/>
         <Setter Property="Padding" Value="0"/>
         <Setter Property="CornerRadius" Value="20"/>
         <Setter Property="HorizontalOptions" Value="Fill"/>
