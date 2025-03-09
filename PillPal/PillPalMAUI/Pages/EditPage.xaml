@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PillPalMAUI.Pages.EditPage"
+             xmlns:contentviews="clr-namespace:PillPalMAUI.Resources.ContentViews"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             Title="EditPage">
+    <Grid BackgroundColor="{DynamicResource PageBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout>
+                <Button Text="Vissza" Command="{Binding Cancel}" Margin="5" WidthRequest="200" HorizontalOptions="Start" BackgroundColor="{DynamicResource ComponentBackground}" TextColor="{DynamicResource TextColor}"/>
+                <Label Text="Emlékeztető szerkesztése" TextColor="{DynamicResource TextColor}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Title" Margin="10,10,10,0"/>
+                <BoxView BackgroundColor="{DynamicResource ComponentBackground}" HeightRequest="3" HorizontalOptions="Fill" Margin="5,5,5,10"/>
+                <SearchBar Margin="10,10,10,0" BackgroundColor="{DynamicResource FormBackground}" TextColor="{DynamicResource FormTextColor}" Placeholder="Keresett gyógyszer..." SearchCommand="{Binding SearchMeds}" Text="{Binding MedName}"/>
+                <ListView ItemsSource="{Binding Searched}" SelectedItem="{Binding Selected}" Margin="10,0,10,10">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Border Margin="10" Padding="5" Stroke="{DynamicResource ComponentBackground}" StrokeThickness="3" StrokeShape="RoundRectangle 20,20,20,20">
+                    <VerticalStackLayout>
+                        <Label Text="{Binding Reminder.Medicine.Name}" TextColor="{DynamicResource TextColor}" HorizontalOptions="Center" FontSize="Subtitle" FontAttributes="Bold" Margin="5"/>
+                        <Label Text="Beviteli adag" TextColor="{DynamicResource TextColor}" Margin="5,5,5,0"/>
+                        <Entry Text="{Binding Reminder.DoseCount}" Placeholder="Adag" TextColor="{DynamicResource FormTextColor}" BackgroundColor="{DynamicResource FormBackground}" Margin="5,0,5,5">
+                            <Entry.Behaviors>
+                                <toolkit:NumericValidationBehavior
+                                    x:Name="DoseValidator"
+                                    Flags="ValidateOnValueChanged"
+                                    MaximumValue="1000"
+                                    MinimumValue="1"
+                                    MaximumDecimalPlaces="0"/>
+                            </Entry.Behaviors>
+                        </Entry>
+                        <Label Text="Időpont" TextColor="{DynamicResource TextColor}" Margin="5,5,5,0"/>
+                        <TimePicker Time="{Binding When}" TextColor="{DynamicResource FormTextColor}" BackgroundColor="{DynamicResource FormBackground}" Margin="5,0,5,5"/>
+                        <Label Text="Bevitel módja" TextColor="{DynamicResource TextColor}" Margin="5,5,5,0"/>
+                        <Entry Text="{Binding Reminder.TakingMethod}" Placeholder="Mód" TextColor="{DynamicResource FormTextColor}" BackgroundColor="{DynamicResource FormBackground}" Margin="5,0,5,5"/>
+                        <Button Text="Mentés" Command="{Binding Modify}" Margin="5" WidthRequest="200" HorizontalOptions="End" BackgroundColor="{DynamicResource ComponentBackground}" TextColor="{DynamicResource TextColor}"/>
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+        <contentviews:HomeButton Grid.Row="1" Margin="0,30,0,20" VerticalOptions="End" HorizontalOptions="Center"></contentviews:HomeButton>
+    </Grid>
+</ContentPage>

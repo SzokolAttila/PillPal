@@ -1,5 +1,5 @@
-﻿using CommunityToolkit.Maui;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using CommunityToolkit.Maui;
 
 namespace PillPalMAUI
 {
@@ -7,22 +7,21 @@ namespace PillPalMAUI
     {
         public static MauiApp CreateMauiApp()
         {
-            var builder = MauiApp.CreateBuilder();
+            var builder = MauiApp.CreateBuilder()
+            .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                fonts.AddFont("PlayfairDisplay-VariableFont_wght.ttf", "PlayfairDisplay");
+            });
             builder.ConfigureMauiHandlers(handlers =>
             {
                 #if ANDROID
                 AppDomain.CurrentDomain.SetData("android:usesCleartextTraffic", true);
                 #endif
             });
-            builder
-                .UseMauiApp<App>()
-                .UseMauiCommunityToolkit()
-                .ConfigureFonts(fonts =>
-                {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                    fonts.AddFont("PlayfairDisplay-VariableFont_wght.ttf", "PlayfairDisplay");
-                });
 
 #if DEBUG
     		builder.Logging.AddDebug();
