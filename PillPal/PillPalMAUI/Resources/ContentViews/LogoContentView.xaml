@@ -12,12 +12,10 @@
                CornerRadius="60"
                Padding="0"
                Margin="20,20,20,65">
-            <Label TextColor="{DynamicResource TextColor}" Text="PP"
-                   VerticalOptions="Center"
-                   HorizontalOptions="Center"
-                   FontSize="44"
-                   FontFamily="PlayfairDisplay"
-                   FontAttributes="Bold"/>
+            <Image
+                VerticalOptions="Center"
+                HorizontalOptions="Center" 
+                Source="pillpal_logo.png"/>
         </Frame>
     </VerticalStackLayout>
 </ContentView>
