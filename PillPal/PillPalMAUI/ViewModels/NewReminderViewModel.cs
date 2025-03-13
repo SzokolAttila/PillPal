@@ -14,30 +14,14 @@ namespace PillPalMAUI.ViewModels
     {
         private readonly MedicineAPIHandler _medicineHandler;
         private readonly ReminderAPIHandler _reminderHandler;
-        private string auth = string.Empty;
-        public string Auth
-        {
-            get => auth;
-            set
-            {
-                auth = value;
-            }
-        }
-        private int userId;
-        public int UserId
-        {
-            get => userId;
-            set
-            {
-                userId = value;
-            }
-        }
+        public string Auth { get; set; } = string.Empty;
+        public int UserId { get; set; }
         public NewReminderViewModel()
         {
             _reminderHandler = new();
             _medicineHandler = new();
             HomeButton = new HomeButtonViewModel()
-                { UserId = userId, Auth = auth };
+                { UserId = UserId, Auth = Auth};
             Medicines = _medicineHandler.GetMedicines().OrderBy(x => x.Name);
             CreateReminder = new Command(CreateNewReminder);
         }
@@ -57,18 +41,18 @@ namespace PillPalMAUI.ViewModels
                     When = TimeOnly.FromTimeSpan(When).ToString(),
                     DoseCount = DoseCount,
                     TakingMethod = TakingMethod,
-                    UserId = userId,
+                    UserId = UserId,
 
-                }, auth);
+                }, Auth);
                 await Application.Current!.MainPage!.DisplayAlert("Sikeres létrehozás", "Sikeresen létrehozta az emlékeztetőt!", "Vissza a főoldalra");
-                Application.Current!.MainPage = new MainPage(userId, auth);
+                Application.Current!.MainPage = new MainPage(UserId, Auth);
             }
             catch (Exception ex)
             {
                 await Application.Current!.MainPage!.DisplayAlert("Hiba", $"Hiba történt az emlékeztető létrehozása közben: {ex.Message}", "OK");
             }
         }
-        private HomeButtonViewModel homeButton;
+        private HomeButtonViewModel homeButton = new();
         public HomeButtonViewModel HomeButton
         {
             get => homeButton;

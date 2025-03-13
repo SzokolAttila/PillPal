@@ -14,15 +14,15 @@ namespace PillPalMAUI.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        ReminderAPIHandler handler;
+        readonly ReminderAPIHandler handler = new();
 
-        private ObservableCollection<ReminderCardViewModel> reminderCards;
+        private ObservableCollection<ReminderCardViewModel> reminderCards = new();
         public ObservableCollection<ReminderCardViewModel> ReminderCards
         {
             get { return reminderCards; }
             set { reminderCards = value; Changed(); }
         }
-        private HomeButtonViewModel homeButton;
+        private HomeButtonViewModel homeButton = new();
         public HomeButtonViewModel HomeButton
         {
             get => homeButton;
@@ -34,10 +34,8 @@ namespace PillPalMAUI.ViewModels
         }
         public MainViewModel(int userId, string auth)
         {
-            handler = new ReminderAPIHandler();
             HomeButton = new HomeButtonViewModel() 
                 { UserId = userId, Auth = auth };
-            ReminderCards = new ObservableCollection<ReminderCardViewModel>();
             foreach (var reminder in handler.Get(userId, auth))
             {
                 ReminderCardViewModel cardModel = new() { Reminder = reminder, Auth = auth };

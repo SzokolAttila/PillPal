@@ -12,10 +12,10 @@
         </Grid.RowDefinitions>
         
         <ScrollView Grid.Row="0">
-            <FlexLayout Margin="15,10" Direction="Column" AlignContent="Center" JustifyContent="SpaceAround">
+            <FlexLayout Style="{StaticResource Container}">
                 <Button Text="Vissza" Command="{Binding Cancel}" Margin="5" WidthRequest="200" HorizontalOptions="Start" BackgroundColor="{DynamicResource ComponentBackground}" TextColor="{DynamicResource TextColor}"/>
                 <Label Text="Emlékeztető szerkesztése" Style="{StaticResource Title}"/>
-                <BoxView BackgroundColor="{DynamicResource ComponentBackground}" HeightRequest="3" HorizontalOptions="Fill" Margin="5,5,5,10"/>
+                <BoxView Style="{StaticResource HorizontalLine}"/>
                 <SearchBar Style="{StaticResource SearchMedicine}" SearchCommand="{Binding SearchMeds}" Text="{Binding MedName}"/>
                 <ListView HorizontalOptions="Center" ItemsSource="{Binding Searched}" SelectedItem="{Binding Selected}" Margin="10,0,10,10">
                     <ListView.ItemTemplate>

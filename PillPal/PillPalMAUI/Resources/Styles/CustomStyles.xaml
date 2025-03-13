@@ -38,6 +38,44 @@
         <Setter Property="VerticalOptions" Value="Center"/>
         <Setter Property="Margin" Value="15,0"/>
     </Style>
+
+    <Style TargetType="FlexLayout" x:Key="Container">
+        <Setter Property="Margin" Value="15,10" />
+        <Setter Property="Direction" Value="Column" />
+        <Setter Property="AlignContent" Value="Center" />
+        <Setter Property="JustifyContent" Value="Start" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="ListItem">
+        <Setter Property="TextColor" Value="{DynamicResource TextColor}" />
+        <Setter Property="FontFamily" Value="PlayfairDisplay" />
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <Setter Property="VerticalTextAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="2,0,2,2" />
+    </Style>
+    
+    <Style TargetType="Label" x:Key="GroupTitle">
+        <Setter Property="TextColor" Value="{DynamicResource TextColor}" />
+        <Setter Property="FontFamily" Value="PlayfairDisplay" />
+        <Setter Property="Margin" Value="10,5,10,0" />
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+
+    <Style TargetType="BoxView" x:Key="ListDisk">
+        <Setter Property="WidthRequest" Value="12" />
+        <Setter Property="HeightRequest" Value="12" />
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <Setter Property="BackgroundColor" Value="{DynamicResource ComponentBackground}" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Margin" Value="8,0" />
+    </Style>
+    
+    <Style TargetType="BoxView" x:Key="HorizontalLine">
+        <Setter Property="Background" Value="{DynamicResource ComponentBackground}"/>
+        <Setter Property="HeightRequest" Value="3" />
+        <Setter Property="HorizontalOptions" Value="Fill" />
+        <Setter Property="Margin" Value="5,5,5,10" />
+    </Style>
     
     <Style TargetType="Border" x:Key="FormBorder">
         <Setter Property="Margin" Value="0,15,0,5" />
@@ -112,7 +150,7 @@
         <Setter Property="FontFamily" Value="PlayfairDisplay" />
         <Setter Property="FontSize" Value="Title" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
-        <Setter Property="Margin" Value="20,15" />
+        <Setter Property="Margin" Value="20,10" />
         <Setter Property="TextColor" Value="{DynamicResource TextColor}" />
     </Style>
     

@@ -58,7 +58,7 @@ namespace PillPalMAUI.ViewModels
 
         private async void Info_Clicked()
         {
-
+            Application.Current!.MainPage = new DetailPage(Reminder, Auth);
         }
 
         private async void Edit_Clicked()

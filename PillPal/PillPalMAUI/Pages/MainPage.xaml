@@ -11,7 +11,7 @@
         </Grid.RowDefinitions>
         
         <ScrollView Grid.Row="0">
-            <VerticalStackLayout>
+            <FlexLayout Style="{StaticResource Container}}">
                 <contentviews:LogoContentView/>
                 <CollectionView ItemsSource="{Binding Path=ReminderCards}">
                     <CollectionView.ItemTemplate>
@@ -20,7 +20,7 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-            </VerticalStackLayout>
+            </FlexLayout>
         </ScrollView>
         <contentviews:HomeButton BindingContext="{Binding HomeButton}" Grid.Row="1" Margin="0,30,0,20" VerticalOptions="End" HorizontalOptions="Center"></contentviews:HomeButton>
     </Grid>

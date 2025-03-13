@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PillPalMAUI.Pages.DetailPage"
+             xmlns:contentviews="clr-namespace:PillPalMAUI.Resources.ContentViews"
+             BackgroundColor="{DynamicResource PageBackground}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <ScrollView>
+            <FlexLayout Style="{StaticResource Container}">
+                <Label Text="{Binding Medicine.Name}" Style="{StaticResource Title}" />
+                <Label Text="{Binding Medicine.Manufacturer}" Style="{StaticResource Subtitle}" />
+                <BoxView Style="{StaticResource HorizontalLine}" />
+                <Label Text="Mellékhatások:" Style="{StaticResource GroupTitle}" />
+                <ListView Margin="20,5" ItemsSource="{Binding Medicine.SideEffects}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <HorizontalStackLayout>
+                                    <BoxView Style="{StaticResource ListDisk}"/>
+                                    <Label Text="{Binding}" Style="{StaticResource ListItem}" />
+                                </HorizontalStackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Label Text="Hatóanyagok:" Style="{StaticResource GroupTitle}" />
+                <ListView Margin="20,5" ItemsSource="{Binding Medicine.ActiveIngredients}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <HorizontalStackLayout>
+                                    <BoxView Style="{StaticResource ListDisk}"/>
+                                    <Label Text="{Binding}" Style="{StaticResource ListItem}"  />
+                                </HorizontalStackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Label Text="Gyógymód a következőkre:" Style="{StaticResource GroupTitle}" />
+                <ListView Margin="20,5" ItemsSource="{Binding Medicine.RemedyForAilments}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <HorizontalStackLayout>
+                                    <BoxView Style="{StaticResource ListDisk}"/>
+                                    <Label Text="{Binding}" Style="{StaticResource ListItem}"  />
+                                </HorizontalStackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Label Text="{Binding Medicine.Description}" Style="{StaticResource Text}" />
+            </FlexLayout>
+        </ScrollView>
+        <contentviews:HomeButton Margin="0,30,0,20" BindingContext="{Binding HomeButton}" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="1"  />
+    </Grid>
+</ContentPage>
