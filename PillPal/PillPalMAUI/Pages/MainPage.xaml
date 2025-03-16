@@ -22,7 +22,7 @@
                 </CollectionView>
             </FlexLayout>
         </ScrollView>
-        <contentviews:HomeButton BindingContext="{Binding HomeButton}" Grid.Row="1" Margin="0,30,0,20" VerticalOptions="End" HorizontalOptions="Center"></contentviews:HomeButton>
+        <contentviews:HomeButton BindingContext="{Binding HomeButton}" Style="{StaticResource HomeButton}"></contentviews:HomeButton>
     </Grid>
 
 </ContentPage>

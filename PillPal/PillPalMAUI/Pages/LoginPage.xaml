@@ -9,7 +9,7 @@
         <viewmodels:LoginViewModel/>
     </ContentPage.BindingContext>
     <ScrollView >
-        <FlexLayout Style="{StaticResource Container}">
+        <FlexLayout Style="{StaticResource Container}" JustifyContent="SpaceAround">
             <contentviews:ThemeSwitch FlexLayout.AlignSelf="End"/>
             <contentviews:LogoContentView />
             <VerticalStackLayout Style="{StaticResource Formgroup}">

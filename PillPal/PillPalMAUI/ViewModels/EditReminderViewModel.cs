@@ -94,7 +94,7 @@ namespace PillPalMAUI.ViewModels
             When = new TimeSpan(Reminder.When.Hour, Reminder.When.Minute, 0);
             Modify = new Command(ModifyReminder);
             Cancel = new Command(StopEditing);
-            HomeButton = new() { Auth = auth, UserId = reminder.UserId };
+            HomeButton = new(reminder.UserId, Auth);
         }
         private HomeButtonViewModel homeButton;
         public HomeButtonViewModel HomeButton

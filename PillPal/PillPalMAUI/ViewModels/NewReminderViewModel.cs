@@ -16,12 +16,13 @@ namespace PillPalMAUI.ViewModels
         private readonly ReminderAPIHandler _reminderHandler;
         public string Auth { get; set; } = string.Empty;
         public int UserId { get; set; }
-        public NewReminderViewModel()
+        public NewReminderViewModel(int userId, string auth)
         {
+            UserId = userId;
+            Auth = auth;
             _reminderHandler = new();
             _medicineHandler = new();
-            HomeButton = new HomeButtonViewModel()
-                { UserId = UserId, Auth = Auth};
+            HomeButton = new HomeButtonViewModel(userId, auth);
             Medicines = _medicineHandler.GetMedicines().OrderBy(x => x.Name);
             CreateReminder = new Command(CreateNewReminder);
         }
@@ -52,7 +53,7 @@ namespace PillPalMAUI.ViewModels
                 await Application.Current!.MainPage!.DisplayAlert("Hiba", $"Hiba történt az emlékeztető létrehozása közben: {ex.Message}", "OK");
             }
         }
-        private HomeButtonViewModel homeButton = new();
+        private HomeButtonViewModel homeButton;
         public HomeButtonViewModel HomeButton
         {
             get => homeButton;

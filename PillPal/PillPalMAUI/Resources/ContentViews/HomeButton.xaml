@@ -3,9 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PillPalMAUI.Resources.ContentViews.HomeButton"
              xmlns:viewmodels="clr-namespace:PillPalMAUI.ViewModels">
-    <ContentView.BindingContext>
-        <viewmodels:HomeButtonViewModel/>
-    </ContentView.BindingContext>
     <Grid ColumnDefinitions="1" RowDefinitions="1">
         <ImageButton
             x:Name="NewReminder"
@@ -18,10 +15,25 @@
             VerticalOptions="End"
             Source="{AppThemeBinding Dark=new_dark.png, Light=new_light.png}"
             BackgroundColor="{DynamicResource ComponentBackground}"
-            Command="{Binding NewReminderPressed}"
+            Clicked="Menu_Clicked"
             Opacity="0">
         </ImageButton>
-        
+
+        <ImageButton
+          x:Name="Home"
+          Grid.Column="0"
+          Grid.Row="0"
+          WidthRequest="60"
+          HeightRequest="60"
+          CornerRadius="30"
+          HorizontalOptions="Center"
+          VerticalOptions="End"
+          Source="{AppThemeBinding Dark=home_dark.png, Light=home_light.png}"
+          BackgroundColor="{DynamicResource ComponentBackground}"
+          Command="{Binding HomePressed}"
+          Opacity="0">
+        </ImageButton>
+
         <ImageButton
             Grid.Column="0"
             Grid.Row="0"
@@ -33,7 +45,7 @@
             VerticalOptions="End"
             Source="{AppThemeBinding Dark=settings_dark.png, Light=settings_light.png}"
             BackgroundColor="{DynamicResource ComponentBackground}"
-            Clicked="Settings_Clicked"
+            Command="{Binding SettingsPressed}"
             Opacity="0">
         </ImageButton>
         
@@ -49,7 +61,7 @@
             Source="pillpal_logo.png"
             Aspect="AspectFit"
             BackgroundColor="{DynamicResource ComponentBackground}"
-            Clicked="MenuButton_Clicked"
+            Command="{Binding MenuPressed}"
             Rotation="0">
         </ImageButton>
     </Grid>

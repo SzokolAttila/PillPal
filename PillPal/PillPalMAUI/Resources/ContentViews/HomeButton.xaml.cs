@@ -1,4 +1,5 @@
 using PillPalMAUI.Pages;
+using PillPalMAUI.ViewModels;
 
 namespace PillPalMAUI.Resources.ContentViews;
 
@@ -15,6 +16,8 @@ public partial class HomeButton : ContentView
         await Task.WhenAll(
             NewReminder.FadeTo(1, 200, Easing.CubicInOut),
             NewReminder.TranslateTo(-80, -80, 250, Easing.SinOut),
+            Home.FadeTo(1, 200, Easing.CubicInOut),
+            Home.TranslateTo(0, -120, 250, Easing.SinOut),
             Settings.FadeTo(1, 200, Easing.CubicInOut),
             Settings.TranslateTo(80, -80, 250, Easing.SinOut)
         );
@@ -25,12 +28,14 @@ public partial class HomeButton : ContentView
         await Task.WhenAll(
             NewReminder.FadeTo(0, 200, Easing.CubicInOut),
             NewReminder.TranslateTo(0, 0, 250, Easing.SinOut),
+            Home.FadeTo(0, 200, Easing.CubicInOut),
+            Home.TranslateTo(0, 120, 250, Easing.SinOut),
             Settings.FadeTo(0, 200, Easing.CubicInOut),
             Settings.TranslateTo(0, 0, 250, Easing.SinOut)
         );
     }
 
-    private async void MenuButton_Clicked(object sender, EventArgs e)
+    private async void Menu_Clicked(object sender, EventArgs e)
     {
         if (_isOpen)
         {
@@ -43,10 +48,5 @@ public partial class HomeButton : ContentView
             await OpenMenu();
         }
         _isOpen = !_isOpen;
-    }
-
-    private void Settings_Clicked(object sender, EventArgs e)
-    {
-
     }
 }

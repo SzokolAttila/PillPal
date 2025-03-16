@@ -8,7 +8,7 @@ public partial class DetailPage : ContentPage
 	public DetailPage(Reminder reminder, string auth)
 	{
 		InitializeComponent();
-		BindingContext = new DetailPageViewModel()
-        { Auth = auth, UserId = reminder.UserId, Medicine = reminder.Medicine! };
+		BindingContext = new DetailPageViewModel(reminder.UserId, auth)
+        {Medicine = reminder.Medicine! };
     }
 }

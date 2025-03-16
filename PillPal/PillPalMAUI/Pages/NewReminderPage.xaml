@@ -59,6 +59,6 @@
                 </Border>
             </FlexLayout>
         </ScrollView>
-        <contentviews:HomeButton BindingContext="{Binding HomeButton}" Margin="0,30,0,20" HorizontalOptions="Center" VerticalOptions="End" Grid.Row="1" />
+        <contentviews:HomeButton BindingContext="{Binding HomeButton}" Style="{StaticResource HomeButton}"/>
     </Grid>
 </ContentPage>
