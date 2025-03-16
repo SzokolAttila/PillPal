@@ -22,7 +22,7 @@ namespace PillPalMAUI.ViewModels
             get { return reminderCards; }
             set { reminderCards = value; Changed(); }
         }
-        private HomeButtonViewModel homeButton = new();
+        private HomeButtonViewModel homeButton;
         public HomeButtonViewModel HomeButton
         {
             get => homeButton;
@@ -34,8 +34,7 @@ namespace PillPalMAUI.ViewModels
         }
         public MainViewModel(int userId, string auth)
         {
-            HomeButton = new HomeButtonViewModel() 
-                { UserId = userId, Auth = auth };
+            HomeButton = new HomeButtonViewModel(userId, auth);
             foreach (var reminder in handler.Get(userId, auth))
             {
                 ReminderCardViewModel cardModel = new() { Reminder = reminder, Auth = auth };

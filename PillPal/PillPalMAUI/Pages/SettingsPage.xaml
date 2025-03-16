@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PillPalMAUI.Pages.SettingsPage"
+             xmlns:contentviews="clr-namespace:PillPalMAUI.Resources.ContentViews"
+             BackgroundColor="{DynamicResource PageBackground}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <ScrollView>
+            <FlexLayout Style="{StaticResource Container}" JustifyContent="SpaceBetween" VerticalOptions="FillAndExpand">
+                <VerticalStackLayout VerticalOptions="FillAndExpand">
+                    <Label Text="Beállítások" Style="{StaticResource Title}" />
+                    <FlexLayout JustifyContent="SpaceBetween" AlignContent="Center" >
+                        <Label Text="Világos mód" Style="{StaticResource Text}" Margin="10" VerticalOptions="Center" />
+                        <contentviews:ThemeSwitch HorizontalOptions="End" VerticalOptions="Center" Margin="0,0,0,5" />
+                    </FlexLayout>
+                </VerticalStackLayout>
+                <VerticalStackLayout VerticalOptions="End">
+                    <Button Command="{Binding LogOut}" Style="{StaticResource WarningButton}" Text="Kijelentkezés"  />
+                    <Button Command="{Binding DeleteAccount}" Style="{StaticResource WarningButton}" Text="Fiók törlése" />
+                </VerticalStackLayout>
+            </FlexLayout>
+        </ScrollView>
+        <contentviews:HomeButton Style="{StaticResource HomeButton}" BindingContext="{Binding HomeButton}" />
+    </Grid>
+</ContentPage>

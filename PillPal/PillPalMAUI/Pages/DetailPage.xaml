@@ -56,6 +56,6 @@
                 <Label Text="{Binding Medicine.Description}" Style="{StaticResource Text}" />
             </FlexLayout>
         </ScrollView>
-        <contentviews:HomeButton Margin="0,30,0,20" BindingContext="{Binding HomeButton}" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="1"  />
+        <contentviews:HomeButton Style="{StaticResource HomeButton}" BindingContext="{Binding HomeButton}" />
     </Grid>
 </ContentPage>
