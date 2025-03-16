@@ -12,7 +12,7 @@ namespace PillPalAPI.Model
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Reminder>().Navigation(x => x.User).AutoInclude();
+            builder.Entity<User>().Navigation(x => x.Reminders).AutoInclude();
             builder.Entity<Reminder>().Navigation(x => x.Medicine).AutoInclude();
             builder.Entity<Reminder>(x => x.HasKey(y => y.Id));
             builder.Entity<Reminder>()

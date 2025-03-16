@@ -63,7 +63,7 @@ namespace PillPalMAUI.ViewModels
 
         private async void Edit_Clicked()
         {
-            Application.Current!.MainPage = new EditPage(Reminder, Auth);
+            Application.Current!.MainPage = new EditReminderPage(Reminder, Auth);
         }
     }
 }

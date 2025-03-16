@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace PillPalMAUI.ViewModels
 {
-    public class EditViewModel : ViewModelBase
+    public class EditReminderViewModel : ViewModelBase
     {
 		private Reminder reminder;
 
@@ -85,7 +85,7 @@ namespace PillPalMAUI.ViewModels
         private readonly MedicineAPIHandler medHandler;
         private readonly string Auth;
 
-        public EditViewModel(Reminder reminder, string auth)
+        public EditReminderViewModel(Reminder reminder, string auth)
 		{
             handler = new();
             medHandler = new();

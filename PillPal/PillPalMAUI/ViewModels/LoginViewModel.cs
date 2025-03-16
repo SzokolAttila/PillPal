@@ -44,7 +44,12 @@ namespace PillPalMAUI.ViewModels
             try
             {
                 var login = _userHandler.Login(new CreateUserDto() { UserName = username, Password = password });
-                Application.Current!.MainPage = new MainPage(login.Id, login.Token);
+                if (Username == "administrator"){
+                    Application.Current!.MainPage = new AdminUsersPage(login.Token);
+                }
+                else{
+                    Application.Current!.MainPage = new MainPage(login.Id, login.Token);
+                }
             }
             catch (Exception ex) 
             {

@@ -17,6 +17,13 @@
         <Setter Property="Placeholder" Value="Keresett gyógyszer..." />
     </Style>
 
+    <Style TargetType="SearchBar" x:Key="SearchUser">
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource FormBackground}" />
+        <Setter Property="TextColor" Value="{DynamicResource FormTextColor}" />
+        <Setter Property="Placeholder" Value="Keresett felhasználó..." />
+    </Style>
+
     <Style TargetType="Entry" x:Key="InputField">
         <Setter Property="FontFamily" Value="PlayfairDisplay"/>
         <Setter Property="FontSize" Value="14"/>
@@ -76,7 +83,14 @@
         <Setter Property="HorizontalOptions" Value="Fill" />
         <Setter Property="Margin" Value="5,5,5,10" />
     </Style>
-    
+
+    <Style TargetType="BoxView" x:Key="VerticalLine">
+        <Setter Property="Background" Value="{DynamicResource ComponentBackground}"/>
+        <Setter Property="WidthRequest" Value="3" />
+        <Setter Property="VerticalOptions" Value="Fill" />
+        <Setter Property="Margin" Value="5" />
+    </Style>
+
     <Style TargetType="Border" x:Key="FormBorder">
         <Setter Property="Margin" Value="0,15,0,5" />
         <Setter Property="StrokeThickness" Value="3" />

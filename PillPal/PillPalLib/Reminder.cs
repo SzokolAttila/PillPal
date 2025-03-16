@@ -12,6 +12,8 @@ namespace PillPalLib
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+
+        [JsonIgnore]
         public User? User { get; set; }
         public int MedicineId { get; set; }
         public Medicine? Medicine { get; set; } 

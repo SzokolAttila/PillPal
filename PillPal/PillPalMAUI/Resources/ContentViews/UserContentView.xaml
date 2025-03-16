@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PillPalMAUI.Resources.ContentViews.UserContentView"
+             xmlns:viewmodel="clr-namespace:PillPalMAUI.ViewModels">
+    <ContentView.BindingContext>
+        <viewmodel:UserRowViewModel/>
+    </ContentView.BindingContext>
+    <Border StrokeShape="RoundRectangle 20,20,20,20">
+        <Grid IsVisible="{Binding IsVisible}" BackgroundColor="{DynamicResource FormBackground}" Padding="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+        
+            <Label Text="{Binding User.UserName}" Grid.Row="0" Grid.Column="0" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Style="{StaticResource Text}"/>
+            <BoxView Grid.Row="0" Grid.Column="1" Style="{StaticResource VerticalLine}"/>
+            <Label Text="{Binding ReminderCount}" Grid.Row="0" Grid.Column="2" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Style="{StaticResource Text}"/>
+            <Button Text="Töröl" Grid.Row="0" Grid.Column="3" Command="{Binding Remove}"  HorizontalOptions="End" VerticalOptions="Center" Style="{StaticResource SubmitButton}" Margin="0"/>
+        </Grid>
+    </Border>
+</ContentView>

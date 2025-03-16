@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:contentviews="clr-namespace:PillPalMAUI.Resources.ContentViews"
+             x:Class="PillPalMAUI.Pages.AdminUsersPage"
+             Title="AdminUsersPage">
+    <Grid BackgroundColor="{DynamicResource PageBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <ScrollView Grid.Row="0">
+            <FlexLayout Style="{StaticResource Container}">
+                <Label Text="Felhasználók" Style="{StaticResource Title}"/>
+                <BoxView Style="{StaticResource HorizontalLine}"/>
+                <SearchBar Style="{StaticResource SearchUser}" SearchCommand="{Binding SearchUsers}" Text="{Binding SearchText}"/>
+                <CollectionView HorizontalOptions="Center" ItemsSource="{Binding Path=UserRows}" Margin="10,0,10,10">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <contentviews:UserContentView BindingContext="{Binding}"/>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </FlexLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

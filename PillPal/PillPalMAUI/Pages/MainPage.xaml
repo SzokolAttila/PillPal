@@ -11,7 +11,7 @@
         </Grid.RowDefinitions>
         
         <ScrollView Grid.Row="0">
-            <FlexLayout Style="{StaticResource Container}}">
+            <FlexLayout Style="{StaticResource Container}">
                 <contentviews:LogoContentView/>
                 <CollectionView ItemsSource="{Binding Path=ReminderCards}">
                     <CollectionView.ItemTemplate>

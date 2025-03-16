@@ -68,6 +68,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Pages\EditReminderPage.xaml.cs">
+	    <DependentUpon>EditReminderPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\NewReminderPage.xaml.cs">
 	    <DependentUpon>NewReminderPage.xaml</DependentUpon>
 	  </Compile>
@@ -83,7 +86,7 @@
 	  <MauiXaml Update="Pages\DetailPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\EditPage.xaml">
+	  <MauiXaml Update="Pages\EditReminderPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\LoginPage.xaml">
