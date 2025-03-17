@@ -2,67 +2,81 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PillPalMAUI.Resources.ContentViews.HomeButton"
-             xmlns:viewmodels="clr-namespace:PillPalMAUI.ViewModels">
-    <Grid ColumnDefinitions="1" RowDefinitions="1">
-        <ImageButton
-            x:Name="NewReminder"
-            Grid.Column="0"
-            Grid.Row="0"
-            WidthRequest="60"
-            HeightRequest="60"
-            CornerRadius="30"
-            HorizontalOptions="Center"
-            VerticalOptions="End"
-            Source="{AppThemeBinding Dark=new_dark.png, Light=new_light.png}"
-            BackgroundColor="{DynamicResource ComponentBackground}"
-            Clicked="Menu_Clicked"
-            Opacity="0">
-        </ImageButton>
+             xmlns:viewmodels="clr-namespace:PillPalMAUI.ViewModels"
+             BackgroundColor="Transparent"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+    <toolkit:Expander x:Name="Expander">
+        <toolkit:Expander.Header>
+            <ImageButton
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    x:Name="MenuButton"
+                    WidthRequest="60"
+                    HeightRequest="60"
+                    CornerRadius="30"
+                    HorizontalOptions="Center"
+                    VerticalOptions="End"
+                    Source="pillpal_logo.png"
+                    Aspect="AspectFit"
+                    BackgroundColor="{DynamicResource ComponentBackground}"
+                    Clicked="Menu_Clicked"
+                    Rotation="0">
+            </ImageButton>
+        </toolkit:Expander.Header>
+            
+        <toolkit:Expander.Content>
+            <Grid HeightRequest="200" WidthRequest="250" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <ImageButton
+                    x:Name="NewReminder"
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    WidthRequest="60"
+                    HeightRequest="60"
+                    CornerRadius="30"
+                    HorizontalOptions="Center"
+                    VerticalOptions="End"
+                    Source="{AppThemeBinding Dark=new_dark.png, Light=new_light.png}"
+                    BackgroundColor="{DynamicResource ComponentBackground}"
+                    Command="{Binding NewReminderPressed}"
+                    Opacity="0">
+                </ImageButton>
 
-        <ImageButton
-          x:Name="Home"
-          Grid.Column="0"
-          Grid.Row="0"
-          WidthRequest="60"
-          HeightRequest="60"
-          CornerRadius="30"
-          HorizontalOptions="Center"
-          VerticalOptions="End"
-          Source="{AppThemeBinding Dark=home_dark.png, Light=home_light.png}"
-          BackgroundColor="{DynamicResource ComponentBackground}"
-          Command="{Binding HomePressed}"
-          Opacity="0">
-        </ImageButton>
+                <ImageButton
+                    x:Name="Home"
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    WidthRequest="60"
+                    HeightRequest="60"
+                    CornerRadius="30"
+                    HorizontalOptions="Center"
+                    VerticalOptions="End"
+                    Source="{AppThemeBinding Dark=home_dark.png, Light=home_light.png}"
+                    BackgroundColor="{DynamicResource ComponentBackground}"
+                    Command="{Binding HomePressed}"
+                    Opacity="0">
+                </ImageButton>
 
-        <ImageButton
-            Grid.Column="0"
-            Grid.Row="0"
-            x:Name="Settings"
-            WidthRequest="60"
-            HeightRequest="60"
-            CornerRadius="30"
-            HorizontalOptions="Center"
-            VerticalOptions="End"
-            Source="{AppThemeBinding Dark=settings_dark.png, Light=settings_light.png}"
-            BackgroundColor="{DynamicResource ComponentBackground}"
-            Command="{Binding SettingsPressed}"
-            Opacity="0">
-        </ImageButton>
-        
-        <ImageButton
-            Grid.Column="0"
-            Grid.Row="0"
-            x:Name="MenuButton"
-            WidthRequest="60"
-            HeightRequest="60"
-            CornerRadius="30"
-            HorizontalOptions="Center"
-            VerticalOptions="End"
-            Source="pillpal_logo.png"
-            Aspect="AspectFit"
-            BackgroundColor="{DynamicResource ComponentBackground}"
-            Command="{Binding MenuPressed}"
-            Rotation="0">
-        </ImageButton>
-    </Grid>
+                <ImageButton
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    x:Name="Settings"
+                    WidthRequest="60"
+                    HeightRequest="60"
+                    CornerRadius="30"
+                    HorizontalOptions="Center"
+                    VerticalOptions="End"
+                    Source="{AppThemeBinding Dark=settings_dark.png, Light=settings_light.png}"
+                    BackgroundColor="{DynamicResource ComponentBackground}"
+                    Command="{Binding SettingsPressed}"
+                    Opacity="0">    
+                </ImageButton>
+            </Grid>
+        </toolkit:Expander.Content>
+    </toolkit:Expander>
 </ContentView>

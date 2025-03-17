@@ -5,21 +5,22 @@ namespace PillPalMAUI.Resources.ContentViews;
 
 public partial class HomeButton : ContentView
 {
-	private bool _isOpen = false;
+    private bool isOpen = false;
     public HomeButton()
 	{
 		InitializeComponent();
+        Expander.Direction = CommunityToolkit.Maui.Core.ExpandDirection.Up;
 	}
 
     private async Task OpenMenu()
     {
         await Task.WhenAll(
             NewReminder.FadeTo(1, 200, Easing.CubicInOut),
-            NewReminder.TranslateTo(-80, -80, 250, Easing.SinOut),
+            NewReminder.TranslateTo(-80, -20, 250, Easing.SinOut),
             Home.FadeTo(1, 200, Easing.CubicInOut),
-            Home.TranslateTo(0, -120, 250, Easing.SinOut),
+            Home.TranslateTo(0, -60, 250, Easing.SinOut),
             Settings.FadeTo(1, 200, Easing.CubicInOut),
-            Settings.TranslateTo(80, -80, 250, Easing.SinOut)
+            Settings.TranslateTo(80, -20, 250, Easing.SinOut)
         );
     }
 
@@ -29,7 +30,7 @@ public partial class HomeButton : ContentView
             NewReminder.FadeTo(0, 200, Easing.CubicInOut),
             NewReminder.TranslateTo(0, 0, 250, Easing.SinOut),
             Home.FadeTo(0, 200, Easing.CubicInOut),
-            Home.TranslateTo(0, 120, 250, Easing.SinOut),
+            Home.TranslateTo(0, 0, 250, Easing.SinOut),
             Settings.FadeTo(0, 200, Easing.CubicInOut),
             Settings.TranslateTo(0, 0, 250, Easing.SinOut)
         );
@@ -37,7 +38,8 @@ public partial class HomeButton : ContentView
 
     private async void Menu_Clicked(object sender, EventArgs e)
     {
-        if (_isOpen)
+        Expander.IsExpanded = !isOpen;
+        if (isOpen)
         {
             await CloseMenu();
             await MenuButton.RotateTo(0, 250, Easing.CubicInOut);
@@ -47,6 +49,6 @@ public partial class HomeButton : ContentView
             await MenuButton.RotateTo(90, 250, Easing.CubicInOut);
             await OpenMenu();
         }
-        _isOpen = !_isOpen;
+        isOpen = !isOpen;
     }
 }

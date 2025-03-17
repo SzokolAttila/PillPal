@@ -9,7 +9,7 @@
         <viewmodels:RegisterViewModel/>
     </ContentPage.BindingContext>
     <ScrollView>
-        <FlexLayout Style="{StaticResource Container}" JustifyContent="SpaceAround">
+        <FlexLayout Style="{StaticResource Container}" JustifyContent="SpaceBetween">
             <contentviews:ThemeSwitch FlexLayout.AlignSelf="End"/>
             <contentviews:LogoContentView/>
             <VerticalStackLayout Style="{StaticResource Formgroup}">

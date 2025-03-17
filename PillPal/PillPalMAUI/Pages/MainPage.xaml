@@ -7,12 +7,12 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
         </Grid.RowDefinitions>
         
         <ScrollView Grid.Row="0">
             <FlexLayout Style="{StaticResource Container}">
-                <contentviews:LogoContentView/>
+                <Label Style="{StaticResource Title}" Text="Emlékeztetők" />
                 <CollectionView ItemsSource="{Binding Path=ReminderCards}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
