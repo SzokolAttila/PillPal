@@ -1,0 +1,40 @@
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:${SERVER_VERSION}
+    env_file: .env
+    ports:
+      - ${MSSQL_TCP_PORT}:${MSSQL_TCP_PORT}
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P ${SA_PASSWORD} -Q 'SELECT 1' || (echo 'fail' && exit 1)"]
+      interval: 10s
+      retries: 10
+      start_period: 10s
+      timeout: 3s
+  mssql.configurator:
+    image: mcr.microsoft.com/mssql/server:${SERVER_VERSION}
+    env_file: .env
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    depends_on:
+      mssql:
+        condition: service_healthy
+    command: >
+      bash -c "/opt/mssql-tools18/bin/sqlcmd -S mssql -U sa -P ${SA_PASSWORD} -d master -i docker-entrypoint-initdb.d/init.sql;
+      echo 'DB created';"
+
+  PillPalAPI:
+    image: pillpal/api:latest
+    build:
+      context: .
+      dockerfile: PillPalAPI/Dockerfile
+    ports: 
+      - "5236:5236"
+    depends_on:
+      mssql: 
+        condition: service_healthy
+    volumes: 
+      - ./PillPalAPI/src:/src:rw
+    command: >
+      sh -c "dotnet ef database update 
+      && dotnet PillPalAPI.dll"
