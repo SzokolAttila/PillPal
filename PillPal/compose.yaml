@@ -3,24 +3,23 @@ services:
     image: mcr.microsoft.com/mssql/server:${SERVER_VERSION}
     env_file: .env
     ports:
-      - ${MSSQL_TCP_PORT}:${MSSQL_TCP_PORT}
+      - "${MSSQL_TCP_PORT}:${MSSQL_TCP_PORT}"
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P ${SA_PASSWORD} -Q 'SELECT 1' || (echo 'fail' && exit 1)"]
-      interval: 10s
-      retries: 10
-      start_period: 10s
-      timeout: 3s
+      test: /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P ${SA_PASSWORD} -Q 'SELECT 1' || (echo 'fail' && exit 1)
+      retries: 5
+      timeout: 10s
+      start_period: 300s
   mssql.configurator:
     image: mcr.microsoft.com/mssql/server:${SERVER_VERSION}
     env_file: .env
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./initdb/:/docker-entrypoint-initdb.d/
     depends_on:
       mssql:
         condition: service_healthy
     command: >
-      bash -c "/opt/mssql-tools18/bin/sqlcmd -S mssql -U sa -P ${SA_PASSWORD} -d master -i docker-entrypoint-initdb.d/init.sql;
+      bash -c "/opt/mssql-tools18/bin/sqlcmd -C -S mssql,1433 -U sa -P ${SA_PASSWORD} -d master -i ./docker-entrypoint-initdb.d/init.sql;
       echo 'DB created';"
 
   PillPalWebApp:
@@ -43,6 +42,8 @@ services:
     depends_on:
       mssql: 
         condition: service_healthy
+      mssql.configurator:
+        condition: service_started
     volumes: 
       - ./PillPalAPI/src:/src:rw
     command: >
