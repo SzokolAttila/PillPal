@@ -9,7 +9,7 @@ EXPOSE 5236
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
+WORKDIR /app
 
 #copy lib project
 COPY ["./PillPalLib/PillPalLib.csproj", "PillPalLib/"]
@@ -20,7 +20,7 @@ COPY . .
 COPY ["./PillPalAPI/PillPalAPI.csproj", "PillPalAPI/"]
 RUN dotnet restore "./PillPalAPI/PillPalAPI.csproj"
 COPY . .
-WORKDIR "/src/PillPalAPI"
+WORKDIR "/app/PillPalAPI"
 RUN dotnet build "./PillPalAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
