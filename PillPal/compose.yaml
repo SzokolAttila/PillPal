@@ -30,8 +30,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./PillPalWebApp:/app:rw
-    networks:
-      - fullstack
+    ports:
+      - "80:80"
 
   PillPalAPI:
     image: pillpal/api:latest
