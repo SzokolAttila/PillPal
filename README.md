@@ -16,3 +16,11 @@ Then to attach a port to it, run `devtunnel port create <devtunnel-name> -p 5236
 Now, all you need to do is this line `devtunnel host <devtunnel-name>.euw --allow-anonymous`
 
 And you're good to go :D
+
+## MSSQL Server
+
+### Make database persistent
+
+All the data is related to MSSQL Server is stored in the `mssql-data` directory and it is mounted on the `mssql` service.
+As it wouldn't have edit access in the container, you need to change the owner with `sudo chown -R 10001:0 ./mssql-data`.
+It is also necessary to give permission to edit it in the container, so run `chmod -R 770 ./mssql_data`.
