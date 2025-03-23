@@ -6,7 +6,7 @@
 
 To install devtunnel run the following line `curl -sL https://aka.ms/DevTunnelCliInstall | bash`
 For logging in your GitHub account, you'll need a web page tool like `xdg`.
-To install it run the following line `sudo apt install xd-utils`
+To install it run the following line `sudo apt install xdg-utils`
 Now you can easily log in using `devtunnel login -g`
 
 ### Create and run devtunnel
