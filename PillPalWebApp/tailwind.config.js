@@ -46,6 +46,10 @@ export default {
           buttonBorder:{
             dark: '#FC3535',
             light: '#B50B0B'
+          },
+          navbar: {
+            dark: '#3F3F3F',
+            light: '#1A1A1A'
           }
         }
       },
