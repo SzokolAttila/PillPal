@@ -6,12 +6,12 @@ services:
       - "${MSSQL_TCP_PORT}:${MSSQL_TCP_PORT}"
     restart: always
     healthcheck:
-      test: /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P ${SA_PASSWORD} -Q 'SELECT 1' || (echo 'fail' && exit 1)
+      test: /opt/mssql-tools/bin/sqlcmd -C -S localhost -U sa -P ${SA_PASSWORD} -Q 'SELECT 1' || (echo 'fail' && exit 1)
       retries: 5
       timeout: 10s
       start_period: 450s
     volumes:
-      - ./mssql-data:/var/opt/mssql:rw
+      - ./mssql-data:/var/opt/mssql/data:rw
   mssql.configurator:
     image: mcr.microsoft.com/mssql/server:${SERVER_VERSION}
     env_file: .env
@@ -21,7 +21,7 @@ services:
       mssql:
         condition: service_healthy
     command: >
-      bash -c "/opt/mssql-tools18/bin/sqlcmd -C -S mssql,1433 -U sa -P ${SA_PASSWORD} -d master -i ./docker-entrypoint-initdb.d/init.sql;
+      bash -c "/opt/mssql-tools/bin/sqlcmd -C -S mssql,1433 -U sa -P ${SA_PASSWORD} -d master -i ./docker-entrypoint-initdb.d/init.sql;
       echo 'DB created';"
 
   PillPalWebApp:
