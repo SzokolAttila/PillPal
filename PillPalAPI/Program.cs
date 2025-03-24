@@ -40,6 +40,16 @@ public class Program
                 };
             }
         );
+
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(name: "allowedOrigins",
+                            builder =>
+                            {
+                                builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                            });
+        });
+
         builder.Services.AddControllers();
         if (!args.Any(x=>x.Contains("testing")))
         {
@@ -74,6 +84,7 @@ public class Program
             app.UseSwaggerUI();
         // }
 
+        app.UseCors("allowedOrigins");
         app.UseAuthentication();
         app.UseAuthorization();
 

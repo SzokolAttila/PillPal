@@ -1,8 +1,8 @@
 <template>
-<div class="flex justify-around rounded-md ">
-<p>{{ user.UserName }}</p>
-<p>{{ reminderCount }}</p>
-<FormKit type="button" @click="deleteUser">Töröl</FormKit>
+<div class="flex justify-around rounded-md bg-formBackground-light dark:bg-formBackground-dark">
+<p class="text-formTextColor-light dark:text-formTextColor-dark">{{ user.userName }}</p>
+<p class="text-formTextColor-light dark:text-formTextColor-dark">{{ reminderCount }}</p>
+<input type="button" @click="removeUser" class="rounded-md p-1 text-center bg-component-light dark:bg-component-dark text-textColor-light dark:text-textColor-dark" value="Töröl"></input>
 </div>
 </template>
 
@@ -14,13 +14,13 @@ export default{
     props: ["user"],
     methods:{
         ...mapActions(useUserStore, ['deleteUser']),
-        deleteUser(){
+        removeUser(){
             this.deleteUser(this.user.id);
         }   
     },
     computed:{
         reminderCount(){
-            return `${this.user.Reminders.length} db emlékeztető`;
+            return `${this.user.reminders.length} db emlékeztető`;
         }
     }
 }

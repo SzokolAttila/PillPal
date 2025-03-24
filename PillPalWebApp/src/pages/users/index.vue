@@ -1,10 +1,12 @@
 <template>
 <BaseLayout>
     <div v-if="loaded">
-        <FormKit type="text" v-model="searchText"/>
-        <UserRow v-for="user in users" :user="user" />
+        <h1 class="text-center text-4xl my-5 text-textColor-light dark:text-textColor-dark">Felhasználók</h1>
+        <hr class="bg-component-light dark:bg-component-dark p-1 my-5 w-[70%] mx-auto">
+        <input type="text" v-model="searchText" class="mx-auto block rounded w-[70%] bg-formBackground-light dark:bg-formBackground-dark text-formTextColor-light dark:text-formTextColor-dark placeholder-formTextColor-light dark:placeholder-formTextColor-dark" placeholder="Keresett felhasználó..."/>
+        <UserRow v-for="user of userArray" :user="user" class="my-5"/>
     </div>
-    <BaseSpinner v-else/>
+    <BaseSpinner v-else class="mx-auto mt-10"/>
 </BaseLayout>
 </template>
 
@@ -19,7 +21,8 @@ export default {
     data(){
         return {
             loaded: false,
-            searchText: ""
+            searchText: "",
+            userArray: []
         }
     },
     components: {
@@ -32,6 +35,7 @@ export default {
     },
     async mounted() {
         await this.getUsers();
+        this.userArray = this.users;
         this.loaded = true;
     },
     computed: {
@@ -39,8 +43,8 @@ export default {
     },
     watch:{
         searchText(oldtext, newtext){
-            this.users = this.getUsers();
-            this.users = this.users.filter(user => user.UserName.includes(newtext));
+            this.getUsers();
+            this.userArray = this.users.filter(user => user.userName.includes(oldtext));
         }
     }
 }
