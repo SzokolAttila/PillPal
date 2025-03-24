@@ -11,7 +11,7 @@ services:
       timeout: 10s
       start_period: 450s
     volumes:
-      - ./mssql-data:/var/opt/mssql
+      - ./mssql-data:/var/opt/mssql:rw
   mssql.configurator:
     image: mcr.microsoft.com/mssql/server:${SERVER_VERSION}
     env_file: .env
