@@ -8,6 +8,7 @@ namespace PillPalAPI.Validators
         public MedicineValidator() {
             RuleFor(x => x.Name).Length(5, 30).WithMessage("Medicine name must be between 5 and 30 characters.");
             RuleFor(x => x.Manufacturer).Length(5, 30).WithMessage("Manufacturer name must be between 5 and 30 characters.");
+            RuleFor(x => x.Description).Length(5, 255).WithMessage("Description must be between 5 and 255 characters.");
         }
     }
 }

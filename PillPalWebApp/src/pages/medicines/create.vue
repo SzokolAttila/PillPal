@@ -3,9 +3,10 @@
     <h1 class="text-center text-4xl my-5 text-textColor-light dark:text-textColor-dark">Felhasználók</h1>
     <hr class="bg-component-light dark:bg-component-dark p-1 my-5 w-[70%] mx-auto">
     <FormKit type="form" :actions="false" @submit="newMedicine" v-if="loaded">
-        <FormKit type="text" label="Gyógyszer neve" name="name"/>
-        <FormKit type="text" label="Gyártója" name="manufacturer"/>
-        <FormKit type="textarea" label="Leírása" name="description"/>
+        <FormKit type="text" label="Gyógyszer neve" name="name" validation="required|length:5,30"/>
+        <FormKit type="text" label="Gyártója" name="manufacturer" validation="required|length:5,30"/>
+        <FormKit type="textarea" label="Leírása" name="description" validation="required|length:5,255"
+         v-model="desc" :help="`${desc.length} / 255`"/>
         <FormKit type="select" label="Kiszerelés egysége" name="packageUnitId" :options="packageUnitOptions"/>
         <FormKit type="submit" label="Hozzáad"/>
     </FormKit>    
@@ -27,7 +28,8 @@ export default{
     },
     data(){
         return {
-            loaded: false
+            loaded: false,
+            desc: ""
         }
     },
     methods: {
