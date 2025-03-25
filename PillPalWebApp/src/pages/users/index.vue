@@ -4,9 +4,15 @@
         <FormKit type="text" v-model="searchText"/>
         <UserRow v-for="user in users" :user="user" />
     </div>
-    <BaseSpinner v-else/>
+    <BaseSpinner class="mx-auto mt-16" v-else/>
 </BaseLayout>
 </template>
+
+<route lang="json">
+{
+    "name": "users"
+}
+</route>
 
 <script>
 import { useUserStore } from '@stores/UserStore';

@@ -398,5 +398,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-DevTunnels/*
-mssql-data/*
+DevTunnels*
+mssql-data*

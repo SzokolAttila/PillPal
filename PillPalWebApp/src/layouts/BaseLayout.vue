@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row flex-nowrap justify-start">
+  <div class="h-screen flex flex-row flex-nowrap justify-start">
     <BaseHeader />
     <main class="container mx-auto">
       <slot />

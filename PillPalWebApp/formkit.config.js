@@ -6,6 +6,10 @@ export default defaultConfig({
     config: {
         classes: generateClasses({
             global: {
+                input: 'my-2 form-input rounded-md p-2 w-full',
+                label: 'text-textColor-light dark:text-textColor-dark'
+            },
+            input: {
                 input: 'form-input'
             },
             select: {
@@ -21,8 +25,9 @@ export default defaultConfig({
                 input: 'form-textarea'
             },
             submit: {
-                input:
-                    'bg-blue-500 text-white rounded py-2 px-4'
+                outer: 'my-2',
+                wrapper: 'w-fit p-2 block mx-auto',
+                input: 'bg-component-light dark:bg-component-dark p-2 text-white'
 
             }
         })
