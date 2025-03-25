@@ -10,15 +10,11 @@ export const useUserStore = defineStore('user-store', {
   actions: {
     async getUsers() {
       const response = await http.get('User')
-      this.users = response.data.data;
+      this.users = response.data;
     },
-    async deleteUser(){
-
-    }
-  },
-  getters: {
-    counter10X() {
-      return this.counter * 10
+    async deleteUser(id){
+      await http.delete(`User/${id}`);
+      this.users.splice(this.users.findIndex((user) => user.id === id), 1);
     }
   }
 })

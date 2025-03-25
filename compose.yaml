@@ -9,7 +9,7 @@ services:
       test: /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P ${SA_PASSWORD} -Q 'SELECT 1' || (echo 'fail' && exit 1)
       retries: 5
       timeout: 10s
-      start_period: 450s
+      start_period: 100s
     volumes:
       - ./mssql-data:/var/opt/mssql/data:rw
   mssql.configurator:
