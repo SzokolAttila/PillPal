@@ -22,7 +22,8 @@ export default defaultConfig({
                 input: 'form-checkbox'
             },
             textarea:{
-                input: 'form-textarea'
+                input: 'form-textarea',
+                help: 'text-textColor-light dark:text-textColor-dark'
             },
             submit: {
                 outer: 'my-2',

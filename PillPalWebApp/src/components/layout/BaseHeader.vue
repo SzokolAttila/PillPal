@@ -12,13 +12,13 @@
       <RouterLink :to="{name: 'users'}" class="bg-component-light border-component-light dark:border-component-dark dark:bg-component-dark p-4 m-1 hover:bg-activeBackground-light dark:hover:bg-activeBackground-dark text-black hover:text-white dark:text-white rounded-md">
         Felhasználók
       </RouterLink>
-      <RouterLink :to="{name: 'new-medicine'}" class="bg-component-light border-component-light dark:border-component-dark dark:bg-component-dark p-4 m-1 hover:bg-activeBackground-light dark:hover:bg-activeBackground-dark text-black hover:text-white dark:text-white rounded-md">
+      <RouterLink :to="{name: 'create-medicine'}" class="bg-component-light border-component-light dark:border-component-dark dark:bg-component-dark p-4 m-1 hover:bg-activeBackground-light dark:hover:bg-activeBackground-dark text-black hover:text-white dark:text-white rounded-md">
         Új gyógyszer
       </RouterLink>
       <RouterLink :to="{name: 'new-data'}" class="bg-component-light border-component-light dark:border-component-dark dark:bg-component-dark p-4 m-1 hover:bg-activeBackground-light dark:hover:bg-activeBackground-dark text-black hover:text-white dark:text-white rounded-md">
         Új gyógyszeradatok
       </RouterLink>
-      <RouterLink :to="{name: 'update-medicine'}" class="bg-component-light border-component-light dark:border-component-dark dark:bg-component-dark p-4 m-1 hover:bg-activeBackground-light dark:hover:bg-activeBackground-dark text-black hover:text-white dark:text-white rounded-md">
+      <RouterLink :to="{name: 'edit-medicine'}" class="bg-component-light border-component-light dark:border-component-dark dark:bg-component-dark p-4 m-1 hover:bg-activeBackground-light dark:hover:bg-activeBackground-dark text-black hover:text-white dark:text-white rounded-md">
         Gyógyszer szerkesztése
       </RouterLink>
     </div>

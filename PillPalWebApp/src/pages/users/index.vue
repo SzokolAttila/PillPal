@@ -1,16 +1,12 @@
 <template>
 <BaseLayout>
+    <h1 class="text-center text-4xl my-5 text-textColor-light dark:text-textColor-dark">Felhasználók</h1>
+    <hr class="bg-component-light dark:bg-component-dark p-1 my-5 w-[70%] mx-auto">
     <div v-if="loaded">
-        <h1 class="text-center text-4xl my-5 text-textColor-light dark:text-textColor-dark">Felhasználók</h1>
-        <hr class="bg-component-light dark:bg-component-dark p-1 my-5 w-[70%] mx-auto">
         <input type="text" v-model="searchText" class="mx-auto block rounded w-[70%] bg-formBackground-light dark:bg-formBackground-dark text-formTextColor-light dark:text-formTextColor-dark placeholder-formTextColor-light dark:placeholder-formTextColor-dark" placeholder="Keresett felhasználó..."/>
         <UserRow v-for="user of userArray" :user="user" class="my-5"/>
     </div>
-<<<<<<< HEAD
     <BaseSpinner class="mx-auto mt-16" v-else/>
-=======
-    <BaseSpinner v-else class="mx-auto mt-10"/>
->>>>>>> b1b97cd4b9a16449ca1fe2ca50700616269f3c4f
 </BaseLayout>
 </template>
 
