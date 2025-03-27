@@ -15,7 +15,7 @@ http.interceptors.request.use(config => {
     const token = useAdminStore().token; 
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
-    }else{
+    }else if(router.currentRoute.value.name !== 'login'){
         router.push({ name: 'login'});
         throw new axios.Cancel('Nincs bejelentkezve, ezért átirányítjuk.');
     }
