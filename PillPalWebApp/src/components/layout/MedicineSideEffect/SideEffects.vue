@@ -61,6 +61,13 @@ export default{
         await this.getSideEffects();
         this.sideEffects = await this.getMedicineSideEffects(this.medicine.id);
         this.loaded = true;
+    },
+    watch:{
+        async medicine(){
+            this.loaded = false;
+            this.sideEffects = await this.getMedicineSideEffects(this.medicine.id);
+            this.loaded = true;
+        }
     }
 }
 </script>
