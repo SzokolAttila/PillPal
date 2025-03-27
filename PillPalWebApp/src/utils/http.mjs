@@ -3,7 +3,7 @@ import {useAdminStore} from '@stores/AdminStore'
 import {router} from '@/router/index'
 
 export const http = axios.create({
-    baseURL: "https://dw94fxb7-5236.euw.devtunnels.ms/PillPal",
+    baseURL: "https://s4bztbqh-5236.euw.devtunnels.ms/PillPal",
     headers:{
         "Accept": "application/json",
         "Content-Type": "application/json",

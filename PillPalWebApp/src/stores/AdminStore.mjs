@@ -12,6 +12,8 @@ export const useAdminStore = defineStore("admin", {
     actions: {
         async login(data){
             const response = await http.post("Login", data);
+            if (data.username != 'administrator')
+                throw new Error('Admin hozzáférésre van szüksége!');
             this.token = response.data.token;
             this.id = response.data.id;
         },
