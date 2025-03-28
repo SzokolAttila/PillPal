@@ -6,6 +6,7 @@
             <div v-for="med of showedMedicines" @click="selectMed(med)">{{ med.name }}</div>
         </div>
         <SideEffects :medicine="medicine"/>
+        <ActiveIngredients :medicine="medicine"/>
     </div>
     <BaseSpinner class="mx-auto mt-10" v-else/>
 </BaseLayout>
@@ -14,6 +15,7 @@
 <script>
 import BaseLayout from '@layouts/BaseLayout.vue'
 import SideEffects from '@components/layout/MedicineSideEffect/SideEffects.vue'
+import ActiveIngredients from '@components/layout/MedicineActiveIngredient/ActiveIngredients.vue'
 import BaseSpinner from '@components/layout/BaseSpinner.vue'
 import {useMedicineStore} from '@stores/MedicineStore'
 import {mapActions, mapState} from 'pinia'
@@ -22,7 +24,8 @@ export default{
     components: {
         BaseLayout,
         SideEffects,
-        BaseSpinner
+        BaseSpinner,
+        ActiveIngredients
     },
     data(){
         return {
