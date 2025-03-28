@@ -1,6 +1,6 @@
 <template>
-<div>
-    <h3>Mellékhatások</h3>
+<div class="p-2 m-2 rounded-xl border-8 border-component-light dark:border-component-dark">
+    <h3 class="m-2 text-2xl text-textColor-light dark:text-textColor-dark">Mellékhatások</h3>
     <div v-if="loaded">
         <div v-for="sideEffect of sideEffects">
             <SideEffectRow :sideEffectOptions="sideEffectOptions" :sideEffect="sideEffect" @deleteSideEffect="deleteSideEffect" @updateSideEffect="updateSideEffect"/>
