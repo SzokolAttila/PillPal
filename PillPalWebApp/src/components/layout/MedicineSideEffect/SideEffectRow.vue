@@ -1,7 +1,11 @@
 <template>
-<div class="grid grid-cols-3">
-    <FormKit type="select" class="col-span-2" :options="sideEffectOptions" v-model="selectedId"/>
-    <FormKit type="button" label="Töröl" @click="deleteSideEffect"/>
+<div class="grid grid-cols-3 w-[70%] mx-auto items-center">
+    <div class="col-span-2 w-[70%]">
+        <FormKit type="select" :options="sideEffectOptions" v-model="selectedId"/>
+    </div>
+    <div>
+        <FormKit type="button" label="Töröl" @click="deleteSideEffect"/>
+    </div>
 </div>
 </template>
 

@@ -1,8 +1,8 @@
 <template>
-<div>
-    <h3>Mellékhatások</h3>
+<div class="p-2 m-2 rounded-xl border-8 border-component-light dark:border-component-dark">
+    <h3 class="m-2 text-2xl text-textColor-light dark:text-textColor-dark">Mellékhatások</h3>
     <div v-if="loaded">
-        <div v-for="sideEffect of sideEffects">
+        <div v-for="sideEffect in medicineSideEffects" :key="sideEffect.id">
             <SideEffectRow :sideEffectOptions="sideEffectOptions" :sideEffect="sideEffect" @deleteSideEffect="deleteSideEffect" @updateSideEffect="updateSideEffect"/>
         </div>
         <FormKit type="button" label="Mellékhatás hozzáadása" @click="addSideEffect"/>
@@ -21,7 +21,6 @@ import { mapActions, mapState } from 'pinia'
 export default{
     data(){
         return{
-            sideEffects: [],
             loaded: false
         }
     },
@@ -31,7 +30,8 @@ export default{
     },
     props: ["medicine"],
     computed: {
-        ...mapState(useSideEffectStore, ['sideEffectOptions'])
+        ...mapState(useSideEffectStore, ['sideEffectOptions']),
+        ...mapState(useMedicineSideEffectStore, ['medicineSideEffects'])
     },
     methods: {
         ...mapActions(useSideEffectStore, ['getSideEffects']),
@@ -39,7 +39,6 @@ export default{
          'deleteMedicineSideEffect', 'updateMedicineSideEffect']),
         async deleteSideEffect(id){
             await this.deleteMedicineSideEffect(id);
-            this.sideEffects = await this.getMedicineSideEffects(this.medicine.id);
         },
         async updateSideEffect(medicineSideEffect){
             let data = {
@@ -54,18 +53,17 @@ export default{
                 sideEffectId: 1
             };
             await this.addMedicineSideEffect(data);
-            this.sideEffects = await this.getMedicineSideEffects(this.medicine.id);
         }
     },
     async mounted(){
         await this.getSideEffects();
-        this.sideEffects = await this.getMedicineSideEffects(this.medicine.id);
+        await this.getMedicineSideEffects(this.medicine.id);
         this.loaded = true;
     },
     watch:{
         async medicine(){
             this.loaded = false;
-            this.sideEffects = await this.getMedicineSideEffects(this.medicine.id);
+            await this.getMedicineSideEffects(this.medicine.id);
             this.loaded = true;
         }
     }

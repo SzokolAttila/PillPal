@@ -30,6 +30,11 @@ export default defaultConfig({
                 wrapper: 'w-fit p-2 block mx-auto',
                 input: 'bg-component-light dark:bg-component-dark p-2 text-white'
 
+            },
+            button: {
+                wrapper: 'w-fit p-2 block mx-auto',
+                input: 'bg-component-light dark:bg-component-dark p-2 text-white'
+    
             }
         })
     }
