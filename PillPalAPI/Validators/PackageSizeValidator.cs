@@ -9,7 +9,7 @@ namespace PillPalAPI.Validators
     {
         public PackageSizeValidator(IJoinStore<PackageSize> data) {
             RuleFor(x => x.Size).GreaterThan(0).WithMessage("Package size has to be greater than 0.");
-            RuleFor(x => x.Size).Must(x => !data.GetAll().Any(y => y.Size == x)).WithMessage("This PackageSize has already been added to this Medicine.");
+            RuleFor(x => x).Must(dto => !data.GetAll().Any(y => y.Size == dto.Size && y.MedicineId == dto.MedicineId)).WithMessage("This PackageSize has already been added to this Medicine.");
         }
     }
 }
