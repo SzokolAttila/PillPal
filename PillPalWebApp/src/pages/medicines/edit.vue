@@ -7,6 +7,7 @@
         </div>
         <SideEffects :medicine="medicine"/>
         <ActiveIngredients :medicine="medicine"/>
+        <RemedyFors :medicine="medicine"/>
     </div>
     <BaseSpinner class="mx-auto mt-10" v-else/>
 </BaseLayout>
@@ -16,6 +17,7 @@
 import BaseLayout from '@layouts/BaseLayout.vue'
 import SideEffects from '@components/layout/MedicineSideEffect/SideEffects.vue'
 import ActiveIngredients from '@components/layout/MedicineActiveIngredient/ActiveIngredients.vue'
+import RemedyFors from '@components/layout/MedicineRemedyFor/RemedyFors.vue'
 import BaseSpinner from '@components/layout/BaseSpinner.vue'
 import {useMedicineStore} from '@stores/MedicineStore'
 import {mapActions, mapState} from 'pinia'
@@ -23,9 +25,10 @@ import {mapActions, mapState} from 'pinia'
 export default{
     components: {
         BaseLayout,
-        SideEffects,
         BaseSpinner,
-        ActiveIngredients
+        SideEffects,
+        ActiveIngredients,
+        RemedyFors
     },
     data(){
         return {
