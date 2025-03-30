@@ -43,21 +43,30 @@ export default{
         ...mapActions(useMedicineRemedyForStore, ['getMedicineRemedyFors', 'addMedicineRemedyFor',
          'deleteMedicineRemedyFor', 'updateMedicineRemedyFor']),
         async deleteRemedyFor(id){
-            await this.deleteMedicineRemedyFor(id);
+            let success = await this.deleteMedicineRemedyFor(id);
+            if(!success){
+                alert("Hiba történt betegség törlésekor!");
+            }
         },
         async updateRemedyFor(medicineRemedyFor){
             let data = {
                 medicineId: this.medicine.id,
                 remedyForId: medicineRemedyFor.remedyForId
             };
-            await this.updateMedicineRemedyFor(medicineRemedyFor.id, data);
+            let success = await this.updateMedicineRemedyFor(medicineRemedyFor.id, data);
+            if(!success){
+                alert(`Hiba történt ${medicineRemedyFor.ailment} frissítésekor!`);
+            }
         },
         async addRemedyFor(){
             let data = {
                 medicineId: this.medicine.id,
                 remedyForId: 1
             };
-            await this.addMedicineRemedyFor(data);
+            let success = await this.addMedicineRemedyFor(data);
+            if(!success){
+                alert("Hiba történt új betegség hozzáadásakor!")
+            }
         }
     },
     async mounted(){

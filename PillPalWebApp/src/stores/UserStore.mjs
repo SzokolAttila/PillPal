@@ -13,8 +13,12 @@ export const useUserStore = defineStore('user-store', {
       this.users = response.data;
     },
     async deleteUser(id){
-      await http.delete(`User/${id}`);
-      this.users.splice(this.users.findIndex((user) => user.id === id), 1);
+      let resp = await http.delete(`User/${id}`);
+      if(resp.status === 204){
+        this.users = this.users.filter(u => u.id !== id);
+        return true;
+      }
+      return false;
     }
   }
 })

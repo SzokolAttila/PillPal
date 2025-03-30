@@ -43,21 +43,30 @@ export default{
         ...mapActions(useMedicineSideEffectStore, ['getMedicineSideEffects', 'addMedicineSideEffect',
          'deleteMedicineSideEffect', 'updateMedicineSideEffect']),
         async deleteSideEffect(id){
-            await this.deleteMedicineSideEffect(id);
+            let success = await this.deleteMedicineSideEffect(id);
+            if(!success){
+                alert("Hiba történt mellékhatás törlésekor!");
+            }
         },
         async updateSideEffect(medicineSideEffect){
             let data = {
                 medicineId: this.medicine.id,
                 sideEffectId: medicineSideEffect.sideEffectId
             };
-            await this.updateMedicineSideEffect(medicineSideEffect.id, data);
+            let success = await this.updateMedicineSideEffect(medicineSideEffect.id, data);
+            if(!success){
+                alert(`Hiba történt ${medicineSideEffect.sideEffect} frissítésekor!`);
+            }
         },
         async addSideEffect(){
             let data = {
                 medicineId: this.medicine.id,
                 sideEffectId: 1
             };
-            await this.addMedicineSideEffect(data);
+            let success = await this.addMedicineSideEffect(data);
+            if(!success){
+                alert("Hiba történt új mellékhatás hozzáadásakor!");
+            }
         }
     },
     async mounted(){

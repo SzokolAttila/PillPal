@@ -14,17 +14,30 @@ export const useMedicineSideEffectStore = defineStore("medicineSideEffect-store"
         },
         async addMedicineSideEffect(data){
             const response = await http.post(`MedicineSideEffect`, data);
-            this.medicineSideEffects.push(response.data);
+            if(response.status === 200){
+                this.medicineSideEffects.push(response.data);
+                return true;
+            }
+            return false;
         },
         async deleteMedicineSideEffect(id){
-            await http.delete(`MedicineSideEffect/${id}`);
-            this.medicineSideEffects
-            .splice(this.medicineSideEffects.findIndex((effect) => effect.id === id), 1);
+            const response = await http.delete(`MedicineSideEffect/${id}`);
+            if(response.status === 204){
+                this.medicineSideEffects = this.medicineSideEffects.filter(e => e.id !== id);
+                return true;
+            }
+            return false;
         },
         async updateMedicineSideEffect(id, data){
             const response = await http.put(`MedicineSideEffect/${id}`, data);
-            this.medicineSideEffects
-            .splice(this.medicineSideEffects.findIndex((effect) => effect.id === id), 1, response.data);
+            if(response.status === 200){
+                let idx = this.medicineSideEffects.findIndex(e => e.id === id);
+                if(idx !== -1){
+                    this.medicineSideEffects[idx] = response.data;
+                }
+                return true;
+            }
+            return false;
         }
     }
 });

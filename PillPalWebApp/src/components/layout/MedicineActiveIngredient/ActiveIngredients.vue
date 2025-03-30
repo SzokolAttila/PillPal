@@ -45,21 +45,30 @@ export default{
          'deleteMedicineActiveIngredient',
          'updateMedicineActiveIngredient']),
         async deleteActiveIngredient(id){
-            await this.deleteMedicineActiveIngredient(id);
+            let success = await this.deleteMedicineActiveIngredient(id);
+            if(!success){
+                alert('Hiba történt hatóanyag törlésekor!');
+            }
         },
         async updateActiveIngredient(medicineActiveIngredient){
             let data = {
                 medicineId: this.medicine.id,
                 activeIngredientId: medicineActiveIngredient.activeIngredientId
             };
-            await this.updateMedicineActiveIngredient(medicineActiveIngredient.id, data);
+            let success = await this.updateMedicineActiveIngredient(medicineActiveIngredient.id, data);
+            if(!success){
+                alert(`Hiba történt ${medicineActiveIngredient.ingredient} frissítésekor!`);
+            }
         },
         async addActiveIngredient(){
             let data = {
                 medicineId: this.medicine.id,
                 activeIngredientId: 1
             };
-            await this.addMedicineActiveIngredient(data);
+            let success = await this.addMedicineActiveIngredient(data);
+            if(!success){
+                alert(`Hiba történt új hatóanyag hozzáadásakor!`);
+            }
         }
     },
     async mounted(){

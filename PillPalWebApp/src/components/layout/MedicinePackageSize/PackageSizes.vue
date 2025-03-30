@@ -39,21 +39,30 @@ export default{
         ...mapActions(usePackageSizeStore, ['getPackageSizes', 'addPackageSize',
          'deletePackageSize', 'updatePackageSize']),
         async removePackageSize(id){
-            await this.deletePackageSize(id);
+            let success = await this.deletePackageSize(id);
+            if(!success){
+                alert("Hiba történt kiszerelés törlésekor!");
+            }
         },
         async editPackageSize(packageSize){
             let data = {
                 medicineId: this.medicine.id,
                 size: packageSize.size
             };
-            await this.updatePackageSize(packageSize.id, data);
+            let success = await this.updatePackageSize(packageSize.id, data);
+            if(!success){
+                alert(`Hiba történt kiszerelés (${packageSize.size}) frissítésekor!`);
+            }
         },
         async newPackageSize(){
             let data = {
                 medicineId: this.medicine.id,
                 size: this.packageSizes.length>0 ? (Math.max(...this.packageSizes.map(x => x.size))+1) : 1
             };
-            await this.addPackageSize(data);
+            let success = await this.addPackageSize(data);
+            if(!success){
+                alert("Hiba történt új kiszerelés hozzáadásakor!");
+            }
         }
     },
     async mounted(){

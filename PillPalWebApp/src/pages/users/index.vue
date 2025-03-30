@@ -48,8 +48,11 @@ export default {
         ...mapState(useUserStore, ['users'])
     },
     watch:{
-        async searchText(oldtext, newtext){
-            this.userArray = this.users.filter(user => user.userName.includes(oldtext));
+        searchText(newText, oldText){
+            this.userArray = this.users.filter(user => user.userName.includes(newText));
+        },
+        users(){
+            this.userArray = this.users.filter(user => user.userName.includes(this.searchText));
         }
     }
 }
