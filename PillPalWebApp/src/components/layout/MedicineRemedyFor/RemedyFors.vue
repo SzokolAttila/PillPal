@@ -2,10 +2,15 @@
 <div class="p-2 m-2 rounded-xl border-8 border-component-light dark:border-component-dark">
     <h3 class="m-2 text-2xl text-textColor-light dark:text-textColor-dark">Betegségek</h3>
     <div v-if="loaded">
-        <div v-for="remedyFor in medicineRemedyFors" :key="remedyFor.id">
-            <RemedyForRow :remedyForOptions="remedyForOptions" :remedyFor="remedyFor" @deleteRemedyFor="deleteRemedyFor" @updateRemedyFor="updateRemedyFor"/>
+        <div class="h-16 overflow-y-auto">
+            <p v-if="medicineRemedyFors.length<1" class="mt-2 text-center text-textColor-light dark:text-textColor-dark">A lista még üres</p>
+            <RemedyForRow v-else v-for="remedyFor in medicineRemedyFors" :key="remedyFor.id" 
+            :remedyForOptions="remedyForOptions"
+            :remedyFor="remedyFor"
+            @deleteRemedyFor="deleteRemedyFor"
+            @updateRemedyFor="updateRemedyFor"/>
         </div>
-        <FormKit type="button" label="Mellékhatás hozzáadása" @click="addRemedyFor"/>
+        <FormKit type="button" label="Betegség hozzáadása" @click="addRemedyFor"/>
     </div>
     <BaseSpinner class="mx-auto mt-10" v-else/>
 </div>

@@ -1,6 +1,6 @@
 <template>
 <div class="grid grid-cols-3 w-[70%] mx-auto items-center">
-    <div class="col-span-2 w-[70%]">
+    <div class="col-span-2">
         <FormKit type="number" v-model="packageSizeValue" min="1" @blur="packageSizeChanged"/>
     </div>
     <div>
@@ -29,13 +29,5 @@ export default{
     mounted(){
         this.packageSizeValue = this.packageSize.size;
     }
-    // watch:{
-    //     packageSizeValue(newValue, oldValue){
-    //         if(oldValue !== null){
-    //             this.packageSize.size = this.packageSizeValue;
-    //             this.$emit('updatePackageSize', this.packageSize);
-    //         }
-    //     }
-    // }
 }
 </script>

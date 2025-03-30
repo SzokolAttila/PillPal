@@ -15,6 +15,23 @@ export const useMedicineStore = defineStore('medicine-store', {
     async addMedicine(medicine){
       let resp = await http.post('Medicine', medicine);
       this.medicines.push(resp.data);
+      return resp.status === 200;
+    },
+    async updateMedicine(id, medicine){
+      let resp = await http.put(`Medicine/${id}`, medicine);
+      let index = this.medicines.findIndex(m => m.id === medicine.id);
+      if(index !== -1){
+        this.medicines[index] = resp.data;
+      }
+      return resp.status === 200;
+    },
+    async deleteMedicine(id){
+      let resp = await http.delete(`Medicine/${id}`);
+      if(resp.status === 204){
+        this.medicines = this.medicines.filter(m => m.id !== id);
+        return true;
+      }
+      return false;
     }
   }
 })

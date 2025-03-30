@@ -2,8 +2,12 @@
 <div class="p-2 m-2 rounded-xl border-8 border-component-light dark:border-component-dark">
     <h3 class="m-2 text-2xl text-textColor-light dark:text-textColor-dark">Kiszerelések</h3>
     <div v-if="loaded">
-        <div v-for="packageSize in packageSizes" :key="packageSize.id">
-            <PackageSizeRow :packageSize="packageSize" @deletePackageSize="removePackageSize" @updatePackageSize="editPackageSize"/>
+        <div class="h-16 overflow-y-auto">
+            <p v-if="packageSizes.length<1" class="mt-2 text-center text-textColor-light dark:text-textColor-dark">A lista még üres</p>
+            <PackageSizeRow v-else v-for="packageSize in packageSizes" :key="packageSize.id"
+            :packageSize="packageSize"
+            @deletePackageSize="removePackageSize"
+            @updatePackageSize="editPackageSize"/>
         </div>
         <FormKit type="button" label="Kiszerelés hozzáadása" @click="newPackageSize"/>
     </div>
@@ -47,7 +51,7 @@ export default{
         async newPackageSize(){
             let data = {
                 medicineId: this.medicine.id,
-                size: (Math.max(...this.packageSizes.map(x => x.size))+1)
+                size: this.packageSizes.length>0 ? (Math.max(...this.packageSizes.map(x => x.size))+1) : 1
             };
             await this.addPackageSize(data);
         }

@@ -1,6 +1,6 @@
 <template>
 <div class="grid grid-cols-3 w-[70%] mx-auto items-center">
-    <div class="col-span-2 w-[70%]">
+    <div class="col-span-2">
         <FormKit type="select" :options="sideEffectOptions" v-model="selectedId"/>
     </div>
     <div>
