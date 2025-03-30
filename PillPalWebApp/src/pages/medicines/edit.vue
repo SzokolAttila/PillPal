@@ -91,7 +91,7 @@ export default{
     async mounted(){
         await this.getMedicines();
         await this.getPackageUnits();
-        this.medicine = this.medicines[0];
+        this.medicine = { ...this.medicines[0] };
         this.showedMedicines = this.medicines;
         this.loaded = true;
     },
@@ -107,7 +107,7 @@ export default{
         async medicines(){
             this.loaded = false;
             this.showedMedicines = this.medicines;
-            this.medicine = this.medicines[0];
+            this.medicine = { ...this.medicines[0] };
             this.loaded = true;
         }
     }
