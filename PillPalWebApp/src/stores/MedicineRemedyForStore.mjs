@@ -14,17 +14,30 @@ export const useMedicineRemedyForStore = defineStore("medicineRemedyFor-store", 
         },
         async addMedicineRemedyFor(data){
             const response = await http.post(`MedicineRemedyFor`, data);
-            this.medicineRemedyFors.push(response.data);
+            if(response.status === 200){
+                this.medicineRemedyFors.push(response.data);
+                return true;
+            }
+            return false;
         },
         async deleteMedicineRemedyFor(id){
-            await http.delete(`MedicineRemedyFor/${id}`);
-            this.medicineRemedyFors
-            .splice(this.medicineRemedyFors.findIndex((effect) => effect.id === id), 1);
+            const response = await http.delete(`MedicineRemedyFor/${id}`);
+            if(response.status === 204){
+                this.medicineRemedyFors = this.medicineRemedyFors.filter(r => r.id !== id);
+                return true;
+            }
+            return false;
         },
         async updateMedicineRemedyFor(id, data){
             const response = await http.put(`MedicineRemedyFor/${id}`, data);
-            this.medicineRemedyFors
-            .splice(this.medicineRemedyFors.findIndex((effect) => effect.id === id), 1, response.data);
+            if(response.status === 200){
+                let idx = this.medicineRemedyFors.findIndex(r => r.id === id);
+                if(idx !== -1){
+                    this.medicineRemedyFors[idx] = response.data;
+                }
+                return true;
+            }
+            return false;
         }
     }
 });

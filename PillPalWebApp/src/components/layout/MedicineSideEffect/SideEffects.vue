@@ -2,8 +2,13 @@
 <div class="p-2 m-2 rounded-xl border-8 border-component-light dark:border-component-dark">
     <h3 class="m-2 text-2xl text-textColor-light dark:text-textColor-dark">Mellékhatások</h3>
     <div v-if="loaded">
-        <div v-for="sideEffect in medicineSideEffects" :key="sideEffect.id">
-            <SideEffectRow :sideEffectOptions="sideEffectOptions" :sideEffect="sideEffect" @deleteSideEffect="deleteSideEffect" @updateSideEffect="updateSideEffect"/>
+        <div class="h-16 overflow-y-auto">
+            <p v-if="medicineSideEffects.length<1" class="mt-2 text-center text-textColor-light dark:text-textColor-dark">A lista még üres</p>
+            <SideEffectRow v-else v-for="sideEffect in medicineSideEffects" :key="sideEffect.id"
+            :sideEffectOptions="sideEffectOptions"
+            :sideEffect="sideEffect"
+            @deleteSideEffect="deleteSideEffect"
+            @updateSideEffect="updateSideEffect"/>
         </div>
         <FormKit type="button" label="Mellékhatás hozzáadása" @click="addSideEffect"/>
     </div>
@@ -38,21 +43,30 @@ export default{
         ...mapActions(useMedicineSideEffectStore, ['getMedicineSideEffects', 'addMedicineSideEffect',
          'deleteMedicineSideEffect', 'updateMedicineSideEffect']),
         async deleteSideEffect(id){
-            await this.deleteMedicineSideEffect(id);
+            let success = await this.deleteMedicineSideEffect(id);
+            if(!success){
+                alert("Hiba történt mellékhatás törlésekor!");
+            }
         },
         async updateSideEffect(medicineSideEffect){
             let data = {
                 medicineId: this.medicine.id,
                 sideEffectId: medicineSideEffect.sideEffectId
             };
-            await this.updateMedicineSideEffect(medicineSideEffect.id, data);
+            let success = await this.updateMedicineSideEffect(medicineSideEffect.id, data);
+            if(!success){
+                alert(`Hiba történt ${medicineSideEffect.sideEffect} frissítésekor!`);
+            }
         },
         async addSideEffect(){
             let data = {
                 medicineId: this.medicine.id,
                 sideEffectId: 1
             };
-            await this.addMedicineSideEffect(data);
+            let success = await this.addMedicineSideEffect(data);
+            if(!success){
+                alert("Hiba történt új mellékhatás hozzáadásakor!");
+            }
         }
     },
     async mounted(){

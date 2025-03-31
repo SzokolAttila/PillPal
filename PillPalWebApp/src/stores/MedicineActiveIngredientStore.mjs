@@ -14,17 +14,30 @@ export const useMedicineActiveIngredientStore = defineStore("medicineActiveIngre
         },
         async addMedicineActiveIngredient(data){
             const response = await http.post(`MedicineActiveIngredient`, data);
-            this.medicineActiveIngredients.push(response.data);
+            if(response.status === 200){
+                this.medicineActiveIngredients.push(response.data);
+                return true;
+            }
+            return false;
         },
         async deleteMedicineActiveIngredient(id){
-            await http.delete(`MedicineActiveIngredient/${id}`);
-            this.medicineActiveIngredients
-            .splice(this.medicineActiveIngredients.findIndex((ingredient) => ingredient.id === id), 1);
+            const response = await http.delete(`MedicineActiveIngredient/${id}`);
+            if(response.status === 204){
+                this.medicineActiveIngredients = this.medicineActiveIngredients.filter(i => i.id !== id);
+                return true;
+            }
+            return false;
         },
         async updateMedicineActiveIngredient(id, data){
             const response = await http.put(`MedicineActiveIngredient/${id}`, data);
-            this.medicineActiveIngredients
-            .splice(this.medicineActiveIngredients.findIndex((ingredient) => ingredient.id === id), 1, response.data);
+            if(response.status === 200){
+                let index = this.medicineActiveIngredients.findIndex(i => i.id === id);
+                if(index !== -1){
+                    this.medicineActiveIngredients[index] = response.data;
+                }
+                return true;
+            }
+            return false;
         }
     }
 });

@@ -2,8 +2,13 @@
 <div class="p-2 m-2 rounded-xl border-8 border-component-light dark:border-component-dark">
     <h3 class="m-2 text-2xl text-textColor-light dark:text-textColor-dark">Hatóanyagok</h3>
     <div v-if="loaded">
-        <div v-for="activeIngredient in medicineActiveIngredients" :key="activeIngredient.id">
-            <ActiveIngredientRow :activeIngredientOptions="activeIngredientOptions" :activeIngredient="activeIngredient" @deleteActiveIngredient="deleteActiveIngredient" @updateActiveIngredient="updateActiveIngredient"/>
+        <div class="h-16 overflow-y-auto">
+            <p v-if="medicineActiveIngredients.length<1" class="mt-2 text-center text-textColor-light dark:text-textColor-dark">A lista még üres</p>
+            <ActiveIngredientRow v-else v-for="activeIngredient in medicineActiveIngredients" :key="activeIngredient.id"
+            :activeIngredientOptions="activeIngredientOptions"
+            :activeIngredient="activeIngredient"
+            @deleteActiveIngredient="deleteActiveIngredient"
+            @updateActiveIngredient="updateActiveIngredient"/>
         </div>
         <FormKit type="button" label="Hatóanyag hozzáadása" @click="addActiveIngredient"/>
     </div>
@@ -40,21 +45,30 @@ export default{
          'deleteMedicineActiveIngredient',
          'updateMedicineActiveIngredient']),
         async deleteActiveIngredient(id){
-            await this.deleteMedicineActiveIngredient(id);
+            let success = await this.deleteMedicineActiveIngredient(id);
+            if(!success){
+                alert('Hiba történt hatóanyag törlésekor!');
+            }
         },
         async updateActiveIngredient(medicineActiveIngredient){
             let data = {
                 medicineId: this.medicine.id,
                 activeIngredientId: medicineActiveIngredient.activeIngredientId
             };
-            await this.updateMedicineActiveIngredient(medicineActiveIngredient.id, data);
+            let success = await this.updateMedicineActiveIngredient(medicineActiveIngredient.id, data);
+            if(!success){
+                alert(`Hiba történt ${medicineActiveIngredient.ingredient} frissítésekor!`);
+            }
         },
         async addActiveIngredient(){
             let data = {
                 medicineId: this.medicine.id,
                 activeIngredientId: 1
             };
-            await this.addMedicineActiveIngredient(data);
+            let success = await this.addMedicineActiveIngredient(data);
+            if(!success){
+                alert(`Hiba történt új hatóanyag hozzáadásakor!`);
+            }
         }
     },
     async mounted(){

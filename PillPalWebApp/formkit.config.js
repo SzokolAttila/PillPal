@@ -7,7 +7,8 @@ export default defaultConfig({
         classes: generateClasses({
             global: {
                 input: 'my-2 form-input rounded-md p-2 w-full',
-                label: 'text-textColor-light dark:text-textColor-dark'
+                label: 'text-textColor-light dark:text-textColor-dark',
+                message: 'text-errorColor-light dark:text-errorColor-dark font-bold',
             },
             input: {
                 input: 'form-input'
