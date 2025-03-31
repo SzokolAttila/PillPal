@@ -45,8 +45,11 @@ export default{
     },
     ...mapActions(useAdminStore, ['logout']),
     signOut(){
-      this.logout();
-      this.$router.push({name: 'login'});
+      if (confirm("Biztosan ki akar jelentkezni?"))
+      {
+        this.logout();
+        this.$router.push({name: 'login'});
+      }
     }
   }
 }
