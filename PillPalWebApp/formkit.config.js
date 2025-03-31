@@ -7,8 +7,7 @@ export default defaultConfig({
         classes: generateClasses({
             global: {
                 input: 'my-2 form-input rounded-md p-2 w-full',
-                label: 'text-textColor-light dark:text-textColor-dark',
-                message: 'text-errorColor-light dark:text-errorColor-dark font-bold',
+                label: 'text-textColor-light dark:text-textColor-dark'
             },
             input: {
                 input: 'form-input'
@@ -29,7 +28,12 @@ export default defaultConfig({
             submit: {
                 wrapper: 'w-fit block mx-auto',
                 input: 'bg-component-light dark:bg-component-dark p-2 text-white'
+
             },
+            button: {
+                wrapper: 'w-fit block mx-auto',
+                input: 'bg-component-light dark:bg-component-dark p-2 text-white'
+            }
         })
     }
 })

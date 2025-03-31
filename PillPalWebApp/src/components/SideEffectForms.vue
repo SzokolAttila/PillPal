@@ -2,8 +2,8 @@
     <BaseSpinner v-if="loading" class="mt-16 mx-auto" />
     <div v-else>
         <FormKit type="text" placeholder="Keresett mellékhatás..." v-model="searchSideEffect" />
-        <div class="h-10 overflow-y-auto text-textColor-light dark:text-textColor-dark">
-            <div v-for="effect in filteredSideEffects" @click="selectSideEffect(effect)">{{ effect.effect }}</div>
+        <div class="h-16 overflow-y-auto text-textColor-light dark:text-textColor-dark">
+            <div class="rounded-md p-2 hover:bg-component-light dark:hover:bg-component-dark" v-for="effect in filteredSideEffects" @click="selectSideEffect(effect)">{{ effect.effect }}</div>
         </div>
         <div class="border-2 border-component-light dark:border-component-dark p-2 rounded-md my-4">
             <FormKit type="form" v-if="sideEffectId != null" :actions="false" @submit="editSideEffect">
