@@ -26,16 +26,9 @@ export default defaultConfig({
                 help: 'text-textColor-light dark:text-textColor-dark'
             },
             submit: {
-                outer: 'my-2',
-                wrapper: 'w-fit p-2 block mx-auto',
+                wrapper: 'w-fit block mx-auto',
                 input: 'bg-component-light dark:bg-component-dark p-2 text-white'
-
             },
-            button: {
-                wrapper: 'w-fit p-2 block mx-auto',
-                input: 'bg-component-light dark:bg-component-dark p-2 text-white'
-    
-            }
         })
     }
 })
