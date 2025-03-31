@@ -4,6 +4,7 @@
     <hr class="bg-component-light dark:bg-component-dark p-1 my-5 w-[70%] mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 w-[85%] mx-auto">
         <SideEffectForms @redirect="redirect"/>
+        <ActiveIngredientForms @redirect="redirect" />
     </div>
   </BaseLayout>
 </template>
@@ -12,11 +13,13 @@
 import BaseSpinner from '@components/layout/BaseSpinner.vue';
 import BaseLayout from '@layouts/BaseLayout.vue';
 import SideEffectForms from '@components/SideEffectForms.vue';
+import ActiveIngredientForms from '@components/ActiveIngredientForms.vue';
 export default {
     components: {
         BaseLayout,
         BaseSpinner,
-        SideEffectForms
+        SideEffectForms,
+        ActiveIngredientForms
     },
     methods: {
         redirect(){

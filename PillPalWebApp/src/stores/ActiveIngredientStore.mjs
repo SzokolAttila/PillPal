@@ -11,6 +11,20 @@ export const useActiveIngredientStore = defineStore('activeIngredient-store', {
     async getActiveIngredients(){
       let resp = await http.get('ActiveIngredient');
       this.activeIngredients = resp.data;
+    },
+    async destroyActiveIngredient(id){
+      await http.delete(`ActiveIngredient/${id}`);
+      const idx = this.activeIngredients.findIndex(x => x.id == id);
+      this.activeIngredients.splice(idx, 1);
+    },
+    async postActiveIngredient(data){
+      const response = await http.post('ActiveIngredient', data);
+      this.activeIngredients.push(response.data);
+    },
+    async updateActiveIngredient(id, data){
+      const response = await http.put(`ActiveIngredient/${id}`, data);
+      const idx = this.activeIngredients.findIndex(x => x.id == id);
+      this.activeIngredients.splice(idx, 1, response.data);
     }
   },
   getters: {
