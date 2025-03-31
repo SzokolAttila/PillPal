@@ -32,12 +32,15 @@
 
 <script>
 import { useAdminStore } from '@stores/AdminStore';
-import { mapActions } from 'pinia';
+import { mapActions, mapState } from 'pinia';
 export default{
   data(){
     return{
       menuOpen: false
     }
+  },
+  computed: {
+    ...mapState(useAdminStore, ["token"])
   },
   methods:{
     toggleMenu(){
@@ -45,7 +48,9 @@ export default{
     },
     ...mapActions(useAdminStore, ['logout']),
     signOut(){
-      if (confirm("Biztosan ki akar jelentkezni?"))
+      if (this.token == null)  
+        alert("Ehhez a művelethez be kell jelentkeznie!");
+      else if (confirm("Biztosan ki akar jelentkezni?"))
       {
         this.logout();
         this.$router.push({name: 'login'});

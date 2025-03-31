@@ -11,6 +11,20 @@ export const useRemedyForStore = defineStore('remedyFor-store', {
     async getRemedyFors(){
       let resp = await http.get('RemedyFor');
       this.remedyFors = resp.data;
+    },
+    async destroyRemedyFor(id){
+      await http.delete(`RemedyFor/${id}`);
+      const idx = this.remedyFors.findIndex(x => x.id == id);
+      this.remedyFors.splice(idx, 1);
+    },
+    async postRemedyFor(data){
+      const response = await http.post('RemedyFor', data);
+      this.remedyFors.push(response.data);
+    },
+    async updateRemedyFor(id, data){
+      const response = await http.put(`RemedyFor/${id}`, data);
+      const idx = this.remedyFors.findIndex(x => x.id == id);
+      this.remedyFors.splice(idx, 1, response.data);
     }
   },
   getters: {
