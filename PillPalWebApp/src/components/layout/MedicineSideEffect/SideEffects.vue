@@ -55,7 +55,7 @@ export default{
             };
             let success = await this.updateMedicineSideEffect(medicineSideEffect.id, data);
             if(!success){
-                alert(`Hiba történt ${medicineSideEffect.sideEffect} frissítésekor!`);
+                alert(`Hiba történt mellékhatás (${this.sideEffectOptions[medicineSideEffect.sideEffectId]}) frissítésekor!`);
             }
         },
         async addSideEffect(){

@@ -13,31 +13,34 @@ export const useMedicineActiveIngredientStore = defineStore("medicineActiveIngre
             this.medicineActiveIngredients = response.data;
         },
         async addMedicineActiveIngredient(data){
-            const response = await http.post(`MedicineActiveIngredient`, data);
-            if(response.status === 200){
+            try{
+                const response = await http.post(`MedicineActiveIngredient`, data);
                 this.medicineActiveIngredients.push(response.data);
                 return true;
+            }catch(error){
+                return false;
             }
-            return false;
         },
         async deleteMedicineActiveIngredient(id){
-            const response = await http.delete(`MedicineActiveIngredient/${id}`);
-            if(response.status === 204){
+            try{
+                await http.delete(`MedicineActiveIngredient/${id}`);
                 this.medicineActiveIngredients = this.medicineActiveIngredients.filter(i => i.id !== id);
                 return true;
+            }catch(error){
+                return false;
             }
-            return false;
         },
         async updateMedicineActiveIngredient(id, data){
-            const response = await http.put(`MedicineActiveIngredient/${id}`, data);
-            if(response.status === 200){
+            try{
+                const response = await http.put(`MedicineActiveIngredient/${id}`, data);
                 let index = this.medicineActiveIngredients.findIndex(i => i.id === id);
                 if(index !== -1){
                     this.medicineActiveIngredients[index] = response.data;
                 }
                 return true;
+            }catch(error){
+                return false;
             }
-            return false;
         }
     }
 });
