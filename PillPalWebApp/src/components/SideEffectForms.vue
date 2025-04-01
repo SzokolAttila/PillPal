@@ -7,7 +7,7 @@
         </div>
         <div class="border-2 border-component-light dark:border-component-dark p-2 rounded-md my-4">
             <FormKit type="form" v-if="sideEffectId != null" :actions="false" @submit="editSideEffect">
-                <FormKit type="text" name="effect" label="Mellékhatás szerkesztése" v-model="sideEffect" />
+                <FormKit :validation-messages="{required: 'A mellékhatás megadása kötelező.', length: 'A mellékhatás hossza 3 és 80 karakter között kell legyen.'}" validation="required|length:3,80" type="text" name="effect" label="Mellékhatás szerkesztése" v-model="sideEffect" />
                 <div class="flex flex-row flex-nowrap justify-between">
                     <FormKit type="submit" label="Módosít" />
                     <button type="button" @click="deleteSideEffect" class="p-2 rounded-md text-textColor-light dark:text-textColor-dark bg-component-light my-2 h-fit dark:bg-component-dark">
@@ -19,7 +19,7 @@
                 </div>
             </FormKit>
             <FormKit v-else type="form" :actions="false" @submit="createSideEffect">
-                <FormKit label="Új mellékhatás" type="text" name="effect" validation="required|length:3,80" placeholder="Mellékhatás"  />
+                <FormKit label="Új mellékhatás" type="text" name="effect" :validation-messages="{required: 'A mellékhatás megadása kötelező.', length: 'A mellékhatás hossza 3 és 80 karakter között kell legyen.'}" validation="required|length:3,80" placeholder="Mellékhatás"  />
                 <FormKit type="submit" label="Hozzáad"/>
             </FormKit>
         </div>

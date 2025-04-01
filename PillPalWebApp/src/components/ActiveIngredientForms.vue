@@ -7,7 +7,7 @@
         </div>
         <div class="border-2 border-component-light dark:border-component-dark p-2 rounded-md my-4">
             <FormKit type="form" v-if="activeIngredientId != null" :actions="false" @submit="editActiveIngredient">
-                <FormKit type="text" name="ingredient" label="Hatóanyag szerkesztése" v-model="activeIngredient" />
+                <FormKit validation="required|length:3,80" :validation-messages="{required: 'A hatóanyag megadása kötelező.', length: 'A hatóanyag hossza 3 és 80 karakter között kell legyen.'}" type="text" name="ingredient" label="Hatóanyag szerkesztése" v-model="activeIngredient" />
                 <div class="flex flex-row flex-nowrap justify-between">
                     <FormKit type="submit" label="Módosít" />
                     <button type="button" @click="deleteActiveIngredient" class="p-2 rounded-md text-textColor-light dark:text-textColor-dark bg-component-light my-2 h-fit dark:bg-component-dark">
@@ -19,7 +19,7 @@
                 </div>
             </FormKit>
             <FormKit v-else type="form" :actions="false" @submit="createActiveIngredient">
-                <FormKit label="Új hatóanyag" type="text" name="ingredient" validation="required|length:3,80" placeholder="Hatóanyag"  />
+                <FormKit :validation-messages="{required: 'A hatóanyag megadása kötelező.', length: 'A hatóanyag hossza 3 és 80 karakter között kell legyen.'}" label="Új hatóanyag" type="text" name="ingredient" validation="required|length:3,80" placeholder="Hatóanyag"  />
                 <FormKit type="submit" label="Hozzáad"/>
             </FormKit>
         </div>
