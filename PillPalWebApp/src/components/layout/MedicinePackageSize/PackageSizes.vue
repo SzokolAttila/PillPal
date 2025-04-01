@@ -45,6 +45,11 @@ export default{
             }
         },
         async editPackageSize(packageSize){
+            if(this.packageSizes.filter(p => p.size === packageSize.size && p.id !== packageSize.id).length >= 1){
+                alert("A kiszerelés már létezik!");
+                return;
+            }
+
             let data = {
                 medicineId: this.medicine.id,
                 size: packageSize.size

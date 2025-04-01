@@ -25,8 +25,14 @@ export default{
             if(this.packageSizeValue < 1){
                 this.packageSizeValue = this.packageSize.size;
             }else{
-                this.packageSize.size = this.packageSizeValue;
-                this.$emit('updatePackageSize', this.packageSize);
+                let current = {...this.packageSize}
+                current.size = this.packageSizeValue;
+
+                this.$emit('updatePackageSize', current);
+                
+                // Refresh the binded value if updatePackageSize changed it
+                // Due to duplicated values
+                this.packageSizeValue = this.packageSize.size;
             }
         }
     },
