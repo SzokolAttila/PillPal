@@ -61,7 +61,7 @@ export default{
         async addSideEffect(){
             let data = {
                 medicineId: this.medicine.id,
-                sideEffectId: 1
+                sideEffectId: Object.keys(this.sideEffectOptions)[0]
             };
             let success = await this.addMedicineSideEffect(data);
             if(!success){

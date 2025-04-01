@@ -61,7 +61,7 @@ export default{
         async addRemedyFor(){
             let data = {
                 medicineId: this.medicine.id,
-                remedyForId: 1
+                remedyForId: Object.keys(this.remedyForOptions)[0]
             };
             let success = await this.addMedicineRemedyFor(data);
             if(!success){

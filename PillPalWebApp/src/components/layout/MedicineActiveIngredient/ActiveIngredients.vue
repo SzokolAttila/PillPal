@@ -63,7 +63,7 @@ export default{
         async addActiveIngredient(){
             let data = {
                 medicineId: this.medicine.id,
-                activeIngredientId: 1
+                activeIngredientId: Object.keys(this.activeIngredientOptions)[0]
             };
             let success = await this.addMedicineActiveIngredient(data);
             if(!success){
