@@ -4,10 +4,10 @@
     <div v-else>
       <h1 class="text-textColor-light dark:text-textColor-dark text-center text-5xl my-10">Bejelentkezés</h1>
       <div class="w-[75%] mx-auto">
-        <FormKit type="form" :actions="false" @submit="submit" :classes="{message: 'text-errorColor-light dark:text-errorColor-dark font-bold'}">
-          <FormKit label="Felhasználónév" type="text" name="username" validation="required" />
-          <FormKit label="Jelszó" type="password" name="password" validation="required" />
-          <FormKit label="Bejelentkezés" type="submit" />
+        <FormKit type="form" :actions="false"  @submit="submit" :classes="{message: 'text-errorColor-light dark:text-errorColor-dark font-bold'}" >
+          <FormKit label="Felhasználónév" type="text" name="username" :validation-messages="{required: 'A felhasználónév megadása kötelező.'}" validation="required" />
+          <FormKit label="Jelszó" type="password" name="password" :validation-messages="{required: 'A jelszó megadása kötelező.'}" validation="required" />
+          <FormKit label="Bejelentkezés" type="submit"  />
         </FormKit>
       </div>
     </div>

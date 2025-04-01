@@ -13,9 +13,9 @@
                 </div>
             </div>
             <FormKit type="form" :actions="false">
-                <FormKit type="text" label="Gyógyszer neve" v-model="medicine.name" validation="required|length:5,30"/>
-                <FormKit type="text" label="Gyártója" v-model="medicine.manufacturer" validation="required|length:5,30"/>
-                <FormKit type="textarea" label="Leírása" v-model="medicine.description" validation="required|length:5,255"
+                <FormKit type="text" label="Gyógyszer neve" v-model="medicine.name" :validation-messages="{required: 'A gyógyszer nevének megadása kötelező.', length: 'A gyógyszer nevének hossza 5 és 30 karakter között kell legyen.'}" validation="required|length:5,30"/>
+                <FormKit type="text" label="Gyártója" v-model="medicine.manufacturer" :validation-messages="{required: 'A gyógyszer gyártójának megadása kötelező.', length: 'A gyógyszer gyártójának hossza 5 és 30 karakter között kell legyen.'}" validation="required|length:5,30"/>
+                <FormKit type="textarea" label="Leírása" v-model="medicine.description" :validation-messages="{required: 'A gyógyszer leírásának megadása kötelező.', length: 'A gyógyszer leírásának hossza 5 és 255 karakter között kell legyen.'}" validation="required|length:5,255"
                 :help="`${medicine.description.length} / 255`"/>
                 <FormKit type="select" label="Kiszerelés egysége" v-model="medicine.packageUnitId" :options="packageUnitOptions"/>
                 <div class="grid grid-cols-2">

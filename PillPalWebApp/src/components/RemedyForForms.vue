@@ -7,7 +7,7 @@
         </div>
         <div class="border-2 border-component-light dark:border-component-dark p-2 rounded-md my-4">
             <FormKit type="form" v-if="remedyForId != null" :actions="false" @submit="editRemedyFor">
-                <FormKit type="text" name="ailment" label="Betegség szerkesztése" v-model="remedyFor" />
+                <FormKit :validation-messages="{required: 'A betegség megadása kötelező.', length: 'A betegség hossza 3 és 80 karakter között kell legyen.'}" validation="required|length:3,80" type="text" name="ailment" label="Betegség szerkesztése" v-model="remedyFor" />
                 <div class="flex flex-row flex-nowrap justify-between">
                     <FormKit type="submit" label="Módosít" />
                     <button type="button" @click="deleteRemedyFor" class="p-2 rounded-md text-textColor-light dark:text-textColor-dark bg-component-light my-2 h-fit dark:bg-component-dark">
@@ -19,7 +19,7 @@
                 </div>
             </FormKit>
             <FormKit v-else type="form" :actions="false" @submit="createRemedyFor">
-                <FormKit label="Új betegség" type="text" name="ailment" validation="required|length:3,80" placeholder="Betegség"  />
+                <FormKit :validation-messages="{required: 'A betegség megadása kötelező.', length: 'A betegség hossza 3 és 80 karakter között kell legyen.'}" label="Új betegség" type="text" name="ailment" validation="required|length:3,80" placeholder="Betegség"  />
                 <FormKit type="submit" label="Hozzáad"/>
             </FormKit>
         </div>

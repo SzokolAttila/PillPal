@@ -4,6 +4,7 @@ import {generateClasses} from "@formkit/themes";
 
 export default defaultConfig({
     config: {
+        incompleteMessage: 'Bizonyos mezőket helytelenül töltött ki.',
         classes: generateClasses({
             global: {
                 input: 'my-2 form-input rounded-md p-2 w-full border-2 border-component-light dark:border-component-dark',
