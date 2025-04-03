@@ -4,6 +4,7 @@ import { router } from '@/router/index.js'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { plugin, defaultConfig } from '@formkit/vue'
 import config from '../formkit.config.js'
+import 'flowbite'
 
 import App from '@/App.vue'
 

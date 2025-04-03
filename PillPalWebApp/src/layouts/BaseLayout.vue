@@ -1,10 +1,8 @@
 <template>
-  <div class="flex flex-row flex-nowrap justify-between">
     <BaseHeader />
-    <main class="container mx-auto">
+    <main class="container mx-auto sm:pl-80 mt-20 sm:mt-0">
       <slot />
     </main>
-  </div>
 </template>
 <script>
 import BaseHeader from '@components/layout/BaseHeader.vue'
