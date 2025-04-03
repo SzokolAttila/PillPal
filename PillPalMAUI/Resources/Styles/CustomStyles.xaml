@@ -27,7 +27,7 @@
     <Style TargetType="Entry" x:Key="InputField">
         <Setter Property="FontFamily" Value="PlayfairDisplay"/>
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="HorizontalOptions" Value="Fill"/>
+        <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
         <Setter Property="HeightRequest" Value="40"/>
         <Setter Property="TextColor" Value="{DynamicResource FormTextColor}"/>
         <Setter Property="BackgroundColor" Value="{DynamicResource FormBackground}"/>
@@ -190,7 +190,7 @@
         <Setter Property="Margin" Value="30,3"/>
         <Setter Property="Padding" Value="0"/>
         <Setter Property="CornerRadius" Value="20"/>
-        <Setter Property="HorizontalOptions" Value="Fill"/>
+        <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
         <Setter Property="HeightRequest" Value="40"/>
     </Style>
 </ResourceDictionary>

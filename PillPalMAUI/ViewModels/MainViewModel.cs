@@ -45,7 +45,18 @@ namespace PillPalMAUI.ViewModels
             HomeButton = new HomeButtonViewModel(userId, auth);
             LocalNotificationCenter.Current.CancelAll();
             var reminders = handler.Get(userId, auth).OrderBy(x => x.When);
-            foreach (var reminder in reminders)
+            TimeOnly now = TimeOnly.FromDateTime(DateTime.Now);
+            //Put the reminders that are the most actual to the first place
+            foreach (var reminder in reminders.Where(x=>x.When.CompareTo(now) >= 0))
+            {
+                ReminderCardViewModel cardModel = new() { Reminder = reminder, Auth = auth };
+                cardModel.RemoveFromScreen = () => ReminderCards.Remove(cardModel);
+                ReminderCards.Add(cardModel);
+                _ = ReminderManager.CreateNotification(reminder, reminder.Medicine!);
+            }
+
+            //Then put after the reminders that are already passed
+            foreach (var reminder in reminders.Where(x => x.When.CompareTo(now) < 0))
             {
                 ReminderCardViewModel cardModel = new() { Reminder = reminder, Auth = auth };
                 cardModel.RemoveFromScreen = () => ReminderCards.Remove(cardModel);

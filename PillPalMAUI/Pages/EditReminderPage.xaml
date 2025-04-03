@@ -29,8 +29,8 @@
                         <Label Text="{Binding Reminder.Medicine.Name}" Style="{StaticResource Subtitle}"/>
                         <VerticalStackLayout Style="{StaticResource Formgroup}">
                             <Label Text="Beviteli adag" Style="{StaticResource InputLabel}"/>
-                            <HorizontalStackLayout>
-                                <Frame Style="{StaticResource InputBorder}">
+                            <Grid ColumnDefinitions="*,auto">
+                                <Frame Style="{StaticResource InputBorder}" Grid.Column="0" Grid.Row="0">
                                     <Entry Text="{Binding Reminder.DoseCount}" Placeholder="Adag" Style="{StaticResource InputField}">
                                         <Entry.Behaviors>
                                             <toolkit:NumericValidationBehavior
@@ -42,11 +42,11 @@
                                         </Entry.Behaviors>
                                     </Entry>
                                 </Frame>
-                                <Label 
+                                <Label Grid.Column="1" Grid.Row="0"
                                     Text="{Binding Reminder.Medicine.PackageUnit.Name}"
                                     VerticalOptions="Center" 
                                     HorizontalOptions="Start" TextColor="{DynamicResource TextColor}"/>
-                            </HorizontalStackLayout>
+                            </Grid>
                         </VerticalStackLayout>
                         <VerticalStackLayout Style="{StaticResource Formgroup}">
                             <Label Text="Időpont" Style="{StaticResource InputLabel}"/>
