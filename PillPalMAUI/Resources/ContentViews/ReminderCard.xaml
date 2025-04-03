@@ -23,38 +23,42 @@
                 Text="{Binding Reminder.When}"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" 
-                Grid.Column="1" Grid.Row="0" FontSize="Title" FontAttributes="Bold" TextColor="{DynamicResource TextColor}"/>
+                Grid.Column="1" Grid.Row="0" FontSize="Title" FontAttributes="Bold" TextColor="{DynamicResource FormTextColor}"/>
             
             <VerticalStackLayout Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1">
                 <HorizontalStackLayout Margin="0,5" HorizontalOptions="CenterAndExpand">
                     <Label 
                         Text="Gyógyszer: "
                         VerticalOptions="Center" 
-                        HorizontalOptions="Start" FontAttributes="Bold" Margin="10,0" TextColor="{DynamicResource TextColor}"/>
+                        HorizontalOptions="Start" FontAttributes="Bold" Margin="10,0" TextColor="{DynamicResource FormTextColor}"/>
                     <Label 
                         Text="{Binding Reminder.Medicine.Name}"
                         VerticalOptions="Center" 
-                        HorizontalOptions="Start" TextColor="{DynamicResource TextColor}"/>
+                        HorizontalOptions="Start" TextColor="{DynamicResource FormTextColor}"/>
                 </HorizontalStackLayout>
                 <HorizontalStackLayout Margin="0,5" HorizontalOptions="CenterAndExpand">
                     <Label 
-                        Text="Darab: "
+                        Text="Adag: "
                         VerticalOptions="Center" 
-                        HorizontalOptions="Start" FontAttributes="Bold" Margin="10,0" TextColor="{DynamicResource TextColor}"/>
+                        HorizontalOptions="Start" FontAttributes="Bold" Margin="10,0" TextColor="{DynamicResource FormTextColor}"/>
                     <Label 
                         Text="{Binding Reminder.DoseCount}"
                         VerticalOptions="Center" 
-                        HorizontalOptions="Start" TextColor="{DynamicResource TextColor}"/>
+                        HorizontalOptions="Start" TextColor="{DynamicResource FormTextColor}"/>
+                    <Label 
+                        Text="{Binding Reminder.Medicine.PackageUnit.Name}"
+                        VerticalOptions="Center" Margin="5"
+                        HorizontalOptions="Start" TextColor="{DynamicResource FormTextColor}"/>
                 </HorizontalStackLayout>
                 <HorizontalStackLayout Margin="0,5" HorizontalOptions="CenterAndExpand">
                     <Label 
                         Text="Bevitel módja: "
                         VerticalOptions="Center" 
-                        HorizontalOptions="Start" FontAttributes="Bold" Margin="10,0" TextColor="{DynamicResource TextColor}"/>
+                        HorizontalOptions="Start" FontAttributes="Bold" Margin="10,0" TextColor="{DynamicResource FormTextColor}"/>
                     <Label 
                         Text="{Binding Reminder.TakingMethod}"
                         VerticalOptions="Center" 
-                        HorizontalOptions="Start" TextColor="{DynamicResource TextColor}"/>
+                        HorizontalOptions="Start" TextColor="{DynamicResource FormTextColor}"/>
                 </HorizontalStackLayout>
             </VerticalStackLayout>
             <Button Margin="10" Text="Töröl" Grid.Column="0" Grid.Row="2" Command="{Binding Remove}" BackgroundColor="{DynamicResource ComponentBackground}" TextColor="{DynamicResource TextColor}"/>

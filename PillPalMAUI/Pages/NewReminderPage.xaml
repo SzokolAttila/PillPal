@@ -27,18 +27,24 @@
                         <Label Style="{StaticResource Subtitle}" Text="{Binding Medicine.Name}" />
                         <VerticalStackLayout Style="{StaticResource Formgroup}">
                             <Label Text="Beviteli adag" Style="{StaticResource InputLabel}"/>
-                            <Frame Style="{StaticResource InputBorder}">
-                                <Entry Style="{StaticResource InputField}" Text="{Binding DoseCount}">
-                                    <Entry.Behaviors>
-                                        <toolkit:NumericValidationBehavior
-                                            x:Name="DoseValidator"
-                                            Flags="ValidateOnValueChanged"
-                                            MaximumValue="1000"
-                                            MinimumValue="1"
-                                            MaximumDecimalPlaces="0"/>
-                                    </Entry.Behaviors>
-                                </Entry>
-                            </Frame>
+                            <HorizontalStackLayout>
+                                <Frame Style="{StaticResource InputBorder}">
+                                    <Entry Style="{StaticResource InputField}" Text="{Binding DoseCount}">
+                                        <Entry.Behaviors>
+                                            <toolkit:NumericValidationBehavior
+                                                x:Name="DoseValidator"
+                                                Flags="ValidateOnValueChanged"
+                                                MaximumValue="1000"
+                                                MinimumValue="1"
+                                                MaximumDecimalPlaces="0"/>
+                                        </Entry.Behaviors>
+                                    </Entry>
+                                </Frame>
+                                <Label 
+                                    Text="{Binding Medicine.PackageUnit.Name}"
+                                    VerticalOptions="Center" 
+                                    HorizontalOptions="Start" TextColor="{DynamicResource TextColor}"/>
+                            </HorizontalStackLayout>
                         </VerticalStackLayout>
                         <VerticalStackLayout Style="{StaticResource Formgroup}">
                             <Label Text="Időpont" Style="{StaticResource InputLabel}"/>
