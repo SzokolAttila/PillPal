@@ -1,6 +1,8 @@
 ﻿using PillPalLib;
 using PillPalLib.APIHandlers;
+using PillPalMAUI.Models;
 using PillPalMAUI.Pages;
+using Plugin.LocalNotification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +38,7 @@ namespace PillPalMAUI.ViewModels
             }
             try
             {
-                _reminderHandler.CreateReminder(new()
+                var created = _reminderHandler.CreateReminder(new()
                 {
                     MedicineId = Medicine.Id,
                     When = TimeOnly.FromTimeSpan(When).ToString(),
@@ -45,14 +47,24 @@ namespace PillPalMAUI.ViewModels
                     UserId = UserId,
 
                 }, Auth);
-                await Application.Current!.MainPage!.DisplayAlert("Sikeres létrehozás", "Sikeresen létrehozta az emlékeztetőt!", "Vissza a főoldalra");
-                Application.Current!.MainPage = new MainPage(UserId, Auth);
+                
+                if (created != null)
+                {
+                    await ReminderManager.CreateNotification(created, Medicine!);
+                    await Application.Current!.MainPage!.DisplayAlert("Sikeres létrehozás", "Sikeresen létrehozta az emlékeztetőt!", "Vissza a főoldalra");
+                    Application.Current!.MainPage = new MainPage(UserId, Auth);
+                }
+                else
+                {
+                    await Application.Current!.MainPage!.DisplayAlert("Hiba", "Hiba történt az emlékeztető létrehozása közben.", "OK");
+                }
             }
             catch (Exception ex)
             {
                 await Application.Current!.MainPage!.DisplayAlert("Hiba", $"Hiba történt az emlékeztető létrehozása közben: {ex.Message}", "OK");
             }
         }
+
         private HomeButtonViewModel homeButton;
         public HomeButtonViewModel HomeButton
         {

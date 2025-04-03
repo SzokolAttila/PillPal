@@ -1,6 +1,7 @@
 ﻿using PillPalLib.APIHandlers;
 using PillPalLib.DTOs.UserDTOs;
 using PillPalMAUI.Pages;
+using Plugin.LocalNotification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,12 +45,19 @@ namespace PillPalMAUI.ViewModels
             try
             {
                 var login = _userHandler.Login(new CreateUserDto() { UserName = username, Password = password });
-                if (Username == "administrator"){
-                    Application.Current!.MainPage = new AdminUsersPage(login.Token);
+
+                if (OperatingSystem.IsAndroidVersionAtLeast(33))
+                {
+                    var status = await LocalNotificationCenter.Current.RequestNotificationPermission();
+                    if (!status)
+                    {
+                        await Application.Current!.MainPage!.DisplayAlert("Engedély megtagadva",
+                            $"Az applikáció csak akkor használható, ha kap engedélyt arra, hogy értesítéseket küldjön.", "OK");
+                        return;
+                    }
                 }
-                else{
-                    Application.Current!.MainPage = new MainPage(login.Id, login.Token);
-                }
+
+                Application.Current!.MainPage = new MainPage(login.Id, login.Token);
             }
             catch (Exception ex) 
             {

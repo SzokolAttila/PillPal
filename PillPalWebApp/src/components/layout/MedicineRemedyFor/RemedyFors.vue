@@ -55,7 +55,7 @@ export default{
             };
             let success = await this.updateMedicineRemedyFor(medicineRemedyFor.id, data);
             if(!success){
-                alert(`Hiba történt ${medicineRemedyFor.ailment} frissítésekor!`);
+                alert(`Hiba történt betegség (${this.remedyForOptions[medicineRemedyFor.remedyForId]}) frissítésekor!`);
             }
         },
         async addRemedyFor(){

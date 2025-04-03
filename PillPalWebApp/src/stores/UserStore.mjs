@@ -13,12 +13,13 @@ export const useUserStore = defineStore('user-store', {
       this.users = response.data;
     },
     async deleteUser(id){
-      let resp = await http.delete(`User/${id}`);
-      if(resp.status === 204){
+      try{
+        await http.delete(`User/${id}`);
         this.users = this.users.filter(u => u.id !== id);
         return true;
+      }catch{
+        return false;
       }
-      return false;
     }
   }
 })

@@ -13,31 +13,34 @@ export const useMedicineRemedyForStore = defineStore("medicineRemedyFor-store", 
             this.medicineRemedyFors = response.data;
         },
         async addMedicineRemedyFor(data){
-            const response = await http.post(`MedicineRemedyFor`, data);
-            if(response.status === 200){
+            try{
+                const response = await http.post(`MedicineRemedyFor`, data);
                 this.medicineRemedyFors.push(response.data);
                 return true;
+            }catch(error){
+                return false;
             }
-            return false;
         },
         async deleteMedicineRemedyFor(id){
-            const response = await http.delete(`MedicineRemedyFor/${id}`);
-            if(response.status === 204){
+            try{
+                await http.delete(`MedicineRemedyFor/${id}`);
                 this.medicineRemedyFors = this.medicineRemedyFors.filter(r => r.id !== id);
                 return true;
+            }catch(error){
+                return false;
             }
-            return false;
         },
         async updateMedicineRemedyFor(id, data){
-            const response = await http.put(`MedicineRemedyFor/${id}`, data);
-            if(response.status === 200){
+            try{
+                const response = await http.put(`MedicineRemedyFor/${id}`, data);
                 let idx = this.medicineRemedyFors.findIndex(r => r.id === id);
                 if(idx !== -1){
                     this.medicineRemedyFors[idx] = response.data;
                 }
                 return true;
+            }catch(error){
+                return false;
             }
-            return false;
         }
     }
 });

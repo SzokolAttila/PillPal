@@ -71,10 +71,17 @@ namespace PillPalAPI.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Put(int id, [FromBody] CreatePackageSizeDto createDto)
         {
-            if (_joinRepository.GetAll().FirstOrDefault(x => x.Id == id) == null)
+            var existing = _joinRepository.GetAll().FirstOrDefault(x => x.Id == id);
+            if (existing == null)
                 return NotFound();
             if (_medicineRepository.Get(createDto.MedicineId) == null)
                 return BadRequest("Medicine with the given ID doesn't exist.");
+
+            // Skip update if value is unchanged
+            if(existing.Size == createDto.Size && existing.MedicineId == createDto.MedicineId)
+            {
+                return Ok(existing);
+            }
 
             var result = _validator.Validate(createDto);
             if (!result.IsValid)

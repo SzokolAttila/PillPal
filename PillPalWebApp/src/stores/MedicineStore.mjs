@@ -13,31 +13,34 @@ export const useMedicineStore = defineStore('medicine-store', {
       this.medicines = resp.data;
     },
     async addMedicine(medicine){
-      let resp = await http.post('Medicine', medicine);
-      if(resp.status === 200){
+      try{
+        let resp = await http.post('Medicine', medicine);
         this.medicines.push(resp.data);
         return true;
+      }catch(error){
+        return false;
       }
-      return false;
     },
     async updateMedicine(id, medicine){
-      let resp = await http.put(`Medicine/${id}`, medicine);
-      if(resp.status === 200){
+      try{
+        let resp = await http.put(`Medicine/${id}`, medicine);
         let index = this.medicines.findIndex(m => m.id === medicine.id);
         if(index !== -1){
           this.medicines[index] = resp.data;
         }
         return true;
+      }catch(error){
+        return false;
       }
-      return false;
     },
     async deleteMedicine(id){
-      let resp = await http.delete(`Medicine/${id}`);
-      if(resp.status === 204){
+      try{
+        await http.delete(`Medicine/${id}`);
         this.medicines = this.medicines.filter(m => m.id !== id);
         return true;
+      }catch(error){
+        return false;
       }
-      return false;
     }
   }
 })

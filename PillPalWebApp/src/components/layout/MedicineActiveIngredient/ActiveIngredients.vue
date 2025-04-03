@@ -57,7 +57,7 @@ export default{
             };
             let success = await this.updateMedicineActiveIngredient(medicineActiveIngredient.id, data);
             if(!success){
-                alert(`Hiba történt ${medicineActiveIngredient.ingredient} frissítésekor!`);
+                alert(`Hiba történt hatóanyag (${this.activeIngredientOptions[medicineActiveIngredient.activeIngredientId]}) frissítésekor!`);
             }
         },
         async addActiveIngredient(){

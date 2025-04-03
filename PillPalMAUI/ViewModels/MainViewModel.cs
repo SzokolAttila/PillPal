@@ -1,6 +1,8 @@
 ﻿using PillPalLib;
 using PillPalLib.APIHandlers;
+using PillPalMAUI.Models;
 using PillPalMAUI.Resources.ContentViews;
+using Plugin.LocalNotification;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -32,13 +34,23 @@ namespace PillPalMAUI.ViewModels
                 Changed();
             }
         }
+
+        public void RemoveReminderCard(ReminderCardViewModel card)
+        {
+            ReminderCards.Remove(card);
+        }
+
         public MainViewModel(int userId, string auth)
         {
             HomeButton = new HomeButtonViewModel(userId, auth);
-            foreach (var reminder in handler.Get(userId, auth))
+            LocalNotificationCenter.Current.CancelAll();
+            var reminders = handler.Get(userId, auth).OrderBy(x => x.When);
+            foreach (var reminder in reminders)
             {
                 ReminderCardViewModel cardModel = new() { Reminder = reminder, Auth = auth };
+                cardModel.RemoveFromScreen = () => ReminderCards.Remove(cardModel);
                 ReminderCards.Add(cardModel);
+                _ = ReminderManager.CreateNotification(reminder, reminder.Medicine!);
             }
         }
     }

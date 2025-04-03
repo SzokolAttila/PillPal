@@ -13,31 +13,34 @@ export const useMedicineSideEffectStore = defineStore("medicineSideEffect-store"
             this.medicineSideEffects = response.data;
         },
         async addMedicineSideEffect(data){
-            const response = await http.post(`MedicineSideEffect`, data);
-            if(response.status === 200){
+            try{
+                const response = await http.post(`MedicineSideEffect`, data);
                 this.medicineSideEffects.push(response.data);
                 return true;
+            }catch(error){
+                return false;
             }
-            return false;
         },
         async deleteMedicineSideEffect(id){
-            const response = await http.delete(`MedicineSideEffect/${id}`);
-            if(response.status === 204){
+            try{
+                await http.delete(`MedicineSideEffect/${id}`);
                 this.medicineSideEffects = this.medicineSideEffects.filter(e => e.id !== id);
                 return true;
+            }catch(error){
+                return false;
             }
-            return false;
         },
         async updateMedicineSideEffect(id, data){
-            const response = await http.put(`MedicineSideEffect/${id}`, data);
-            if(response.status === 200){
+            try{
+                const response = await http.put(`MedicineSideEffect/${id}`, data);
                 let idx = this.medicineSideEffects.findIndex(e => e.id === id);
                 if(idx !== -1){
                     this.medicineSideEffects[idx] = response.data;
                 }
                 return true;
+            }catch(error){
+                return false;
             }
-            return false;
         }
     }
 });

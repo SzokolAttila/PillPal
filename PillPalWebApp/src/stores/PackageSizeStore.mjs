@@ -13,31 +13,34 @@ export const usePackageSizeStore = defineStore('packageSize-store', {
       this.packageSizes = resp.data;
     },
     async addPackageSize(data){
-      let resp = await http.post(`PackageSize`, data);
-      if(resp.status === 200){
+      try{
+        let resp = await http.post(`PackageSize`, data);
         this.packageSizes.push(resp.data);
         return true;
+      }catch(error){
+        return false;
       }
-      return false;
     },
     async deletePackageSize(id){
-      let resp = await http.delete(`PackageSize/${id}`);
-      if(resp.status === 204){
+      try{
+        await http.delete(`PackageSize/${id}`);
         this.packageSizes = this.packageSizes.filter(s => s.id !== id);
         return true;
+      }catch(error){
+        return false;
       }
-      return false;
     },
     async updatePackageSize(id, data){
-      let resp = await http.put(`PackageSize/${id}`, data);
-      if(resp.status === 200){
+      try{
+        let resp = await http.put(`PackageSize/${id}`, data);
         let idx = this.packageSizes.findIndex(s => s.id === id);
         if(idx !== -1){
           this.packageSizes[idx] = resp.data;
         }
         return true;
+      }catch(error){
+        return false;
       }
-      return false;
     }
   }
 })
