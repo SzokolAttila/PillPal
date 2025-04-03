@@ -1,6 +1,7 @@
 ﻿using PillPalLib;
 using PillPalLib.APIHandlers;
 using PillPalLib.DTOs.ReminderDTOs;
+using PillPalMAUI.Models;
 using PillPalMAUI.Pages;
 using System;
 using System.Collections.Generic;
@@ -129,6 +130,7 @@ namespace PillPalMAUI.ViewModels
                 handler.EditReminder(reminder.Id, dto, Auth);
                 await Application.Current!.MainPage!.DisplayAlert("Sikeres módosítás!",
                     $"A módosítás sikeres volt.", "OK");
+                await ReminderManager.UpdateNotification(reminder, reminder.Medicine!);
                 Application.Current!.MainPage = new MainPage(reminder.UserId, Auth);
             }
             catch (Exception ex)

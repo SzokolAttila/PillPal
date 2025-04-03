@@ -31,13 +31,14 @@ namespace PillPalLib.APIHandlers
             var json = message.Content.ReadAsStringAsync().Result;
             return JsonSerializer.Deserialize<IEnumerable<Reminder>>(json, _options)!;
         }
-        public void CreateReminder(CreateReminderDto reminderDto, string auth)
+        public Reminder? CreateReminder(CreateReminderDto reminderDto, string auth)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", auth);
             var json = JsonSerializer.Serialize(reminderDto);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var message = _httpClient.PostAsync("PillPal/Reminder", content).Result;
             ExceptionHandler.CheckHttpResponse(message);
+            return JsonSerializer.Deserialize<Reminder>(message.Content.ReadAsStringAsync().Result, _options);
         }
         public void EditReminder(int id, CreateReminderDto reminderDto, string auth)
         {

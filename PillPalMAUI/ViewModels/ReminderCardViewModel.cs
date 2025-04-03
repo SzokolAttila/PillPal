@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using PillPalLib;
 using PillPalLib.APIHandlers;
+using PillPalMAUI.Models;
 using PillPalMAUI.Pages;
 
 namespace PillPalMAUI.ViewModels
@@ -35,6 +36,7 @@ namespace PillPalMAUI.ViewModels
         public ICommand Edit { get; set; }
         private ReminderAPIHandler _reminderAPIHandler;
         public string Auth { get; set; }
+        public Action RemoveFromScreen { get; set; }
 
         public ReminderCardViewModel()
         {
@@ -52,7 +54,8 @@ namespace PillPalMAUI.ViewModels
             if (result)
             {
                 _reminderAPIHandler.DeleteReminder(Reminder.Id, Auth); // Remove the reminder from the database
-                IsVisible = false; // Remove the reminder from the view
+                RemoveFromScreen();
+                ReminderManager.DeleteNotification(Reminder.Id);
             }
         }
 
