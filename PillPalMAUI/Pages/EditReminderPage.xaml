@@ -13,7 +13,7 @@
         
         <ScrollView Grid.Row="0">
             <FlexLayout Style="{StaticResource Container}">
-                <Button Text="Vissza" Command="{Binding Cancel}" Margin="5" WidthRequest="200" HorizontalOptions="Start" BackgroundColor="{DynamicResource ComponentBackground}" TextColor="{DynamicResource TextColor}"/>
+                <Button Text="Vissza" Command="{Binding Cancel}" Margin="5" WidthRequest="200" HorizontalOptions="Start" Style="{StaticResource SubmitButton}"/>
                 <Label Text="Emlékeztető szerkesztése" Style="{StaticResource Title}"/>
                 <BoxView Style="{StaticResource HorizontalLine}"/>
                 <SearchBar Style="{StaticResource SearchMedicine}" SearchCommand="{Binding SearchMeds}" Text="{Binding MedName}"/>

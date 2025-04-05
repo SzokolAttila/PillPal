@@ -6,8 +6,8 @@
     <ContentView.BindingContext>
         <viewmodel:ReminderCardViewModel/>
     </ContentView.BindingContext>
-    <Border StrokeShape="RoundRectangle 10,10,10,10" Margin="20,10" IsVisible="{Binding IsVisible}">
-        <Grid BackgroundColor="{DynamicResource FormBackground}">
+    <Border Style="{StaticResource FormBorder}" IsVisible="{Binding IsVisible}">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
@@ -23,47 +23,47 @@
                 Text="{Binding Reminder.When}"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" 
-                Grid.Column="1" Grid.Row="0" FontSize="Title" FontAttributes="Bold" TextColor="{DynamicResource FormTextColor}"/>
+                Grid.Column="1" Grid.Row="0" Style="{StaticResource Subtitle}"/>
             
             <VerticalStackLayout Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1">
                 <HorizontalStackLayout Margin="0,5" HorizontalOptions="CenterAndExpand">
                     <Label 
-                        Text="Gyógyszer: "
+                        Text="Gyógyszer: " Style="{StaticResource InputLabel}"
                         VerticalOptions="Center" 
-                        HorizontalOptions="Start" FontAttributes="Bold" Margin="10,0" TextColor="{DynamicResource FormTextColor}"/>
+                        HorizontalOptions="Start" FontAttributes="Bold" Margin="10,0"/>
                     <Label 
-                        Text="{Binding Reminder.Medicine.Name}"
+                        Text="{Binding Reminder.Medicine.Name}" Style="{StaticResource InputLabel}"
                         VerticalOptions="Center" 
-                        HorizontalOptions="Start" TextColor="{DynamicResource FormTextColor}"/>
+                        HorizontalOptions="Start" Margin="5"/>
                 </HorizontalStackLayout>
                 <HorizontalStackLayout Margin="0,5" HorizontalOptions="CenterAndExpand">
                     <Label 
-                        Text="Adag: "
+                        Text="Adag: " Style="{StaticResource InputLabel}"
                         VerticalOptions="Center" 
-                        HorizontalOptions="Start" FontAttributes="Bold" Margin="10,0" TextColor="{DynamicResource FormTextColor}"/>
+                        HorizontalOptions="Start" FontAttributes="Bold" Margin="10,0"/>
                     <Label 
-                        Text="{Binding Reminder.DoseCount}"
+                        Text="{Binding Reminder.DoseCount}" Style="{StaticResource InputLabel}"
                         VerticalOptions="Center" 
-                        HorizontalOptions="Start" TextColor="{DynamicResource FormTextColor}"/>
+                        HorizontalOptions="Start" Margin="5"/>
                     <Label 
-                        Text="{Binding Reminder.Medicine.PackageUnit.Name}"
+                        Text="{Binding Reminder.Medicine.PackageUnit.Name}" Style="{StaticResource InputLabel}"
                         VerticalOptions="Center" Margin="5"
-                        HorizontalOptions="Start" TextColor="{DynamicResource FormTextColor}"/>
+                        HorizontalOptions="Start"/>
                 </HorizontalStackLayout>
                 <HorizontalStackLayout Margin="0,5" HorizontalOptions="CenterAndExpand">
                     <Label 
-                        Text="Bevitel módja: "
+                        Text="Bevitel módja: " Style="{StaticResource InputLabel}"
                         VerticalOptions="Center" 
-                        HorizontalOptions="Start" FontAttributes="Bold" Margin="10,0" TextColor="{DynamicResource FormTextColor}"/>
+                        HorizontalOptions="Start" FontAttributes="Bold" Margin="10,0"/>
                     <Label 
-                        Text="{Binding Reminder.TakingMethod}"
-                        VerticalOptions="Center" 
-                        HorizontalOptions="Start" TextColor="{DynamicResource FormTextColor}"/>
+                        Text="{Binding Reminder.TakingMethod}" Style="{StaticResource InputLabel}"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Start" Margin="5"/>
                 </HorizontalStackLayout>
             </VerticalStackLayout>
-            <Button Margin="10" Text="Töröl" Grid.Column="0" Grid.Row="2" Command="{Binding Remove}" BackgroundColor="{DynamicResource ComponentBackground}" TextColor="{DynamicResource TextColor}"/>
-            <Button Margin="10" Text="Infó" Grid.Column="1" Grid.Row="2" Command="{Binding Info}" BackgroundColor="{DynamicResource ComponentBackground}" TextColor="{DynamicResource TextColor}"/>
-            <Button Margin="10" Text="Szerkeszt" Grid.Column="2" Grid.Row="2" Command="{Binding Edit}" BackgroundColor="{DynamicResource ComponentBackground}" TextColor="{DynamicResource TextColor}"/>
+            <Button Margin="10" Text="Töröl" Grid.Column="0" Grid.Row="2" Command="{Binding Remove}" Style="{StaticResource SubmitButton}"/>
+            <Button Margin="10" Text="Infó" Grid.Column="1" Grid.Row="2" Command="{Binding Info}" Style="{StaticResource SubmitButton}"/>
+            <Button Margin="10" Text="Szerkeszt" Grid.Column="2" Grid.Row="2" Command="{Binding Edit}" Style="{StaticResource SubmitButton}"/>
         </Grid>
     </Border>
 </ContentView>
