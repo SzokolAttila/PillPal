@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
@@ -21,7 +22,15 @@ namespace PillPalLib
             if (!message.IsSuccessStatusCode)
             {
                 string json = message.Content.ReadAsStringAsync().Result;
-                if (json == "" || json.Contains("https")) throw new ArgumentException(message.ReasonPhrase); // built-in IActionResult
+                switch(message.StatusCode)
+                {
+                    case HttpStatusCode.NotFound:
+                        throw new ArgumentException("Nem található.");
+                    case HttpStatusCode.Unauthorized:
+                        throw new ArgumentException("Nincs bejelentkezve.");
+                    case HttpStatusCode.Forbidden:
+                        throw new ArgumentException("Hozzáférés megtagadva.");
+                }   
 
                 string errorMessage;
                 try

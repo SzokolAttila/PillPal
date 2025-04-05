@@ -33,11 +33,11 @@ namespace PillPalAPI.Controllers
             var user = _userRepository.GetAll().FirstOrDefault(x => x.UserName == loginUser.UserName);
             if (user == null)
             {
-                return BadRequest("Invalid username or password.");
+                return BadRequest("Hibás felhasználónév vagy jelszó.");
             }
             if (!user.Matches(loginUser.Password))
             {
-                return BadRequest("Invalid username or password.");
+                return BadRequest("Hibás felhasználónév vagy jelszó.");
             }
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

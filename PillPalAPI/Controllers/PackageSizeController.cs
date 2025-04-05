@@ -49,7 +49,7 @@ namespace PillPalAPI.Controllers
         public IActionResult Post([FromBody] CreatePackageSizeDto createDto)
         {
             if (_medicineRepository.Get(createDto.MedicineId) == null)
-                return BadRequest("Medicine with the given ID doesn't exist.");
+                return BadRequest("Nem létezik gyógyszer a megadott ID-val.");
 
             var result = _validator.Validate(createDto);
             if (!result.IsValid)
@@ -63,7 +63,7 @@ namespace PillPalAPI.Controllers
 
             if (_joinRepository.Add(packageSize))
                 return Ok(packageSize);
-            return BadRequest("PackageSize with the given ID already exists.");
+            return BadRequest("Létezik már kiszerelés ezzel az ID-val.");
         }
 
         // PUT api/<PackageSizeController>/5
@@ -75,7 +75,7 @@ namespace PillPalAPI.Controllers
             if (existing == null)
                 return NotFound();
             if (_medicineRepository.Get(createDto.MedicineId) == null)
-                return BadRequest("Medicine with the given ID doesn't exist.");
+                return BadRequest("Nem létezik gyógyszer a megadott ID-val.");
 
             // Skip update if value is unchanged
             if(existing.Size == createDto.Size && existing.MedicineId == createDto.MedicineId)
@@ -96,7 +96,7 @@ namespace PillPalAPI.Controllers
 
             if (_joinRepository.Update(packageSize))
                 return Ok(packageSize);
-            return BadRequest("Something went wrong.");
+            return BadRequest("Valami hiba történt.");
         }
 
         // DELETE api/<PackageSizeController>/5

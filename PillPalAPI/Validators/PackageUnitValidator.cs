@@ -8,7 +8,7 @@ namespace PillPalAPI.Validators
     public class PackageUnitValidator : AbstractValidator<CreatePackageUnitDto>
     {
         public PackageUnitValidator() {
-            RuleFor(x => x.Name).Length(1, 20).WithMessage("A kicsomagolás mértékegysége 1 és 20 között kell, hogy legyen.");
+            RuleFor(x => x.Name).Length(1, 20).WithMessage("A kicsomagolás mértékegységének 1 és 20 karakter között kell lennie.");
         }
     }
 }

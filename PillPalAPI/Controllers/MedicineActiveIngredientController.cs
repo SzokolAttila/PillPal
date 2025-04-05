@@ -43,9 +43,9 @@ namespace PillPalAPI.Controllers
         public IActionResult Post([FromBody] CreateMedicineActiveIngredientDto createDto)
         {
             if (_medicineRepository.Get(createDto.MedicineId) == null)
-                return BadRequest("Medicine with the given ID doesn't exist.");
+                return BadRequest("Nem létezik gyógyszer a megadott ID-val.");
             if (_activeIngredientRepository.Get(createDto.ActiveIngredientId) == null)
-                return BadRequest("ActiveIngredient with the given ID doesn't exist.");
+                return BadRequest("Nem létezik hatóanyag a megadott ID-val.");
 
             var activeIngredient = new MedicineActiveIngredient()
             {
@@ -55,7 +55,7 @@ namespace PillPalAPI.Controllers
 
             if (_joinRepository.Add(activeIngredient))
                 return Ok(activeIngredient);
-            return BadRequest("MedicineActiveIngredient with the given ID already exists.");
+            return BadRequest("Létezik már gyógyszer-hatóanyag a megadott ID-val.");
         }
 
         // PUT api/<MedicineActiveIngredientController>/5
@@ -66,9 +66,9 @@ namespace PillPalAPI.Controllers
             if (_joinRepository.GetAll().FirstOrDefault(x => x.Id == id) == null)
                 return NotFound();
             if (_medicineRepository.Get(createDto.MedicineId) == null)
-                return BadRequest("Medicine with the given ID doesn't exist.");
+                return BadRequest("Nem létezik gyógyszer a megadott ID-val.");
             if (_activeIngredientRepository.Get(createDto.ActiveIngredientId) == null)
-                return BadRequest("ActiveIngredient with the given ID doesn't exist.");
+                return BadRequest("Nem létezik hatóanyag a megadott ID-val.");
 
             var activeIngredient = new MedicineActiveIngredient()
             {
@@ -79,7 +79,7 @@ namespace PillPalAPI.Controllers
 
             if (_joinRepository.Update(activeIngredient))
                 return Ok(activeIngredient);
-            return BadRequest("Something went wrong.");
+            return BadRequest("Valami hiba történt.");
         }
 
         // DELETE api/<MedicineActiveIngredientController>/5

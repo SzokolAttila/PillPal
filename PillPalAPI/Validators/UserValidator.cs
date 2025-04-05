@@ -9,12 +9,12 @@ namespace PillPalAPI.Validators
     {
         public UserValidator(IItemStore<User> data)
         {
-            RuleFor(x => x.UserName).Length(6, 20).WithMessage("Your username needs to be between 6 and 20 characters.");
-            RuleFor(x => x.UserName).Must(x => !data.GetAll().Any(y => y.UserName == x)).WithMessage("Username already in use.");
-            RuleFor(x => x.UserName).Must(x => x.All(y => char.IsAsciiLetterOrDigit(y))).WithMessage("Username can only contain letters and digits.");
+            RuleFor(x => x.UserName).Length(6, 20).WithMessage("A felhasználónévnek 6 és 20 karakter között kell lennie.");
+            RuleFor(x => x.UserName).Must(x => !data.GetAll().Any(y => y.UserName == x)).WithMessage("A felhasználónév már létezik.");
+            RuleFor(x => x.UserName).Must(x => x.All(y => char.IsAsciiLetterOrDigit(y))).WithMessage("A felhasználónév csak betűket és számokat tartalmazhat.");
             RuleFor(x => x.Password).Matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")
-                .WithMessage("Your password needs to include at least 8 characters, " +
-                "both upper and lowercase letters, a number, and a special character (@$!%*?&).");
+                .WithMessage("A jelszavadnak legalább 8 karakter hosszúnak kell lennie," +
+                " tartalmaznia kell kis- és nagybetűket, számot és speciális karaktert (@$!%*?&).");
         }
     }
 }

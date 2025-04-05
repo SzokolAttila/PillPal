@@ -53,7 +53,7 @@ namespace PillPalAPI.Controllers
 
             if (_remedyForRepository.Add(remedyFor))
                 return Ok(remedyFor);
-            return BadRequest("RemedyFor with this ID already exists.");
+            return BadRequest("Létezik már betegség ezzel az ID-val.");
         }
 
         // PUT api/<RemedyForController>/5
@@ -75,7 +75,7 @@ namespace PillPalAPI.Controllers
 
             if (_remedyForRepository.Update(remedyFor))
                 return Ok(remedyFor);
-            return BadRequest("Something went wrong.");
+            return BadRequest("Valami hiba történt.");
         }
 
         // DELETE api/<RemedyForController>/5

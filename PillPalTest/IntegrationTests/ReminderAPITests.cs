@@ -34,7 +34,7 @@ namespace PillPalTest.IntegrationTests
         {
             var userToken = GetUserToken("brownie");
             var exception = Assert.ThrowsException<ArgumentException>(() => handler.GetAll(userToken));
-            Assert.AreEqual("Forbidden", exception.Message);
+            Assert.AreEqual("Hozzáférés megtagadva.", exception.Message);
             Assert.AreEqual(0, handler.GetAll(GetAdminToken()).Count());
         }
         [TestMethod]
@@ -57,7 +57,7 @@ namespace PillPalTest.IntegrationTests
             var userToken = GetUserToken("bronwie");
             GetUserToken("jackie");
             var exception = Assert.ThrowsException<ArgumentException>(() => handler.Get(2, userToken));
-            Assert.AreEqual("Forbidden", exception.Message);
+            Assert.AreEqual("Hozzáférés megtagadva.", exception.Message);
         }
         [TestMethod]
         public void DoseCountCannotBeNegativeOrZero()
@@ -73,21 +73,21 @@ namespace PillPalTest.IntegrationTests
                 When = "14:00:50"
             };
             var exception = Assert.ThrowsException<ArgumentException>(() => handler.CreateReminder(reminder, adminToken));
-            Assert.AreEqual("Cannot add medicine with negative dose", exception.Message);
+            Assert.AreEqual("Nem adhatsz meg emlékeztetőt nulla vagy negatív adaggal.", exception.Message);
         }
         [TestMethod]
         public void CannotAddReminderToNonExistantUser()
         {
             var adminToken = GetAdminToken();
             var exception = Assert.ThrowsException<ArgumentException>(() => SeedReminder(2, adminToken));
-            Assert.AreEqual("User with the given ID doesn't exist.", exception.Message);
+            Assert.AreEqual("Nem létezik felhasználó a megadott ID-val.", exception.Message);
         }
         [TestMethod]
         public void CannotAddReminderWithNonExistantMedicine()
         {
             var adminToken = GetAdminToken();
             var exception = Assert.ThrowsException<ArgumentException>(() => SeedReminder(1, adminToken));
-            Assert.AreEqual("Medicine with the given ID doesn't exist.", exception.Message);
+            Assert.AreEqual("Nem létezik gyógyszer a megadott ID-val.", exception.Message);
         }
         [TestMethod]
         public void AdminCanCreateReminderForAnyone()
@@ -108,7 +108,7 @@ namespace PillPalTest.IntegrationTests
             var adminToken = GetAdminToken();
             SeedMedicine(adminToken);
             var exception = Assert.ThrowsException<ArgumentException>(() => SeedReminder(2, userToken));
-            Assert.AreEqual("Forbidden", exception.Message);
+            Assert.AreEqual("Hozzáférés megtagadva.", exception.Message);
         }
         [TestMethod]
         public void UserCanAddOwnReminder()
@@ -152,7 +152,7 @@ namespace PillPalTest.IntegrationTests
             SeedMedicine(adminToken);
             var exception = Assert.ThrowsException<ArgumentException>(() => 
                 handler.EditReminder(2, SeedReminder(1, adminToken), adminToken));
-            Assert.AreEqual("Not Found", exception.Message);
+            Assert.AreEqual("Nem található.", exception.Message);
         }
         [TestMethod]
         public void UserCannotEditOthersReminder()
@@ -162,7 +162,7 @@ namespace PillPalTest.IntegrationTests
             SeedMedicine(adminToken);
             var reminder = SeedReminder(1, adminToken);
             var exception = Assert.ThrowsException<ArgumentException>(() => handler.EditReminder(1, reminder, userToken));
-            Assert.AreEqual("Forbidden", exception.Message);
+            Assert.AreEqual("Hozzáférés megtagadva.", exception.Message);
         }
         [TestMethod]
         public void UserCanEditOwnReminder()
@@ -184,7 +184,7 @@ namespace PillPalTest.IntegrationTests
             var reminder = SeedReminder(2, adminToken);
             reminder.UserId = 1;
             var exception = Assert.ThrowsException<ArgumentException>(() => handler.EditReminder(1, reminder, userToken));
-            Assert.AreEqual("Forbidden", exception.Message);
+            Assert.AreEqual("Hozzáférés megtagadva.", exception.Message);
         }
         [TestMethod]
         public void AdminCanDeleteAnyReminder()
@@ -217,7 +217,7 @@ namespace PillPalTest.IntegrationTests
             SeedReminder(1, adminToken);
             Assert.AreEqual(1, handler.Get(1, adminToken).Count());
             var exception = Assert.ThrowsException<ArgumentException>(() => handler.DeleteReminder(1, userToken));
-            Assert.AreEqual("Forbidden", exception.Message);
+            Assert.AreEqual("Hozzáférés megtagadva.", exception.Message);
         }
         [TestMethod]
         public void CannotDeleteNonExistantReminder()
@@ -225,7 +225,7 @@ namespace PillPalTest.IntegrationTests
             var adminToken = GetAdminToken();
             SeedMedicine(adminToken);
             var exception = Assert.ThrowsException<ArgumentException>(() => handler.DeleteReminder(1, adminToken));
-            Assert.AreEqual("Not Found", exception.Message);
+            Assert.AreEqual("Nem található.", exception.Message);
         }
         private void CreatePackageUnit(string token)
         {

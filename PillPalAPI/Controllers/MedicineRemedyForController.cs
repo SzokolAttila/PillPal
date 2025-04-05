@@ -43,9 +43,9 @@ namespace PillPalAPI.Controllers
         public IActionResult Post([FromBody] CreateMedicineRemedyForDto createDto)
         {
             if (_medicineRepository.Get(createDto.MedicineId) == null)
-                return BadRequest("Medicine with the given ID doesn't exist.");
+                return BadRequest("Nem létezik gyógyszer a megadott ID-val.");
             if (_remedyForRepository.Get(createDto.RemedyForId) == null)
-                return BadRequest("RemedyFor with the given ID doesn't exist.");
+                return BadRequest("Nem létezik betegség a megadott ID-val.");
 
             var remedyFor = new MedicineRemedyFor()
             {
@@ -55,7 +55,7 @@ namespace PillPalAPI.Controllers
 
             if (_joinRepository.Add(remedyFor))
                 return Ok(remedyFor);
-            return BadRequest("MedicineRemedyFor with the given ID already exists.");
+            return BadRequest("Létezik már gyógyszer-betegség a megadott ID-val.");
         }
 
         // PUT api/<MedicineRemedyForController>/5
@@ -66,9 +66,9 @@ namespace PillPalAPI.Controllers
             if (_joinRepository.GetAll().FirstOrDefault(x => x.Id == id) == null)
                 return NotFound();
             if (_medicineRepository.Get(createDto.MedicineId) == null)
-                return BadRequest("Medicine with the given ID doesn't exist.");
+                return BadRequest("Nem létezik gyógyszer a megadott ID-val.");
             if (_remedyForRepository.Get(createDto.RemedyForId) == null)
-                return BadRequest("RemedyFor with the given ID doesn't exist.");
+                return BadRequest("Nem létezik betegség a megadott ID-val.");
 
             var remedyFor = new MedicineRemedyFor()
             {
@@ -79,7 +79,7 @@ namespace PillPalAPI.Controllers
 
             if (_joinRepository.Update(remedyFor))
                 return Ok(remedyFor);
-            return BadRequest("Something went wrong.");
+            return BadRequest("Valami hiba történt.");
         }
 
         // DELETE api/<MedicineRemedyForController>/5

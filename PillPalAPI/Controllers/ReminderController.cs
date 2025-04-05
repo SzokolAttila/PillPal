@@ -40,7 +40,7 @@ namespace PillPalAPI.Controllers
         public IActionResult Get(int id)
         {
             if (HttpContext.User.Identity is not ClaimsIdentity identity)
-                return BadRequest("Something went wrong.");
+                return BadRequest("Valami hiba történt.");
             var identitySid = identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid)?.Value;
             if (identitySid != id.ToString())
             {
@@ -57,7 +57,7 @@ namespace PillPalAPI.Controllers
         public IActionResult Post([FromBody] CreateReminderDto reminderDto)
         {
             if (HttpContext.User.Identity is not ClaimsIdentity identity)
-                return BadRequest("Something went wrong.");
+                return BadRequest("Valami hiba történt.");
             var identitySid = identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid)?.Value;
             if (identitySid != reminderDto.UserId.ToString())
             {
@@ -79,14 +79,14 @@ namespace PillPalAPI.Controllers
                 When = TimeOnly.Parse(reminderDto.When),
             };
             if (_userRepository.Get(reminder.UserId) == null)
-                return BadRequest("User with the given ID doesn't exist.");
+                return BadRequest("Nem létezik felhasználó a megadott ID-val.");
             if (_medicineRepository.Get(reminder.MedicineId) == null)
-                return BadRequest("Medicine with the given ID doesn't exist."); 
+                return BadRequest("Nem létezik gyógyszer a megadott ID-val."); 
             if (_reminderRepository.Add(reminder))
             {
                 return Ok(reminder);
             }
-            return BadRequest("Reminder with this ID already exists.");
+            return BadRequest("Létezik már emlékeztető ezzel az ID-val.");
         }
 
         // PUT: PillPal/<Reminder/5
@@ -98,7 +98,7 @@ namespace PillPalAPI.Controllers
                 return NotFound();
 
             if (HttpContext.User.Identity is not ClaimsIdentity identity)
-                return BadRequest("Something went wrong.");
+                return BadRequest("Valami hiba történt.");
             var identitySid = identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid)?.Value;
             if (identitySid != reminderDto.UserId.ToString() || identitySid != pastReminder.UserId.ToString())
             {
@@ -121,12 +121,12 @@ namespace PillPalAPI.Controllers
                 Id = id
             };
             if (_userRepository.Get(reminder.UserId) == null)
-                return BadRequest("User with the given ID doesn't exist.");
+                return BadRequest("Nem létezik felhasználó a megadott ID-val.");
             if (_medicineRepository.Get(reminder.MedicineId) == null)
-                return BadRequest("Medicine with the given ID doesn't exist.");
+                return BadRequest("Nem létezik gyógyszer a megadott ID-val.");
             if (_reminderRepository.Update(reminder))
                 return Ok(reminder);
-            return BadRequest("Something went wrong.");
+            return BadRequest("Valami hiba történt.");
         }
 
         // DELETE: PillPal/Reminder/5
@@ -138,7 +138,7 @@ namespace PillPalAPI.Controllers
                 return NotFound();
 
             if (HttpContext.User.Identity is not ClaimsIdentity identity)
-                return BadRequest("Something went wrong.");
+                return BadRequest("Valami hiba történt.");
             var identitySid = identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid)?.Value;
             if (identitySid != reminder.UserId.ToString())
             {
@@ -149,7 +149,7 @@ namespace PillPalAPI.Controllers
 
             if (_reminderRepository.Delete(id))
                 return NoContent();
-            return BadRequest("Something went wrong.");
+            return BadRequest("Valami hiba történt.");
         }
     }
 }

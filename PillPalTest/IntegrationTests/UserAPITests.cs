@@ -34,7 +34,7 @@ namespace PillPalTest.IntegrationTests
         {
             CreateUserDto shortUserName = new CreateUserDto() { UserName = "user", Password = "aA1?aA1?" };
             var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(shortUserName));
-            Assert.AreEqual("Your username needs to be between 6 and 20 characters.", message.Message);
+            Assert.AreEqual("A felhasználónévnek 6 és 20 karakter között kell lennie.", message.Message);
         }
 
         [TestMethod]
@@ -42,7 +42,7 @@ namespace PillPalTest.IntegrationTests
         {
             CreateUserDto usernameWithSpecialCharacters = new() { UserName = "(){}+]a", Password = "Delulu!0" };
             var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(usernameWithSpecialCharacters));
-            Assert.AreEqual("Username can only contain letters and digits.", message.Message);
+            Assert.AreEqual("A felhasználónév csak betűket és számokat tartalmazhat.", message.Message);
         }
 
         [TestMethod]
@@ -50,7 +50,7 @@ namespace PillPalTest.IntegrationTests
         {
             CreateUserDto longUserName = new CreateUserDto() { UserName = "thisisareallylongusername", Password = "aA1?aA1?" };
             var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(longUserName));
-            Assert.AreEqual("Your username needs to be between 6 and 20 characters.", message.Message);
+            Assert.AreEqual("A felhasználónévnek 6 és 20 karakter között kell lennie.", message.Message);
         }
 
         [TestMethod]
@@ -59,7 +59,7 @@ namespace PillPalTest.IntegrationTests
             CreateUserDto user = new CreateUserDto() { UserName = "username", Password = "aA1?aA1?" };
             handler.CreateUser(user);
             var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(user));
-            Assert.AreEqual("Username already in use.", message.Message);
+            Assert.AreEqual("A felhasználónév már létezik.", message.Message);
         }
 
         [TestMethod]
@@ -67,7 +67,7 @@ namespace PillPalTest.IntegrationTests
         {
             CreateUserDto shortPassword = new CreateUserDto() { UserName = "username1", Password = "aA1?" };
             var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(shortPassword));
-            Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
+            Assert.AreEqual("A jelszavadnak legalább 8 karakter hosszúnak kell lennie, tartalmaznia kell kis- és nagybetűket, számot és speciális karaktert (@$!%*?&).", message.Message);
         }
 
         [TestMethod]
@@ -75,7 +75,7 @@ namespace PillPalTest.IntegrationTests
         {
             CreateUserDto password_lowercase = new CreateUserDto() { UserName = "username2", Password = "AA1?AA1?" };
             var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(password_lowercase));
-            Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
+            Assert.AreEqual("A jelszavadnak legalább 8 karakter hosszúnak kell lennie, tartalmaznia kell kis- és nagybetűket, számot és speciális karaktert (@$!%*?&).", message.Message);
         }
 
         [TestMethod]
@@ -83,7 +83,7 @@ namespace PillPalTest.IntegrationTests
         {
             CreateUserDto password_uppercase = new CreateUserDto() { UserName = "username3", Password = "aa1?aa1?" };
             var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(password_uppercase));
-            Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
+            Assert.AreEqual("A jelszavadnak legalább 8 karakter hosszúnak kell lennie, tartalmaznia kell kis- és nagybetűket, számot és speciális karaktert (@$!%*?&).", message.Message);
         }
 
         [TestMethod]
@@ -91,7 +91,7 @@ namespace PillPalTest.IntegrationTests
         {
             CreateUserDto password_number = new CreateUserDto() { UserName = "username4", Password = "aAA?aAA?" };
             var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(password_number));
-            Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
+            Assert.AreEqual("A jelszavadnak legalább 8 karakter hosszúnak kell lennie, tartalmaznia kell kis- és nagybetűket, számot és speciális karaktert (@$!%*?&).", message.Message);
         }
 
         [TestMethod]
@@ -99,7 +99,7 @@ namespace PillPalTest.IntegrationTests
         {
             CreateUserDto password_special = new CreateUserDto() { UserName = "username5", Password = "aA1AaA1A" };
             var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateUser(password_special));
-            Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
+            Assert.AreEqual("A jelszavadnak legalább 8 karakter hosszúnak kell lennie, tartalmaznia kell kis- és nagybetűket, számot és speciális karaktert (@$!%*?&).", message.Message);
         }
 
         [TestMethod]
@@ -116,14 +116,14 @@ namespace PillPalTest.IntegrationTests
                 UserName = "username",
                 Password = "Hululu!0"
             }));
-            Assert.AreEqual("Invalid username or password.", message.Message);
+            Assert.AreEqual("Hibás felhasználónév vagy jelszó.", message.Message);
         }
 
         [TestMethod]
         public void GetAllUsersNeedsAuthorization()
         {
             var message = Assert.ThrowsException<ArgumentException>(() => handler.GetUsers(""));
-            Assert.AreEqual("Unauthorized", message.Message);
+            Assert.AreEqual("Nincs bejelentkezve.", message.Message);
         }
 
         [TestMethod]
@@ -148,7 +148,7 @@ namespace PillPalTest.IntegrationTests
             var userToken = GetUserToken("brownie");
             GetUserToken("jackie");
             var message = Assert.ThrowsException<ArgumentException>(() => handler.GetUser(2, userToken));
-            Assert.AreEqual("Forbidden", message.Message);
+            Assert.AreEqual("Hozzáférés megtagadva.", message.Message);
 
         }
 
@@ -165,7 +165,7 @@ namespace PillPalTest.IntegrationTests
             var userToken = GetUserToken("brownie");
             GetUserToken("jackie");
             var message = Assert.ThrowsException<ArgumentException>(() => handler.DeleteUser(2, userToken));
-            Assert.AreEqual("Forbidden", message.Message);
+            Assert.AreEqual("Hozzáférés megtagadva.", message.Message);
         }
 
         [TestMethod]
@@ -176,7 +176,7 @@ namespace PillPalTest.IntegrationTests
             Assert.AreEqual("username", handler.GetUser(1, userToken).UserName);
             handler.DeleteUser(1, userToken);
             var message = Assert.ThrowsException<ArgumentException>(() => handler.GetUser(1, userToken));
-            Assert.AreEqual("Not Found", message.Message);
+            Assert.AreEqual("Nem található.", message.Message);
         }
 
         [TestMethod]
@@ -196,7 +196,7 @@ namespace PillPalTest.IntegrationTests
             var adminToken = GetAdminToken();
             Assert.AreEqual("administrator", handler.GetUser(1, adminToken).UserName);
             var message = Assert.ThrowsException<ArgumentException>(() => handler.DeleteUser(2, adminToken));
-            Assert.AreEqual("Not Found", message.Message);
+            Assert.AreEqual("Nem található.", message.Message);
         }
 
         [TestMethod]
@@ -206,7 +206,7 @@ namespace PillPalTest.IntegrationTests
             GetUserToken("jackie");
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(2, 
                 new CreateUserDto() { UserName = "uetona", Password = "Delulu!0"}, userToken));
-            Assert.AreEqual("Forbidden", message.Message);
+            Assert.AreEqual("Hozzáférés megtagadva.", message.Message);
         }
 
         [TestMethod]
@@ -239,7 +239,7 @@ namespace PillPalTest.IntegrationTests
             var admin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
             Assert.AreEqual("administrator", handler.GetUser(1, adminToken).UserName);
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(2, admin, adminToken));
-            Assert.AreEqual("Not Found", message.Message);
+            Assert.AreEqual("Nem található.", message.Message);
         }
 
         [TestMethod]
@@ -251,7 +251,7 @@ namespace PillPalTest.IntegrationTests
 
             user.UserName = "user";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
-            Assert.AreEqual("Your username needs to be between 6 and 20 characters.", message.Message);
+            Assert.AreEqual("A felhasználónévnek 6 és 20 karakter között kell lennie.", message.Message);
         }
 
         [TestMethod]
@@ -263,7 +263,7 @@ namespace PillPalTest.IntegrationTests
 
             user.UserName = "[username??!?![";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken)); 
-            Assert.AreEqual("Username can only contain letters and digits.", message.Message);
+            Assert.AreEqual("A felhasználónév csak betűket és számokat tartalmazhat.", message.Message);
         }
 
         [TestMethod]
@@ -274,7 +274,7 @@ namespace PillPalTest.IntegrationTests
             handler.CreateUser(user);
             user.UserName = "thisisawaaaaaylongnameforauser";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
-            Assert.AreEqual("Your username needs to be between 6 and 20 characters.", message.Message);
+            Assert.AreEqual("A felhasználónévnek 6 és 20 karakter között kell lennie.", message.Message);
         }
 
         [TestMethod]
@@ -285,7 +285,7 @@ namespace PillPalTest.IntegrationTests
             var adminToken = GetAdminToken();
             user.UserName = "administrator";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
-            Assert.AreEqual("Username already in use.", message.Message);
+            Assert.AreEqual("A felhasználónév már létezik.", message.Message);
         }
 
         [TestMethod]
@@ -296,7 +296,7 @@ namespace PillPalTest.IntegrationTests
             var adminToken = GetAdminToken();
             user.Password = "aA1?";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
-            Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
+            Assert.AreEqual("A jelszavadnak legalább 8 karakter hosszúnak kell lennie, tartalmaznia kell kis- és nagybetűket, számot és speciális karaktert (@$!%*?&).", message.Message);
         }
 
         [TestMethod]
@@ -307,7 +307,7 @@ namespace PillPalTest.IntegrationTests
             var adminToken = GetAdminToken();
             user.Password = "aa1?aa1?";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
-            Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
+            Assert.AreEqual("A jelszavadnak legalább 8 karakter hosszúnak kell lennie, tartalmaznia kell kis- és nagybetűket, számot és speciális karaktert (@$!%*?&).", message.Message);
         }
 
         [TestMethod]
@@ -318,7 +318,7 @@ namespace PillPalTest.IntegrationTests
             var adminToken = GetAdminToken();
             user.Password = "AA1?AA1?";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
-            Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
+            Assert.AreEqual("A jelszavadnak legalább 8 karakter hosszúnak kell lennie, tartalmaznia kell kis- és nagybetűket, számot és speciális karaktert (@$!%*?&).", message.Message);
         }
 
         [TestMethod]
@@ -329,7 +329,7 @@ namespace PillPalTest.IntegrationTests
             var adminToken = GetAdminToken();
             user.Password = "aAa?aAa?";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
-            Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
+            Assert.AreEqual("A jelszavadnak legalább 8 karakter hosszúnak kell lennie, tartalmaznia kell kis- és nagybetűket, számot és speciális karaktert (@$!%*?&).", message.Message);
         }
 
         [TestMethod]
@@ -340,7 +340,7 @@ namespace PillPalTest.IntegrationTests
             var adminToken = GetAdminToken();
             user.Password = "aA11aA11";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
-            Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
+            Assert.AreEqual("A jelszavadnak legalább 8 karakter hosszúnak kell lennie, tartalmaznia kell kis- és nagybetűket, számot és speciális karaktert (@$!%*?&).", message.Message);
         }
 
         [TestMethod]
@@ -352,7 +352,7 @@ namespace PillPalTest.IntegrationTests
             user.Password = "aA1?aA1?";
             user.UserName = "user";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
-            Assert.AreEqual("Your username needs to be between 6 and 20 characters.", message.Message);
+            Assert.AreEqual("A felhasználónévnek 6 és 20 karakter között kell lennie.", message.Message);
         }
 
         [TestMethod]
@@ -364,7 +364,7 @@ namespace PillPalTest.IntegrationTests
             user.Password = "aA1?";
             user.UserName = "username4";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateUser(1, user, adminToken));
-            Assert.AreEqual("Your password needs to include at least 8 characters, both upper and lowercase letters, a number, and a special character (@$!%*?&).", message.Message);
+            Assert.AreEqual("A jelszavadnak legalább 8 karakter hosszúnak kell lennie, tartalmaznia kell kis- és nagybetűket, számot és speciális karaktert (@$!%*?&).", message.Message);
         }
         private string GetAdminToken()
         {

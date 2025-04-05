@@ -9,8 +9,8 @@ namespace PillPalAPI.Validators
     {
         public SideEffectValidator(IItemStore<SideEffect> data) 
         {
-            RuleFor(x => x.Effect).MinimumLength(3).WithMessage("Side effect is too short");
-            RuleFor(x => x.Effect).Must(x => !data.GetAll().Any(y => y.Effect == x)).WithMessage("Side effect already added");
+            RuleFor(x => x.Effect).MinimumLength(3).WithMessage("A mellékhatás neve túl rövid.");
+            RuleFor(x => x.Effect).Must(x => !data.GetAll().Any(y => y.Effect == x)).WithMessage("A mellékhatás már létezik.");
         }
     }
 }

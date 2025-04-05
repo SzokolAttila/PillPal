@@ -6,9 +6,9 @@ namespace PillPalAPI.Validators
     public class MedicineValidator : AbstractValidator<CreateMedicineDto>
     {
         public MedicineValidator() {
-            RuleFor(x => x.Name).Length(5, 30).WithMessage("Medicine name must be between 5 and 30 characters.");
-            RuleFor(x => x.Manufacturer).Length(5, 30).WithMessage("Manufacturer name must be between 5 and 30 characters.");
-            RuleFor(x => x.Description).Length(5, 255).WithMessage("Description must be between 5 and 255 characters.");
+            RuleFor(x => x.Name).Length(5, 30).WithMessage("A gyógyszer nevének 5 és 30 karakter között kell lennie.");
+            RuleFor(x => x.Manufacturer).Length(5, 30).WithMessage("A gyártó nevének 5 és 30 karakter között kell lennie.");
+            RuleFor(x => x.Description).Length(5, 255).WithMessage("A leírásnak 5 és 255 karakter között kell lennie.");
         }
     }
 }

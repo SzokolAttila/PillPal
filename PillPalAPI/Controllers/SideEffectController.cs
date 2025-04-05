@@ -53,7 +53,7 @@ namespace PillPalAPI.Controllers
 
             if (_sideEffectRepository.Add(sideEffect))
                 return Ok(sideEffect);
-            return BadRequest("SideEffect with this ID already exists.");
+            return BadRequest("Létezik mellékhatás ezzel az ID-val.");
         }
 
         // PUT api/<SideEffectController>/5
@@ -75,7 +75,7 @@ namespace PillPalAPI.Controllers
 
             if (_sideEffectRepository.Update(sideEffect))
                 return Ok(sideEffect);
-            return BadRequest("Something went wrong.");
+            return BadRequest("Valami hiba történt.");
         }
 
         // DELETE api/<SideEffectController>/5

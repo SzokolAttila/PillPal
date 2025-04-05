@@ -50,7 +50,7 @@ namespace PillPalAPI.Controllers
             
             if (_medicineRepository.Add(medicine))
                 return Ok(medicine);
-            return BadRequest("Medicine with this ID already exists.");
+            return BadRequest("Létezik már gyógyszer a megadott ID-val.");
         }
 
         // PUT PillPal/Medicine/5
@@ -68,7 +68,7 @@ namespace PillPalAPI.Controllers
 
             if (_medicineRepository.Update(medicine))
                 return Ok(medicine);
-            return BadRequest("Something went wrong.");
+            return BadRequest("Valami hiba történt.");
         }
 
         // DELETE PillPal/Medicine/5

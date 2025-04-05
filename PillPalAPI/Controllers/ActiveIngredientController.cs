@@ -54,7 +54,7 @@ namespace PillPalAPI.Controllers
 
             if (_activeIngredientRepository.Add(activeIngredient))
                 return Ok(activeIngredient);
-            return BadRequest("ActiveIngredient with this ID already exists.");
+            return BadRequest("Létezik már hatóanyag ezzel az ID-val.");
         }
 
         // PUT api/<ActiveIngredientController>/5
@@ -76,7 +76,7 @@ namespace PillPalAPI.Controllers
 
             if (_activeIngredientRepository.Update(activeIngredient))
                 return Ok(activeIngredient);
-            return BadRequest("Something went wrong.");
+            return BadRequest("Valami hiba történt.");
         }
 
         // DELETE api/<ActiveIngredientController>/5

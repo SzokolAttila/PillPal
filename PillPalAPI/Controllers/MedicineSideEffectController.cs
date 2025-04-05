@@ -41,9 +41,9 @@ namespace PillPalAPI.Controllers
         public IActionResult Post([FromBody] CreateMedicineSideEffectDto createDto)
         {
             if (_medicineRepository.Get(createDto.MedicineId) == null)
-                return BadRequest("Medicine with the given ID doesn't exist.");
+                return BadRequest("Nem létezik gyógyszer a megadott ID-val.");
             if (_sideEffectRepository.Get(createDto.SideEffectId) == null)
-                return BadRequest("SideEffect with the given ID doesn't exist.");
+                return BadRequest("Nem létezik mellékhatás a megadott ID-val.");
 
             var sideEffect = new MedicineSideEffect()
             {
@@ -53,7 +53,7 @@ namespace PillPalAPI.Controllers
 
             if (_joinRepository.Add(sideEffect))
                 return Ok(sideEffect);
-            return BadRequest("MedicineSideEffect with the given ID already exists.");
+            return BadRequest("Létezik már gyógyszer-mellékhatás ezzel az ID-val.");
         }
 
         // PUT api/<MedicineSideEffectController>/5
@@ -64,9 +64,9 @@ namespace PillPalAPI.Controllers
             if (_joinRepository.GetAll().FirstOrDefault(x => x.Id == id) == null)
                 return NotFound();
             if (_medicineRepository.Get(createDto.MedicineId) == null)
-                return BadRequest("Medicine with the given ID doesn't exist.");
+                return BadRequest("Nem létezik gyógyszer a megadott ID-val.");
             if (_sideEffectRepository.Get(createDto.SideEffectId) == null)
-                return BadRequest("SideEffect with the given ID doesn't exist.");
+                return BadRequest("Nem létezik mellékhatás a megadott ID-val.");
 
             var sideEffect = new MedicineSideEffect()
             {
@@ -77,7 +77,7 @@ namespace PillPalAPI.Controllers
 
             if (_joinRepository.Update(sideEffect))
                 return Ok(sideEffect);
-            return BadRequest("Something went wrong.");
+            return BadRequest("Valami hiba történt.");
         }
 
         // DELETE api/<MedicineSideEffectController>/5

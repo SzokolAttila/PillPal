@@ -34,9 +34,9 @@ namespace PillPalTest.IntegrationTests
             CreateMedicineDto medicine = MockMedicine();
 
             var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateMedicine(medicine, ""));
-            Assert.AreEqual("Unauthorized", message.Message);
+            Assert.AreEqual("Nincs bejelentkezve.", message.Message);
             message = Assert.ThrowsException<ArgumentException>(() => handler.CreateMedicine(medicine, userToken));
-            Assert.AreEqual("Forbidden", message.Message);
+            Assert.AreEqual("Hozzáférés megtagadva.", message.Message);
         }
 
         [TestMethod]
@@ -47,9 +47,9 @@ namespace PillPalTest.IntegrationTests
             CreateMedicineDto medicine = MockMedicine(adminToken, true);
 
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateMedicine(1, medicine, ""));
-            Assert.AreEqual("Unauthorized", message.Message);
+            Assert.AreEqual("Nincs bejelentkezve.", message.Message);
             message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateMedicine(1, medicine, userToken));
-            Assert.AreEqual("Forbidden", message.Message);
+            Assert.AreEqual("Hozzáférés megtagadva.", message.Message);
         }
 
         [TestMethod]
@@ -60,9 +60,9 @@ namespace PillPalTest.IntegrationTests
             MockMedicine(adminToken, true);
             
             var message = Assert.ThrowsException<ArgumentException>(() => handler.DeleteMedicine(1, ""));
-            Assert.AreEqual("Unauthorized", message.Message);
+            Assert.AreEqual("Nincs bejelentkezve.", message.Message);
             message = Assert.ThrowsException<ArgumentException>(() => handler.DeleteMedicine(1, userToken));
-            Assert.AreEqual("Forbidden", message.Message);
+            Assert.AreEqual("Hozzáférés megtagadva.", message.Message);
         }
 
         [TestMethod]
@@ -71,7 +71,7 @@ namespace PillPalTest.IntegrationTests
             string adminToken = GetAdminToken();
             var medicine = MockMedicine(adminToken, true);
             var message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateMedicine(100, medicine, adminToken));
-            Assert.AreEqual("Not Found", message.Message);
+            Assert.AreEqual("Nem található.", message.Message);
         }
 
         [TestMethod]
@@ -79,7 +79,7 @@ namespace PillPalTest.IntegrationTests
         {
             string adminToken = GetAdminToken();
             var message = Assert.ThrowsException<ArgumentException>(() => handler.DeleteMedicine(100, adminToken));
-            Assert.AreEqual("Not Found", message.Message);
+            Assert.AreEqual("Nem található.", message.Message);
         }
 
         [TestMethod]
@@ -125,15 +125,15 @@ namespace PillPalTest.IntegrationTests
 
             medicine.Name = "a";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateMedicine(medicine, adminToken));
-            Assert.AreEqual("Medicine name must be between 5 and 30 characters.", message.Message);
+            Assert.AreEqual("A gyógyszer nevének 5 és 30 karakter között kell lennie.", message.Message);
             message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateMedicine(1, medicine, adminToken));
-            Assert.AreEqual("Medicine name must be between 5 and 30 characters.", message.Message);
+            Assert.AreEqual("A gyógyszer nevének 5 és 30 karakter között kell lennie.", message.Message);
 
             medicine.Name = "asdmsasvaksamclkasmclkasmclkasmclkmsclakmsclksamclakmsclaksmc";
             message = Assert.ThrowsException<ArgumentException>(() => handler.CreateMedicine(medicine, adminToken));
-            Assert.AreEqual("Medicine name must be between 5 and 30 characters.", message.Message);
+            Assert.AreEqual("A gyógyszer nevének 5 és 30 karakter között kell lennie.", message.Message);
             message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateMedicine(1, medicine, adminToken));
-            Assert.AreEqual("Medicine name must be between 5 and 30 characters.", message.Message);
+            Assert.AreEqual("A gyógyszer nevének 5 és 30 karakter között kell lennie.", message.Message);
         }
 
         [TestMethod]
@@ -144,15 +144,15 @@ namespace PillPalTest.IntegrationTests
 
             medicine.Manufacturer = "a";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateMedicine(medicine, adminToken));
-            Assert.AreEqual("Manufacturer name must be between 5 and 30 characters.", message.Message);
+            Assert.AreEqual("A gyártó nevének 5 és 30 karakter között kell lennie.", message.Message);
             message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateMedicine(1, medicine, adminToken));
-            Assert.AreEqual("Manufacturer name must be between 5 and 30 characters.", message.Message);
+            Assert.AreEqual("A gyártó nevének 5 és 30 karakter között kell lennie.", message.Message);
 
             medicine.Manufacturer = "asdmsasvaksamclkasmclkasmclkasmclkmsclakmsclksamclakmsclaksmc";
             message = Assert.ThrowsException<ArgumentException>(() => handler.CreateMedicine(medicine, adminToken));
-            Assert.AreEqual("Manufacturer name must be between 5 and 30 characters.", message.Message);
+            Assert.AreEqual("A gyártó nevének 5 és 30 karakter között kell lennie.", message.Message);
             message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateMedicine(1, medicine, adminToken));
-            Assert.AreEqual("Manufacturer name must be between 5 and 30 characters.", message.Message);
+            Assert.AreEqual("A gyártó nevének 5 és 30 karakter között kell lennie.", message.Message);
         }
         private string GetAdminToken()
         {

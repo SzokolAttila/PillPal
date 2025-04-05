@@ -35,7 +35,7 @@ namespace PillPalTest.IntegrationTests
             var userToken = GetUserToken();
             var packageSize = new CreatePackageSizeDto() { MedicineId = 1, Size = 1 };
             var exception = Assert.ThrowsException<ArgumentException>(() => packageSizeHandler.CreatePackageSize(packageSize, userToken));
-            Assert.AreEqual("Forbidden", exception.Message);
+            Assert.AreEqual("Hozzáférés megtagadva.", exception.Message);
             packageSizeHandler.CreatePackageSize(packageSize, adminToken);
             Assert.AreEqual(1, packageSizeHandler.GetAll().Count());
         }
@@ -46,7 +46,7 @@ namespace PillPalTest.IntegrationTests
             CreateMedicine(adminToken);
             var packageSize = new CreatePackageSizeDto() { MedicineId = 1, Size = 0 };
             var exception = Assert.ThrowsException<ArgumentException>(() => packageSizeHandler.CreatePackageSize(packageSize, adminToken));
-            Assert.AreEqual("Package size has to be greater than 0.", exception.Message);
+            Assert.AreEqual("A kiszerelésnek nullánál nagyobbnak kell lennie.", exception.Message);
         }
         [TestMethod]
         public void CannotAddPackageSizeToNonExistantMedicine()
@@ -54,7 +54,7 @@ namespace PillPalTest.IntegrationTests
             var adminToken = GetAdminToken();
             var packageSize = new CreatePackageSizeDto() { MedicineId = 1, Size = 1 };
             var exception = Assert.ThrowsException<ArgumentException>(() => packageSizeHandler.CreatePackageSize(packageSize, adminToken));
-            Assert.AreEqual("Medicine with the given ID doesn't exist.", exception.Message);
+            Assert.AreEqual("Nem létezik gyógyszer a megadott ID-val.", exception.Message);
         }
         [TestMethod]
         public void CannotEditNonExistantPackageSize()
@@ -62,7 +62,7 @@ namespace PillPalTest.IntegrationTests
             var adminToken = GetAdminToken();
             var packageSize = new CreatePackageSizeDto() { MedicineId= 1, Size = 1 };
             var exception = Assert.ThrowsException<ArgumentException>(() => packageSizeHandler.EditPackageSize(1, packageSize, adminToken));
-            Assert.AreEqual("Not Found", exception.Message);
+            Assert.AreEqual("Nem található.", exception.Message);
         }
         [TestMethod]
         public void CannotEditToInvalidPackageSize()
@@ -73,7 +73,7 @@ namespace PillPalTest.IntegrationTests
             packageSizeHandler.CreatePackageSize(packageSize, adminToken);
             packageSize.Size = 0;
             var exception = Assert.ThrowsException<ArgumentException>(() => packageSizeHandler.EditPackageSize(1, packageSize, adminToken));
-            Assert.AreEqual("Package size has to be greater than 0.", exception.Message);
+            Assert.AreEqual("A kiszerelésnek nullánál nagyobbnak kell lennie.", exception.Message);
         }
         [TestMethod]
         public void CannotEditToDuplicatePackageSize()
@@ -85,7 +85,7 @@ namespace PillPalTest.IntegrationTests
             packageSize.Size = 2;
             packageSizeHandler.CreatePackageSize(packageSize, adminToken);
             var exception = Assert.ThrowsException<ArgumentException>(() => packageSizeHandler.EditPackageSize(1, packageSize, adminToken));
-            Assert.AreEqual("This PackageSize has already been added to this Medicine.", exception.Message);    
+            Assert.AreEqual("Ez a kiszerelés már hozzá lett adva ehhez a gyógyszerhez.", exception.Message);    
         }
         [TestMethod]
         public void AdminRoleNeededToEditPackageSize()
@@ -97,7 +97,7 @@ namespace PillPalTest.IntegrationTests
             packageSizeHandler.CreatePackageSize(packageSize, adminToken);
             packageSize.Size = 30;
             var exception = Assert.ThrowsException<ArgumentException>(() => packageSizeHandler.EditPackageSize(1, packageSize, userToken));
-            Assert.AreEqual("Forbidden", exception.Message);
+            Assert.AreEqual("Hozzáférés megtagadva.", exception.Message);
             packageSizeHandler.EditPackageSize(1, packageSize, adminToken);
             Assert.AreEqual(30, medicineHandler.GetMedicine(1).PackageSizes.ElementAt(0));
             Assert.AreEqual(30, packageSizeHandler.Get(1).First().Size);
@@ -107,7 +107,7 @@ namespace PillPalTest.IntegrationTests
         {
             var adminToken = GetAdminToken();
             var exception = Assert.ThrowsException<ArgumentException>(() => packageSizeHandler.DeletePackageSize(1, adminToken));
-            Assert.AreEqual("Not Found", exception.Message);
+            Assert.AreEqual("Nem található.", exception.Message);
         }
         [TestMethod]
         public void AdminRoleNeededToDeletePackageSize()
@@ -118,7 +118,7 @@ namespace PillPalTest.IntegrationTests
             var packageSize = new CreatePackageSizeDto() { MedicineId = 1, Size = 1 };
             packageSizeHandler.CreatePackageSize(packageSize, adminToken);
             var exception = Assert.ThrowsException<ArgumentException>(() => packageSizeHandler.DeletePackageSize(1, userToken));
-            Assert.AreEqual("Forbidden", exception.Message);
+            Assert.AreEqual("Hozzáférés megtagadva.", exception.Message);
             packageSizeHandler.DeletePackageSize(1, adminToken);
             Assert.AreEqual(0, packageSizeHandler.GetAll().Count());
         }
@@ -130,7 +130,7 @@ namespace PillPalTest.IntegrationTests
             var packageSize = new CreatePackageSizeDto() { MedicineId = 1, Size = 1 };
             packageSizeHandler.CreatePackageSize(packageSize, adminToken);
             var exception = Assert.ThrowsException<ArgumentException>(() => packageSizeHandler.CreatePackageSize(packageSize, adminToken));
-            Assert.AreEqual("This PackageSize has already been added to this Medicine.", exception.Message);
+            Assert.AreEqual("Ez a kiszerelés már hozzá lett adva ehhez a gyógyszerhez.", exception.Message);
         }
         private string GetAdminToken()
         {

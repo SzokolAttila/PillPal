@@ -6,8 +6,8 @@ namespace PillPalAPI.Validators
     {
         public PasswordValidator() {
             RuleFor(x => x).Matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")
-                .WithMessage("Your password needs to include at least 8 characters, " +
-                    "both upper and lowercase letters, a number, and a special character (@$!%*?&).");
+                .WithMessage("A jelszavadnak legalább 8 karakter hosszúnak kell lennie," +
+                " tartalmaznia kell kis- és nagybetűket, számot és speciális karaktert (@$!%*?&).");
         }
     }
 }

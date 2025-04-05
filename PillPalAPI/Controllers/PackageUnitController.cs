@@ -53,7 +53,7 @@ namespace PillPalAPI.Controllers
 
             if (_packageUnitRepository.Add(packageUnit))
                 return Ok(packageUnit);
-            return BadRequest("PackageUnit with this ID already exists.");
+            return BadRequest("Létezik már mértékegység ezzel az ID-val.");
         }
 
         // PUT api/<PackageUnit>/5
@@ -75,7 +75,7 @@ namespace PillPalAPI.Controllers
 
             if (_packageUnitRepository.Update(packageUnit))
                 return Ok(packageUnit);
-            return BadRequest("Something went wrong.");
+            return BadRequest("Valami hiba történt.");
         }
 
         // DELETE api/<PackageUnit>/5

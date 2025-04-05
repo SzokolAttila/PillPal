@@ -35,7 +35,7 @@ namespace PillPalAPI.Controllers
         public IActionResult Get(int id)
         {
             if (HttpContext.User.Identity is not ClaimsIdentity identity)
-                return BadRequest("Something went wrong.");
+                return BadRequest("Valami hiba történt.");
             var identitySid = identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid)?.Value;
             if (identitySid != id.ToString())
             {
@@ -60,7 +60,7 @@ namespace PillPalAPI.Controllers
             var user = new User(userDto.UserName, userDto.Password);
             if (_userRepository.Add(user))
                 return Ok(user);
-            return BadRequest("User with this ID already exists.");
+            return BadRequest("Létezik felhasználó ezzel az ID-val.");
         }
 
         // PUT PillPal/User/5
@@ -68,7 +68,7 @@ namespace PillPalAPI.Controllers
         public IActionResult Put(int id, [FromBody] CreateUserDto userDto)
         {
             if (HttpContext.User.Identity is not ClaimsIdentity identity)
-                return BadRequest("Something went wrong.");
+                return BadRequest("Valami hiba történt.");
             var identitySid = identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid)?.Value;
             if (identitySid != id.ToString())
             {
@@ -96,7 +96,7 @@ namespace PillPalAPI.Controllers
             var user = new User(id, userDto.UserName, userDto.Password);
             if (_userRepository.Update(user))
                 return Ok(user);
-            return BadRequest("Something went wrong.");
+            return BadRequest("Valami hiba történt.");
         }
 
         // DELETE PillPal/User/5
@@ -104,7 +104,7 @@ namespace PillPalAPI.Controllers
         public IActionResult Delete(int id)
         {
             if (HttpContext.User.Identity is not ClaimsIdentity identity)
-                return BadRequest("Something went wrong.");
+                return BadRequest("Valami hiba történt.");
             var identitySid = identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid)?.Value;
             if (identitySid != id.ToString())
             {

@@ -34,13 +34,13 @@ namespace PillPalTest.IntegrationTests
             var activeIngredient = new CreateActiveIngredientDto() { Ingredient = "Caffeine" };
             var exception = Assert.ThrowsException<ArgumentException>(
                 () => activeIngredientHandler.CreateActiveIngredient(activeIngredient, userToken));
-            Assert.AreEqual("Forbidden", exception.Message);
+            Assert.AreEqual("Hozzáférés megtagadva.", exception.Message);
             activeIngredientHandler.CreateActiveIngredient(activeIngredient, adminToken);
             Assert.AreEqual(1, activeIngredientHandler.GetAll().Count());
             var medicineActiveIngredient = new CreateMedicineActiveIngredientDto() { MedicineId = 1, ActiveIngredientId = 1 };
             exception = Assert.ThrowsException<ArgumentException>(
                 () => medicineActiveIngredientHandler.CreateMedicineActiveIngredient(medicineActiveIngredient, userToken));
-            Assert.AreEqual("Forbidden", exception.Message);
+            Assert.AreEqual("Hozzáférés megtagadva.", exception.Message);
             medicineActiveIngredientHandler.CreateMedicineActiveIngredient(medicineActiveIngredient, adminToken);
             Assert.AreEqual("Caffeine", medicineHandler.GetMedicine(1).ActiveIngredients.ElementAt(0));
         }
@@ -51,7 +51,7 @@ namespace PillPalTest.IntegrationTests
             CreateMedicine(adminToken);
             var activeIngredient = new CreateActiveIngredientDto() { Ingredient = "ue" };
             var exception = Assert.ThrowsException<ArgumentException>(() => activeIngredientHandler.CreateActiveIngredient(activeIngredient, adminToken));
-            Assert.AreEqual("Ingredient name is too short.", exception.Message);
+            Assert.AreEqual("A hatóanyag neve túl rövid.", exception.Message);
         }
         [TestMethod]
         public void ActiveIngredientNeedsToBeUnique()
@@ -61,7 +61,7 @@ namespace PillPalTest.IntegrationTests
             var activeIngredient = new CreateActiveIngredientDto() { Ingredient = "Caffeine" };
             activeIngredientHandler.CreateActiveIngredient(activeIngredient, adminToken);
             var exception = Assert.ThrowsException<ArgumentException>(() => activeIngredientHandler.CreateActiveIngredient(activeIngredient, adminToken));
-            Assert.AreEqual("Active ingredient already added.", exception.Message);
+            Assert.AreEqual("A hatóanyag már létezik.", exception.Message);
         }
         [TestMethod]
         public void CannotAddActiveIngredientToNonExistantMedicine()
@@ -72,7 +72,7 @@ namespace PillPalTest.IntegrationTests
             var medicineActiveIngredient = new CreateMedicineActiveIngredientDto() { MedicineId = 1, ActiveIngredientId = 1 };
             var exception = Assert.ThrowsException<ArgumentException>(
                 () => medicineActiveIngredientHandler.CreateMedicineActiveIngredient(medicineActiveIngredient, adminToken));
-            Assert.AreEqual("Medicine with the given ID doesn't exist.", exception.Message);
+            Assert.AreEqual("Nem létezik gyógyszer a megadott ID-val.", exception.Message);
         }
         [TestMethod]
         public void CannotAddNonExistantActiveIngredientToMedicine()
@@ -82,7 +82,7 @@ namespace PillPalTest.IntegrationTests
             var medicineActiveIngredient = new CreateMedicineActiveIngredientDto() { MedicineId = 1, ActiveIngredientId = 1 };
             var exception = Assert.ThrowsException<ArgumentException>(
                 () => medicineActiveIngredientHandler.CreateMedicineActiveIngredient(medicineActiveIngredient, adminToken));
-            Assert.AreEqual("ActiveIngredient with the given ID doesn't exist.", exception.Message);
+            Assert.AreEqual("Nem létezik hatóanyag a megadott ID-val.", exception.Message);
         }
         [TestMethod]
         public void AdminRoleNeededToEditActiveIngredient()
@@ -96,7 +96,7 @@ namespace PillPalTest.IntegrationTests
             medicineActiveIngredientHandler.CreateMedicineActiveIngredient(medicineActiveIngredient, adminToken);
             activeIngredient.Ingredient = "diclofenac";
             var exception = Assert.ThrowsException<ArgumentException>(() => activeIngredientHandler.EditActiveIngredient(1, activeIngredient, userToken));
-            Assert.AreEqual("Forbidden", exception.Message);
+            Assert.AreEqual("Hozzáférés megtagadva.", exception.Message);
             activeIngredientHandler.EditActiveIngredient(1, activeIngredient, adminToken);
             Assert.AreEqual("diclofenac", medicineHandler.GetMedicine(1).ActiveIngredients.ElementAt(0));
             Assert.AreEqual("diclofenac", activeIngredientHandler.Get(1).Ingredient);
@@ -105,7 +105,7 @@ namespace PillPalTest.IntegrationTests
             medicineActiveIngredient.ActiveIngredientId = 2;
             exception = Assert.ThrowsException<ArgumentException>(
                 () => medicineActiveIngredientHandler.EditMedicineActiveIngredient(1, medicineActiveIngredient, userToken));
-            Assert.AreEqual("Forbidden", exception.Message);
+            Assert.AreEqual("Hozzáférés megtagadva.", exception.Message);
             medicineActiveIngredientHandler.EditMedicineActiveIngredient(1, medicineActiveIngredient, adminToken);
             Assert.AreEqual(2, medicineActiveIngredientHandler.Get(1).First().ActiveIngredientId);
             Assert.AreEqual("caffeine", medicineHandler.GetMedicine(1).ActiveIngredients.First());
@@ -116,7 +116,7 @@ namespace PillPalTest.IntegrationTests
             var adminToken = GetAdminToken();
             var activeIngredient = new CreateActiveIngredientDto() { Ingredient = "Caffeine " };
             var exception = Assert.ThrowsException<ArgumentException>(() => activeIngredientHandler.EditActiveIngredient(1, activeIngredient, adminToken));
-            Assert.AreEqual("Not Found", exception.Message);
+            Assert.AreEqual("Nem található.", exception.Message);
         }
         [TestMethod]
         public void AdminRoleNeededToDeleteActiveIngredient()
@@ -130,11 +130,11 @@ namespace PillPalTest.IntegrationTests
             var medicineActiveIngredient = new CreateMedicineActiveIngredientDto() { MedicineId = 1, ActiveIngredientId = 1 };
             medicineActiveIngredientHandler.CreateMedicineActiveIngredient(medicineActiveIngredient, adminToken);
             var exception = Assert.ThrowsException<ArgumentException>(() => medicineActiveIngredientHandler.DeleteMedicineActiveIngredient(1, userToken));
-            Assert.AreEqual("Forbidden", exception.Message);
+            Assert.AreEqual("Hozzáférés megtagadva.", exception.Message);
             medicineActiveIngredientHandler.DeleteMedicineActiveIngredient(1, adminToken);
             Assert.AreEqual(0, medicineHandler.GetMedicine(1).ActiveIngredients.Count());
             exception = Assert.ThrowsException<ArgumentException>(() => activeIngredientHandler.DeleteActiveIngredient(1, userToken));
-            Assert.AreEqual("Forbidden", exception.Message);
+            Assert.AreEqual("Hozzáférés megtagadva.", exception.Message);
             activeIngredientHandler.DeleteActiveIngredient(1, adminToken);
             Assert.AreEqual(0, activeIngredientHandler.GetAll().Count());
             Assert.AreEqual(0, medicineActiveIngredientHandler.GetAll().Count());
@@ -144,7 +144,7 @@ namespace PillPalTest.IntegrationTests
         {
             var adminToken = GetAdminToken();
             var exception = Assert.ThrowsException<ArgumentException>(() => activeIngredientHandler.DeleteActiveIngredient(1, adminToken));
-            Assert.AreEqual("Not Found", exception.Message);
+            Assert.AreEqual("Nem található.", exception.Message);
         }
         private string GetAdminToken()
         {
