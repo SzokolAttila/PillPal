@@ -10,10 +10,17 @@ using System.Threading.Tasks;
 namespace PillPalMAUI.ViewModels
 {
     class ThemeSwitchViewModel : ViewModelBase
-    {
+    { 
         public ThemeSwitchViewModel()
         {
-
+            if (Preferences.Default.ContainsKey("Theme"))
+            {
+                if (Preferences.Default.Get("Theme", "Light") == "Dark")
+                    IsToggled = false;
+                else
+                    IsToggled = true;
+            }
+            else Preferences.Set("Theme", "Light");
         }
         private static bool isToggled = true;
         public bool IsToggled
@@ -37,6 +44,7 @@ namespace PillPalMAUI.ViewModels
                     dictionaries.Add(new DarkTheme());
                 else dictionaries.Add(new LightTheme());
             }
+            Preferences.Set("Theme", isToggled ? "Light" : "Dark");
             Application.Current!.UserAppTheme = isToggled ? AppTheme.Light : AppTheme.Dark;
         }
     }
