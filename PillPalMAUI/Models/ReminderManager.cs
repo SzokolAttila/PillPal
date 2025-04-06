@@ -24,7 +24,8 @@ namespace PillPalMAUI.Models
                 Schedule = new NotificationRequestSchedule
                 {
                     NotifyTime = DateTime.Today.Add(reminder.When.ToTimeSpan()),
-                    RepeatType = NotificationRepeat.Daily
+                    NotifyRepeatInterval = TimeSpan.FromDays(1),
+                    RepeatType = NotificationRepeat.TimeInterval
                 },
                 Android = new()
                 {
