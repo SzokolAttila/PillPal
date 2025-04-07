@@ -198,6 +198,12 @@
 | System test | User can be deleted | Start up the container, register an admin via api handler, open the root page, login, go to users page | Press delete on one of the users, and when the confirmation window pops up, press OK | A pop-up will appear with 'Sikeresen törölve!' text, then that user will disappear (the number of users will decrease by one)  |
 | System test | Admin user can be deleted | Start up the container, register an admin via api handler, open the root page, login, go to users page | Press delete on the administrator, and when the confirmation window pops up, press OK | Pop-up will appear with successful delete text, administrator will disappear, then you will be logged out with a pop-up that states that the admin user has been deleted |
 
+### New medicine page Selenium tests
+| Scope | Description | Preparations | Actions | Expected result |
+| ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
+| System test | Empty form displays four errors | Start up the container, register an admin via api handler, open the root page, login, go to new medicine page | Press submit | Four red error messages will appear |
+| System test | Error message appears at incorrect length | Start up the container, register an admin via api handler, open the root page, login, go to new medicine page | Type something into one of the fields that doesn't match the necessary length of the field | An error message will appear stating the required length of field |
+| System test | Medicine can be created | Start up the container, register an admin via api handler, open the root page, login, go to new medicine page | Fill the form with correct data and press submit | Alert will appear saying the upload was successful |
 
 ## GUI tests (mobile app manual testing)
 | Scope | Description | Preparations | Actions | Expected result |
