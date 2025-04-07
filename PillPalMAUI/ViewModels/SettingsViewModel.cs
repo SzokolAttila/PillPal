@@ -35,6 +35,8 @@ namespace PillPalMAUI.ViewModels
         {
             if (await Application.Current!.MainPage!.DisplayAlert("Kijelentkezés", "Biztosan ki akar jelentkezni?", "Igen", "Mégse"))
             {
+                SecureStorage.Default.Remove("UserId");
+                SecureStorage.Default.Remove("Token");
                 Application.Current!.MainPage = new LoginPage();
                 await Application.Current.MainPage.DisplayAlert("Kijelentkezve", "Sikeres kijelentkezés!", "OK");
             }
@@ -43,6 +45,8 @@ namespace PillPalMAUI.ViewModels
         {
             if(await Application.Current!.MainPage!.DisplayAlert("Fiók törlése", "Biztosan törölni akarja a fiókját? Ez a művelet végleges.", "Igen", "Mégse"))
             {
+                SecureStorage.Default.Remove("UserId");
+                SecureStorage.Default.Remove("Token");
                 handler.DeleteUser(UserId, Auth);
                 Application.Current!.MainPage = new LoginPage();
                 await Application.Current.MainPage.DisplayAlert("Törölt fiók", "Fiók sikeresen törölve.", "OK");
