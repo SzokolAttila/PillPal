@@ -153,6 +153,17 @@
 | System test | Page doesnt let user in if permission level is wrong | Start up container and register a general user via api handler | Try to log in the user with the proper password | Website throws error of permission denied |
 | System test | Login button redirects on proper data | Start up container and register the admin via api handler | Try to log in the admin with the proper password | Website redirects to the users page |
 
+### Navbar Selenium tests
+| Scope | Description | Preparations | Actions | Expected result |
+| ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
+| System test | Sidebar shows with its proper data | Start up the container | Open the root page | Navbar shows PillPal logo, users button, new medicine button, new medicine data button, edit medicine button and logout button |
+| System test | If not logged in, pages redirect to login | Start up the container and open the root page | Click on new medicine button | At the end it redirects back to login page |
+| System test | If logged in sidebar users button redirect to users page | Start up the container, register the admin via api handler and login admin | Click on user button | Redirects to users page |
+| System test | If logged in sidebar new medicine button redirect to users page | Start up the container, register the admin via api handler and login admin | Click on new medicine button | Redirects to new medicine page |
+| System test | If logged in sidebar new medicine data button redirect to users page | Start up the container, register the admin via api handler and login admin | Click on new medicine data button | Redirects to new medicine data page |
+| System test | If logged in sidebar medicine edit button redirect to users page | Start up the container, register the admin via api handler and login admin | Click on medicine edit button | Redirects to medicine edit page |
+| System test | If logged in sidebar logout button logs admin out | Start up the container, register the admin via api handler and login admin | Click on logout button, click on users button | Redirects to login page instead of users page |
+
 ### GUI tests (manual testing)
 | Scope | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
