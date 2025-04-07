@@ -12,9 +12,11 @@ User class consists of Id, Username and Password properties. Our password is a b
 ### Medicine
 Medicine class consists of Id, Name, Description, Manufacturer, PackageUnit, PackageSizes, SideEffects, ActiveIngredients and RemedyForAilments properties. PackageUnit stores the unit of the medicine's PackageSizes which is either "ml" or "mg". PackageSizes, SideEffects, ActiveIngredients and RemedyForAilments are multi-valued fields so they have a separate table and joined together with medicine. Medicine class has 2 constructors: one JsonConstructor with id and one constructor without id. Multi-valued fields are set from outside and not from constructor.
 ### Reminder
-Reminder table is a join-table itself so its class behaves the same way. It has the following properties: Id, UserId, User, MedicineId, Medicine, When, DoseCount, DoseMg, TakingMethod. User and Medicine properties are nullable as they're set from outside based on UserId and MedicineId. DoseCount stores the quantity to take in and TakingMethod stores how to take it in. 
+Reminder table is a join-table itself so its class behaves the same way. It has the following properties: Id, UserId, User, MedicineId, Medicine, When, DoseCount, TakingMethod. User and Medicine properties are nullable as they're set from outside based on UserId and MedicineId. DoseCount stores the quantity to take in and TakingMethod stores how to take it in. 
 ### PackageSize 
 This class, as all other classes, derives from IIdentified. It has three properties: Id, MedicineId and Size. This class serves as a join table for the package sizes of each medicine, and it is from here that each medicine receives its packageSizes.
+### PackageUnit 
+This class, as all other classes, derives from IIdentified. It has two properties: Id and Name. This class is for storing all the PackageUnit from where Medicine gets its unit.
 ### SideEffect
 Derived from IIdentified. Properties: Id, Effect, MedicineSideEffects and Medicines. The first two properties contain useful data, while the rest are Lists that are required in order for the join table to function properly and connect Medicines with SideEffects. These lists are ignored by the json serializer.
 ### ActiveIngredient
@@ -55,7 +57,7 @@ Methods:
 #### UserAPIHandler
 Through constructor base url and HttpClient can be passed to make testing easier for us. If HttpClient is not given then it is created with the base url.
 Methods: 
-- **Login(CreateUserDto user)** method which posts a login with the given username and password, then returns the bearer token on success.
+- **Login(CreateUserDto user)** method which posts a login with the given username and password, then returns the bearer token with the user id on success.
 - **GetUser(int id, string auth)** method sets given authentication in header as you need to be admin or the user themself who's data is accessed. Returns the user with the given id. Throws error if something goes wrong with the request. 
 - **GetUsers(string auth)** method sets given authentication in header as you need to be admin to access all users. Returns all users' data. Throws exception in case of any issue.
 - **CreateUser(CreateUserDto user)** void method posts the serialized User object, this way user can registrate a new account. In case of any issues function throws exception (usually it somehow connects to validation).
@@ -132,10 +134,10 @@ In this project we use DTOs solely for the purpose of regulating data that gets 
 Has only two properties: Username and Password. After posting this to the database, the password gets hashed and is stored in that format for obvious security reasons.
 
 #### CreateReminderDto
-This DTO is a bit more complex than the previous one. It consists of two foreign keys (UserId and MedicineId) and four other properties (When, DoseCount, DoseMg, TakingMethod).
+This DTO is a bit more complex than the previous one. It consists of two foreign keys (UserId and MedicineId) and four other properties (When, DoseCount, TakingMethod).
 
 #### CreateMedicineDto 
-As its name suggests, it is used for creating Medicines. Consists of four properties (Name, Description, PackageUnit, Manufacturer).
+As its name suggests, it is used for creating Medicines. Consists of four properties (Name, Description, PackageUnitId, Manufacturer).
 
 #### CreateSideEffectDto
 Since SideEffect objects are quite simple, this class is only made up of a single property, Effect.
@@ -158,6 +160,9 @@ Used to create a join table entry for the MedicineRemedyFor table, which joins t
 #### CreatePackageSizeDto
 This class is different from the rest of the join table classes, because it doesn't join two tables together, only complements data to the Medicine table. Properties: MedicineId, Size.
 
+#### CreatePackageUnitDto
+This class is joined to the Medicine in one-to-many relation with each Medicine only having one PackageUnit. Properties: Name.
+
 ## WebAPI
 ### Validators
 We use different validators for each model, so we can check if user adds a new item or modifies an existing one in the proper way. Controllers get the validators via dependency injection and validates data passed in body for POST and PUT requests.
@@ -166,18 +171,17 @@ User validator can be used to validate CreateUserDto object and has the followin
 - Username needs to be between 6 and 20 characters;
 - Username must be unique;
 - Username must only consist of digits and letters;
-- Password must contain at least one digit, one lowercase letter, one uppercase letter, one special character be at least 8 characters long to make sure its secure enough.
+- Password must contain at least one digit, one lowercase letter, one uppercase letter, one special character and be at least 8 characters long to make sure its secure enough.
 #### PasswordValidator
 Password validator can be used to validate a string value and has the following rules:
-- Password must contain at least one digit, one lowercase letter, one uppercase letter, one special character be at least 8 characters long to make sure its secure enough.
+- Password must contain at least one digit, one lowercase letter, one uppercase letter, one special character and be at least 8 characters long to make sure its secure enough.
 #### MedicineValidator
 Medicine validator can be used to validate CreateMedicineDto and has the following rules:
 - Medicine name must be between 5 and 30 characters;
 - Medicine's manufacturer name must be between 5 and 30 characters;
-- Medicine's package unit must be either mg or ml as we only measure medicine in these two units.
+- Medicine's description needs to be between 5 and 255 characters.
 #### ReminderValidator
 Reminder validator can be used to validate CreateReminderDto and has the following rules:
-- Reminder's DoseMg must be greater than 0 as it would make no sense otherwise;
 - Reminder's DoseCount must be greater than 0 as it would make no sense otherwise.
 #### ActiveIngredientValidator
 ActiveIngredient validator can be used to validate CreateActiveIngredientDto and has the following rules:
@@ -194,6 +198,10 @@ RemedyFor validator can be used to validate CreateRemedyForDto and has the follo
 #### PackageSizeValidator
 PackageSize validator can be used to validate CreatePackageSizeDto and has the following rules:
 - PackageSize's Size must be greater than zero.
+- PackageSize needs to be unique per medicine.
+#### PackageUnitValidator
+PackageUnit validator can be used to validate CreatePackageUnitDto and has the following rules:
+- PackageUnit's name needs to be between 1 and 20 characters.
 
 ### Controllers
 We use controllers for each model to generate endpoints for the API. Controllers handle the proper validation of the data, so they get the matching validator from dependency injection in constructor. As we are aware of different access levels and we have a log in system we assess the required authorization in controllers. Controllers manipulate only their own repository via dependency injection to fulfill single-responsibility.
