@@ -26,12 +26,6 @@ namespace PillPalMAUI.ViewModels
             }
 		}
 
-        public ICommand SearchMeds => new Command(() =>
-        {
-            Searched = new ObservableCollection<Medicine>(medHandler.GetMedicines()
-                .Where(x=>x.Name.ToLower().Contains(MedName.ToLower())));
-        });
-
         private ObservableCollection<Medicine> searched;
 
         public ObservableCollection<Medicine> Searched
@@ -45,7 +39,13 @@ namespace PillPalMAUI.ViewModels
         public string MedName
         {
             get { return medName; }
-            set { medName = value; Changed(); }
+            set 
+            { 
+                medName = value;
+                Searched = new ObservableCollection<Medicine>(_allMedicines
+                    .Where(x => x.Name.Contains(MedName, StringComparison.CurrentCultureIgnoreCase)));
+                Changed(); 
+            }
         }
 
 
@@ -83,11 +83,13 @@ namespace PillPalMAUI.ViewModels
         private readonly ReminderAPIHandler handler;
         private readonly MedicineAPIHandler medHandler;
         private readonly string Auth;
-
+        private readonly IEnumerable<Medicine> _allMedicines;
         public EditReminderViewModel(Reminder reminder)
 		{
             handler = new();
             medHandler = new();
+            _allMedicines = medHandler.GetMedicines();
+            Searched = new ObservableCollection<Medicine>(_allMedicines.OrderBy(x => x.Name));
             Reminder = reminder;
             When = new TimeSpan(Reminder.When.Hour, Reminder.When.Minute, 0);
             Modify = new Command(ModifyReminder);

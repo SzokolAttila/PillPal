@@ -18,9 +18,11 @@ namespace PillPalMAUI.ViewModels
         private readonly ReminderAPIHandler _reminderHandler = new();  
         public string Auth { get; set; } = string.Empty;
         public int UserId { get; set; }
+        private readonly IEnumerable<Medicine> _allMedicines;
         public NewReminderViewModel()
         {
-            Medicines = _medicineHandler.GetMedicines().OrderBy(x => x.Name);
+            _allMedicines = _medicineHandler.GetMedicines();
+            Medicines = _allMedicines.OrderBy(x => x.Name);
             CreateReminder = new Command(CreateNewReminder);
             if (SecureStorage.Default.GetAsync("Token").Result == null)
             {
@@ -97,11 +99,11 @@ namespace PillPalMAUI.ViewModels
             {
                 medicineName = value;
                 if (medicineName == string.Empty)
-                    Medicines = _medicineHandler.GetMedicines()
+                    Medicines = _allMedicines
                         .OrderBy(x => x.Name);
                 else
                 {
-                    Medicines = _medicineHandler.GetMedicines()
+                    Medicines = _allMedicines
                     .Where(x => x.Name.Contains(medicineName, StringComparison.CurrentCultureIgnoreCase))
                     .OrderBy(x => x.Name);
                 }
