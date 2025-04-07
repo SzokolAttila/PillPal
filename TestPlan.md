@@ -36,7 +36,7 @@
 
 ### ReminderAPI tests (validator and authorization)
 
-| Scope  | Description | Preparations | Actions | Expected result |
+| Scope | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
 | Integration test | Admin can get all reminders | Create admin user | Getting all the reminders returns them in a list | True |
 | Integration test | User cannot get all reminders | Create user | Getting all the reminders throws an argument exception | Forbidden |
@@ -113,7 +113,7 @@
 | Integration test | Cannot edit / delete non-existant package size | Create an admin user | Try to edit / delete the package size without adding it first | Not Found exception | 
 
 ### RemedyForAPI tests (authorization, validation and join table configuration (medicineRemedyFor also included))
-| Scope  | Description | Preparations | Actions | Expected result |
+| Scope | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
 | Integration test | Admin role needed to create remedyFor (and medicineRemedyFor) | Create an admin user, a simple user and a medicine | Try adding a remedyFor (and then a medicineRemedyFor) first with user token, then with admin token | Throws a Forbidden error when attempting with user token |
 | Integration test | Cannot add remedyFor if the ailment's length is less than 3 | Create an admin user and a medicine | Try posting a remedyFor with the ailment's length less than 3 | Validation exception will be thrown | 
@@ -124,7 +124,7 @@
 | Integration test | Cannot edit / delete non-existant remedyFor / medicineRemedyFor | Create an admin user | Try to edit / delete a remedyFor / medicineRemedyFor without adding it first | Not Found error | 
 
 ### SideEffectAPI tests (authorization, validation and join table configuration (medicineSideEffect also included))
-| Scope  | Description | Preparations | Actions | Expected result |
+| Scope | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
 | Integration test | Admin role needed to create sideEffect (and medicineSideEffect) | Create an admin user, a simple user and a medicine | Try adding a sideEffect (and then a medicineSideEffect) first with user token, then with admin token | Throws a Forbidden error when attempting with user token |
 | Integration test | Cannot add sideEffect if the effect's length is less than 3 | Create an admin user and a medicine | Try posting a sideEffect with the effect's length less than 3 | Validation exception will be thrown | 
@@ -135,7 +135,7 @@
 | Integration test | Cannot edit / delete non-existant sideEffect / medicineSideEffect | Create an admin user | Try to edit / delete a sideEffect / medicineSideEffect without adding it first | Not Found error | 
 
 ### ActiveIngredientAPI tests (authorization, validation and join table configuration (medicineActiveIngredient also included))
-| Scope  | Description | Preparations | Actions | Expected result |
+| Scope | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
 | Integration test | Admin role needed to create activeIngredient (and medicineActiveIngredient) | Create an admin user, a simple user and a medicine | Try adding an activeIngredient (and then a medicineActiveIngredient) first with user token, then with admin token | Throws a Forbidden error when attempting with user token |
 | Integration test | Cannot add activeIngredient if the ingredient's length is less than 3 | Create an admin user and a medicine | Try posting an activeIngredient with the ingredient's length less than 3 | Validation exception will be thrown | 
@@ -145,8 +145,16 @@
 | Integration test | Admin role needed to edit / delete activeIngredient | Create an admin user, a simple user, a medicine, an activeIngredient and a medicineActiveIngredient | Try editing / deleting the activeIngredient (and the medicineActiveIngredient) first with user token, then with admin token | First attempt will throw Forbidden error, the second one will succeed | 
 | Integration test | Cannot edit / delete non-existant activeIngredient / medicineActiveIngredient | Create an admin user | Try to edit / delete an activeIngredient / medicineActiveIngredient without adding it first | Not Found error | 
 
+### Login page Selenium tests
+| Scope | Description | Preparations | Actions | Expected result |
+| ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
+| System test | Root page is login page | Start up container | Open the root page | Title and input fields are shown |
+| System test | Page doesnt let user in if password is wrong | Start up container and register an admin via api handler | Try to log in with the wrong password | Website throws error of wrong password |
+| System test | Page doesnt let user in if permission level is wrong | Start up container and register a general user via api handler | Try to log in the user with the proper password | Website throws error of permission denied |
+| System test | Login button redirects on proper data | Start up container and register the admin via api handler | Try to log in the admin with the proper password | Website redirects to the users page |
+
 ### GUI tests (manual testing)
-| Scope  | Description | Preparations | Actions | Expected result |
+| Scope | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
 | System test | Register result will show pop-up window | Open register tab | Register user with invalid data | Pop-up will be shown with the details of the error |
 | System test | Register result will show pop-up window | Open register tab | Register user with valid data | Pop-up will be shown with a "Successful registration" text |
