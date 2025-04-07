@@ -1,5 +1,7 @@
 # PillPal Test Plan
 
+## Unit tests
+
 ### User tests (password hashing)
 
 | Scope  | Description | Preparations | Actions | Expected result |
@@ -17,6 +19,8 @@
 | Component test | Items can be removed | Initialize an IDCollection with an item | Remove at existing id; remove at non existing id; check count | returns true; returns false; count is 0 |
 | Component test | Existing item can be updated | Initialize empty IDCollection and add medicine to it; Changing medicine name and replacing it | Get the medicine's name from IDCollection | Medicine's name is the changed name |
 | Component test | Updating or deleting non existing item returns false | Create an empty IDCollection | Remove from empty collection; updating empty collection | both returns false |
+
+## API tests
 
 ### MedicineAPI tests (Authorization and validation)
 
@@ -145,6 +149,8 @@
 | Integration test | Admin role needed to edit / delete activeIngredient | Create an admin user, a simple user, a medicine, an activeIngredient and a medicineActiveIngredient | Try editing / deleting the activeIngredient (and the medicineActiveIngredient) first with user token, then with admin token | First attempt will throw Forbidden error, the second one will succeed | 
 | Integration test | Cannot edit / delete non-existant activeIngredient / medicineActiveIngredient | Create an admin user | Try to edit / delete an activeIngredient / medicineActiveIngredient without adding it first | Not Found error | 
 
+## Selenium tests
+
 ### Login page Selenium tests
 | Scope | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
@@ -184,8 +190,16 @@
 | System test | Trying to create duplicated RemedyFor doesnt add RemedyFor to api | Start up the container, register an admin via api handler, open the root page, login, go to medicine data page and add RemedyFor if doesnt exist | Enter the same new ailment name and add it | Alert window shows up |
 | System test | Creating RemedyFor with wrong name shows validation message | Start up the container, register an admin via api handler, open the root page, login, go to medicine data page and remove RemedyFor if already exists | Enter an improper new ailment name and try to add it | Validation message shows up |
 | System test | Editing RemedyFor modifies RemedyFor in api | Start up the container, register an admin via api handler, open the root page, login, go to medicine data page, create a RemedyFor if doesnt exist and delete the RemedyFor what we want to modify to if it exists | Search for the created ailment, then change its name and save it | Getting all the ailments contains changed value |
+### Users page Selenium tests
+| Scope | Description | Preparations | Actions | Expected result |
+| ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
+| System test | Typing in the searchbar filters users | Start up the container, register an admin via api handler, open the root page, login, go to users page | Type a letter | Only users whose name includes that specific letter will appear |
+| System test | User deletion can be canceled | Start up the container, register an admin via api handler, open the root page, login, go to users page | Press delete on one of the users, and when the confirmation window pops up, press cancel | Number of users will stay the same |
+| System test | User can be deleted | Start up the container, register an admin via api handler, open the root page, login, go to users page | Press delete on one of the users, and when the confirmation window pops up, press OK | A pop-up will appear with 'Sikeresen törölve!' text, then that user will disappear (the number of users will decrease by one)  |
+| System test | Admin user can be deleted | Start up the container, register an admin via api handler, open the root page, login, go to users page | Press delete on the administrator, and when the confirmation window pops up, press OK | Pop-up will appear with successful delete text, administrator will disappear, then you will be logged out with a pop-up that states that the admin user has been deleted |
 
-### GUI tests (manual testing)
+
+## GUI tests (mobile app manual testing)
 | Scope | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
 | System test | Register result will show pop-up window | Open register tab | Register user with invalid data | Pop-up will be shown with the details of the error |
@@ -201,7 +215,6 @@
 | System test | Invalid updated data will result in pop-up | Register a user, log in, add a reminder and click on edit | Input the new invalid data and click save | Pop-up will appear |
 | System test | User is notified about a reminder | Register a user, log in and add a reminder | Wait until the time of the reminder | Notification will pop up on the phone's screen |  
 | System test | User is can dismiss a reminder | Register a user, log in and add a reminder and wait for it to notify you | Click on "dismiss" | Notification will disappear and won't pop up again until the next day |  
-| System test | User is can "snooze" a reminder | Register a user, log in and add a reminder and wait for it to notify you | Click on "snooze" | Notification will disappear and will pop up again a few minutes later |  
 
 Unit tests:
 - Password hashing for user

@@ -11,7 +11,7 @@ export default {
         {
           useAdminStore().logout();
           this.$router.push({name: 'login'});
-          alert("Hiba! A felhasználó törölve lett.");
+          alert("Szép munka! Törölted a saját admin felhasználódat. :D");
         }
       }
     }
