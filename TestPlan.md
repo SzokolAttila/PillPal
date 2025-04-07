@@ -193,9 +193,9 @@
 ### Users page Selenium tests
 | Scope | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
-| System test | Typing in the searchbar filters users | Start up the container, register an admin via api handler, open the root page, login, go to users page | Type a letter | Only users whose name includes that specific letter will appear |
+| System test | Typing in the searchbar filters users | Start up the container, register an admin and a user via api handler, open the root page, login, go to users page | Type a letter | Only users whose name includes that specific letter will appear |
 | System test | User deletion can be canceled | Start up the container, register an admin via api handler, open the root page, login, go to users page | Press delete on one of the users, and when the confirmation window pops up, press cancel | Number of users will stay the same |
-| System test | User can be deleted | Start up the container, register an admin via api handler, open the root page, login, go to users page | Press delete on one of the users, and when the confirmation window pops up, press OK | A pop-up will appear with 'Sikeresen törölve!' text, then that user will disappear (the number of users will decrease by one)  |
+| System test | User can be deleted | Start up the container, register an admin and a user via api handler, open the root page, login, go to users page | Press delete on one of the users, and when the confirmation window pops up, press OK | A pop-up will appear with 'Sikeresen törölve!' text, then that user will disappear (the number of users will decrease by one)  |
 | System test | Admin user can be deleted | Start up the container, register an admin via api handler, open the root page, login, go to users page | Press delete on the administrator, and when the confirmation window pops up, press OK | Pop-up will appear with successful delete text, administrator will disappear, then you will be logged out with a pop-up that states that the admin user has been deleted |
 
 ### New medicine page Selenium tests
@@ -204,6 +204,22 @@
 | System test | Empty form displays four errors | Start up the container, register an admin via api handler, open the root page, login, go to new medicine page | Press submit | Four red error messages will appear |
 | System test | Error message appears at incorrect length | Start up the container, register an admin via api handler, open the root page, login, go to new medicine page | Type something into one of the fields that doesn't match the necessary length of the field | An error message will appear stating the required length of field |
 | System test | Medicine can be created | Start up the container, register an admin via api handler, open the root page, login, go to new medicine page | Fill the form with correct data and press submit | Alert will appear saying the upload was successful |
+
+### Edit medicine page Selenium tests
+| Scope | Description | Preparations | Actions | Expected result |
+| ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
+| System test | An existing medicine is already loaded into the form | Start up the container, register an admin via api handler and add a medicine, open the root page, login | Go to edit medicine page | The inputs are already filled with the data of the first uploaded medicine |
+| System test | Clicking an another medicine will update data in the form | Start up the container, register an admin and add two medicines via api handler, open the root page, login, go to edit medicine page | Click on a different medicine than the selected one | The data filled into the input fields will be updated |
+| System test | Medicine data needs to be the correct length | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page | Set one of the fields to a string with an incorrect length | Validation error will appear |
+| System test | Medicine can be updated | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page | Edit the fields in a way that they are the correct length, then press edit | Alert will appear with "Sikeresen módosult a gyógyszer" message |
+| System test | Side effect can be added | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page | Press add side effect button | A side effect will appear under the existing ones |
+| System test | Active ingredient can be added | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page | Press add active ingredient button | An active ingredient will appear under the existing ones |
+| System test | Ailment can be added | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page | Press add ailment button | An ailment will appear under the existing ones |
+| System test | Package size can be added | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page | Press add package size button | A package size will appear under the existing ones |
+| System test | Side effect can be deleted | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page, add side effect | Press delete next to the side effect | The side effect will disappear |
+| System test | Active ingredient can be deleted | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page and add an active ingredient | Press delete next to the active ingredient | The ingredient will disappear |
+| System test | Ailment can be deleted | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page and add an ailment | Press delete next to the ailment | The ailment will disappear from the list |
+| System test | Package size can be deleted | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page and add a package size | Press delete next to the package size | The package size will disappear from the list |
 
 ## GUI tests (mobile app manual testing)
 | Scope | Description | Preparations | Actions | Expected result |
