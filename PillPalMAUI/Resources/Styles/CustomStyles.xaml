@@ -11,14 +11,14 @@
     </Style>
 
     <Style TargetType="SearchBar" x:Key="SearchMedicine">
-        <Setter Property="Margin" Value="10" />
+        <Setter Property="Margin" Value="8" />
         <Setter Property="BackgroundColor" Value="{DynamicResource FormBackground}" />
         <Setter Property="TextColor" Value="{DynamicResource FormTextColor}" />
         <Setter Property="Placeholder" Value="Keresett gyógyszer..." />
     </Style>
 
     <Style TargetType="SearchBar" x:Key="SearchUser">
-        <Setter Property="Margin" Value="10" />
+        <Setter Property="Margin" Value="8" />
         <Setter Property="BackgroundColor" Value="{DynamicResource FormBackground}" />
         <Setter Property="TextColor" Value="{DynamicResource FormTextColor}" />
         <Setter Property="Placeholder" Value="Keresett felhasználó..." />

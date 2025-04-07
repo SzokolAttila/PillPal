@@ -18,8 +18,11 @@
             <FlexLayout Style="{StaticResource Container}">
                 <Label Text="Új emlékeztető" Style="{StaticResource Title}" />
                 <BoxView Style="{StaticResource HorizontalLine}"/>
-                <SearchBar Text="{Binding MedicineName}" Style="{StaticResource SearchMedicine}" />
-                <ListView HorizontalOptions="Center"  SelectedItem="{Binding Medicine}"  ItemsSource="{Binding Medicines}" Margin="10,0,10,10">
+
+                <Frame Style="{StaticResource InputBorder}" Margin="5">
+                    <SearchBar Text="{Binding MedicineName}" Style="{StaticResource SearchMedicine}" />
+                </Frame>
+                <ListView HorizontalOptions="Center"  SelectedItem="{Binding Medicine}"  ItemsSource="{Binding Medicines}" MaximumHeightRequest="100" Margin="10,0,10,10">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <TextCell  TextColor="{DynamicResource TextColor}" Text="{Binding Name}" />
