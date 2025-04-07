@@ -5,10 +5,8 @@ namespace PillPalMAUI.Pages;
 
 public partial class DetailPage : ContentPage
 {
-	public DetailPage(Reminder reminder, string auth)
+	public DetailPage()
 	{
 		InitializeComponent();
-		BindingContext = new DetailPageViewModel(reminder.UserId, auth)
-        {Medicine = reminder.Medicine! };
     }
 }

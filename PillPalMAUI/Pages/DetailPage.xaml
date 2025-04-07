@@ -3,7 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PillPalMAUI.Pages.DetailPage"
              xmlns:contentviews="clr-namespace:PillPalMAUI.Resources.ContentViews"
+             xmlns:viewmodels="clr-namespace:PillPalMAUI.ViewModels"
              BackgroundColor="{DynamicResource PageBackground}">
+    <ContentPage.BindingContext>
+        <viewmodels:DetailPageViewModel/>
+    </ContentPage.BindingContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -56,6 +60,6 @@
                 <Label Text="{Binding Medicine.Description}" Style="{StaticResource Text}" />
             </FlexLayout>
         </ScrollView>
-        <contentviews:HomeButton Style="{StaticResource HomeButton}" BindingContext="{Binding HomeButton}" />
+        <contentviews:HomeButton Style="{StaticResource HomeButton}" />
     </Grid>
 </ContentPage>

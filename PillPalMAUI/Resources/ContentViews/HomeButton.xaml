@@ -5,6 +5,9 @@
              xmlns:viewmodels="clr-namespace:PillPalMAUI.ViewModels"
              BackgroundColor="Transparent"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+    <ContentView.BindingContext>
+        <viewmodels:HomeButtonViewModel/>
+    </ContentView.BindingContext>
     <toolkit:Expander x:Name="Expander">
         <toolkit:Expander.Header>
             <ImageButton

@@ -5,9 +5,8 @@ namespace PillPalMAUI.Pages;
 
 public partial class SettingsPage : ContentPage
 {
-	public SettingsPage(string auth, int userId)
+	public SettingsPage()
 	{
 		InitializeComponent();
-        BindingContext = new SettingsViewModel(userId, auth);
     }
 }

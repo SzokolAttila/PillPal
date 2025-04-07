@@ -3,7 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:contentviews="clr-namespace:PillPalMAUI.Resources.ContentViews"
              x:Class="PillPalMAUI.Pages.MainPage"
+             xmlns:viewmodels="clr-namespace:PillPalMAUI.ViewModels"
              BackgroundColor="{DynamicResource PageBackground}">
+    <ContentPage.BindingContext>
+        <viewmodels:MainViewModel />
+    </ContentPage.BindingContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -22,7 +26,7 @@
                 </CollectionView>
             </FlexLayout>
         </ScrollView>
-        <contentviews:HomeButton BindingContext="{Binding HomeButton}" Style="{StaticResource HomeButton}"></contentviews:HomeButton>
+        <contentviews:HomeButton Style="{StaticResource HomeButton}"></contentviews:HomeButton>
     </Grid>
 
 </ContentPage>

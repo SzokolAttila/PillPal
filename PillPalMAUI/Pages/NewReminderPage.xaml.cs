@@ -4,9 +4,8 @@ namespace PillPalMAUI.Pages;
 
 public partial class NewReminderPage : ContentPage
 {
-	public NewReminderPage(int userId, string auth)
+	public NewReminderPage()
 	{
 		InitializeComponent();
-		BindingContext = new NewReminderViewModel(userId, auth);
     }
 }

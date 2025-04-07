@@ -4,6 +4,7 @@
              x:Class="PillPalMAUI.Pages.EditReminderPage"
              xmlns:contentviews="clr-namespace:PillPalMAUI.Resources.ContentViews"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewmodels="clr-namespace:PillPalMAUI.ViewModels" 
              Title="EditPage">
     <Grid BackgroundColor="{DynamicResource PageBackground}">
         <Grid.RowDefinitions>
@@ -67,6 +68,6 @@
                 </Border>
             </FlexLayout>
         </ScrollView>
-        <contentviews:HomeButton BindingContext="{Binding HomeButton}" Style="{StaticResource HomeButton}"></contentviews:HomeButton>
+        <contentviews:HomeButton Style="{StaticResource HomeButton}"></contentviews:HomeButton>
     </Grid>
 </ContentPage>

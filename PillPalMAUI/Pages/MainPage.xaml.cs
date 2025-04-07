@@ -8,10 +8,9 @@ namespace PillPalMAUI.Pages
 {
     public partial class MainPage : ContentPage
     {
-        public MainPage(int userId, string token)
+        public MainPage()
         {
             InitializeComponent();
-            BindingContext = new MainViewModel(userId, token);
         }
     }
 

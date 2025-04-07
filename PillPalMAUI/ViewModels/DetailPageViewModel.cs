@@ -9,9 +9,9 @@ namespace PillPalMAUI.ViewModels
 {
     public class DetailPageViewModel : ViewModelBase
     {
-        public DetailPageViewModel(int userId, string auth)
+        public DetailPageViewModel()
         {
-            HomeButton = new HomeButtonViewModel(userId, auth);
+
         }
         private Medicine medicine = new();
         public Medicine Medicine
@@ -20,16 +20,6 @@ namespace PillPalMAUI.ViewModels
             set
             {
                 medicine = value;
-                Changed();
-            }
-        }
-        private HomeButtonViewModel homeButton;
-        public HomeButtonViewModel HomeButton
-        {
-            get => homeButton;
-            set
-            {
-                homeButton = value;
                 Changed();
             }
         }
