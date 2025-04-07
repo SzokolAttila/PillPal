@@ -439,3 +439,54 @@ A generic collection which manipulates the data using the DbSet<T> object passed
 - **Add(T item)** first of all, it checks if the item with this id already exists and returns false if the given item's id is already used; if it's unique, the method adds the given item to the DbSet<T> and saves the changes of its context. If the method was successful, it returns true.
 - **Replace(T item)** firstly, it checks if the item with this id exists and returns false if no item found; if item exists, the method updates it with the data of the given item via the DbSet<T> and saves the changes of its context. If the method was successful, it returns true.
 - **Indexer** returns the item with the given id or null if it's not found.
+
+## Admin WebApp
+We developed our admin pages with Vue, so the many content is way more visible and it makes the whole medicine editing more accessible for the admin.
+
+### Pages
+#### Login page
+As the name indicates, this page is made for logging in and gaining access to all the features. To log in to this app, you need to be admin. In case you log out or your page is dynamically deleted, you instantly get back to this page and get redirected to this if you try to get to a page without having an admin account logged in.
+#### Users page
+This page is for showing all the users and the number of their reminders. The page contains a search bar, so the admin can easily look for specific users by their username. Each user row contains a remove button which removes users from the API and the local store as well.
+#### New medicine page
+To add new medicines to the database, admin can use this page. The page consists of a simple FormKit form with the proper validations matched with the API. Admin can enter the medicine's name, its manufacturer, a brief description, and choose a package unit from a select field filled by the API's PackageUnits. Clicking on the Add button uploads the new medicine to the API and the local store as well. In case of any API related issues the page throws an alert.
+#### Edit medicine page
+Admin can use this page in case they need to edit any existing medicines or the relations joined to it. The page contains a search bar where you can search for any medicines by name. The FormKit form is automatically filled. The form has the same fields as the new medicine page (Name, Description, Manufacturer, PackageUnit). Below the form there is a delete button in case admin wants to delete the specific medicine, and a modify button if admin wants to preserve the changes in API. The form validates the data the same way as API does. The page also contains 4 sections for modifying join table data (SideEffect, ActiveIngredient, RemedyFor, PackageSize). Each section has the list of items what the selected medicine has. Each item row has a remove button to delete the relation from the join table. If admin wants to modify an already existing row in the join table, they can simply edit it and it dynamically puts the new data. For the PackageSize the update event is only emitted if the field is unfocused. For every section we put an add button to post a new row to the join table and even push it to the local store. In case something goes wrong (for example caused by improper PackageSize) the page shows an alert to the admin. The selected medicine is binded dynamically to all the sections so if the admin selects other medicine it instantly loads the data joined to that medicine. 
+#### New medicine data
+This page has four independent sections (PackageUnit, SideEffect, ActiveIngredient, RemedyFor) for editing, creating or deleting data of the table of the specific section. Each section consists of a:
+- **Search bar**, so the admin can look for a specific item;
+- **Input field**, where the selected item loads and where admin can edit it;
+- **Modify button**, which puts the changed data by clicking it;
+- **Delete button**, which deletes the specific item from the table;
+- **New item part**, which has a field to write the item's name in and an add button to post the new data to the table.
+Each new item field has a validation with the proper text length but if something goes wrong and the server throws some unexpected errors (like the data is not unique) the page shows an alert.
+
+### Components
+#### BaseHeader
+This component is reliable for the navigation of the whole page. It's a sidebar which is collapsable when the resolution is small. In the top left corner the logo of the app is shown even if the sidebar is collapsed. 
+#### BaseSpinner
+Every time the page waits for data to be pulled it shows up the BaseSpinner so the user will know the page is currently loading data.
+#### UserRow
+For the user page to show rows of users we made this component. It has a passed property of a user. The row shows the username, the name of reminders of the user and a button to remove it. Clicking on the button asks whether the admin is sure about the deletion.
+#### ActiveIngredients
+A component containing a list of ActiveIngredientRows to what this parent component passes the loaded activeIngredientOptions for the select field, the currently selected activeIngredient and binds functions to delete emit and update emit of the child. This section also has a button for adding new activeIngredient to the join table. Adding a new row automatically posts it with the first activeIngredientOption's id.
+#### ActiveIngredientRow
+This component is only a row with 2 FormKit elements. A select for selecting the wanted activeIngredient and a delete button. In case the selected item changes it emits the updateActiveIngredient with the selected item. If the delete button is clicked, this child component emits a deleteActiveIngredient with the item's id, so the parent component can handle it.
+#### RemedyFors
+A component containing a list of RemedyForRows to what this parent component passes the loaded remedyForOptions for the select field, the currently selected remedyFor and binds functions to delete emit and update emit of the child. This section also has a button for adding new remedyFor to the join table. Adding a new row automatically posts it with the first remedyForOption's id.
+#### RemedyForRow
+This component is only a row with 2 FormKit elements. A select for selecting the wanted remedyFor and a delete button. In case the selected item changes it emits the updateRemedyFor with the selected item. If the delete button is clicked, this child component emits a deleteRemedyFor with the item's id, so the parent component can handle it.
+#### SideEffects
+A component containing a list of SideEffectRows to what this parent component passes the loaded sideEffectOptions for the select field, the currently selected sideEffect and binds functions to delete emit and update emit of the child. This section also has a button for adding new sideEffect to the join table. Adding a new row automatically posts it with the first sideEffectOption's id.
+#### SideEffectRow
+This component is only a row with 2 FormKit elements. A select for selecting the wanted sideEffect and a delete button. In case the selected item changes it emits the updateSideEffect with the selected item. If the delete button is clicked, this child component emits a deleteSideEffect with the item's id, so the parent component can handle it.
+#### PackageSizes
+A component containing a list of PackageSizeRows to what this parent component passes the currently set packageSize value and binds functions to delete emit and update emit of the child. This section also has a button for adding new packageSuze to the join table. Adding a new row automatically posts it with 1 or the max value of the PackageSizes plus 1. The edit function only updates the table if the value is changed.
+#### PackageSizeRow
+This component is only a row with 2 FormKit elements. A number input for setting the packageSize and a delete button. In case the number input field is unfocused it emits the updatePackageSize with the changed item. If the delete button is clicked, this child component emits a deletePackageSize with the item's id, so the parent component can handle it.
+
+### Custom styles
+
+### Stores
+
+### Routing
