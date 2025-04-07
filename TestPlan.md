@@ -229,14 +229,15 @@
 | System test | Invalid login makes a pop-up window appear | Open login tab | Try to log in with invalid data | Pop-up will say "Invalid username or password" |
 | System test | Valid login will lead user to reminders tab | Open login tab | Log in to existing user with valid data | No pop-up, list of reminders will be displayed |
 | System test | Reminder can be added via UI | Register a user and log in | Create a reminder with valid data | Reminder will be added to reminders and shown in the reminders tab |
-| System test | Invalid reminder results in pop-up | Register a user and log in | Create a reminder with invalid data | A window will pop up, explaining the problem |
 | System test | User can check the description of a medicine | Register a user, log in and add a reminder | Click on the information button of the reminder | A page with the detailed description of the medicine will be displayed |
-| System test | User can delete a reminder | Register a user, log in and add a reminder | Click on the delete button of the reminder | Reminder will disappear from the list |
+| System test | User can delete a reminder | Register a user, log in and add a reminder | Click on the delete button of the reminder, then confirm the deletion | Reminder will disappear from the list |
 | System test | Edit button of a reminder leads to edit tab | Register a user, log in and add a reminder | Click on the edit button of the reminder | Edit page will be displayed, with the current data of the reminder |
 | System test | User can edit a reminder | Register a user, log in, add a reminder and click on edit | Input the new data and click save | Reminder will be listed with the updated data |
-| System test | Invalid updated data will result in pop-up | Register a user, log in, add a reminder and click on edit | Input the new invalid data and click save | Pop-up will appear |
 | System test | User is notified about a reminder | Register a user, log in and add a reminder | Wait until the time of the reminder | Notification will pop up on the phone's screen |  
-| System test | User is can dismiss a reminder | Register a user, log in and add a reminder and wait for it to notify you | Click on "dismiss" | Notification will disappear and won't pop up again until the next day |  
+| System test | User can dismiss a reminder | Register a user, log in and add a reminder and wait for it to notify you | Click on "dismiss" | Notification will disappear and won't pop up again until the next day | 
+| System test | User can change theme settings | Register a user, log in and go to settings | Toggle the theme switch | Background color will change | 
+| System test | User can log out | Register a user, log in and go to settings | Click logout button and confirm | User will be redirected to login page | 
+| System test | User can delete own account | Register a user, log in and go to settings | Click delete account button and confirm | User will be redirected to login page with a pop-up saying that the account was deleted |  
 
 Unit tests:
 - Password hashing for user
