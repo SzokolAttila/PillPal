@@ -4,7 +4,7 @@
     <hr class="bg-component-light dark:bg-component-dark p-1 my-5 w-[70%] mx-auto">
     <div v-if="loaded">
         <input type="text" v-model="searchText" class="p-2 mx-auto block rounded w-[70%] bg-formBackground-light dark:bg-formBackground-dark text-formTextColor-light dark:text-formTextColor-dark placeholder-formTextColor-light dark:placeholder-formTextColor-dark" placeholder="Keresett felhasználó..."/>
-        <UserRow v-for="user of userArray" :user="user" class="my-5"/>
+        <UserRow v-for="user in userArray" :key="user.id" :user="user" class="my-5"/>
     </div>
     <BaseSpinner class="mx-auto mt-16" v-else/>
 </BaseLayout>
@@ -48,6 +48,9 @@ export default {
         ...mapState(useUserStore, ['users'])
     },
     watch:{
+        async users(){
+            this.userArray = this.users.filter(user => user.userName.includes(this.searchText));
+        },
         async searchText(oldtext, newtext){
             this.userArray = this.users.filter(user => user.userName.includes(oldtext));
         }
