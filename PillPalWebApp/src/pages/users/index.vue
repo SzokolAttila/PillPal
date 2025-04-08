@@ -3,7 +3,7 @@
     <h1 class="text-center text-4xl my-8 text-textColor-light dark:text-textColor-dark">Felhasználók</h1>
     <hr class="bg-component-light dark:bg-component-dark p-1 my-5 w-[70%] mx-auto">
     <div v-if="loaded">
-        <input type="text" v-model="searchText" class="p-2 mx-auto block rounded w-[70%] bg-formBackground-light dark:bg-formBackground-dark text-formTextColor-light dark:text-formTextColor-dark placeholder-formTextColor-light dark:placeholder-formTextColor-dark" placeholder="Keresett felhasználó..."/>
+        <input type="text" v-model="searchText" id="searchbar" class="p-2 mx-auto block rounded w-[70%] bg-formBackground-light dark:bg-formBackground-dark text-formTextColor-light dark:text-formTextColor-dark placeholder-formTextColor-light dark:placeholder-formTextColor-dark" placeholder="Keresett felhasználó..."/>
         <UserRow v-for="user of userArray" :user="user" class="my-5"/>
     </div>
     <BaseSpinner class="mx-auto mt-16" v-else/>

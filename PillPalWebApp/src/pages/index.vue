@@ -7,7 +7,7 @@
         <FormKit type="form" :actions="false"  @submit="submit" :classes="{message: 'text-errorColor-light dark:text-errorColor-dark font-bold'}" >
           <FormKit label="Felhasználónév" type="text" name="username" :validation-messages="{required: 'A felhasználónév megadása kötelező.'}" validation="required" />
           <FormKit label="Jelszó" type="password" name="password" :validation-messages="{required: 'A jelszó megadása kötelező.'}" validation="required" />
-          <FormKit label="Bejelentkezés" type="submit"  />
+          <FormKit label="Bejelentkezés" type="submit" name="login"/>
         </FormKit>
       </div>
     </div>
