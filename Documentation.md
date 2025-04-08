@@ -178,7 +178,7 @@ Password validator can be used to validate a string value and has the following 
 #### MedicineValidator
 Medicine validator can be used to validate CreateMedicineDto and has the following rules:
 - Medicine name must be between 5 and 30 characters;
-- Medicine's manufacturer name must be between 5 and 30 characters;
+- Medicine's manufacturer name must be between 3 and 30 characters;
 - Medicine's description needs to be between 5 and 255 characters.
 #### ReminderValidator
 Reminder validator can be used to validate CreateReminderDto and has the following rules:
