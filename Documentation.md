@@ -1,7 +1,7 @@
 # PillPal Documentation
 
 ## Summary
-Most elderly people faces the difficulties of managing vast variety of medicines, creating the proper schedule for them, keep in mind all the descriptions and not to forget taking them. That's the problem we are aiming to solve or at least provide a tool to make it easier.
+Most elderly people face the difficulties of managing vast variety of medicines, creating the proper schedule for them, keep in mind all the descriptions and not to forget taking them. That's the problem we are aiming to solve or at least provide a tool to make it easier.
 Our solution consists of a WebAPI, a Class Library, a MAUI App and a WebApplication. In the following we are going to break them down into smaller segments and introduce their details.
 
 ## Class Library
@@ -490,3 +490,56 @@ This component is only a row with 2 FormKit elements. A number input for setting
 ### Stores
 
 ### Routing
+
+## MAUI Application
+
+The main purpose of our project was the creation of this application. With it, users are able to create reminders for themselves that help them remember to take their medicines. In the following section can be found the description of the application's structure. 
+
+### Appearance & design
+#### Themes
+Our application implements a dark and a light theme that users can switch between based on their preferences. The files responsible for this are *DarkTheme.xaml* and *LightTheme.xaml*. Each of these files consists of colors with the same list of keys. When a user switches between the two themes, the corresponding color is applied to each component where the color with the given key is used.
+
+#### Custom Styles
+In order to reduce code repetition, we used *CustomStyles.xaml* to create design templates for components that can be reused throughout the code. Each of these preset designs has a TargetType (which defines what components it can be applied to) and a Key (by which it can be referred to).
+
+Moreover, we use a custom font called PlayfairDisplay in our application, which is stored in the *Resources/Fonts* folder.
+
+### Components (ContentViews)
+
+There are a number of components that are reused several times throughout the application. These components are  implemented as ContentViews in order to increase their independence and to reduce redundance in our codebase. 
+
+#### PillPal Logo
+As this logo is used in almost every single page in our mobile app, we decided to distribute it into a ContentView. This ContentView consists of a frame that is responsible for the background color and the size of the logo and an image of our logo inside it. 
+
+#### ThemeSwitch
+This component can be found on the Login, Register and Settings pages, and it is used to switch between the aforementioned dark and light themes. Tied to it is the *ThemeSwitchViewModel*, which is responsible for the logic behind the switch. When this component is loaded, the viewmodel checks if a theme has been saved to the device, and if not, saves the light theme as default. Once the switch is toggled, the **SwitchTheme()** function is called, which replaces the MergedDictionaries of the application and adds the relevant theme, then saves the theme to the device (so that it is stored even when the application is closed).
+
+#### HomeButton
+This is used as the navigation menu in our application, and the structure is that of an *Expander*. The header contains the logo, and if clicked, the menu options appear and float out from behind. There are three menu options: New reminder, Home page and Settings. Each of these options is represented with a descriptive icon. When a menu option is clicked, the correlating command in *HomeButtonViewModel* is called, which redirects to the desired page.
+
+#### ReminderCard
+This card is used to display reminders on the main screen of our application. On the card, the time of the reminder, the name of the medicine, the dose the user has to take, the taking method and three action buttons can be found. These buttons are used to delete or edit the reminder, or to check the details of the medicine the reminder is bound to. The *ReminderCardViewModel* is responsible for the logic of the component, which confirms the deletion or redirects to the edit or detail pages.
+
+
+### Pages
+#### LoginPage
+On the page, the user has the options to switch between themes, log in or go to the registration page. The login process is handled by the *LoginViewModel*, which asks for notification permission (necessary for using the app) and checks if the login data was correct.
+
+#### RegisterPage
+This page is very similar to the Login page, as it also has a theme toggle and a similar layout. Furthermore, it gives the ability for the user to register a new account and to go to the login page. The registration is handled by the *RegisterViewModel*, where the username is checked for validity (whether it's taken by already existing users). The the strength of the password and whether it matches the confirmation are also factors that are checked when the user hits registration.
+
+#### MainPage
+This is the page where the user's existing reminders are listed using ReminderCards. It's also the page that a user first sees upon logging in (thus the name). The cards are dynamically loaded onto the page thanks to the *MainViewModel*, where the data is requested from the api
+
+#### DetailPage
+When a user clicks the info button on a *ReminderCard*, a page pops up with the data of the medicine that belongs to the reminder. On this page, the name, manufacturer, side effects, active ingredients and ailments are visible. The data is loaded in via *DetailPageViewModel*.
+
+#### NewReminderPage
+This page is used for creating new reminders. This can be done by clicking the plus icon in the navigation menu, then selecting a medicine that the user wants to set a reminder for, and filling in the necessary data. Once the submit button is pressed, the *NewReminderViewModel* checks for errors, and if all is well, displays a pop-up saying that the upload was successful, then redirects to the main page.
+
+#### EditReminderPage
+As the name suggest, this page is used for editing an already existing reminder, and it can be accessed by clicking the edit button on a *ReminderCard*. Similar to how it's done in the new reminder page, the data is checked by a viewmodel (namely *EditReminderViewModel*) before submitting it to the API. Here the user can change the medicine the reminder is bound to, the dose size, the time of the reminder and so on.
+
+#### SettingsPage
+Last but not least, we come to the settings. This is the third and final button in the navigation menu, and a user can do three things here: change the application theme, log out or delete their account. The redirection, confirmation pop-up windows and API request are handled by *SettingsPageViewModel*.
+
