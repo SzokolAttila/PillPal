@@ -1,7 +1,7 @@
 # PillPal Documentation
 
 ## Summary
-Most elderly people faces the difficulties of managing vast variety of medicines, creating the proper schedule for them, keep in mind all the descriptions and not to forget taking them. That's the problem we are aiming to solve or at least provide a tool to make it easier.
+Most elderly people face the difficulties of managing vast variety of medicines, creating the proper schedule for them, keep in mind all the descriptions and not to forget taking them. That's the problem we are aiming to solve or at least provide a tool to make it easier.
 Our solution consists of a WebAPI, a Class Library, a MAUI App and a WebApplication. In the following we are going to break them down into smaller segments and introduce their details.
 
 ## Class Library
@@ -12,9 +12,11 @@ User class consists of Id, Username and Password properties. Our password is a b
 ### Medicine
 Medicine class consists of Id, Name, Description, Manufacturer, PackageUnit, PackageSizes, SideEffects, ActiveIngredients and RemedyForAilments properties. PackageUnit stores the unit of the medicine's PackageSizes which is either "ml" or "mg". PackageSizes, SideEffects, ActiveIngredients and RemedyForAilments are multi-valued fields so they have a separate table and joined together with medicine. Medicine class has 2 constructors: one JsonConstructor with id and one constructor without id. Multi-valued fields are set from outside and not from constructor.
 ### Reminder
-Reminder table is a join-table itself so its class behaves the same way. It has the following properties: Id, UserId, User, MedicineId, Medicine, When, DoseCount, DoseMg, TakingMethod. User and Medicine properties are nullable as they're set from outside based on UserId and MedicineId. DoseCount stores the quantity to take in and TakingMethod stores how to take it in. 
+Reminder table is a join-table itself so its class behaves the same way. It has the following properties: Id, UserId, User, MedicineId, Medicine, When, DoseCount, TakingMethod. User and Medicine properties are nullable as they're set from outside based on UserId and MedicineId. DoseCount stores the quantity to take in and TakingMethod stores how to take it in. 
 ### PackageSize 
 This class, as all other classes, derives from IIdentified. It has three properties: Id, MedicineId and Size. This class serves as a join table for the package sizes of each medicine, and it is from here that each medicine receives its packageSizes.
+### PackageUnit 
+This class, as all other classes, derives from IIdentified. It has two properties: Id and Name. This class is for storing all the PackageUnit from where Medicine gets its unit.
 ### SideEffect
 Derived from IIdentified. Properties: Id, Effect, MedicineSideEffects and Medicines. The first two properties contain useful data, while the rest are Lists that are required in order for the join table to function properly and connect Medicines with SideEffects. These lists are ignored by the json serializer.
 ### ActiveIngredient
@@ -55,7 +57,7 @@ Methods:
 #### UserAPIHandler
 Through constructor base url and HttpClient can be passed to make testing easier for us. If HttpClient is not given then it is created with the base url.
 Methods: 
-- **Login(CreateUserDto user)** method which posts a login with the given username and password, then returns the bearer token on success.
+- **Login(CreateUserDto user)** method which posts a login with the given username and password, then returns the bearer token with the user id on success.
 - **GetUser(int id, string auth)** method sets given authentication in header as you need to be admin or the user themself who's data is accessed. Returns the user with the given id. Throws error if something goes wrong with the request. 
 - **GetUsers(string auth)** method sets given authentication in header as you need to be admin to access all users. Returns all users' data. Throws exception in case of any issue.
 - **CreateUser(CreateUserDto user)** void method posts the serialized User object, this way user can registrate a new account. In case of any issues function throws exception (usually it somehow connects to validation).
@@ -132,10 +134,10 @@ In this project we use DTOs solely for the purpose of regulating data that gets 
 Has only two properties: Username and Password. After posting this to the database, the password gets hashed and is stored in that format for obvious security reasons.
 
 #### CreateReminderDto
-This DTO is a bit more complex than the previous one. It consists of two foreign keys (UserId and MedicineId) and four other properties (When, DoseCount, DoseMg, TakingMethod).
+This DTO is a bit more complex than the previous one. It consists of two foreign keys (UserId and MedicineId) and four other properties (When, DoseCount, TakingMethod).
 
 #### CreateMedicineDto 
-As its name suggests, it is used for creating Medicines. Consists of four properties (Name, Description, PackageUnit, Manufacturer).
+As its name suggests, it is used for creating Medicines. Consists of four properties (Name, Description, PackageUnitId, Manufacturer).
 
 #### CreateSideEffectDto
 Since SideEffect objects are quite simple, this class is only made up of a single property, Effect.
@@ -158,6 +160,9 @@ Used to create a join table entry for the MedicineRemedyFor table, which joins t
 #### CreatePackageSizeDto
 This class is different from the rest of the join table classes, because it doesn't join two tables together, only complements data to the Medicine table. Properties: MedicineId, Size.
 
+#### CreatePackageUnitDto
+This class is joined to the Medicine in one-to-many relation with each Medicine only having one PackageUnit. Properties: Name.
+
 ## WebAPI
 ### Validators
 We use different validators for each model, so we can check if user adds a new item or modifies an existing one in the proper way. Controllers get the validators via dependency injection and validates data passed in body for POST and PUT requests.
@@ -166,18 +171,17 @@ User validator can be used to validate CreateUserDto object and has the followin
 - Username needs to be between 6 and 20 characters;
 - Username must be unique;
 - Username must only consist of digits and letters;
-- Password must contain at least one digit, one lowercase letter, one uppercase letter, one special character be at least 8 characters long to make sure its secure enough.
+- Password must contain at least one digit, one lowercase letter, one uppercase letter, one special character and be at least 8 characters long to make sure its secure enough.
 #### PasswordValidator
 Password validator can be used to validate a string value and has the following rules:
-- Password must contain at least one digit, one lowercase letter, one uppercase letter, one special character be at least 8 characters long to make sure its secure enough.
+- Password must contain at least one digit, one lowercase letter, one uppercase letter, one special character and be at least 8 characters long to make sure its secure enough.
 #### MedicineValidator
 Medicine validator can be used to validate CreateMedicineDto and has the following rules:
 - Medicine name must be between 5 and 30 characters;
 - Medicine's manufacturer name must be between 5 and 30 characters;
-- Medicine's package unit must be either mg or ml as we only measure medicine in these two units.
+- Medicine's description needs to be between 5 and 255 characters.
 #### ReminderValidator
 Reminder validator can be used to validate CreateReminderDto and has the following rules:
-- Reminder's DoseMg must be greater than 0 as it would make no sense otherwise;
 - Reminder's DoseCount must be greater than 0 as it would make no sense otherwise.
 #### ActiveIngredientValidator
 ActiveIngredient validator can be used to validate CreateActiveIngredientDto and has the following rules:
@@ -194,6 +198,10 @@ RemedyFor validator can be used to validate CreateRemedyForDto and has the follo
 #### PackageSizeValidator
 PackageSize validator can be used to validate CreatePackageSizeDto and has the following rules:
 - PackageSize's Size must be greater than zero.
+- PackageSize needs to be unique per medicine.
+#### PackageUnitValidator
+PackageUnit validator can be used to validate CreatePackageUnitDto and has the following rules:
+- PackageUnit's name needs to be between 1 and 20 characters.
 
 ### Controllers
 We use controllers for each model to generate endpoints for the API. Controllers handle the proper validation of the data, so they get the matching validator from dependency injection in constructor. As we are aware of different access levels and we have a log in system we assess the required authorization in controllers. Controllers manipulate only their own repository via dependency injection to fulfill single-responsibility.
@@ -431,3 +439,107 @@ A generic collection which manipulates the data using the DbSet<T> object passed
 - **Add(T item)** first of all, it checks if the item with this id already exists and returns false if the given item's id is already used; if it's unique, the method adds the given item to the DbSet<T> and saves the changes of its context. If the method was successful, it returns true.
 - **Replace(T item)** firstly, it checks if the item with this id exists and returns false if no item found; if item exists, the method updates it with the data of the given item via the DbSet<T> and saves the changes of its context. If the method was successful, it returns true.
 - **Indexer** returns the item with the given id or null if it's not found.
+
+## Admin WebApp
+We developed our admin pages with Vue, so the many content is way more visible and it makes the whole medicine editing more accessible for the admin.
+
+### Pages
+#### Login page
+As the name indicates, this page is made for logging in and gaining access to all the features. To log in to this app, you need to be admin. In case you log out or your page is dynamically deleted, you instantly get back to this page and get redirected to this if you try to get to a page without having an admin account logged in.
+#### Users page
+This page is for showing all the users and the number of their reminders. The page contains a search bar, so the admin can easily look for specific users by their username. Each user row contains a remove button which removes users from the API and the local store as well.
+#### New medicine page
+To add new medicines to the database, admin can use this page. The page consists of a simple FormKit form with the proper validations matched with the API. Admin can enter the medicine's name, its manufacturer, a brief description, and choose a package unit from a select field filled by the API's PackageUnits. Clicking on the Add button uploads the new medicine to the API and the local store as well. In case of any API related issues the page throws an alert.
+#### Edit medicine page
+Admin can use this page in case they need to edit any existing medicines or the relations joined to it. The page contains a search bar where you can search for any medicines by name. The FormKit form is automatically filled. The form has the same fields as the new medicine page (Name, Description, Manufacturer, PackageUnit). Below the form there is a delete button in case admin wants to delete the specific medicine, and a modify button if admin wants to preserve the changes in API. The form validates the data the same way as API does. The page also contains 4 sections for modifying join table data (SideEffect, ActiveIngredient, RemedyFor, PackageSize). Each section has the list of items what the selected medicine has. Each item row has a remove button to delete the relation from the join table. If admin wants to modify an already existing row in the join table, they can simply edit it and it dynamically puts the new data. For the PackageSize the update event is only emitted if the field is unfocused. For every section we put an add button to post a new row to the join table and even push it to the local store. In case something goes wrong (for example caused by improper PackageSize) the page shows an alert to the admin. The selected medicine is binded dynamically to all the sections so if the admin selects other medicine it instantly loads the data joined to that medicine. 
+#### New medicine data
+This page has four independent sections (PackageUnit, SideEffect, ActiveIngredient, RemedyFor) for editing, creating or deleting data of the table of the specific section. Each section consists of a:
+- **Search bar**, so the admin can look for a specific item;
+- **Input field**, where the selected item loads and where admin can edit it;
+- **Modify button**, which puts the changed data by clicking it;
+- **Delete button**, which deletes the specific item from the table;
+- **New item part**, which has a field to write the item's name in and an add button to post the new data to the table.
+Each new item field has a validation with the proper text length but if something goes wrong and the server throws some unexpected errors (like the data is not unique) the page shows an alert.
+
+### Components
+#### BaseHeader
+This component is reliable for the navigation of the whole page. It's a sidebar which is collapsable when the resolution is small. In the top left corner the logo of the app is shown even if the sidebar is collapsed. 
+#### BaseSpinner
+Every time the page waits for data to be pulled it shows up the BaseSpinner so the user will know the page is currently loading data.
+#### UserRow
+For the user page to show rows of users we made this component. It has a passed property of a user. The row shows the username, the name of reminders of the user and a button to remove it. Clicking on the button asks whether the admin is sure about the deletion.
+#### ActiveIngredients
+A component containing a list of ActiveIngredientRows to what this parent component passes the loaded activeIngredientOptions for the select field, the currently selected activeIngredient and binds functions to delete emit and update emit of the child. This section also has a button for adding new activeIngredient to the join table. Adding a new row automatically posts it with the first activeIngredientOption's id.
+#### ActiveIngredientRow
+This component is only a row with 2 FormKit elements. A select for selecting the wanted activeIngredient and a delete button. In case the selected item changes it emits the updateActiveIngredient with the selected item. If the delete button is clicked, this child component emits a deleteActiveIngredient with the item's id, so the parent component can handle it.
+#### RemedyFors
+A component containing a list of RemedyForRows to what this parent component passes the loaded remedyForOptions for the select field, the currently selected remedyFor and binds functions to delete emit and update emit of the child. This section also has a button for adding new remedyFor to the join table. Adding a new row automatically posts it with the first remedyForOption's id.
+#### RemedyForRow
+This component is only a row with 2 FormKit elements. A select for selecting the wanted remedyFor and a delete button. In case the selected item changes it emits the updateRemedyFor with the selected item. If the delete button is clicked, this child component emits a deleteRemedyFor with the item's id, so the parent component can handle it.
+#### SideEffects
+A component containing a list of SideEffectRows to what this parent component passes the loaded sideEffectOptions for the select field, the currently selected sideEffect and binds functions to delete emit and update emit of the child. This section also has a button for adding new sideEffect to the join table. Adding a new row automatically posts it with the first sideEffectOption's id.
+#### SideEffectRow
+This component is only a row with 2 FormKit elements. A select for selecting the wanted sideEffect and a delete button. In case the selected item changes it emits the updateSideEffect with the selected item. If the delete button is clicked, this child component emits a deleteSideEffect with the item's id, so the parent component can handle it.
+#### PackageSizes
+A component containing a list of PackageSizeRows to what this parent component passes the currently set packageSize value and binds functions to delete emit and update emit of the child. This section also has a button for adding new packageSuze to the join table. Adding a new row automatically posts it with 1 or the max value of the PackageSizes plus 1. The edit function only updates the table if the value is changed.
+#### PackageSizeRow
+This component is only a row with 2 FormKit elements. A number input for setting the packageSize and a delete button. In case the number input field is unfocused it emits the updatePackageSize with the changed item. If the delete button is clicked, this child component emits a deletePackageSize with the item's id, so the parent component can handle it.
+
+### Custom styles
+
+### Stores
+
+### Routing
+
+## MAUI Application
+
+The main purpose of our project was the creation of this application. With it, users are able to create reminders for themselves that help them remember to take their medicines. In the following section can be found the description of the application's structure. 
+
+### Appearance & design
+#### Themes
+Our application implements a dark and a light theme that users can switch between based on their preferences. The files responsible for this are *DarkTheme.xaml* and *LightTheme.xaml*. Each of these files consists of colors with the same list of keys. When a user switches between the two themes, the corresponding color is applied to each component where the color with the given key is used.
+
+#### Custom Styles
+In order to reduce code repetition, we used *CustomStyles.xaml* to create design templates for components that can be reused throughout the code. Each of these preset designs has a TargetType (which defines what components it can be applied to) and a Key (by which it can be referred to).
+
+Moreover, we use a custom font called PlayfairDisplay in our application, which is stored in the *Resources/Fonts* folder.
+
+### Components (ContentViews)
+
+There are a number of components that are reused several times throughout the application. These components are  implemented as ContentViews in order to increase their independence and to reduce redundance in our codebase. 
+
+#### PillPal Logo
+As this logo is used in almost every single page in our mobile app, we decided to distribute it into a ContentView. This ContentView consists of a frame that is responsible for the background color and the size of the logo and an image of our logo inside it. 
+
+#### ThemeSwitch
+This component can be found on the Login, Register and Settings pages, and it is used to switch between the aforementioned dark and light themes. Tied to it is the *ThemeSwitchViewModel*, which is responsible for the logic behind the switch. When this component is loaded, the viewmodel checks if a theme has been saved to the device, and if not, saves the light theme as default. Once the switch is toggled, the **SwitchTheme()** function is called, which replaces the MergedDictionaries of the application and adds the relevant theme, then saves the theme to the device (so that it is stored even when the application is closed).
+
+#### HomeButton
+This is used as the navigation menu in our application, and the structure is that of an *Expander*. The header contains the logo, and if clicked, the menu options appear and float out from behind. There are three menu options: New reminder, Home page and Settings. Each of these options is represented with a descriptive icon. When a menu option is clicked, the correlating command in *HomeButtonViewModel* is called, which redirects to the desired page.
+
+#### ReminderCard
+This card is used to display reminders on the main screen of our application. On the card, the time of the reminder, the name of the medicine, the dose the user has to take, the taking method and three action buttons can be found. These buttons are used to delete or edit the reminder, or to check the details of the medicine the reminder is bound to. The *ReminderCardViewModel* is responsible for the logic of the component, which confirms the deletion or redirects to the edit or detail pages.
+
+
+### Pages
+#### LoginPage
+On the page, the user has the options to switch between themes, log in or go to the registration page. The login process is handled by the *LoginViewModel*, which asks for notification permission (necessary for using the app) and checks if the login data was correct.
+
+#### RegisterPage
+This page is very similar to the Login page, as it also has a theme toggle and a similar layout. Furthermore, it gives the ability for the user to register a new account and to go to the login page. The registration is handled by the *RegisterViewModel*, where the username is checked for validity (whether it's taken by already existing users). The the strength of the password and whether it matches the confirmation are also factors that are checked when the user hits registration.
+
+#### MainPage
+This is the page where the user's existing reminders are listed using ReminderCards. It's also the page that a user first sees upon logging in (thus the name). The cards are dynamically loaded onto the page thanks to the *MainViewModel*, where the data is requested from the api
+
+#### DetailPage
+When a user clicks the info button on a *ReminderCard*, a page pops up with the data of the medicine that belongs to the reminder. On this page, the name, manufacturer, side effects, active ingredients and ailments are visible. The data is loaded in via *DetailPageViewModel*.
+
+#### NewReminderPage
+This page is used for creating new reminders. This can be done by clicking the plus icon in the navigation menu, then selecting a medicine that the user wants to set a reminder for, and filling in the necessary data. Once the submit button is pressed, the *NewReminderViewModel* checks for errors, and if all is well, displays a pop-up saying that the upload was successful, then redirects to the main page.
+
+#### EditReminderPage
+As the name suggest, this page is used for editing an already existing reminder, and it can be accessed by clicking the edit button on a *ReminderCard*. Similar to how it's done in the new reminder page, the data is checked by a viewmodel (namely *EditReminderViewModel*) before submitting it to the API. Here the user can change the medicine the reminder is bound to, the dose size, the time of the reminder and so on.
+
+#### SettingsPage
+Last but not least, we come to the settings. This is the third and final button in the navigation menu, and a user can do three things here: change the application theme, log out or delete their account. The redirection, confirmation pop-up windows and API request are handled by *SettingsPageViewModel*.
+

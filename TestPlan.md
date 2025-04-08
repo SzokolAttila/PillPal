@@ -1,5 +1,7 @@
 # PillPal Test Plan
 
+## Unit tests
+
 ### User tests (password hashing)
 
 | Scope  | Description | Preparations | Actions | Expected result |
@@ -17,6 +19,8 @@
 | Component test | Items can be removed | Initialize an IDCollection with an item | Remove at existing id; remove at non existing id; check count | returns true; returns false; count is 0 |
 | Component test | Existing item can be updated | Initialize empty IDCollection and add medicine to it; Changing medicine name and replacing it | Get the medicine's name from IDCollection | Medicine's name is the changed name |
 | Component test | Updating or deleting non existing item returns false | Create an empty IDCollection | Remove from empty collection; updating empty collection | both returns false |
+
+## API tests
 
 ### MedicineAPI tests (Authorization and validation)
 
@@ -36,7 +40,7 @@
 
 ### ReminderAPI tests (validator and authorization)
 
-| Scope  | Description | Preparations | Actions | Expected result |
+| Scope | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
 | Integration test | Admin can get all reminders | Create admin user | Getting all the reminders returns them in a list | True |
 | Integration test | User cannot get all reminders | Create user | Getting all the reminders throws an argument exception | Forbidden |
@@ -113,7 +117,7 @@
 | Integration test | Cannot edit / delete non-existant package size | Create an admin user | Try to edit / delete the package size without adding it first | Not Found exception | 
 
 ### RemedyForAPI tests (authorization, validation and join table configuration (medicineRemedyFor also included))
-| Scope  | Description | Preparations | Actions | Expected result |
+| Scope | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
 | Integration test | Admin role needed to create remedyFor (and medicineRemedyFor) | Create an admin user, a simple user and a medicine | Try adding a remedyFor (and then a medicineRemedyFor) first with user token, then with admin token | Throws a Forbidden error when attempting with user token |
 | Integration test | Cannot add remedyFor if the ailment's length is less than 3 | Create an admin user and a medicine | Try posting a remedyFor with the ailment's length less than 3 | Validation exception will be thrown | 
@@ -124,7 +128,7 @@
 | Integration test | Cannot edit / delete non-existant remedyFor / medicineRemedyFor | Create an admin user | Try to edit / delete a remedyFor / medicineRemedyFor without adding it first | Not Found error | 
 
 ### SideEffectAPI tests (authorization, validation and join table configuration (medicineSideEffect also included))
-| Scope  | Description | Preparations | Actions | Expected result |
+| Scope | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
 | Integration test | Admin role needed to create sideEffect (and medicineSideEffect) | Create an admin user, a simple user and a medicine | Try adding a sideEffect (and then a medicineSideEffect) first with user token, then with admin token | Throws a Forbidden error when attempting with user token |
 | Integration test | Cannot add sideEffect if the effect's length is less than 3 | Create an admin user and a medicine | Try posting a sideEffect with the effect's length less than 3 | Validation exception will be thrown | 
@@ -135,7 +139,7 @@
 | Integration test | Cannot edit / delete non-existant sideEffect / medicineSideEffect | Create an admin user | Try to edit / delete a sideEffect / medicineSideEffect without adding it first | Not Found error | 
 
 ### ActiveIngredientAPI tests (authorization, validation and join table configuration (medicineActiveIngredient also included))
-| Scope  | Description | Preparations | Actions | Expected result |
+| Scope | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
 | Integration test | Admin role needed to create activeIngredient (and medicineActiveIngredient) | Create an admin user, a simple user and a medicine | Try adding an activeIngredient (and then a medicineActiveIngredient) first with user token, then with admin token | Throws a Forbidden error when attempting with user token |
 | Integration test | Cannot add activeIngredient if the ingredient's length is less than 3 | Create an admin user and a medicine | Try posting an activeIngredient with the ingredient's length less than 3 | Validation exception will be thrown | 
@@ -145,23 +149,95 @@
 | Integration test | Admin role needed to edit / delete activeIngredient | Create an admin user, a simple user, a medicine, an activeIngredient and a medicineActiveIngredient | Try editing / deleting the activeIngredient (and the medicineActiveIngredient) first with user token, then with admin token | First attempt will throw Forbidden error, the second one will succeed | 
 | Integration test | Cannot edit / delete non-existant activeIngredient / medicineActiveIngredient | Create an admin user | Try to edit / delete an activeIngredient / medicineActiveIngredient without adding it first | Not Found error | 
 
-### GUI tests (manual testing)
-| Scope  | Description | Preparations | Actions | Expected result |
+## Selenium tests
+
+### Login page Selenium tests
+| Scope | Description | Preparations | Actions | Expected result |
+| ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
+| System test | Root page is login page | Start up container | Open the root page | Title and input fields are shown |
+| System test | Page doesnt let user in if password is wrong | Start up container and register an admin via api handler | Try to log in with the wrong password | Website throws error of wrong password |
+| System test | Page doesnt let user in if permission level is wrong | Start up container and register a general user via api handler | Try to log in the user with the proper password | Website throws error of permission denied |
+| System test | Login button redirects on proper data | Start up container and register the admin via api handler | Try to log in the admin with the proper password | Website redirects to the users page |
+
+### Navbar Selenium tests
+| Scope | Description | Preparations | Actions | Expected result |
+| ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
+| System test | Sidebar shows with its proper data | Start up the container | Open the root page | Navbar shows PillPal logo, users button, new medicine button, new medicine data button, edit medicine button and logout button |
+| System test | If not logged in, pages redirect to login | Start up the container and open the root page | Click on new medicine button | At the end it redirects back to login page |
+| System test | If logged in sidebar users button redirect to users page | Start up the container, register the admin via api handler and login admin | Click on user button | Redirects to users page |
+| System test | If logged in sidebar new medicine button redirect to users page | Start up the container, register the admin via api handler and login admin | Click on new medicine button | Redirects to new medicine page |
+| System test | If logged in sidebar new medicine data button redirect to users page | Start up the container, register the admin via api handler and login admin | Click on new medicine data button | Redirects to new medicine data page |
+| System test | If logged in sidebar medicine edit button redirect to users page | Start up the container, register the admin via api handler and login admin | Click on medicine edit button | Redirects to medicine edit page |
+| System test | If logged in sidebar logout button logs admin out | Start up the container, register the admin via api handler and login admin | Click on logout button, click on users button | Redirects to login page instead of users page |
+
+### New medicine data Selenium tests
+| Scope | Description | Preparations | Actions | Expected result |
+| ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
+| System test | New medicine data page shows up the proper data | Start up the container, register an admin via api handler, open the root page and login | Click on new medicine data button | Page shows title and boxes for PackageUnits, SideEffects, ActiveIngredients, RemedyFors |
+| System test | Creating PackageUnit adds PackageUnit to api | Start up the container, register an admin via api handler, open the root page, login, go to medicine data page and remove PackageUnit if already exists | Enter a proper new package unit name and add it | New package unit is added to api |
+| System test | Trying to create duplicated PackageUnit doesnt add PackageUnit to api | Start up the container, register an admin via api handler, open the root page, login, go to medicine data page and add PackageUnit if doesnt exist | Enter the same new package unit name and add it | Alert window shows up |
+| System test | Creating PackageUnit with wrong name shows validation message | Start up the container, register an admin via api handler, open the root page, login, go to medicine data page and remove PackageUnit if already exists | Enter an improper new package unit name and try to add it | Validation message shows up |
+| System test | Editing PackageUnit modifies PackageUnit in api | Start up the container, register an admin via api handler, open the root page, login, go to medicine data page, create a PackageUnit if doesnt exist and delete the PackageUnit what we want to modify to if it exists | Search for the created package unit, then change its name and save it | Getting all the package units contains changed value |
+| System test | Creating SideEffect adds SideEffect to api | Start up the container, register an admin via api handler, open the root page, login, go to medicine data page and remove SideEffect if already exists | Enter a proper new side effect name and add it | New side effect is added to api |
+| System test | Trying to create duplicated SideEffect doesnt add SideEffect to api | Start up the container, register an admin via api handler, open the root page, login, go to medicine data page and add SideEffect if doesnt exist | Enter the same new side effect name and add it | Alert window shows up |
+| System test | Creating SideEffect with wrong name shows validation message | Start up the container, register an admin via api handler, open the root page, login, go to medicine data page and remove SideEffect if already exists | Enter an improper new side effect name and try to add it | Validation message shows up |
+| System test | Editing SideEffect modifies SideEffect in api | Start up the container, register an admin via api handler, open the root page, login, go to medicine data page, create a SideEffect if doesnt exist and delete the SideEffect what we want to modify to if it exists | Search for the created side effect, then change its name and save it | Getting all the side effects contains changed value |
+| System test | Creating ActiveIngredient adds ActiveIngredient to api | Start up the container, register an admin via api handler, open the root page, login, go to medicine data page and remove ActiveIngredient if already exists | Enter a proper new active ingredient name and add it | New active ingredient is added to api |
+| System test | Trying to create duplicated ActiveIngredient doesnt add ActiveIgredient to api | Start up the container, register an admin via api handler, open the root page, login, go to medicine data page and add ActiveIngredient if doesnt exist | Enter the same new active ingredient name and add it | Alert window shows up |
+| System test | Creating ActiveIngredient with wrong name shows validation message | Start up the container, register an admin via api handler, open the root page, login, go to medicine data page and remove ActiveIngredient if already exists | Enter an improper new active ingredient name and try to add it | Validation message shows up |
+| System test | Editing ActiveIngredient modifies ActiveIngredient in api | Start up the container, register an admin via api handler, open the root page, login, go to medicine data page, create a ActiveIngredient if doesnt exist and delete the ActiveIngredient what we want to modify to if it exists | Search for the created active ingredient, then change its name and save it | Getting all the active ingredients contains changed value |
+| System test | Creating RemedyFor adds RemedyFor to api | Start up the container, register an admin via api handler, open the root page, login, go to medicine data page and remove RemedyFor if already exists | Enter a proper new ailment name and add it | New ailment is added to api |
+| System test | Trying to create duplicated RemedyFor doesnt add RemedyFor to api | Start up the container, register an admin via api handler, open the root page, login, go to medicine data page and add RemedyFor if doesnt exist | Enter the same new ailment name and add it | Alert window shows up |
+| System test | Creating RemedyFor with wrong name shows validation message | Start up the container, register an admin via api handler, open the root page, login, go to medicine data page and remove RemedyFor if already exists | Enter an improper new ailment name and try to add it | Validation message shows up |
+| System test | Editing RemedyFor modifies RemedyFor in api | Start up the container, register an admin via api handler, open the root page, login, go to medicine data page, create a RemedyFor if doesnt exist and delete the RemedyFor what we want to modify to if it exists | Search for the created ailment, then change its name and save it | Getting all the ailments contains changed value |
+### Users page Selenium tests
+| Scope | Description | Preparations | Actions | Expected result |
+| ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
+| System test | Typing in the searchbar filters users | Start up the container, register an admin and a user via api handler, open the root page, login, go to users page | Type a letter | Only users whose name includes that specific letter will appear |
+| System test | User deletion can be canceled | Start up the container, register an admin via api handler, open the root page, login, go to users page | Press delete on one of the users, and when the confirmation window pops up, press cancel | Number of users will stay the same |
+| System test | User can be deleted | Start up the container, register an admin and a user via api handler, open the root page, login, go to users page | Press delete on one of the users, and when the confirmation window pops up, press OK | A pop-up will appear with 'Sikeresen törölve!' text, then that user will disappear (the number of users will decrease by one)  |
+| System test | Admin user can be deleted | Start up the container, register an admin via api handler, open the root page, login, go to users page | Press delete on the administrator, and when the confirmation window pops up, press OK | Pop-up will appear with successful delete text, administrator will disappear, then you will be logged out with a pop-up that states that the admin user has been deleted |
+
+### New medicine page Selenium tests
+| Scope | Description | Preparations | Actions | Expected result |
+| ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
+| System test | Empty form displays four errors | Start up the container, register an admin via api handler, open the root page, login, go to new medicine page | Press submit | Four red error messages will appear |
+| System test | Error message appears at incorrect length | Start up the container, register an admin via api handler, open the root page, login, go to new medicine page | Type something into one of the fields that doesn't match the necessary length of the field | An error message will appear stating the required length of field |
+| System test | Medicine can be created | Start up the container, register an admin via api handler, open the root page, login, go to new medicine page | Fill the form with correct data and press submit | Alert will appear saying the upload was successful |
+
+### Edit medicine page Selenium tests
+| Scope | Description | Preparations | Actions | Expected result |
+| ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
+| System test | An existing medicine is already loaded into the form | Start up the container, register an admin via api handler and add a medicine, open the root page, login | Go to edit medicine page | The inputs are already filled with the data of the first uploaded medicine |
+| System test | Clicking an another medicine will update data in the form | Start up the container, register an admin and add two medicines via api handler, open the root page, login, go to edit medicine page | Click on a different medicine than the selected one | The data filled into the input fields will be updated |
+| System test | Medicine data needs to be the correct length | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page | Set one of the fields to a string with an incorrect length | Validation error will appear |
+| System test | Medicine can be updated | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page | Edit the fields in a way that they are the correct length, then press edit | Alert will appear with "Sikeresen módosult a gyógyszer" message |
+| System test | Side effect can be added | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page | Press add side effect button | A side effect will appear under the existing ones |
+| System test | Active ingredient can be added | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page | Press add active ingredient button | An active ingredient will appear under the existing ones |
+| System test | Ailment can be added | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page | Press add ailment button | An ailment will appear under the existing ones |
+| System test | Package size can be added | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page | Press add package size button | A package size will appear under the existing ones |
+| System test | Side effect can be deleted | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page, add side effect | Press delete next to the side effect | The side effect will disappear |
+| System test | Active ingredient can be deleted | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page and add an active ingredient | Press delete next to the active ingredient | The ingredient will disappear |
+| System test | Ailment can be deleted | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page and add an ailment | Press delete next to the ailment | The ailment will disappear from the list |
+| System test | Package size can be deleted | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page and add a package size | Press delete next to the package size | The package size will disappear from the list |
+
+## GUI tests (mobile app manual testing)
+| Scope | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
 | System test | Register result will show pop-up window | Open register tab | Register user with invalid data | Pop-up will be shown with the details of the error |
 | System test | Register result will show pop-up window | Open register tab | Register user with valid data | Pop-up will be shown with a "Successful registration" text |
 | System test | Invalid login makes a pop-up window appear | Open login tab | Try to log in with invalid data | Pop-up will say "Invalid username or password" |
 | System test | Valid login will lead user to reminders tab | Open login tab | Log in to existing user with valid data | No pop-up, list of reminders will be displayed |
 | System test | Reminder can be added via UI | Register a user and log in | Create a reminder with valid data | Reminder will be added to reminders and shown in the reminders tab |
-| System test | Invalid reminder results in pop-up | Register a user and log in | Create a reminder with invalid data | A window will pop up, explaining the problem |
 | System test | User can check the description of a medicine | Register a user, log in and add a reminder | Click on the information button of the reminder | A page with the detailed description of the medicine will be displayed |
-| System test | User can delete a reminder | Register a user, log in and add a reminder | Click on the delete button of the reminder | Reminder will disappear from the list |
+| System test | User can delete a reminder | Register a user, log in and add a reminder | Click on the delete button of the reminder, then confirm the deletion | Reminder will disappear from the list |
 | System test | Edit button of a reminder leads to edit tab | Register a user, log in and add a reminder | Click on the edit button of the reminder | Edit page will be displayed, with the current data of the reminder |
 | System test | User can edit a reminder | Register a user, log in, add a reminder and click on edit | Input the new data and click save | Reminder will be listed with the updated data |
-| System test | Invalid updated data will result in pop-up | Register a user, log in, add a reminder and click on edit | Input the new invalid data and click save | Pop-up will appear |
 | System test | User is notified about a reminder | Register a user, log in and add a reminder | Wait until the time of the reminder | Notification will pop up on the phone's screen |  
-| System test | User is can dismiss a reminder | Register a user, log in and add a reminder and wait for it to notify you | Click on "dismiss" | Notification will disappear and won't pop up again until the next day |  
-| System test | User is can "snooze" a reminder | Register a user, log in and add a reminder and wait for it to notify you | Click on "snooze" | Notification will disappear and will pop up again a few minutes later |  
+| System test | User can dismiss a reminder | Register a user, log in and add a reminder and wait for it to notify you | Click on "dismiss" | Notification will disappear and won't pop up again until the next day | 
+| System test | User can change theme settings | Register a user, log in and go to settings | Toggle the theme switch | Background color will change | 
+| System test | User can log out | Register a user, log in and go to settings | Click logout button and confirm | User will be redirected to login page | 
+| System test | User can delete own account | Register a user, log in and go to settings | Click delete account button and confirm | User will be redirected to login page with a pop-up saying that the account was deleted |  
 
 Unit tests:
 - Password hashing for user

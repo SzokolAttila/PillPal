@@ -5,9 +5,9 @@ namespace PillPalMAUI.Pages;
 
 public partial class EditReminderPage : ContentPage
 {
-	public EditReminderPage(Reminder reminder, string auth)
+	public EditReminderPage(Reminder reminder)
 	{
 		InitializeComponent();
-		BindingContext = new EditReminderViewModel(reminder, auth);
+		BindingContext = new EditReminderViewModel(reminder);
     }
 }

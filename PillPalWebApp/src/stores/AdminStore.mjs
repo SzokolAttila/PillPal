@@ -2,7 +2,9 @@ import { defineStore } from "pinia";
 import { http } from '@utils/http'
 
 export const useAdminStore = defineStore("admin", {
-    persist: true,
+    persist: {
+        storage: sessionStorage
+    },
     state(){
         return {
             token: null,

@@ -11,9 +11,9 @@ namespace PillPalMAUI
         {
             base.OnCreate(savedInstanceState);
 
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.O && OperatingSystem.IsAndroidVersionAtLeast(26))
+            if (OperatingSystem.IsAndroidVersionAtLeast(26))
             {
-                var channel = new NotificationChannel("reminder_channel", "Reminders", NotificationImportance.High);
+                var channel = new NotificationChannel("reminder_channel", "Reminders", NotificationImportance.Max);
                 channel.Description = "Channel for reminder notifications";
                 
                 ((NotificationManager)GetSystemService(NotificationService)!)

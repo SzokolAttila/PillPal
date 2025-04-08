@@ -1,6 +1,7 @@
 ﻿using PillPalLib;
 using PillPalLib.APIHandlers;
 using PillPalMAUI.Models;
+using PillPalMAUI.Pages;
 using PillPalMAUI.Resources.ContentViews;
 using Plugin.LocalNotification;
 using System;
@@ -17,6 +18,7 @@ namespace PillPalMAUI.ViewModels
     public class MainViewModel : ViewModelBase
     {
         readonly ReminderAPIHandler handler = new();
+        private readonly UserAPIHandler _userHandler = new();
 
         private ObservableCollection<ReminderCardViewModel> reminderCards = new();
         public ObservableCollection<ReminderCardViewModel> ReminderCards
@@ -24,32 +26,52 @@ namespace PillPalMAUI.ViewModels
             get { return reminderCards; }
             set { reminderCards = value; Changed(); }
         }
-        private HomeButtonViewModel homeButton;
-        public HomeButtonViewModel HomeButton
-        {
-            get => homeButton;
-            set
-            {
-                homeButton = value;
-                Changed();
-            }
-        }
 
         public void RemoveReminderCard(ReminderCardViewModel card)
         {
             ReminderCards.Remove(card);
         }
-
-        public MainViewModel(int userId, string auth)
+        private void RemoveData()
         {
-            HomeButton = new HomeButtonViewModel(userId, auth);
+            SecureStorage.Default.Remove("UserId");
+            SecureStorage.Default.Remove("Token");
+        }
+        private async void CheckValidity(int id, string? token)
+        {
+            if (string.IsNullOrEmpty(token))
+            {
+                RemoveData();
+                await Application.Current!.MainPage!.DisplayAlert("Hiba", "Nincs bejelentkezve!", "OK");
+                Application.Current!.MainPage = new LoginPage();
+                return;
+            }
+            else
+            {
+                try
+                {
+                    var user = _userHandler.GetUser(id, token);
+                }
+                catch (Exception e)
+                {
+                    RemoveData();
+                    await Application.Current!.MainPage!.DisplayAlert("Hiba", $"A fiók törölve lett! ({e.Message})", "OK");
+                    Application.Current!.MainPage = new LoginPage();
+                    return;
+                }
+            }
+        }
+        public MainViewModel()
+        {
+            int id = Convert.ToInt32(SecureStorage.Default.GetAsync("UserId").Result);
+            var token = SecureStorage.Default.GetAsync("Token").Result;
+            CheckValidity(id, token);
             LocalNotificationCenter.Current.CancelAll();
-            var reminders = handler.Get(userId, auth).OrderBy(x => x.When);
+            var reminders = handler.Get(id, token!).OrderBy(x => x.When);
             TimeOnly now = TimeOnly.FromDateTime(DateTime.Now);
             //Put the reminders that are the most actual to the first place
             foreach (var reminder in reminders.Where(x=>x.When.CompareTo(now) >= 0))
             {
-                ReminderCardViewModel cardModel = new() { Reminder = reminder, Auth = auth };
+                ReminderCardViewModel cardModel = new() { Reminder = reminder, Auth = token! };
                 cardModel.RemoveFromScreen = () => ReminderCards.Remove(cardModel);
                 ReminderCards.Add(cardModel);
                 _ = ReminderManager.CreateNotification(reminder, reminder.Medicine!);
@@ -58,7 +80,7 @@ namespace PillPalMAUI.ViewModels
             //Then put after the reminders that are already passed
             foreach (var reminder in reminders.Where(x => x.When.CompareTo(now) < 0))
             {
-                ReminderCardViewModel cardModel = new() { Reminder = reminder, Auth = auth };
+                ReminderCardViewModel cardModel = new() { Reminder = reminder, Auth = token! };
                 cardModel.RemoveFromScreen = () => ReminderCards.Remove(cardModel);
                 ReminderCards.Add(cardModel);
                 _ = ReminderManager.CreateNotification(reminder, reminder.Medicine!);

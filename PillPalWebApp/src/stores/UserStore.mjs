@@ -12,6 +12,16 @@ export const useUserStore = defineStore('user-store', {
       const response = await http.get('User')
       this.users = response.data;
     },
+    async getUser(id){
+      try {
+        const response = await http.get(`User/${id}`);
+        return response.data;
+      }
+      catch (error)
+      {
+        return null;
+      }
+    },
     async deleteUser(id){
       try{
         await http.delete(`User/${id}`);

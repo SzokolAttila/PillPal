@@ -10,30 +10,26 @@ namespace PillPalMAUI.ViewModels
 {
     public class HomeButtonViewModel : ViewModelBase
     {
-        public HomeButtonViewModel(int userId, string token)
+        public HomeButtonViewModel()
         {
-            Auth = token;
-            UserId = userId;
             NewReminderPressed = new Command(ToNewReminder);
             SettingsPressed = new Command(ToSettings);
             HomePressed = new Command(ToHome);
         }
-        public string Auth { get; set; } = string.Empty;
-        public int UserId { get; set; }
         public ICommand NewReminderPressed { get; private set; }
         public ICommand SettingsPressed { get; private set; }
         public ICommand HomePressed { get; private set; }
         private void ToHome()
         {
-            Application.Current!.MainPage = new MainPage(UserId, Auth);
+            Application.Current!.MainPage = new MainPage();
         }
         private void ToSettings()
         {
-            Application.Current!.MainPage = new SettingsPage(Auth, UserId);
+            Application.Current!.MainPage = new SettingsPage();
         }
         private void ToNewReminder()
         {
-            Application.Current!.MainPage = new NewReminderPage(UserId, Auth);
+            Application.Current!.MainPage = new NewReminderPage();
         }
     }
 }

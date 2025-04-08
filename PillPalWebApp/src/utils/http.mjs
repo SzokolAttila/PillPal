@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {useAdminStore} from '@stores/AdminStore'
+import {useUserStore} from '@stores/UserStore'
 import {router} from '@/router/index'
 
 export const http = axios.create({

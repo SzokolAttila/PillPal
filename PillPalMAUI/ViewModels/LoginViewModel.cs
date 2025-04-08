@@ -37,6 +37,10 @@ namespace PillPalMAUI.ViewModels
         }
         public LoginViewModel()
         {
+            if (SecureStorage.Default.GetAsync("UserId").Result != null)
+            {
+                Application.Current!.MainPage = new MainPage();
+            }
             _userHandler = new UserAPIHandler();
             Login = new Command(LogIntoAccount);
         }
@@ -56,8 +60,9 @@ namespace PillPalMAUI.ViewModels
                         return;
                     }
                 }
-
-                Application.Current!.MainPage = new MainPage(login.Id, login.Token);
+                SecureStorage.Default.SetAsync("UserId", login.Id.ToString()).Wait();
+                SecureStorage.Default.SetAsync("Token", login.Token).Wait();
+                Application.Current!.MainPage = new MainPage();
             }
             catch (Exception ex) 
             {

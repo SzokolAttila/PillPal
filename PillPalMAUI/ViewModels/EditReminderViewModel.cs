@@ -26,12 +26,6 @@ namespace PillPalMAUI.ViewModels
             }
 		}
 
-        public ICommand SearchMeds => new Command(() =>
-        {
-            Searched = new ObservableCollection<Medicine>(medHandler.GetMedicines()
-                .Where(x=>x.Name.ToLower().Contains(MedName.ToLower())));
-        });
-
         private ObservableCollection<Medicine> searched;
 
         public ObservableCollection<Medicine> Searched
@@ -45,7 +39,13 @@ namespace PillPalMAUI.ViewModels
         public string MedName
         {
             get { return medName; }
-            set { medName = value; Changed(); }
+            set 
+            { 
+                medName = value;
+                Searched = new ObservableCollection<Medicine>(_allMedicines
+                    .Where(x => x.Name.Contains(MedName, StringComparison.CurrentCultureIgnoreCase)));
+                Changed(); 
+            }
         }
 
 
@@ -78,34 +78,32 @@ namespace PillPalMAUI.ViewModels
                 Changed();
             }
         }
-
-
         public ICommand Modify { get; private set; }
         public ICommand Cancel { get; private set; }
         private readonly ReminderAPIHandler handler;
         private readonly MedicineAPIHandler medHandler;
         private readonly string Auth;
-
-        public EditReminderViewModel(Reminder reminder, string auth)
+        private readonly IEnumerable<Medicine> _allMedicines;
+        public EditReminderViewModel(Reminder reminder)
 		{
             handler = new();
             medHandler = new();
-            Auth = auth;
+            _allMedicines = medHandler.GetMedicines();
+            Searched = new ObservableCollection<Medicine>(_allMedicines.OrderBy(x => x.Name));
             Reminder = reminder;
             When = new TimeSpan(Reminder.When.Hour, Reminder.When.Minute, 0);
             Modify = new Command(ModifyReminder);
             Cancel = new Command(StopEditing);
-            HomeButton = new(reminder.UserId, Auth);
-        }
-        private HomeButtonViewModel homeButton;
-        public HomeButtonViewModel HomeButton
-        {
-            get => homeButton;
-            set
+            var token = SecureStorage.Default.GetAsync("Token").Result;
+            if (token == null)
             {
-                homeButton = value;
-                Changed();
+                SecureStorage.Default.Remove("UserId");
+                SecureStorage.Default.Remove("Token");
+                Application.Current!.MainPage!.DisplayAlert("Hiba", "Nincs bejelentkezve!", "OK");
+                Application.Current!.MainPage = new LoginPage();
+                return;
             }
+            Auth = token;
         }
         private async void StopEditing()
         {
@@ -113,7 +111,7 @@ namespace PillPalMAUI.ViewModels
             bool result = await Application.Current!.MainPage!.DisplayAlert("Változtatások eldobása", "Biztosan szeretnéd dobni a változtatásokat?", "Igen", "Nem");
             if (result)
             {
-                Application.Current!.MainPage = new MainPage(reminder.UserId, Auth);
+                Application.Current!.MainPage = new MainPage();
             }
         }
         private async void ModifyReminder()
@@ -131,7 +129,7 @@ namespace PillPalMAUI.ViewModels
                 await Application.Current!.MainPage!.DisplayAlert("Sikeres módosítás!",
                     $"A módosítás sikeres volt.", "OK");
                 await ReminderManager.UpdateNotification(reminder, reminder.Medicine!);
-                Application.Current!.MainPage = new MainPage(reminder.UserId, Auth);
+                Application.Current!.MainPage = new MainPage();
             }
             catch (Exception ex)
             {

@@ -14,19 +14,26 @@ namespace PillPalMAUI.ViewModels
 {
     public class NewReminderViewModel : ViewModelBase
     {
-        private readonly MedicineAPIHandler _medicineHandler;
-        private readonly ReminderAPIHandler _reminderHandler;
+        private readonly MedicineAPIHandler _medicineHandler = new();
+        private readonly ReminderAPIHandler _reminderHandler = new();  
         public string Auth { get; set; } = string.Empty;
         public int UserId { get; set; }
-        public NewReminderViewModel(int userId, string auth)
+        private readonly IEnumerable<Medicine> _allMedicines;
+        public NewReminderViewModel()
         {
-            UserId = userId;
-            Auth = auth;
-            _reminderHandler = new();
-            _medicineHandler = new();
-            HomeButton = new HomeButtonViewModel(userId, auth);
-            Medicines = _medicineHandler.GetMedicines().OrderBy(x => x.Name);
+            _allMedicines = _medicineHandler.GetMedicines();
+            Medicines = _allMedicines.OrderBy(x => x.Name);
             CreateReminder = new Command(CreateNewReminder);
+            if (SecureStorage.Default.GetAsync("Token").Result == null)
+            {
+                SecureStorage.Default.Remove("UserId");
+                SecureStorage.Default.Remove("Token");
+                Application.Current!.MainPage!.DisplayAlert("Hiba", "Nincs bejelentkezve!", "OK");
+                Application.Current!.MainPage = new LoginPage();
+                return;
+            }
+            UserId = Convert.ToInt32(SecureStorage.Default.GetAsync("UserId").Result);
+            Auth = SecureStorage.Default.GetAsync("Token").Result!;
         }
 
         private async void CreateNewReminder()
@@ -52,7 +59,7 @@ namespace PillPalMAUI.ViewModels
                 {
                     await ReminderManager.CreateNotification(created, Medicine!);
                     await Application.Current!.MainPage!.DisplayAlert("Sikeres létrehozás", "Sikeresen létrehozta az emlékeztetőt!", "Vissza a főoldalra");
-                    Application.Current!.MainPage = new MainPage(UserId, Auth);
+                    Application.Current!.MainPage = new MainPage();
                 }
                 else
                 {
@@ -62,17 +69,6 @@ namespace PillPalMAUI.ViewModels
             catch (Exception ex)
             {
                 await Application.Current!.MainPage!.DisplayAlert("Hiba", $"Hiba történt az emlékeztető létrehozása közben: {ex.Message}", "OK");
-            }
-        }
-
-        private HomeButtonViewModel homeButton;
-        public HomeButtonViewModel HomeButton
-        {
-            get => homeButton;
-            set
-            {
-                homeButton = value;
-                Changed();
             }
         }
         private string takingMethod = string.Empty;
@@ -103,11 +99,11 @@ namespace PillPalMAUI.ViewModels
             {
                 medicineName = value;
                 if (medicineName == string.Empty)
-                    Medicines = _medicineHandler.GetMedicines()
+                    Medicines = _allMedicines
                         .OrderBy(x => x.Name);
                 else
                 {
-                    Medicines = _medicineHandler.GetMedicines()
+                    Medicines = _allMedicines
                     .Where(x => x.Name.Contains(medicineName, StringComparison.CurrentCultureIgnoreCase))
                     .OrderBy(x => x.Name);
                 }
