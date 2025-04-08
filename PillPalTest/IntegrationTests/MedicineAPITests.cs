@@ -144,15 +144,15 @@ namespace PillPalTest.IntegrationTests
 
             medicine.Manufacturer = "a";
             var message = Assert.ThrowsException<ArgumentException>(() => handler.CreateMedicine(medicine, adminToken));
-            Assert.AreEqual("A gyártó nevének 5 és 30 karakter között kell lennie.", message.Message);
+            Assert.AreEqual("A gyártó nevének 3 és 30 karakter között kell lennie.", message.Message);
             message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateMedicine(1, medicine, adminToken));
-            Assert.AreEqual("A gyártó nevének 5 és 30 karakter között kell lennie.", message.Message);
+            Assert.AreEqual("A gyártó nevének 3 és 30 karakter között kell lennie.", message.Message);
 
             medicine.Manufacturer = "asdmsasvaksamclkasmclkasmclkasmclkmsclakmsclksamclakmsclaksmc";
             message = Assert.ThrowsException<ArgumentException>(() => handler.CreateMedicine(medicine, adminToken));
-            Assert.AreEqual("A gyártó nevének 5 és 30 karakter között kell lennie.", message.Message);
+            Assert.AreEqual("A gyártó nevének 3 és 30 karakter között kell lennie.", message.Message);
             message = Assert.ThrowsException<ArgumentException>(() => handler.UpdateMedicine(1, medicine, adminToken));
-            Assert.AreEqual("A gyártó nevének 5 és 30 karakter között kell lennie.", message.Message);
+            Assert.AreEqual("A gyártó nevének 3 és 30 karakter között kell lennie.", message.Message);
         }
         private string GetAdminToken()
         {

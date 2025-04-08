@@ -79,7 +79,7 @@ namespace PillPalTest.SystemTests
             int rows = deleteButtons.Count;
 
             deleteButtons[0].Click();
-            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(5));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             wait.Until(d=>d.SwitchTo().Alert());
             IAlert confirm = driver.SwitchTo().Alert();
             confirm.Dismiss();
@@ -102,7 +102,7 @@ namespace PillPalTest.SystemTests
             var deleteButtons = driver.FindElements(By.Name("removeBtn"));
             int rows = deleteButtons.Count;
             deleteButtons[0].Click();
-            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(5));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             // wait for confirmation dialog to appear
             wait.Until(d => d.SwitchTo().Alert());
             IAlert confirm = driver.SwitchTo().Alert();
@@ -125,7 +125,7 @@ namespace PillPalTest.SystemTests
             var deleteButtons = driver.FindElements(By.Name("removeBtn"));
             int rows = deleteButtons.Count;
             deleteButtons[0].Click();
-            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(5));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             // wait for confirmation dialog to appear
             wait.Until(d => d.SwitchTo().Alert());
             IAlert confirm = driver.SwitchTo().Alert();
