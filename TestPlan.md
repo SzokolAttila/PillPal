@@ -193,9 +193,9 @@
 ### Users page Selenium tests
 | Scope | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
-| System test | Typing in the searchbar filters users | Start up the container, register an admin via api handler, open the root page, login, go to users page | Type a letter | Only users whose name includes that specific letter will appear |
+| System test | Typing in the searchbar filters users | Start up the container, register an admin and a user via api handler, open the root page, login, go to users page | Type a letter | Only users whose name includes that specific letter will appear |
 | System test | User deletion can be canceled | Start up the container, register an admin via api handler, open the root page, login, go to users page | Press delete on one of the users, and when the confirmation window pops up, press cancel | Number of users will stay the same |
-| System test | User can be deleted | Start up the container, register an admin via api handler, open the root page, login, go to users page | Press delete on one of the users, and when the confirmation window pops up, press OK | A pop-up will appear with 'Sikeresen törölve!' text, then that user will disappear (the number of users will decrease by one)  |
+| System test | User can be deleted | Start up the container, register an admin and a user via api handler, open the root page, login, go to users page | Press delete on one of the users, and when the confirmation window pops up, press OK | A pop-up will appear with 'Sikeresen törölve!' text, then that user will disappear (the number of users will decrease by one)  |
 | System test | Admin user can be deleted | Start up the container, register an admin via api handler, open the root page, login, go to users page | Press delete on the administrator, and when the confirmation window pops up, press OK | Pop-up will appear with successful delete text, administrator will disappear, then you will be logged out with a pop-up that states that the admin user has been deleted |
 
 ### New medicine page Selenium tests
@@ -205,6 +205,22 @@
 | System test | Error message appears at incorrect length | Start up the container, register an admin via api handler, open the root page, login, go to new medicine page | Type something into one of the fields that doesn't match the necessary length of the field | An error message will appear stating the required length of field |
 | System test | Medicine can be created | Start up the container, register an admin via api handler, open the root page, login, go to new medicine page | Fill the form with correct data and press submit | Alert will appear saying the upload was successful |
 
+### Edit medicine page Selenium tests
+| Scope | Description | Preparations | Actions | Expected result |
+| ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
+| System test | An existing medicine is already loaded into the form | Start up the container, register an admin via api handler and add a medicine, open the root page, login | Go to edit medicine page | The inputs are already filled with the data of the first uploaded medicine |
+| System test | Clicking an another medicine will update data in the form | Start up the container, register an admin and add two medicines via api handler, open the root page, login, go to edit medicine page | Click on a different medicine than the selected one | The data filled into the input fields will be updated |
+| System test | Medicine data needs to be the correct length | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page | Set one of the fields to a string with an incorrect length | Validation error will appear |
+| System test | Medicine can be updated | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page | Edit the fields in a way that they are the correct length, then press edit | Alert will appear with "Sikeresen módosult a gyógyszer" message |
+| System test | Side effect can be added | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page | Press add side effect button | A side effect will appear under the existing ones |
+| System test | Active ingredient can be added | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page | Press add active ingredient button | An active ingredient will appear under the existing ones |
+| System test | Ailment can be added | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page | Press add ailment button | An ailment will appear under the existing ones |
+| System test | Package size can be added | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page | Press add package size button | A package size will appear under the existing ones |
+| System test | Side effect can be deleted | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page, add side effect | Press delete next to the side effect | The side effect will disappear |
+| System test | Active ingredient can be deleted | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page and add an active ingredient | Press delete next to the active ingredient | The ingredient will disappear |
+| System test | Ailment can be deleted | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page and add an ailment | Press delete next to the ailment | The ailment will disappear from the list |
+| System test | Package size can be deleted | Start up the container, register an admin via api handler and add a medicine, open the root page, login, go to edit medicine page and add a package size | Press delete next to the package size | The package size will disappear from the list |
+
 ## GUI tests (mobile app manual testing)
 | Scope | Description | Preparations | Actions | Expected result |
 | ------------- |:-------------:|:-------------:|:-------------:|:-------------:|
@@ -213,14 +229,15 @@
 | System test | Invalid login makes a pop-up window appear | Open login tab | Try to log in with invalid data | Pop-up will say "Invalid username or password" |
 | System test | Valid login will lead user to reminders tab | Open login tab | Log in to existing user with valid data | No pop-up, list of reminders will be displayed |
 | System test | Reminder can be added via UI | Register a user and log in | Create a reminder with valid data | Reminder will be added to reminders and shown in the reminders tab |
-| System test | Invalid reminder results in pop-up | Register a user and log in | Create a reminder with invalid data | A window will pop up, explaining the problem |
 | System test | User can check the description of a medicine | Register a user, log in and add a reminder | Click on the information button of the reminder | A page with the detailed description of the medicine will be displayed |
-| System test | User can delete a reminder | Register a user, log in and add a reminder | Click on the delete button of the reminder | Reminder will disappear from the list |
+| System test | User can delete a reminder | Register a user, log in and add a reminder | Click on the delete button of the reminder, then confirm the deletion | Reminder will disappear from the list |
 | System test | Edit button of a reminder leads to edit tab | Register a user, log in and add a reminder | Click on the edit button of the reminder | Edit page will be displayed, with the current data of the reminder |
 | System test | User can edit a reminder | Register a user, log in, add a reminder and click on edit | Input the new data and click save | Reminder will be listed with the updated data |
-| System test | Invalid updated data will result in pop-up | Register a user, log in, add a reminder and click on edit | Input the new invalid data and click save | Pop-up will appear |
 | System test | User is notified about a reminder | Register a user, log in and add a reminder | Wait until the time of the reminder | Notification will pop up on the phone's screen |  
-| System test | User is can dismiss a reminder | Register a user, log in and add a reminder and wait for it to notify you | Click on "dismiss" | Notification will disappear and won't pop up again until the next day |  
+| System test | User can dismiss a reminder | Register a user, log in and add a reminder and wait for it to notify you | Click on "dismiss" | Notification will disappear and won't pop up again until the next day | 
+| System test | User can change theme settings | Register a user, log in and go to settings | Toggle the theme switch | Background color will change | 
+| System test | User can log out | Register a user, log in and go to settings | Click logout button and confirm | User will be redirected to login page | 
+| System test | User can delete own account | Register a user, log in and go to settings | Click delete account button and confirm | User will be redirected to login page with a pop-up saying that the account was deleted |  
 
 Unit tests:
 - Password hashing for user
