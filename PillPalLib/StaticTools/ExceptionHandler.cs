@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace PillPalLib
+namespace PillPalLib.StaticTools
 {
     internal static class ExceptionHandler
     {
@@ -22,7 +22,7 @@ namespace PillPalLib
             if (!message.IsSuccessStatusCode)
             {
                 string json = message.Content.ReadAsStringAsync().Result;
-                switch(message.StatusCode)
+                switch (message.StatusCode)
                 {
                     case HttpStatusCode.NotFound:
                         throw new ArgumentException("Nem található.");
@@ -30,7 +30,7 @@ namespace PillPalLib
                         throw new ArgumentException("Nincs bejelentkezve.");
                     case HttpStatusCode.Forbidden:
                         throw new ArgumentException("Hozzáférés megtagadva.");
-                }   
+                }
 
                 string errorMessage;
                 try

@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using PillPalLib.DTOs.ReminderDTOs;
+using PillPalLib.StaticTools;
 
 namespace PillPalLib.APIHandlers
 {
