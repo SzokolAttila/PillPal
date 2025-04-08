@@ -9,7 +9,6 @@ using PillPalLib.DTOs.UserDTOs;
 using PillPalLib.APIHandlers;
 using PillPalLib.StaticTools;
 using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
 
 namespace PillPalTest.SystemTests
 {
