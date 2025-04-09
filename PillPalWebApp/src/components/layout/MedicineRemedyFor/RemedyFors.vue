@@ -10,7 +10,7 @@
             @deleteRemedyFor="deleteRemedyFor"
             @updateRemedyFor="updateRemedyFor"/>
         </div>
-        <FormKit type="button" label="Betegség hozzáadása" @click="addRemedyFor"/>
+        <FormKit type="button" id="addAilmentBtn" label="Betegség hozzáadása" @click="addRemedyFor"/>
     </div>
     <BaseSpinner class="mx-auto mt-10" v-else/>
 </div>

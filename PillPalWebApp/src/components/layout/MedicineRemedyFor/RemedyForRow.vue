@@ -4,7 +4,7 @@
         <FormKit type="select" :options="remedyForOptions" v-model="selectedId"/>
     </div>
     <div>
-        <FormKit type="button" label="Töröl" @click="deleteRemedyFor"/>
+        <FormKit type="button" name="removeAilmentBtn" label="Töröl" @click="deleteRemedyFor"/>
     </div>
 </div>
 </template>

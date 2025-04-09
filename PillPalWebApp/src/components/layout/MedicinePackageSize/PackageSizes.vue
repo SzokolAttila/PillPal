@@ -9,7 +9,7 @@
             @deletePackageSize="removePackageSize"
             @updatePackageSize="editPackageSize"/>
         </div>
-        <FormKit type="button" label="Kiszerelés hozzáadása" @click="newPackageSize"/>
+        <FormKit type="button" id="addSizeBtn" label="Kiszerelés hozzáadása" @click="newPackageSize"/>
     </div>
     <BaseSpinner class="mx-auto mt-10" v-else/>
 </div>
