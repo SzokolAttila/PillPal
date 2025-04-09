@@ -4,23 +4,23 @@
     <hr class="bg-component-light dark:bg-component-dark p-1 my-5 w-[70%] mx-auto">
     <div v-if="loaded" class="grid grid-cols-1 md:grid-cols-2">
         <div class="w-[80%] mx-auto">
-            <FormKit type="text" placeholder="Keresett gyógyszer..." v-model="searchText"/>
+            <FormKit type="text" id="searchbar" placeholder="Keresett gyógyszer..." v-model="searchText"/>
             <div class="h-10 overflow-y-auto mb-3">
-                <div v-for="med of showedMedicines" @click="selectMed(med)"
+                <div name="medicineOption" v-for="med of showedMedicines" @click="selectMed(med)"
                  class="text-textColor-light dark:text-textColor-dark cursor-pointer
                   hover:bg-component-light dark:hover:bg-component-dark p-2 rounded-lg">
                     {{ med.name }}
                 </div>
             </div>
             <FormKit type="form" :actions="false" @submit="editMedicine">
-                <FormKit type="text" label="Gyógyszer neve" v-model="medicine.name" :validation-messages="{required: 'A gyógyszer nevének megadása kötelező.', length: 'A gyógyszer nevének hossza 5 és 30 karakter között kell legyen.'}" validation="required|length:5,30"/>
-                <FormKit type="text" label="Gyártója" v-model="medicine.manufacturer" :validation-messages="{required: 'A gyógyszer gyártójának megadása kötelező.', length: 'A gyógyszer gyártójának hossza 5 és 30 karakter között kell legyen.'}" validation="required|length:5,30"/>
-                <FormKit type="textarea" label="Leírása" v-model="medicine.description" :validation-messages="{required: 'A gyógyszer leírásának megadása kötelező.', length: 'A gyógyszer leírásának hossza 5 és 255 karakter között kell legyen.'}" validation="required|length:5,255"
+                <FormKit type="text" label="Gyógyszer neve" name="name" v-model="medicine.name" :validation-messages="{required: 'A gyógyszer nevének megadása kötelező.', length: 'A gyógyszer nevének hossza 5 és 30 karakter között kell legyen.'}" validation="required|length:5,30"/>
+                <FormKit type="text" label="Gyártója" name="manufacturer" v-model="medicine.manufacturer" :validation-messages="{required: 'A gyógyszer gyártójának megadása kötelező.', length: 'A gyógyszer gyártójának hossza 3 és 30 karakter között kell legyen.'}" validation="required|length:3,30"/>
+                <FormKit type="textarea" label="Leírása" name="description" v-model="medicine.description" :validation-messages="{required: 'A gyógyszer leírásának megadása kötelező.', length: 'A gyógyszer leírásának hossza 5 és 255 karakter között kell legyen.'}" validation="required|length:5,255"
                 :help="`${medicine.description.length} / 255`"/>
-                <FormKit type="select" label="Kiszerelés egysége" v-model="medicine.packageUnitId" :options="packageUnitOptions"/>
+                <FormKit type="select" label="Kiszerelés egysége" name="packageUnitId" v-model="medicine.packageUnitId" :options="packageUnitOptions"/>
                 <div class="grid grid-cols-2">
-                    <FormKit type="button" label="Töröl" @click="removeMedicine"/>
-                    <FormKit type="submit" label="Módosít"/>
+                    <FormKit type="button" label="Töröl" id="removeMedBtn" @click="removeMedicine"/>
+                    <FormKit type="submit" label="Módosít" id="updateMedBtn"/>
                 </div>
             </FormKit>
         </div>

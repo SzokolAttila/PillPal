@@ -10,7 +10,7 @@
             @deleteActiveIngredient="deleteActiveIngredient"
             @updateActiveIngredient="updateActiveIngredient"/>
         </div>
-        <FormKit type="button" label="Hatóanyag hozzáadása" @click="addActiveIngredient"/>
+        <FormKit type="button" id="addIngredientBtn" label="Hatóanyag hozzáadása" @click="addActiveIngredient"/>
     </div>
     <BaseSpinner class="mx-auto mt-10" v-else/>
 </div>

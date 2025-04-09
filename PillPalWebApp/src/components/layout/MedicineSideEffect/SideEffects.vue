@@ -10,7 +10,7 @@
             @deleteSideEffect="deleteSideEffect"
             @updateSideEffect="updateSideEffect"/>
         </div>
-        <FormKit type="button" label="Mellékhatás hozzáadása" @click="addSideEffect"/>
+        <FormKit type="button" id="addEffectBtn" label="Mellékhatás hozzáadása" @click="addSideEffect"/>
     </div>
     <BaseSpinner class="mx-auto mt-10" v-else/>
 </div>

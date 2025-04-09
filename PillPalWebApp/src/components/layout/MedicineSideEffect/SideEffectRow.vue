@@ -4,7 +4,7 @@
         <FormKit type="select" :options="sideEffectOptions" v-model="selectedId"/>
     </div>
     <div>
-        <FormKit type="button" label="Töröl" @click="deleteSideEffect"/>
+        <FormKit type="button" name="removeEffectBtn" label="Töröl" @click="deleteSideEffect"/>
     </div>
 </div>
 </template>
