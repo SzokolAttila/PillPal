@@ -1,5 +1,6 @@
 ﻿using PillPalLib;
 using Plugin.LocalNotification;
+using Plugin.LocalNotification.AndroidOption;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace PillPalMAUI.Models
     {
         public static async Task CreateNotification(Reminder reminder, Medicine medicine)
         {
+            var time = reminder.When.ToTimeSpan();
             NotificationRequest notification = new()
             {
                 NotificationId = reminder.Id,
@@ -23,9 +25,13 @@ namespace PillPalMAUI.Models
                 CategoryType = NotificationCategoryType.Alarm,
                 Schedule = new NotificationRequestSchedule
                 {
-                    NotifyTime = DateTime.Today.Add(reminder.When.ToTimeSpan()),
-                    NotifyRepeatInterval = TimeSpan.FromDays(1),
-                    RepeatType = NotificationRepeat.TimeInterval
+                    NotifyTime = reminder.When.CompareTo(TimeOnly.FromDateTime(DateTime.Now)) >= 0 ?
+                        DateTime.Today.Add(time) : DateTime.Today.AddDays(1).Add(time),
+                    RepeatType = NotificationRepeat.Daily,
+                    Android = new()
+                    {
+                        AlarmType = AndroidAlarmType.RtcWakeup,
+                    }
                 },
                 Android = new()
                 {
