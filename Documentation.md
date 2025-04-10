@@ -562,6 +562,13 @@ To handle the login session and store the admin's id and token we use this separ
 - **logout():** sets the id and token states to null
 
 ### Routing
+| Page | Path | Name |
+| :------ | :------ | :------ |
+| index.vue | / | login |
+| newData.vue | /newData | new-data |
+| users/index.vue | /users | users |
+| medicines/create.vue | /medicines/create | create-medicine |
+| medicines/edit.vue | /medicines/edit | edit-medicine |
 
 ## MAUI Application
 
