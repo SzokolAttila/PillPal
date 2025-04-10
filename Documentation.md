@@ -486,8 +486,20 @@ A component containing a list of PackageSizeRows to what this parent component p
 This component is only a row with 2 FormKit elements. A number input for setting the packageSize and a delete button. In case the number input field is unfocused it emits the updatePackageSize with the changed item. If the delete button is clicked, this child component emits a deletePackageSize with the item's id, so the parent component can handle it.
 
 ### Custom styles
+#### Coloring
+To make coloring of the different elements easier we modified the *tailwind.config.js* and added the colors we decided to use when we were planning the design of the pages. We could also split each color into two other tags to make them easier to set for darkmode.  
+#### FormKit design
+We extended our *formkit.config.js* to make a consistent and unified design for each and every FormKit element we use in our page.
 
 ### Stores
+We used pinia stores for each model we wanted to request from API to make it easily accessible for the components and shorten any modifications we need to make on them.
+#### ActiveIngredient store
+To be able to communicate with the ActiveIngredient endpoint of the API we used the following actions:
+- **getActiveIngredients():** this requests all the ActiveIngredients and loads them into the activeIngredients state
+- **destroyActiveIngredient(id):** sends a delete request to the API and removes the specific ActiveIngredient from the activeIngredients state as well
+- **postActiveIngredient(data):** sends a post request to the API with the new ActiveIngredient data parameter and even push the returned data to the activeIngredients state
+- **updateActiveIngredient(id, data):** sends a put request to the API for the specified id with the data parameter and even change the proper object in the activeIngredients state as well
+This store also has an activeIngredientOptions getter, so we can easily load all the ActiveIngredients into a select element based on the activeIngredients state.
 
 ### Routing
 
