@@ -495,11 +495,71 @@ We extended our *formkit.config.js* to make a consistent and unified design for 
 We used pinia stores for each model we wanted to request from API to make it easily accessible for the components and shorten any modifications we need to make on them.
 #### ActiveIngredient store
 To be able to communicate with the ActiveIngredient endpoint of the API we used the following actions:
-- **getActiveIngredients():** this requests all the ActiveIngredients and loads them into the activeIngredients state
+- **getActiveIngredients():** requests all the ActiveIngredients and loads them into the activeIngredients state
 - **destroyActiveIngredient(id):** sends a delete request to the API and removes the specific ActiveIngredient from the activeIngredients state as well
 - **postActiveIngredient(data):** sends a post request to the API with the new ActiveIngredient data parameter and even push the returned data to the activeIngredients state
 - **updateActiveIngredient(id, data):** sends a put request to the API for the specified id with the data parameter and even change the proper object in the activeIngredients state as well
 This store also has an activeIngredientOptions getter, so we can easily load all the ActiveIngredients into a select element based on the activeIngredients state.
+#### PackageUnit store
+To be able to communicate with the PackageUnit endpoint of the API we used the following actions:
+- **getPackageUnits():** requests all the PackageUnits and loads them into the packageUnits state
+- **destroyPackageUnit(id):** sends a delete request to the API and removes the specific PackageUnit from the packageUnits state as well
+- **postPackageUnit(data):** sends a post request to the API with the new PackageUnit data parameter and even push the returned data to the packageUnits state
+- **updatePackageUnit(id, data):** sends a put request to the API for the specified id with the data parameter and even change the proper object in the packageUnits state as well
+This store also has an packageUnitOptions getter, so we can easily load all the PackageUnits into a select element based on the packageUnits state.
+#### RemedyFor store
+To be able to communicate with the RemedyFor endpoint of the API we used the following actions:
+- **getRemedyFors():** requests all the RemedyFors and loads them into the remedyFors state
+- **destroyRemedyFor(id):** sends a delete request to the API and removes the specific RemedyFor from the remedyFors state as well
+- **postRemedyFor(data):** sends a post request to the API with the new RemedyFor data parameter and even push the returned data to the remedyFors state
+- **updateRemedyFor(id, data):** sends a put request to the API for the specified id with the data parameter and even change the proper object in the remedyFors state as well
+This store also has an remedyForOptions getter, so we can easily load all the RemedyFors into a select element based on the remedyFors state.
+#### SideEffect store
+To be able to communicate with the SideEffect endpoint of the API we used the following actions:
+- **getSideEffects():** requests all the SideEffects and loads them into the sideEffects state
+- **destroySideEffect(id):** sends a delete request to the API and removes the specific SideEffect from the sideEffects state as well
+- **postSideEffect(data):** sends a post request to the API with the new SideEffect data parameter and even push the returned data to the sideEffects state
+- **updateSideEffect(id, data):** sends a put request to the API for the specified id with the data parameter and even change the proper object in the sideEffects state as well
+This store also has an sideEffectOptions getter, so we can easily load all the SideEffects into a select element based on the sideEffects state.
+#### PackageSize store
+To be able to communicate with the PackageSize endpoint of the API we used the following actions:
+- **getPackageSizes():** requests all the PackageSizes from the API and loads it in the packageSizes state
+- **addPackageSize(data):** sends a post request to the API and push the new PackageSize to the packageSizes state; If anything goes wrong it catches it and returns false so we can handle it and inform the user
+- **deletePackageSize(id):** sends a delete request to the API and removes the specific PackageSize from the packageSizes state as well; If anything goes wrong it catches it and returns false so we can handle it and inform the user
+- **updatePackageSize(id, data):** sends a put request to the API for the specified id with the data parameter and even change the proper object in the packageSizes state as well; If anything goes wrong it catches it and returns false so we can handle it and inform the user
+#### MedicineActiveIngredient store
+To be able to communicate with the MedicineActiveIngredient endpoint of the API we used the following actions:
+- **getMedicineActiveIngredients():** requests all the MedicineActiveIngredients from the API and loads it in the medicineActiveIngredients state
+- **addMedicineActiveIngredient(data):** sends a post request to the API and push the new MedicineActiveIngredient to the medicineActiveIngredients state; If anything goes wrong it catches it and returns false so we can handle it and inform the user
+- **deleteMedicineActiveIngredient(id):** sends a delete request to the API and removes the specific MedicineActiveIngredient from the medicineActiveIngredients state as well; If anything goes wrong it catches it and returns false so we can handle it and inform the user
+- **updateMedicineActiveIngredient(id, data):** sends a put request to the API for the specified id with the data parameter and even change the proper object in the medicineActiveIngredients state as well; If anything goes wrong it catches it and returns false so we can handle it and inform the user
+#### MedicineRemedyFor store
+To be able to communicate with the MedicineRemedyFor endpoint of the API we used the following actions:
+- **getMedicineRemedyFors():** requests all the MedicineRemedyFors from the API and loads it in the medicineRemedyFors state
+- **addMedicineRemedyFor(data):** sends a post request to the API and push the new MedicineRemedyFor to the medicineRemedyFors state; If anything goes wrong it catches it and returns false so we can handle it and inform the user
+- **deleteMedicineRemedyFor(id):** sends a delete request to the API and removes the specific MedicineRemedyFor from the medicineRemedyFors state as well; If anything goes wrong it catches it and returns false so we can handle it and inform the user
+- **updateMedicineRemedyFor(id, data):** sends a put request to the API for the specified id with the data parameter and even change the proper object in the medicineRemedyFors state as well; If anything goes wrong it catches it and returns false so we can handle it and inform the user
+#### MedicineSideEffect store
+To be able to communicate with the MedicineSideEffect endpoint of the API we used the following actions:
+- **getMedicineSideEffects():** requests all the MedicineSideEffects from the API and loads it in the medicineSideEffects state
+- **addMedicineSideEffect(data):** sends a post request to the API and push the new MedicineSideEffect to the medicineSideEffects state; If anything goes wrong it catches it and returns false so we can handle it and inform the user
+- **deleteMedicineSideEffect(id):** sends a delete request to the API and removes the specific MedicineSideEffect from the medicineSideEffects state as well; If anything goes wrong it catches it and returns false so we can handle it and inform the user
+- **updateMedicineSideEffect(id, data):** sends a put request to the API for the specified id with the data parameter and even change the proper object in the medicineSideEffects state as well; If anything goes wrong it catches it and returns false so we can handle it and inform the user
+#### Medicine store
+To be able to communicate with the Medicine endpoint of the API we used the following actions:
+- **getMedicines():** requests all the medicines from the API and loads it in the medicines state
+- **addMedicine(data):** sends a post request to the API and push the new medicine to the medicines state; If anything goes wrong it catches it and returns false so we can handle it and inform the user
+- **updateMedicine(id, data):** sends a put request to the API for the specified id with the data parameter and even change the proper object in the medicines state as well; If anything goes wrong it catches it and returns false so we can handle it and inform the user
+- **deleteMedicine(id):** sends a delete request to the API and removes the specific medicine from the medicines state as well; If anything goes wrong it catches it and returns false so we can handle it and inform the user
+#### User store
+To be able to communicate with the User endpoint of the API we used the following actions:
+- **getUsers():** requests all the users from the API and loads it in the users state
+- **getUser(id):** requests just a single user by the id from the API and returns the response if the request went successful and returns null in case something goes wrong so we can inform the user (this is mainly used to automatically logout user if their account is deleted)
+- **deleteUser(id):** sends a delete request by the id to the API removes the specific user from the users state
+#### Admin store
+To handle the login session and store the admin's id and token we use this separate persist store. This store uses the following methods:
+- **login(data):** sends a post request to the API's Login endpoint and loads the response data to the id and token states
+- **logout():** sets the id and token states to null
 
 ### Routing
 
