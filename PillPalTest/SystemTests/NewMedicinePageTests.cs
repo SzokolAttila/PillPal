@@ -56,7 +56,7 @@ namespace PillPalTest.SystemTests
             driver.FindElement(By.Name("manufacturer")).SendKeys("a");
             driver.FindElement(By.Name("createBtn")).Click();
             var errors = driver.FindElements(By.ClassName("formkit-message"));
-            Assert.IsTrue(errors.Select(x=>x.Text).Contains("A gyógyszer gyártójának hossza 5 és 30 karakter között kell legyen."));
+            Assert.IsTrue(errors.Select(x=>x.Text).Contains("A gyógyszer gyártójának hossza 3 és 30 karakter között kell legyen."));
         }
 
         [TestMethod]
