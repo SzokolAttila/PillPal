@@ -31,7 +31,7 @@ namespace PillPalMAUI.ViewModels
         {
             ReminderCards.Remove(card);
         }
-        private async void RemoveData()
+        private void RemoveData()
         {
             SecureStorage.Default.Remove("UserId");
             SecureStorage.Default.Remove("Token");
