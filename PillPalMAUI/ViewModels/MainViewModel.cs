@@ -31,7 +31,7 @@ namespace PillPalMAUI.ViewModels
         {
             ReminderCards.Remove(card);
         }
-        private void RemoveData()
+        private async void RemoveData()
         {
             SecureStorage.Default.Remove("UserId");
             SecureStorage.Default.Remove("Token");
@@ -62,12 +62,14 @@ namespace PillPalMAUI.ViewModels
         }
         public MainViewModel()
         {
+            // clear notifications so if account deleted, no notifications will be shown
+            LocalNotificationCenter.Current.ClearAll();
             int id = Convert.ToInt32(SecureStorage.Default.GetAsync("UserId").Result);
             var token = SecureStorage.Default.GetAsync("Token").Result;
             CheckValidity(id, token);
-            LocalNotificationCenter.Current.CancelAll();
             var reminders = handler.Get(id, token!).OrderBy(x => x.When);
             TimeOnly now = TimeOnly.FromDateTime(DateTime.Now);
+            
             //Put the reminders that are the most actual to the first place
             foreach (var reminder in reminders.Where(x=>x.When.CompareTo(now) >= 0))
             {
