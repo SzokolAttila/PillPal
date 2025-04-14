@@ -13,13 +13,8 @@ using OpenQA.Selenium.Support.UI;
 namespace PillPalTest.SystemTests
 {
     [TestClass]
-    public class NewMedicinePageTests
+    public class NewMedicinePageTests : SystemTestBase
     {
-        WebDriver driver;
-        CreateUserDto adminLogin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
-        string url = "http://vm1.test:5173/";
-        LoginDto admin;
-        UserAPIHandler handler = new UserAPIHandler();
         MedicineAPIHandler medicineHandler = new MedicineAPIHandler();
 
         [TestInitialize]
