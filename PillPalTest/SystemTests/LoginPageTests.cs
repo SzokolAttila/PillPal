@@ -16,6 +16,7 @@ namespace PillPalTest.SystemTests
     public class LoginPageTests : SystemTestBase
     {
         private CreateUserDto? user = null;
+        private bool deleteAdmin = false;
         [TestInitialize]
         public void Initialize()
         {
@@ -27,6 +28,7 @@ namespace PillPalTest.SystemTests
             {
                 handler.CreateUser(adminLogin);
                 admin = handler.Login(adminLogin);
+                deleteAdmin = true;
             }  
         }
         [TestMethod]
@@ -75,6 +77,11 @@ namespace PillPalTest.SystemTests
         public void Cleanup()
         {
             driver!.Quit();
+            if (deleteAdmin)
+            {
+                RemoveUser(adminLogin);
+                deleteAdmin = false; 
+            }
             if (user != null)
             {
                 RemoveUser(user);
