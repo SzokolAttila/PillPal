@@ -1,76 +1,81 @@
 # PillPal User's Manual
 
-## Mobile application
-Elder people usually need to take in aroud 8 medicines daily. Keeping them in mind and arranging them properly can be a really hard task. Not only that they need to remind to take in the meds they also need to regularly remember all those information about the medicines. To help these people in need we are continously developing this application. We have bursts of ideas to improve this fundamental app, so stay tuned!
+## Mobile Application
+Elderly people often need to take around 8 medicines daily. Keeping track of them and organizing them properly can be a challenging task. Not only do they need reminders to take their medications, but they also need to remember important information about each medicine. To assist these individuals, we are continuously developing this application. We have numerous ideas to improve this essential app, so stay tuned!
 
-### What we do BETTER
-Our application is for creating reminders of taking in meds, just as the other similar apps, but not just that! Users can select the medicine from an already filled database, so they can be easily informed about they meds without adding any difficult data manually.
+### What We Do BETTER
+Our application helps users create reminders for taking medications, just like other similar apps, but it offers much more! Users can select medicines from a pre-filled database, making it easy to access information about their medications without manually entering complex data.
 - **Easy-to-handle reminders ✔️**
-- **Accessible medicine infos 💊**
+- **Accessible medicine information 💊**
 - **Opportunities to revolutionize medicine reminder apps 🚀**
 
-### Account handling
-- Every reminder is connected to an account, so they are independent of any device, so if you for example change your mobile, it will still has all your reminders.
-- When you are logged out (or at least not logged in) the application automatically starts up at the login page, so you can immediately log in.
-- If you don't have an account, you can easily register one by a unique username, and a password, which is secure enough.
+### Account Handling
+- Every reminder is linked to an account, making them independent of any device. For example, if you change your mobile device, all your reminders will still be available.
+- When you are logged out (or not logged in), the application automatically starts on the login page, allowing you to log in immediately.
+- If you don't have an account, you can easily register one with a unique username and a secure password.
 
-### Menu button
-To make it easier for you to navigate between the different pages, the app has a circular radius menu button. Which has the following options:
+### Menu Button
+To simplify navigation between different pages, the app features a circular radial menu button with the following options:
 - Adding a new reminder ➕
 - Your reminders home page 🏠
 - Application settings ⚙️
 
-### Seeing your reminders
-- The main page shows you all your reminders, with some simplified cards.
-- They are ordered by time, and the first one is always the closest (which is not yet fired this day), to make it easier for you to find the most relevant reminder.
-- Each card shows you the schedule time, the medicine itself, the dose you should take in, and the method of taking it.
-- A reminder card also contains three buttons. You can either *delete* an unwanted reminder, correct something about it by tapping on *edit* button, or get to know it better by tapping on the *info* button.
+### Viewing Your Reminders
+- The main page displays all your reminders in simplified cards.
+- Reminders are ordered by time, with the closest upcoming reminder (not yet triggered for the day) displayed first, making it easier to find the most relevant one.
+- Each card shows the scheduled time, the medicine, the dosage, and the method of intake.
+- A reminder card also includes three buttons: *delete* to remove an unwanted reminder, *edit* to make changes, and *info* to learn more about the medicine.
 
-### Editing a reminder
-On your reminders home page you can click on a reminder card's edit button to make some changes.
-- This screen contains a search bar with a medicine list below, where you can find a medicine and select it if you want to change the medicine to take in.
-- In the section beneath this you can edit the dose, the schedule time and even the take in method.
-- To save the changes, you need to tap on the *save* button, which leads you back to the home page on success.
-- If you change your mind and don't want to make those changes, you can simply tap the *back* button, which leads you back to the home page and discards the modifications.
+### Editing a Reminder
+On the reminders home page, you can click the *edit* button on a reminder card to make changes.
+- This screen includes a search bar with a medicine list below, allowing you to select a different medicine if needed.
+- Below this, you can edit the dosage, schedule time, and method of intake.
+- To save changes, tap the *save* button, which will return you to the home page upon success.
+- If you change your mind, tap the *back* button to discard modifications and return to the home page.
 
-### Infos about a medicine
-Sometimes you need to care about the possible side effects or the active ingredients of a medicine, or read about what a medicine is good for. To get all this data you would need to look for the description which you probably threw out years ago. With this app you can gain all these useful information easily without wasting any time. Here you can find all the needed info in a well-structured way.
+### Medicine Information
+Sometimes, you may need to check for possible side effects, active ingredients, or what does the medicine cure. Normally, you would need to search for the description, which you may have lost years ago. With this app, you can access all this information quickly and easily in a well-structured format.
 
-### Creating a new reminder
-The basis of this app are the reminders, so there is a page for creating them. This page is built up similarly to edit page.  
-- This screen contains a search bar with a medicine list below, where you can find a medicine and select which medicine you need to take in.
-- In the section beneath this you can set the dose, the schedule time and even the take in method.
-- To add the new reminder, you need to tap on the *add* button, which leads you back to the home page on success.
+### Creating a New Reminder
+Reminders are the core feature of this app, and there is a dedicated page for creating them. This page is structured similarly to the edit page.
+- It includes a search bar with a medicine list below, allowing you to select the medicine you need to take.
+- Below this, you can set the dosage, schedule time, and method of intake.
+- To add the new reminder, tap the *add* button, which will return you to the home page upon success.
 
-### Application settings
-This page only contains a few things for now but will have more attention in the long run. Here you can do the following:
-- Switch between dark mode and light mode
-- Log out of your account, so you can log into another
-- Remove your account if you don't need it anymore or you want reset it
+### Application Settings
+This page currently includes a few options but will be expanded in the future. Here, you can:
+- Switch between dark mode and light mode.
+- Log out of your account to log into another.
+- Remove your account if you no longer need it or want to reset it.
 
-## Admin webapp
+## Admin Web App
 
-We made a user-friendly webapp using Vue for the administrator so they can manipulate the other users and the all the data connected to medicines.
+We developed a user-friendly web app using Vue for administrators to manage users and all data related to medicines.
 
-### Login page
-This page is quite self-explanatory, it is for checking whether you have the proper access level and have an account. In case you log out, or your account gets deleted while you're logged in, the webapp redirects you to this page so you need to log in again. You need to type in your username and the correct password to it, so try to remind these two data.
+### Login Page
+This page is pretty straightforward. Used to verify that you have the proper access level and an account. If you log out or your account is deleted while logged in, the web app redirects you to this page, requiring you to log in again. Enter your username and the correct password to access the system.
 
 ### Navbar
-As you may have used to navbars on webpages we also included one to make the navigation easier and quicker. We implemented a collapsible sidebar so the page works well on any devices. 
+To simplify navigation, we included a collapsible sidebar, ensuring the page works well on all devices.
 
-### Users page
-Sometimes users behave in an inappropriate way. To handle these scenarios the administrator can delete users. The page shows all the users to the administrator in a list. The page only shows the username, the number of the user's reminders and a remove button in case you want to remove a specific user. This page also contains a searchbar to make the finding process easier. If you know the username, you can easily find the user by their username. Clicking on the remove button shows a confirm popup to prevent accidental user deletion. 
+### Users Page
+Sometimes, users may behave inappropriately. To address such scenarios, administrators can delete users. This page displays all users in a list, showing their username, the number of reminders they have, and a *remove* button for deleting specific users. A search bar is also available to quickly find users by their username. Clicking the *remove* button triggers a confirmation popup to prevent accidental deletions.
 
-### New medicine
-If you want to extend the variety of medicines they can easily do so by filling out the form on this page and saving it with clicking the button. All the fields are easily understandable and the validation messages help you fill out the form with the proper data. To add a new package unit which doesn't exist you can do to via the *New medicine data page*. The page sends a feedback if the medicine was successfully added. 
-**Beware, that this page only creates the medicine! To add some more data to a medicine you might use the edit medicine data page.**
+### Adding New Medicines
+Administrators can extend the variety of medicines by filling out a form on this page and saving it by clicking the button. The fields are intuitive, and validation messages guide you in entering the correct data. To add a new package unit that doesn't exist, use the *New Medicine Data Page*. The page provides feedback upon successfully adding a medicine.  
+**Note:** This page only creates the medicine. To add more data to a medicine, use the *Edit Medicine Page*.
 
-### Edit medicine page
-Everyone makes mistakes, to correct those mistakes the admin can edit, delete or extend the existing medicines with more data. The first thing you'll notice is the searchbar. To find a specific medicine you can just type in its name and it will show the wanted medicine. All its data will immediately load into the form and show in the other four sections. In the form you can freely modifiy the data of the medicine just like in the new medicine page's form. To save the changes you need to click on the modify button. In case a medicine goes out of pharmacies, you can delete it by clicking on the delete button instead, then it will ask for confirmation and delete it. In case you want to modify the medicine's side effects, active ingredients, ailments (which it cures) or package sizes, or you just want to add these initially, you can do so. So each section contains the already added elements in a list and an add button. Each item contains an input field for the value and a remove button, so you can erase any of these data if you want to. Clicking on the add button will add a new item to the bottom of the list with a default value. Changing the value will immediately update it in the database. Clicking on the remove button will remove the row from the page and the database as well.
-- **Side effects section:** there you can add new side effects. The input field is a dropdown which contains the existing options which you can add to via the *New medicine data page*.
-- **Active ingredients section:** there you can add new active ingredients. The input field is a dropdown which contains the existing options which you can add to via the *New medicine data page*.
-- **Ailments section:** there you can add new ailments which the medicine is remedy for. The input field is a dropdown which contains the existing options which you can add to via the *New medicine data page*.
-- **Package sizes section:** there you can add new package sizes. The input field is a number input which must be a unique data for that medicine.
+### Editing Medicines
+Mistakes happen, so administrators can correct them by editing, deleting, or adding more data to existing medicines. The page includes a search bar to find specific medicines by name. Once selected, all its data is loaded into a form and displayed in four sections. You can modify the data in the form and save changes by clicking the *modify* button. If a medicine is no longer available, you can delete it by clicking the *delete* button, which will ask for confirmation.  
+Each section allows you to manage specific data:
+- **Side Effects:** Add or remove side effects. The input field is a dropdown with existing options, which can be extended via the *New Medicine Data Page*.
+- **Active Ingredients:** Add or remove active ingredients. The input field is a dropdown with existing options, which can be extended via the *New Medicine Data Page*.
+- **Ailments:** Add or remove ailments the medicine treats. The input field is a dropdown with existing options, which can be extended via the *New Medicine Data Page*.
+- **Package Sizes:** Add or remove package sizes. The input field is a number input, which must be unique for that medicine.
 
-### New medicine data page
-As it was mentioned previously there are some scenarios where you might need to add options to package units, side effects, active ingredients or ailments. For this purpose this page contains four sections. Each section has a search bar for finding an item by its name. Clicking on a specific item from the list will switch the view below. The default view is an input field and an add button. Its working is simple, the written item in the input will be added to the database by clicking the button. The switched view is for modifying or deleting an existing item. If you want to edit it, just change the value loaded into the input field and click on the modify button. In case you want to remove the item, click on the remove button which will ask you for confirmation to prevent accidental deletions. If you want to switch back to the other view, just click on the cancel button which will unselect the item in the item list. So there is an independent section for side effects, active ingredients, ailments (which the medicine cures) and package units. 
+### New Medicine Data Page
+In some cases, you may need to add options for package units, side effects, active ingredients, or ailments. This page includes four sections, each with a search bar for finding items by name. Clicking on an item switches the view below.  
+- The default view includes an input field and an *add* button. Enter the item name and click *add* to save it to the database.
+- The switched view allows you to modify or delete existing items. Edit the value in the input field and click *modify* to save changes. To delete an item, click *remove*, which will ask for confirmation.  
+- To switch back to the default view, click *cancel*, which deselects the item in the list.
+Each section is dedicated to managing side effects, active ingredients, ailments, and package units independently.
