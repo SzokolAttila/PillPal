@@ -61,7 +61,7 @@ namespace PillPalMAUI.ViewModels
 
         private void Info_Clicked()
         {
-            Application.Current!.MainPage = new DetailPage();
+            Application.Current!.MainPage = new DetailPage(Reminder.Medicine);
         }
 
         private void Edit_Clicked()

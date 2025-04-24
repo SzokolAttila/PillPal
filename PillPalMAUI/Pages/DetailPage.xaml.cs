@@ -5,8 +5,9 @@ namespace PillPalMAUI.Pages;
 
 public partial class DetailPage : ContentPage
 {
-	public DetailPage()
+	public DetailPage(Medicine medicine)
 	{
 		InitializeComponent();
+        BindingContext = new DetailPageViewModel() { Medicine = medicine };
     }
 }
