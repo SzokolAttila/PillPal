@@ -1,7 +1,8 @@
 # PillPal User's Manual
 
 ## Mobile Application
-Elderly people often need to take around 8 medicines daily. Keeping track of them and organizing them properly can be a challenging task. Not only do they need reminders to take their medications, but they also need to remember important information about each medicine. To assist these individuals, we are continuously developing this application. We have numerous ideas to improve this essential app, so stay tuned!
+Elderly people often need to take around 8 medicines daily. Keeping track of them and organizing them properly can be a challenging task. Not only do they need reminders to take their medications, but they also need to remember important information about each medicine. To assist these individuals, we are continuously developing this application. We have numerous ideas to improve this core app, so stay tuned!
+**Note:** For now, this is only available for Android, but we will publish it on iOS as well later on.
 
 ### What We Do BETTER
 Our application helps users create reminders for taking medications, just like other similar apps, but it offers much more! Users can select medicines from a pre-filled database, making it easy to access information about their medications without manually entering complex data.
