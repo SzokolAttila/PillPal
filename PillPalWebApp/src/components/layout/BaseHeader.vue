@@ -30,7 +30,7 @@
         </RouterLink>
       </div>
       <div>
-        <button @click="signOut" class="p-4 m-1 w-full text-left text-white bg-red-600 hover:bg-red-800 dark:bg-red-800 dark:hover:bg-red-900 rounded-md" type="button">  
+        <button @click="signOut" id="logout" class="p-4 m-1 w-full text-left text-white bg-red-600 hover:bg-red-800 dark:bg-red-800 dark:hover:bg-red-900 rounded-md" type="button">  
           Kijelentkezés
         </button>
       </div>  

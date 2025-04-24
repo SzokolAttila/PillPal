@@ -13,7 +13,7 @@
                 </div>
             </div>
             <FormKit type="form" :actions="false" @submit="editMedicine">
-                <FormKit type="text" label="Gyógyszer neve" name="name" v-model="medicine.name" :validation-messages="{required: 'A gyógyszer nevének megadása kötelező.', length: 'A gyógyszer nevének hossza 5 és 30 karakter között kell legyen.'}" validation="required|length:5,30"/>
+                <FormKit type="text" id="medicineName" label="Gyógyszer neve" name="name" v-model="medicine.name" :validation-messages="{required: 'A gyógyszer nevének megadása kötelező.', length: 'A gyógyszer nevének hossza 5 és 30 karakter között kell legyen.'}" validation="required|length:5,30"/>
                 <FormKit type="text" label="Gyártója" name="manufacturer" v-model="medicine.manufacturer" :validation-messages="{required: 'A gyógyszer gyártójának megadása kötelező.', length: 'A gyógyszer gyártójának hossza 3 és 30 karakter között kell legyen.'}" validation="required|length:3,30"/>
                 <FormKit type="textarea" label="Leírása" name="description" v-model="medicine.description" :validation-messages="{required: 'A gyógyszer leírásának megadása kötelező.', length: 'A gyógyszer leírásának hossza 5 és 255 karakter között kell legyen.'}" validation="required|length:5,255"
                 :help="`${medicine.description.length} / 255`"/>
