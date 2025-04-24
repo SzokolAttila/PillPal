@@ -14,15 +14,9 @@ using System.Threading.Tasks;
 namespace PillPalTest.SystemTests
 {
     [TestClass]
-    public class UsersPageTests
+    public class UsersPageTests : SystemTestBase
     {
-
-        UserAPIHandler handler = new UserAPIHandler();
-        LoginDto? admin;
-        WebDriver driver;
         CreateUserDto[] users;
-        CreateUserDto adminLogin = new CreateUserDto() { UserName = "administrator", Password = "aA1?aA1?" };
-        string url = "http://vm1.test:5173/";
 
         [TestInitialize]
         public void Initialize()
