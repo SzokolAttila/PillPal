@@ -1,5 +1,6 @@
 ﻿using PillPalLib.APIHandlers;
 using PillPalMAUI.Pages;
+using Plugin.LocalNotification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,7 @@ namespace PillPalMAUI.ViewModels
         {
             if (await Application.Current!.MainPage!.DisplayAlert("Kijelentkezés", "Biztosan ki akar jelentkezni?", "Igen", "Mégse"))
             {
+                LocalNotificationCenter.Current.ClearAll();
                 SecureStorage.Default.Remove("UserId");
                 SecureStorage.Default.Remove("Token");
                 Application.Current!.MainPage = new LoginPage();
@@ -45,6 +47,7 @@ namespace PillPalMAUI.ViewModels
         {
             if(await Application.Current!.MainPage!.DisplayAlert("Fiók törlése", "Biztosan törölni akarja a fiókját? Ez a művelet végleges.", "Igen", "Mégse"))
             {
+                LocalNotificationCenter.Current.ClearAll();
                 SecureStorage.Default.Remove("UserId");
                 SecureStorage.Default.Remove("Token");
                 handler.DeleteUser(UserId, Auth);
