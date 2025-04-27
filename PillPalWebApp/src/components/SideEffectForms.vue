@@ -3,14 +3,14 @@
     <div v-else>
         <FormKit type="text" id="searchSideEffect" placeholder="Keresett mellékhatás..." v-model="searchSideEffect" />
         <div class="h-16 overflow-y-auto text-textColor-light dark:text-textColor-dark">
-            <div class="rounded-md p-2 hover:bg-component-light dark:hover:bg-component-dark" v-for="effect in filteredSideEffects" @click="selectSideEffect(effect)">{{ effect.effect }}</div>
+            <div class="sideEffect rounded-md p-2 hover:bg-component-light dark:hover:bg-component-dark" v-for="effect in filteredSideEffects" @click="selectSideEffect(effect)">{{ effect.effect }}</div>
         </div>
-        <div class="border-2 border-component-light dark:border-component-dark p-2 rounded-md my-4">
+        <div id="sideEffectForm" class="border-2 border-component-light dark:border-component-dark p-2 rounded-md my-4">
             <FormKit type="form" v-if="sideEffectId != null" :actions="false" @submit="editSideEffect">
-                <FormKit :validation-messages="{required: 'A mellékhatás megadása kötelező.', length: 'A mellékhatás hossza 3 és 80 karakter között kell legyen.'}" validation="required|length:3,80" type="text" name="effect" label="Mellékhatás szerkesztése" v-model="sideEffect" />
+                <FormKit id="existingSideEffect" :validation-messages="{required: 'A mellékhatás megadása kötelező.', length: 'A mellékhatás hossza 3 és 80 karakter között kell legyen.'}" validation="required|length:3,80" type="text" name="effect" label="Mellékhatás szerkesztése" v-model="sideEffect" />
                 <div class="flex flex-row flex-nowrap justify-between">
-                    <FormKit type="submit" label="Módosít" />
-                    <button type="button" @click="deleteSideEffect" class="p-2 rounded-md text-textColor-light dark:text-textColor-dark bg-component-light my-2 h-fit dark:bg-component-dark">
+                    <FormKit id="editSideEffect" type="submit" label="Módosít" />
+                    <button id="deleteSideEffect" type="button" @click="deleteSideEffect" class="p-2 rounded-md text-textColor-light dark:text-textColor-dark bg-component-light my-2 h-fit dark:bg-component-dark">
                         Töröl
                     </button>
                     <button type="button" @click="cancelEdit" class="p-2 rounded-md text-textColor-light dark:text-textColor-dark bg-component-light my-2 h-fit dark:bg-component-dark">
@@ -19,8 +19,8 @@
                 </div>
             </FormKit>
             <FormKit v-else type="form" :actions="false" @submit="createSideEffect">
-                <FormKit label="Új mellékhatás" type="text" name="effect" :validation-messages="{required: 'A mellékhatás megadása kötelező.', length: 'A mellékhatás hossza 3 és 80 karakter között kell legyen.'}" validation="required|length:3,80" placeholder="Mellékhatás"  />
-                <FormKit type="submit" label="Hozzáad"/>
+                <FormKit id="newSideEffect" label="Új mellékhatás" type="text" name="effect" :validation-messages="{required: 'A mellékhatás megadása kötelező.', length: 'A mellékhatás hossza 3 és 80 karakter között kell legyen.'}" validation="required|length:3,80" placeholder="Mellékhatás"  />
+                <FormKit id="submitNewSideEffect" type="submit" label="Hozzáad"/>
             </FormKit>
         </div>
     </div>

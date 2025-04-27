@@ -1,16 +1,16 @@
 <template>
     <BaseSpinner v-if="loading" class="mt-16 mx-auto" />
     <div v-else>
-        <FormKit type="text" placeholder="Keresett hatóanyag..." v-model="searchActiveIngredient" />
+        <FormKit type="text" id="searchActiveIngredient" placeholder="Keresett hatóanyag..." v-model="searchActiveIngredient" />
         <div class="h-16 overflow-y-auto text-textColor-light dark:text-textColor-dark">
-            <div class="rounded-md p-2 hover:bg-component-light dark:hover:bg-component-dark" v-for="ingredient in filteredActiveIngredients" @click="selectActiveIngredient(ingredient)">{{ ingredient.ingredient }}</div>
+            <div class="activeIngredient rounded-md p-2 hover:bg-component-light dark:hover:bg-component-dark" v-for="ingredient in filteredActiveIngredients" @click="selectActiveIngredient(ingredient)">{{ ingredient.ingredient }}</div>
         </div>
-        <div class="border-2 border-component-light dark:border-component-dark p-2 rounded-md my-4">
+        <div id="activeIngredientForm" class="border-2 border-component-light dark:border-component-dark p-2 rounded-md my-4">
             <FormKit type="form" v-if="activeIngredientId != null" :actions="false" @submit="editActiveIngredient">
-                <FormKit validation="required|length:3,80" :validation-messages="{required: 'A hatóanyag megadása kötelező.', length: 'A hatóanyag hossza 3 és 80 karakter között kell legyen.'}" type="text" name="ingredient" label="Hatóanyag szerkesztése" v-model="activeIngredient" />
+                <FormKit id="existingActiveIngredient" validation="required|length:3,80" :validation-messages="{required: 'A hatóanyag megadása kötelező.', length: 'A hatóanyag hossza 3 és 80 karakter között kell legyen.'}" type="text" name="ingredient" label="Hatóanyag szerkesztése" v-model="activeIngredient" />
                 <div class="flex flex-row flex-nowrap justify-between">
-                    <FormKit type="submit" label="Módosít" />
-                    <button type="button" @click="deleteActiveIngredient" class="p-2 rounded-md text-textColor-light dark:text-textColor-dark bg-component-light my-2 h-fit dark:bg-component-dark">
+                    <FormKit id="editActiveIngredient" type="submit" label="Módosít" />
+                    <button id="deleteActiveIngredient" type="button" @click="deleteActiveIngredient" class="p-2 rounded-md text-textColor-light dark:text-textColor-dark bg-component-light my-2 h-fit dark:bg-component-dark">
                         Töröl
                     </button>
                     <button type="button" @click="cancelEdit" class="p-2 rounded-md text-textColor-light dark:text-textColor-dark bg-component-light my-2 h-fit dark:bg-component-dark">
@@ -19,8 +19,8 @@
                 </div>
             </FormKit>
             <FormKit v-else type="form" :actions="false" @submit="createActiveIngredient">
-                <FormKit :validation-messages="{required: 'A hatóanyag megadása kötelező.', length: 'A hatóanyag hossza 3 és 80 karakter között kell legyen.'}" label="Új hatóanyag" type="text" name="ingredient" validation="required|length:3,80" placeholder="Hatóanyag"  />
-                <FormKit type="submit" label="Hozzáad"/>
+                <FormKit id="newActiveIngredient" :validation-messages="{required: 'A hatóanyag megadása kötelező.', length: 'A hatóanyag hossza 3 és 80 karakter között kell legyen.'}" label="Új hatóanyag" type="text" name="ingredient" validation="required|length:3,80" placeholder="Hatóanyag"  />
+                <FormKit id="submitNewActiveIngredient" type="submit" label="Hozzáad"/>
             </FormKit>
         </div>
     </div>
