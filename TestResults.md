@@ -135,3 +135,7 @@
 | S/18 | Automated | System | UsersPageTests | SearchBarFiltersUsers | Typing something in the searchbar will cause only the users with the searched username to appear | 2025-04-09 | 55 s | Passed |
 | S/19 | Automated | System | UsersPageTests | UserCanBeDeleted | Deleting a user will result in alert windows fewer user rows shown in the scroll list | 2025-04-09 | 49 s | Passed |
 | S/20 | Automated | System | UsersPageTests | UserDeletionCanBeCancelled | Trying to delete a user and clicking on *cancel* at the confirm window won't delete the user | 2025-04-09 | 29 s | Passed |
+| S/21 | Automated | System | LoginPageTests | RootPageIsLoginPage | Login page and its contents show up when opening the web application | 2025-04-28 | 2.9 s | Passed |
+| S/22 | Automated | System | LoginPageTests | IncorrectPasswordShowsError | When trying to log in, if the password is incorrect, an alert shows up with an error code of 400 | 2025-04-28 | 4.2 s | Passed |
+| S/23 | Automated | System | LoginPageTests | OnlyAdminAllowed | When trying to log in without an admin role, an alert pops up | 2025-04-28 | 4.9 s | Passed |
+| S/21 | Automated | System | LoginPageTests | ValidLoginRedirectsToUsers | After successfully logging in, the users page shows up | 2025-04-28 | 8.3 s | Passed |
