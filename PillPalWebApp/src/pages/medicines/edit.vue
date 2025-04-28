@@ -24,7 +24,7 @@
                 </div>
             </FormKit>
         </div>
-        <div class="grid grid-cols-1 lg:grid-cols-2 items-center">
+        <div class="grid grid-cols-1 xl:grid-cols-2 items-center">
             <SideEffects :medicine="medicine"/>
             <ActiveIngredients :medicine="medicine"/>
             <RemedyFors :medicine="medicine"/>
