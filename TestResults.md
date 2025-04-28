@@ -138,4 +138,11 @@
 | S/21 | Automated | System | LoginPageTests | RootPageIsLoginPage | Login page and its contents show up when opening the web application | 2025-04-28 | 2.9 s | Passed |
 | S/22 | Automated | System | LoginPageTests | IncorrectPasswordShowsError | When trying to log in, if the password is incorrect, an alert shows up with an error code of 400 | 2025-04-28 | 4.2 s | Passed |
 | S/23 | Automated | System | LoginPageTests | OnlyAdminAllowed | When trying to log in without an admin role, an alert pops up | 2025-04-28 | 4.9 s | Passed |
-| S/21 | Automated | System | LoginPageTests | ValidLoginRedirectsToUsers | After successfully logging in, the users page shows up | 2025-04-28 | 8.3 s | Passed |
+| S/24 | Automated | System | LoginPageTests | ValidLoginRedirectsToUsers | After successfully logging in, the users page shows up | 2025-04-28 | 8.3 s | Passed |
+| S/25 | Automated | System | NavbarTests | NavbarAppearsWithAllButtons | Navbar and its contents, including all buttons, appear when loading the web application | 2025-04-28 | 19.5 s | Passed |
+| S/26 | Automated | System | NavbarTests | CannotRedirectIfLoggedOut | When trying to use navbar buttons while logged out, alert appears | 2025-04-28 | 3.2 s | Passed |
+| S/27 | Automated | System | NavbarTests | CanRedirectToUsersPage | After logging in and clicking the *users* button in the navbar, user is redirected to the users page | 2025-04-28 | 8.7 s | Passed |
+| S/28 | Automated | System | NavbarTests | CanRedirectToNewMedicinePage | After logging in and clicking the *new medicine* button in the navbar, user is redirected to the new medicine page | 2025-04-28 | 13.4 s | Passed |
+| S/29 | Automated | System | NavbarTests | CanRedirectToNewMedicineDataPage | After logging in and clicking the *new medicine data* button in the navbar, user is redirected to the new medicine data page | 2025-04-28 | 14.7 s | Passed |
+| S/30 | Automated | System | NavbarTests | CanRedirectToEditMedicinePage | After logging in and clicking the *edit medicine* button in the navbar, user is redirected to the edit medicine page | 2025-04-28 | 13.5 s | Passed |
+| S/31 | Automated | System | NavbarTests | CanLogout | After logging in and clicking the *logout* button in the navbar, user can log out by confirming the alert that pops up | 2025-04-28 | 8.4 s | Passed |
