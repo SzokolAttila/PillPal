@@ -61,9 +61,9 @@
                         HorizontalOptions="Start" Margin="5"/>
                 </HorizontalStackLayout>
             </VerticalStackLayout>
-            <Button Margin="10" Text="Töröl" Grid.Column="0" Grid.Row="2" Command="{Binding Remove}" Style="{StaticResource SubmitButton}"/>
-            <Button Margin="10" Text="Infó" Grid.Column="1" Grid.Row="2" Command="{Binding Info}" Style="{StaticResource SubmitButton}"/>
-            <Button Margin="10" Text="Szerkeszt" Grid.Column="2" Grid.Row="2" Command="{Binding Edit}" Style="{StaticResource SubmitButton}"/>
+            <ImageButton Source="remove.png" Grid.Column="0" Grid.Row="2" Command="{Binding Remove}" Style="{StaticResource IconButton}"/>
+            <ImageButton Source="{AppThemeBinding Dark=info_dark.png, Light=info_light.png}" Grid.Column="1" Grid.Row="2" Command="{Binding Info}" Style="{StaticResource IconButton}"/>
+            <ImageButton Source="{AppThemeBinding Dark=edit_dark.png, Light=edit_light.png}" Grid.Column="2" Grid.Row="2" Command="{Binding Edit}" Style="{StaticResource IconButton}"/>
         </Grid>
     </Border>
 </ContentView>
