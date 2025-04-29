@@ -1,16 +1,16 @@
 <template>
     <BaseSpinner v-if="loading" class="mt-16 mx-auto" />
     <div v-else>
-        <FormKit type="text" placeholder="Keresett betegség..." v-model="searchRemedyFor" />
+        <FormKit id="searchRemedyFor" type="text" placeholder="Keresett betegség..." v-model="searchRemedyFor" />
         <div class="h-16 overflow-y-auto text-textColor-light dark:text-textColor-dark">
-            <div class="rounded-md p-2 hover:bg-component-light dark:hover:bg-component-dark" v-for="remedyFor in filteredRemedyFors" @click="selectRemedyFor(remedyFor)">{{ remedyFor.ailment }}</div>
+            <div class="remedyFor rounded-md p-2 hover:bg-component-light dark:hover:bg-component-dark" v-for="remedyFor in filteredRemedyFors" @click="selectRemedyFor(remedyFor)">{{ remedyFor.ailment }}</div>
         </div>
-        <div class="border-2 border-component-light dark:border-component-dark p-2 rounded-md my-4">
+        <div id="remedyForForm" class="border-2 border-component-light dark:border-component-dark p-2 rounded-md my-4">
             <FormKit type="form" v-if="remedyForId != null" :actions="false" @submit="editRemedyFor">
-                <FormKit :validation-messages="{required: 'A betegség megadása kötelező.', length: 'A betegség hossza 3 és 80 karakter között kell legyen.'}" validation="required|length:3,80" type="text" name="ailment" label="Betegség szerkesztése" v-model="remedyFor" />
+                <FormKit id="existingRemedyFor" :validation-messages="{required: 'A betegség megadása kötelező.', length: 'A betegség hossza 3 és 80 karakter között kell legyen.'}" validation="required|length:3,80" type="text" name="ailment" label="Betegség szerkesztése" v-model="remedyFor" />
                 <div class="flex flex-row flex-nowrap justify-between">
-                    <FormKit type="submit" label="Módosít" />
-                    <button type="button" @click="deleteRemedyFor" class="p-2 rounded-md text-textColor-light dark:text-textColor-dark bg-component-light my-2 h-fit dark:bg-component-dark">
+                    <FormKit id="editRemedyFor" type="submit" label="Módosít" />
+                    <button id="deleteRemedyFor" type="button" @click="deleteRemedyFor" class="p-2 rounded-md text-textColor-light dark:text-textColor-dark bg-component-light my-2 h-fit dark:bg-component-dark">
                         Töröl
                     </button>
                     <button type="button" @click="cancelEdit" class="p-2 rounded-md text-textColor-light dark:text-textColor-dark bg-component-light my-2 h-fit dark:bg-component-dark">
@@ -19,8 +19,8 @@
                 </div>
             </FormKit>
             <FormKit v-else type="form" :actions="false" @submit="createRemedyFor">
-                <FormKit :validation-messages="{required: 'A betegség megadása kötelező.', length: 'A betegség hossza 3 és 80 karakter között kell legyen.'}" label="Új betegség" type="text" name="ailment" validation="required|length:3,80" placeholder="Betegség"  />
-                <FormKit type="submit" label="Hozzáad"/>
+                <FormKit id="newRemedyFor" :validation-messages="{required: 'A betegség megadása kötelező.', length: 'A betegség hossza 3 és 80 karakter között kell legyen.'}" label="Új betegség" type="text" name="ailment" validation="required|length:3,80" placeholder="Betegség"  />
+                <FormKit id="submitNewRemedyFor" type="submit" label="Hozzáad"/>
             </FormKit>
         </div>
     </div>

@@ -1,16 +1,16 @@
 <template>
     <BaseSpinner v-if="loading" class="mt-16 mx-auto" />
     <div v-else>
-        <FormKit type="text" placeholder="Keresett mértékegység..." v-model="searchPackageUnit" />
+        <FormKit type="text" id="searchPackageUnit" placeholder="Keresett mértékegység..." v-model="searchPackageUnit" />
         <div class="h-16 overflow-y-auto text-textColor-light dark:text-textColor-dark">
-            <div class="rounded-md p-2 hover:bg-component-light dark:hover:bg-component-dark" v-for="unit in filteredPackageUnits" @click="selectPackageUnit(unit)">{{ unit.name }}</div>
+            <div class="packageUnit rounded-md p-2 hover:bg-component-light dark:hover:bg-component-dark" v-for="unit in filteredPackageUnits" @click="selectPackageUnit(unit)">{{ unit.name }}</div>
         </div>
-        <div class="border-2 border-component-light dark:border-component-dark p-2 rounded-md my-4">
+        <div id="packageUnitForm" class="border-2 border-component-light dark:border-component-dark p-2 rounded-md my-4">
             <FormKit type="form" v-if="packageUnitId != null" :actions="false" @submit="editPackageUnit">
-                <FormKit validation="required|length:1,20" :validation-messages="{required: 'A mértékegység megadása kötelező.', length: 'A mértékegység hossza 1 és 20 karakter között kell legyen.'}" type="text" name="name" label="Mértékegység szerkesztése" v-model="packageUnit" />
+                <FormKit id="existingPackageUnit" validation="required|length:1,20" :validation-messages="{required: 'A mértékegység megadása kötelező.', length: 'A mértékegység hossza 1 és 20 karakter között kell legyen.'}" type="text" name="name" label="Mértékegység szerkesztése" v-model="packageUnit" />
                 <div class="flex flex-row flex-nowrap justify-between">
-                    <FormKit type="submit" label="Módosít" />
-                    <button type="button" @click="deletePackageUnit" class="p-2 rounded-md text-textColor-light dark:text-textColor-dark bg-component-light my-2 h-fit dark:bg-component-dark">
+                    <FormKit id="editPackageUnit" type="submit" label="Módosít" />
+                    <button id="deletePackageUnit" type="button" @click="deletePackageUnit" class="p-2 rounded-md text-textColor-light dark:text-textColor-dark bg-component-light my-2 h-fit dark:bg-component-dark">
                         Töröl
                     </button>
                     <button type="button" @click="cancelEdit" class="p-2 rounded-md text-textColor-light dark:text-textColor-dark bg-component-light my-2 h-fit dark:bg-component-dark">
@@ -19,8 +19,8 @@
                 </div>
             </FormKit>
             <FormKit v-else type="form" :actions="false" @submit="createPackageUnit">
-                <FormKit :validation-messages="{required: 'A mértékegység megadása kötelező.', length: 'A mértékegység hossza 1 és 20 karakter között kell legyen.'}" label="Új mértékegység" type="text" name="name" validation="required|length:1,20" placeholder="Mértékegység"  />
-                <FormKit type="submit" label="Hozzáad"/>
+                <FormKit id="newPackageUnit" :validation-messages="{required: 'A mértékegység megadása kötelező.', length: 'A mértékegység hossza 1 és 20 karakter között kell legyen.'}" label="Új mértékegység" type="text" name="name" validation="required|length:1,20" placeholder="Mértékegység"  />
+                <FormKit id="submitNewPackageUnit" type="submit" label="Hozzáad"/>
             </FormKit>
         </div>
     </div>

@@ -9,9 +9,10 @@ services:
       test: /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P ${SA_PASSWORD} -Q 'SELECT 1' || (echo 'fail' && exit 1)
       retries: 5
       timeout: 10s
-      start_period: 100s
+      start_period: 450s
     volumes:
       - ./mssql-data:/var/opt/mssql/data:rw
+
   mssql.configurator:
     image: mcr.microsoft.com/mssql/server:${SERVER_VERSION}
     env_file: .env
@@ -25,7 +26,7 @@ services:
       echo 'DB created';"
 
   PillPalWebApp:
-    image: idomi27/vue
+    image: pillpal/webapp
     build:
       context: ./PillPalWebApp
       dockerfile: Dockerfile

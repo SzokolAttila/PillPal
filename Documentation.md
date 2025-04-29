@@ -622,3 +622,18 @@ As the name suggest, this page is used for editing an already existing reminder,
 #### SettingsPage
 Last but not least, we come to the settings. This is the third and final button in the navigation menu, and a user can do three things here: change the application theme, log out or delete their account. The redirection, confirmation pop-up windows and API request are handled by *SettingsPageViewModel*.
 
+## Dockerization
+To make our API and Web App platform independent we are running them as Docker Compose services. However, the mobile application itself cannot be run this way due to the deployment to mobile. We used Docker Compose so all these containers can be handled in one file.
+
+### MSSQL
+We're storing all the data on an MSSQL server to make them persistent. To make this MSSQL server persistent, we mount the `mssql-data` folder as a volume. We expose its port defined in the `.env` file. This service also has a healthcheck as starts up a bit slower. We test its connection with trying to connect to it.
+**Note:** If your MSSQL service end up as unhealty, try out a bigger number for `start_period` in `compose.yaml`.
+
+### MSSQL Configurator
+For the first start the database must be initialized. To do that this service runs the `initdb/init.sql` which creates the database if it doesn't exist. Running this command require the MSSQL service to be running and be healthy.
+
+### PillPalWebApp
+The admin web application also runs as a Docker Compose service. It exposes its `5173` port. It mounts the `PillPalWebApp` folder so the service can run the Vue app based off the Dockerfile in the folder. The Dockerfile installs all the required npm packages and starts the npm web application.
+
+### PillPalAPI
+Our last Docker Compose service is the API itself. It exposes its `5236` port which passes it to the devtunnel. As it uses the MSSQL server, this service depends on the healthy MSSQL and the started MSSQL Configurator services. It is built based off the `PillPalAPI/Dockerfile` which builds all the C# projects used by the `PillPalAPI` project. Then the service installs the `dotnet-ef` tool as it is needed to migrate the database. After migration, it runs the `PillPalAPI` project from command.

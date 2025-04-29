@@ -25,6 +25,7 @@ As the API is now accesible via the devtunnel, you should copy the URL you get w
 ### Starting up
 
 To start all the containers, all you have to do is running `start.sh`. The script will start up all the services in detached mode and then start only the API with not detaching it, which means it will fill your terminal so you can see when the API is started up.
+**Note:** If your MSSQL service end up as unhealty, try out a bigger number for `start_period` in `compose.yaml`.
 
 ### Stopping
 
