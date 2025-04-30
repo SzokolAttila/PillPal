@@ -73,6 +73,15 @@ Methods:
 - **EditPackageSize(int id, CreatePackageSizeDto createDto, string token)** requires admin token to update an existing PackageSize in the database. Throws an exception if the PackageSize doesn't exist, the user is not authorized or if any other issue comes up. 
 - **DeletePackageSize(int id, string token)** requires admin token to delete an existing PackageSize from the database. Throws an argument exception if anything goes wrong.
 
+#### PackageUnitAPIHandler
+Derived from APIHandlerBase class and uses its constructor to initialize fields.
+Methods:
+- **GetAll()** requires no authorization and returns an IEnumerable of every PackageUnit added to the database, regardless of which medicine it was added to. 
+- **Get(int id)** requires no authorization and returns a PackageUnit based on the id passed
+- **CreatePackageUnit(CreatePackageUnitDto createDto, string token)** requires admin token to post a PackageUnit to the database. Throws an argument exception in case any data given is not appropriate (if the Dto didn't pass the validation test or the user is not authorized).
+- **EditPackageUnit(int id, CreatePackageUnitDto createDto, string token)** requires admin token to update an existing PackageUnit in the database. Throws an exception if the PackageUnit doesn't exist, the user is not authorized or if any other issue comes up. 
+- **DeletePackageUnit(int id, string token)** requires admin token to delete an existing PackageUnit from the database. Throws an argument exception if anything goes wrong.
+
 #### SideEffectAPIHandler
 Derived from APIHandlerBase class and uses its constructor to initialize fields.
 Methods:
@@ -301,6 +310,18 @@ For PackageSizeController we pass the following objects with dependency injectio
 | POST | /PillPal/PackageSize | Admin | CreatePackageSizeDto which is validated and throws BadRequest if invalid | Check if new PackageSize is valid and whether medicine exists, then add the new PackageSize |
 | PUT | /PillPal/PackageSize/{id} | Admin | CreatePackageSizeDto which is validated and throws BadRequest if invalid | Check if both PackageSize and medicine exist and the Dto is valid, then update the existing PackageSize |
 | DELETE | /PillPal/PackageSize/{id} | Admin | Empty | Remove PackageSize by id |
+#### PackageUnitController
+For PackageUnitController we pass the following objects with dependency injection:
+- An IItemStore<PackageUnit> as repository
+- A validator for CreatePackageUnitDto
+
+| Request | URL | Authorization | Body | Description |
+| ------- | ------- | ------- | ------- | ------- |
+| GET | /PillPal/PackageUnit | None | Empty | Get all PackageUnits |
+| GET | /PillPal/PackageUnit/{id} | None | Empty | Get the PackageUnit with the id |
+| POST | /PillPal/PackageUnit | Admin | CreatePackageUnitDto which is validated and throws BadRequest if invalid | Check if new PackageUnit is valid, then add the new PackageUnit |
+| PUT | /PillPal/PackageUnit/{id} | Admin | CreatePackageUnitDto which is validated and throws BadRequest if invalid | Check if both PackageUnit and medicine exist and the Dto is valid, then update the existing PackageUnit |
+| DELETE | /PillPal/PackageUnit/{id} | Admin | Empty | Remove PackageUnit by id |
 #### MedicineActiveIngredientController
 For MedicineActiveIngredientController we pass the following objects with dependency injection:
 - An IJoinStore<MedicineActiveIngredient> as repository
@@ -371,6 +392,13 @@ Implements IJoinStore<PackageSize> with the following methods:
 - **Get(int id)** returns packageSizes where MedicineId is the given id in DataStore's PackageSizes IDCollection.
 - **GetAll()** returns all packageSizes of DataStore's PackageSizes IDCollection.
 - **Update(PackageSize item)** modify existing PackageSize with the same id in DataStore's PackageSizes IDCollection. Returns true on success and false on fail.
+#### PackageUnitRepository
+Implements IItemStore<PackageUnit> with the following methods:
+- **Add(PackageUnit item)** add packageUnit to the DataStore's PackageUnits IDCollection. Returns true on success and false on fail.
+- **Delete(int id)** remove packageUnit with id from DataStore's PackageUnits IDCollection. Returns true on success and false on fail.
+- **Get(int id)** returns packageUnit with matching id or null if not found.
+- **GetAll()** returns all packageUnits of DataStore's PackageUnits IDCollection.
+- **Update(PackageUnit item)** modify existing PackageUnit with the same id in DataStore's PackageUnits IDCollection. Returns true on success and false on fail.
 #### MedicineSideEffectRepository
 Implements IJoinStore<MedicineSideEffect> with the following methods:
 - **Add(MedicineSideEffect item)** add MedicineSideEffect to the DataStore's MedicineSideEffects IDCollection. Returns true on success and false on fail.
