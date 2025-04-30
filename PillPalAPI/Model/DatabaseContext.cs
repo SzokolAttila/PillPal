@@ -111,6 +111,9 @@ namespace PillPalAPI.Model
         public DbSet<PackageUnit> PackageUnits { get; set; }
         private void Seed(ModelBuilder modelBuilder)
         {
+            User admin = new User("administrator", "aA1?aA1?");
+            modelBuilder.Entity<User>().HasData(new User(1, admin.UserName, admin.Password));
+
             var packageUnits = new List<PackageUnit>
             {
                 new PackageUnit { Id = 1, Name = "tabletta" },
