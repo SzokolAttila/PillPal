@@ -26,7 +26,16 @@ namespace PillPalMAUI.ViewModels
             get { return reminderCards; }
             set { reminderCards = value; Changed(); }
         }
-
+        private bool noReminders = true;
+        public bool NoReminders
+        {
+            get => noReminders;
+            set
+            {
+                noReminders = value;
+                Changed();
+            }
+        }
         public void RemoveReminderCard(ReminderCardViewModel card)
         {
             ReminderCards.Remove(card);
@@ -87,6 +96,8 @@ namespace PillPalMAUI.ViewModels
                 ReminderCards.Add(cardModel);
                 _ = ReminderManager.CreateNotification(reminder, reminder.Medicine!);
             }
+
+            NoReminders = reminderCards.Count == 0;
         }
     }
 }
