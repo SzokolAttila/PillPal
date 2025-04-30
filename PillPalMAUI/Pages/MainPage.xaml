@@ -17,7 +17,10 @@
         <ScrollView Grid.Row="0">
             <FlexLayout Style="{StaticResource Container}">
                 <Label Style="{StaticResource Title}" Text="Emlékeztetők" />
-                <Label IsVisible="{Binding NoReminders}" Style="{StaticResource Subtitle}" Text="Még nincs hozzáadva emlékeztető." />
+                <VerticalStackLayout IsVisible="{Binding NoReminders}">
+                    <Label Style="{StaticResource Subtitle}" Text="Még nincs hozzáadva emlékeztető." />
+                    <Button Command="{Binding NewReminder}" Text="Emlékeztető hozzáadása" Style="{StaticResource SubmitButton}" />
+                </VerticalStackLayout>
                 <CollectionView ItemsSource="{Binding Path=ReminderCards}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
