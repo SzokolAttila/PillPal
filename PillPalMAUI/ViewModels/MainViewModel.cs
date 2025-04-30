@@ -12,6 +12,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace PillPalMAUI.ViewModels
 {
@@ -24,7 +25,16 @@ namespace PillPalMAUI.ViewModels
         public ObservableCollection<ReminderCardViewModel> ReminderCards
         {
             get { return reminderCards; }
-            set { reminderCards = value; Changed(); }
+            set 
+            { 
+                reminderCards = value; 
+                Changed();
+                NoReminders = reminderCards.Count == 0;
+            }
+        }
+        public ICommand NewReminder { get; private set; }
+        private void ToNewReminderPage() {
+            Application.Current!.MainPage = new NewReminderPage();
         }
         private bool noReminders = true;
         public bool NoReminders
@@ -96,7 +106,7 @@ namespace PillPalMAUI.ViewModels
                 ReminderCards.Add(cardModel);
                 _ = ReminderManager.CreateNotification(reminder, reminder.Medicine!);
             }
-
+            NewReminder = new Command(ToNewReminderPage);
             NoReminders = reminderCards.Count == 0;
         }
     }

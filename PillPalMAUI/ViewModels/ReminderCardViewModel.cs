@@ -46,7 +46,6 @@ namespace PillPalMAUI.ViewModels
             Info = new Command(Info_Clicked);
             Edit = new Command(Edit_Clicked);
         }
-
         private async void Remove_Clicked()
         {
             // Check if user really wants to remove the reminder
