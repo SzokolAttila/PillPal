@@ -35,4 +35,12 @@ To stop the services you have to push a `CTRL+C` and run `docker compose down`. 
 
 The mobile application is somehow independent from the other parts of this project. The mobile app tries to request from the devtunnel, so you need to run all the things written above before trying out the mobile application. We suggest cloning the repository outside of virtual machine and then oppening the whole solution (`/PillPal.sln`) with Visual Studio 2022. Then you can either run it on an emulator or connect your own mobile device.
 
+## Admin interface
+
+In order to access the admin interface, go to [http://localhost:5173](http://localhost:5173).
+
+## Ports
+
+The ports necessary for this project are 5236 (for the API) and 5173 (for the admin webpage). If one or more of these isn't port-forwarded by default, then make sure you forward them manually. 
+
 And you're good to go :D
